@@ -531,7 +531,18 @@
         </div>
 
         <div class="form-group">
-          <label>Tohum (Seed)</label>
+          <label>Dünya Türü / Biyom Tohumu</label>
+          <select id="worldBiomeSelect">
+            <option value="forest" selected>🌲 Orman Dünyası (Yoğun Ağaçlar, Yeşillik & Doğa)</option>
+            <option value="flat">🧱 Düz Dünya (Mimar & İnşaat İçin Sıfır Kasma Düz Alan)</option>
+            <option value="desert">🏜️ Çöl Dünyası (Sarı Kum Tepeleri, Kaktüsler & Kumtaşı)</option>
+            <option value="mountains">🏔️ Dağlık & Karlı (Yüksek Karlı Zirveler & Kayalar)</option>
+            <option value="standard">🌍 Standart Dengeli Dünya</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Harita Tohumu (Seed - Her Biri Benzersiz Farklı Dünya Üretir)</label>
           <div style="display: flex; gap: 6px;">
             <input type="text" id="worldSeed" placeholder="Rastgele için boş bırak">
             <button class="btn" id="btnRandomSeed" style="padding:6px; font-size:6px;">RASTGELE</button>
@@ -587,6 +598,17 @@
         </div>
 
         <div class="form-group">
+          <label>Sunucu Dünya Türü / Biyom</label>
+          <select id="serverBiomeSelect">
+            <option value="forest" selected>🌲 Orman Dünyası (Yoğun Ağaçlar & Doğa)</option>
+            <option value="flat">🧱 Düz Dünya (İnşaat İçin Düz Zemin)</option>
+            <option value="desert">🏜️ Çöl Dünyası (Kum Tepeleri & Kaktüsler)</option>
+            <option value="mountains">🏔️ Dağlık & Karlı (Yüksek Zirveler)</option>
+            <option value="standard">🌍 Standart Dengeli Dünya</option>
+          </select>
+        </div>
+
+        <div class="form-group">
           <label>Maksimum Oyuncu</label>
           <select id="serverMaxPlayers">
             <option value="4">4 Kişilik (Küçük Oda)</option>
@@ -611,8 +633,9 @@
         <div style="font-size: 6px; color: #888; text-align: center; margin-top: 6px;">
           Farenizle çevirerek 3D Karakterinizi 360° İnceleyin
         </div>
-        <div style="display: flex; gap: 6px; width: 100%; margin-top: 8px;">
+        <div style="display: flex; gap: 5px; width: 100%; margin-top: 8px;">
           <button class="btn btn-green" id="btnSteveChar" style="flex:1; font-size:6px; padding:8px;">STEVE</button>
+          <button class="btn btn-green" id="btnAlexChar" style="flex:1; font-size:6px; padding:8px;">ALEX</button>
           <button class="btn btn-green" id="btnRandomChar" style="flex:1; font-size:6px; padding:8px;">RASTGELE</button>
           <button class="btn" id="btnSaveChar" style="flex:1; font-size:6px; padding:8px;">KAYDET</button>
         </div>
@@ -635,8 +658,10 @@
           <div class="custom-item">
             <label>SAÇ STİLİ</label>
             <select id="hairStyle" class="form-group" style="margin:0; padding:4px; font-size:7px;">
-              <option value="steve">Klasik (Short)</option>
-              <option value="alex">Uzun Saç (Long)</option>
+              <option value="steve">Steve Klasik Saç</option>
+              <option value="alex">Alex Uzun Saç</option>
+              <option value="viking">Viking Örgülü Saç</option>
+              <option value="short_fade">Modern Fade Saç</option>
               <option value="afro">Kıvırcık / Afro</option>
               <option value="bald">Kel (Bald)</option>
             </select>
@@ -650,9 +675,11 @@
           <div class="custom-item">
             <label>SAKAL / BIYIK</label>
             <select id="facialHair" class="form-group" style="margin:0; padding:4px; font-size:7px;">
-              <option value="none">Yok</option>
-              <option value="beard">Sakal</option>
-              <option value="mustache">Bıyık</option>
+              <option value="beard">Steve İkonik Sakalı & Gülümsemesi</option>
+              <option value="full_beard">Gür Oduncu / Viking Sakalı</option>
+              <option value="mustache">Klasik Pala Bıyık</option>
+              <option value="stubble">Kirli Sakal (Stubble)</option>
+              <option value="none">Yok / Temiz Yüz</option>
             </select>
           </div>
 
@@ -698,10 +725,11 @@
         <div class="form-group">
           <label>Ayrılan RAM Miktarı (Bellek)</label>
           <select id="settingRam">
-            <option value="1">1 GB RAM (Düşük Donanım - Kasmasız Ultra Hızlı)</option>
-            <option value="2" selected>2 GB RAM (Önerilen - Akıcı & Dengeli)</option>
-            <option value="4">4 GB RAM (Yüksek Performans)</option>
-            <option value="8">8 GB RAM (Maksimum Bellek)</option>
+            <option value="2">2 GB RAM (Düşük Donanım - Kasmasız Hızlı)</option>
+            <option value="4" selected>4 GB RAM (Önerilen - Akıcı & Dengeli)</option>
+            <option value="8">8 GB RAM (Yüksek Performans)</option>
+            <option value="16">16 GB RAM (Ekstrem Bellek)</option>
+            <option value="32">32 GB RAM (Ultra Titan - Maksimum Performans)</option>
           </select>
           <div style="font-size: 6px; color: #333; margin-top: 4px; line-height: 1.4;">
             RAM ayarı görünmeyen yeraltı bloklarını gizler ve kasma sorununu tamamen ortadan kaldırır.
@@ -711,9 +739,12 @@
         <div class="form-group">
           <label>Görüş Mesafesi (Render Distance)</label>
           <select id="settingRenderDistance">
-            <option value="1" selected>1 Chunk (Sıfır Kasma - En Yüksek Hız)</option>
-            <option value="2">2 Chunk (Standart)</option>
+            <option value="1">1 Chunk (Ultra Hafif - Sıfır Kasma)</option>
+            <option value="2" selected>2 Chunk (Dengeli Performans)</option>
             <option value="3">3 Chunk (Geniş Alan)</option>
+            <option value="4">4 Chunk (Uzak Görüş)</option>
+            <option value="6">6 Chunk (Ekstrem Görüş)</option>
+            <option value="8">8 Chunk (Maksimum Ufuk)</option>
           </select>
         </div>
 
@@ -986,11 +1017,11 @@
   const SHOW_FPS_KEY = 'moocraft_show_fps';
 
   function getRamSetting() {
-    return parseInt(localStorage.getItem(RAM_SETTING_KEY) || '2');
+    return parseInt(localStorage.getItem(RAM_SETTING_KEY) || '4');
   }
 
   function getRenderDistSetting() {
-    return parseInt(localStorage.getItem(RENDER_DIST_KEY) || '1');
+    return parseInt(localStorage.getItem(RENDER_DIST_KEY) || '2');
   }
 
   function getShowFpsSetting() {
@@ -1132,8 +1163,14 @@
 
   const DEFAULT_STEVE_DATA = {
     skinColor: '#c68642', eyeColor: '#2b5797', hairStyle: 'steve',
-    hairColor: '#4a2e00', facialHair: 'mustache', shirtStyle: 'tshirt',
-    shirtColor: '#008080', pantColor: '#1a237e', shoeColor: '#333333', accessory: 'none'
+    hairColor: '#4a2e00', facialHair: 'beard', shirtStyle: 'tshirt',
+    shirtColor: '#00878a', pantColor: '#2b388f', shoeColor: '#4f4f4f', accessory: 'none'
+  };
+
+  const DEFAULT_ALEX_DATA = {
+    skinColor: '#f1c27d', eyeColor: '#2e7d32', hairStyle: 'alex',
+    hairColor: '#b85324', facialHair: 'none', shirtStyle: 'tshirt',
+    shirtColor: '#5b8731', pantColor: '#543b23', shoeColor: '#40352c', accessory: 'none'
   };
 
   let character = JSON.parse(localStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA));
@@ -1191,7 +1228,9 @@
     worlds.forEach(w => {
       const card = document.createElement('div');
       card.className = `world-card ${w.id === selectedWorldId ? 'selected' : ''}`;
-      card.innerHTML = `<div><div class="world-details-name">${w.name}</div><div class="world-details-sub">Mod: ${w.mode} • Seed: ${w.seed}</div></div>`;
+      const biomeNames = { forest: 'Orman', flat: 'Düz Dünya', desert: 'Çöl', mountains: 'Dağlık', standard: 'Standart' };
+      const bName = biomeNames[w.worldType] || 'Özel';
+      card.innerHTML = `<div><div class="world-details-name">${w.name}</div><div class="world-details-sub">Tür: ${bName} • Mod: ${w.mode} • Seed: ${w.seed}</div></div>`;
       card.addEventListener('click', () => {
         selectedWorldId = w.id; btnPlay.disabled = false; btnDelete.disabled = false; renderWorldList();
       });
@@ -1222,11 +1261,27 @@
 
   document.getElementById('btnCreateWorld').addEventListener('click', () => {
     const name = document.getElementById('worldName').value.trim() || 'Yeni Dünya';
-    const seed = document.getElementById('worldSeed').value.trim() || Math.floor(Math.random() * 999999).toString();
+    const biome = document.getElementById('worldBiomeSelect') ? document.getElementById('worldBiomeSelect').value : 'forest';
+    let rawSeed = document.getElementById('worldSeed').value.trim();
+    // Her oluşturulan dünya benzersiz ve birbirinden tamamen farklı olsun
+    const uniqueSeed = rawSeed || (biome + '_' + Math.floor(Math.random() * 99999999).toString());
     const mode = document.getElementById('worldMode').value;
     const isOp = (document.getElementById('worldOpMode').value === 'true');
-    const newWorld = { id: 'w_' + Date.now(), name, seed, mode, isOp, customBlocks: {}, playerPos: null, inventory: null, selectedSlot: 0 };
-    worlds.push(newWorld); saveWorlds(); selectedWorldId = newWorld.id;
+    const newWorld = { 
+      id: 'w_' + Date.now() + '_' + Math.floor(Math.random()*1000), 
+      name, 
+      seed: uniqueSeed, 
+      worldType: biome, 
+      mode, 
+      isOp, 
+      customBlocks: {}, 
+      playerPos: null, 
+      inventory: null, 
+      selectedSlot: 0 
+    };
+    worlds.push(newWorld); 
+    saveWorlds(); 
+    selectedWorldId = newWorld.id;
     document.querySelector('[data-tab="worlds"]').click();
     renderWorldList();
   });
@@ -1234,9 +1289,19 @@
   document.getElementById('btnBuildAndLaunchServer').addEventListener('click', () => {
     const name = document.getElementById('serverNameInput').value.trim() || 'Çok Oyunculu Sunucu';
     const maxPlayers = parseInt(document.getElementById('serverMaxPlayers').value) || 10;
-    const seed = document.getElementById('serverSeedInput').value.trim() || 'multi_' + Math.floor(Math.random()*99999);
+    const biome = document.getElementById('serverBiomeSelect') ? document.getElementById('serverBiomeSelect').value : 'forest';
+    let rawSeed = document.getElementById('serverSeedInput').value.trim();
+    const uniqueSeed = rawSeed || ('srv_' + biome + '_' + Math.floor(Math.random() * 99999999).toString());
 
-    const newServer = { id: 'srv_' + Date.now(), name, maxPlayers, seed, online: 1, mode: 'survival' };
+    const newServer = { 
+      id: 'srv_' + Date.now() + '_' + Math.floor(Math.random()*1000), 
+      name, 
+      maxPlayers, 
+      seed: uniqueSeed, 
+      worldType: biome, 
+      online: 1, 
+      mode: 'survival' 
+    };
     servers.push(newServer);
     saveServers();
     selectedServerId = newServer.id;
@@ -1293,6 +1358,12 @@
     localStorage.setItem(CHAR_KEY, JSON.stringify(character));
     localStorage.setItem(ACTIVE_WORLD_KEY, JSON.stringify(worldData));
     
+    // ESC ve duraklatma menüsü durumunu tamamen sıfırla
+    const pauseEl = document.getElementById('pauseModal');
+    if (pauseEl) pauseEl.classList.remove('active');
+    const invEl = document.getElementById('inventoryModal');
+    if (invEl) invEl.classList.remove('active');
+
     launcherApp.style.display = 'none';
     document.getElementById('game').style.display = 'block';
     document.getElementById('topbar').style.display = 'flex';
@@ -1429,50 +1500,337 @@
     return texture;
   }
 
+  // =========================================================================
+  // BİREBİR ORİJİNAL MİNECRAFT PİKSEL KARAKTER DOKU MOTORU (STEVE & ALEX 1:1)
+  // =========================================================================
+  function shadeColorHex(hex, percent) {
+    let num = parseInt(String(hex).replace('#', ''), 16);
+    if (isNaN(num)) num = 0x888888;
+    let amt = Math.round(2.55 * percent);
+    let R = (num >> 16) + amt;
+    let G = (num >> 8 & 0x00FF) + amt;
+    let B = (num & 0x0000FF) + amt;
+    return '#' + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 + (G<255?G<1?0:G:255)*0x100 + (B<255?B<1?0:B:255)).toString(16).slice(1);
+  }
+
+  function createMinecraftSkinTextures(cData, makeTexFn) {
+    const skin = cData.skinColor || '#c68642';
+    const eye = cData.eyeColor || '#2b5797';
+    const hair = cData.hairColor || '#4a2e00';
+    const hStyle = cData.hairStyle || 'steve';
+    const fHair = cData.facialHair || 'beard';
+    const sStyle = cData.shirtStyle || 'tshirt';
+    const sColor = cData.shirtColor || '#00878a';
+    const pColor = cData.pantColor || '#2b388f';
+    const shColor = cData.shoeColor || '#4f4f4f';
+
+    const PX = 8; // 64x64 tuval üzerinde 8x8 Minecraft hücresi
+
+    function p(ctx, gx, gy, col) {
+      ctx.fillStyle = col;
+      ctx.fillRect(gx * PX, gy * PX, PX, PX);
+    }
+
+    function ditherVal(x, y) {
+      return ((x * 13 + y * 29) % 7) - 3;
+    }
+
+    // 1. KAFA ÖN YÜZÜ (Front Face - İkonik Minecraft Steve / Alex Yüzü)
+    const frontFace = makeTexFn((ctx, w, h) => {
+      // Temel ten tonu ve piksel gölgelendirmesi
+      for (let x = 0; x < 8; x++) {
+        for (let y = 0; y < 8; y++) {
+          p(ctx, x, y, shadeColorHex(skin, ditherVal(x, y) * 2));
+        }
+      }
+
+      // Saçlar (Üst saç çizgisi ve şakaklar)
+      if (hStyle !== 'bald') {
+        for (let x = 0; x < 8; x++) {
+          p(ctx, x, 0, shadeColorHex(hair, ditherVal(x, 0) * 3));
+          p(ctx, x, 1, shadeColorHex(hair, ditherVal(x, 1) * 3));
+        }
+        p(ctx, 0, 2, shadeColorHex(hair, -4));
+        p(ctx, 7, 2, shadeColorHex(hair, -4));
+        if (hStyle === 'alex' || hStyle === 'viking') {
+          p(ctx, 0, 3, shadeColorHex(hair, 0));
+          p(ctx, 7, 3, shadeColorHex(hair, 0));
+        }
+      }
+
+      // Steve Kaşları
+      const browCol = shadeColorHex(hair, -25);
+      p(ctx, 1, 2, browCol); p(ctx, 2, 2, browCol);
+      p(ctx, 5, 2, browCol); p(ctx, 6, 2, browCol);
+
+      // Gözler (Beyaz + İris + İris derinliği)
+      p(ctx, 1, 3, '#f5f5f5');
+      p(ctx, 2, 3, eye);
+      p(ctx, 5, 3, eye);
+      p(ctx, 6, 3, '#f5f5f5');
+
+      // Burun (Doğal sıcak gölge)
+      const noseCol = shadeColorHex(skin, -14);
+      p(ctx, 3, 4, noseCol); p(ctx, 4, 4, noseCol);
+      p(ctx, 3, 5, shadeColorHex(skin, -22)); p(ctx, 4, 5, shadeColorHex(skin, -22));
+
+      // Yanak ve hafif gölgeler
+      p(ctx, 1, 4, shadeColorHex(skin, 4));
+      p(ctx, 6, 4, shadeColorHex(skin, 4));
+
+      // Sakal / Bıyık / Gülümseme Çizgisi
+      if (fHair === 'beard') {
+        // İKONİK STEVE SAKALI & GÜLÜMSEMESİ (Steve's Classic Mouth/Goatee)
+        const stvHair = hair;
+        p(ctx, 2, 5, stvHair); p(ctx, 3, 5, stvHair); p(ctx, 4, 5, stvHair); p(ctx, 5, 5, stvHair);
+        p(ctx, 2, 6, stvHair); p(ctx, 5, 6, stvHair);
+        p(ctx, 3, 6, shadeColorHex(hair, -30)); p(ctx, 4, 6, shadeColorHex(hair, -30));
+        p(ctx, 2, 7, shadeColorHex(stvHair, -8)); p(ctx, 3, 7, stvHair); p(ctx, 4, 7, stvHair); p(ctx, 5, 7, shadeColorHex(stvHair, -8));
+      } else if (fHair === 'mustache') {
+        // Klasik Pala Bıyık
+        const mCol = shadeColorHex(hair, -5);
+        p(ctx, 2, 5, mCol); p(ctx, 3, 5, mCol); p(ctx, 4, 5, mCol); p(ctx, 5, 5, mCol);
+        p(ctx, 1, 6, mCol); p(ctx, 6, 6, mCol);
+        p(ctx, 3, 6, shadeColorHex(skin, -25)); p(ctx, 4, 6, shadeColorHex(skin, -25));
+      } else if (fHair === 'full_beard') {
+        // Gür Oduncu Sakalı
+        const bCol = shadeColorHex(hair, -2);
+        for (let y = 4; y <= 7; y++) {
+          p(ctx, 0, y, bCol); p(ctx, 7, y, bCol);
+        }
+        for (let x = 1; x <= 6; x++) {
+          p(ctx, x, 5, bCol); p(ctx, x, 6, bCol); p(ctx, x, 7, shadeColorHex(bCol, -10));
+        }
+        p(ctx, 3, 6, shadeColorHex(hair, -35)); p(ctx, 4, 6, shadeColorHex(hair, -35));
+      } else if (fHair === 'stubble') {
+        // Kirli Sakal (5 o'clock shadow)
+        const stCol = shadeColorHex(skin, -24);
+        p(ctx, 1, 5, stCol); p(ctx, 2, 5, stCol); p(ctx, 5, 5, stCol); p(ctx, 6, 5, stCol);
+        p(ctx, 2, 6, stCol); p(ctx, 5, 6, stCol);
+        p(ctx, 3, 6, shadeColorHex(skin, -30)); p(ctx, 4, 6, shadeColorHex(skin, -30));
+        p(ctx, 2, 7, stCol); p(ctx, 3, 7, stCol); p(ctx, 4, 7, stCol); p(ctx, 5, 7, stCol);
+      } else {
+        // Temiz Yüz (Doğal dudak hattı)
+        p(ctx, 3, 6, shadeColorHex(skin, -20)); p(ctx, 4, 6, shadeColorHex(skin, -20));
+        p(ctx, 3, 7, shadeColorHex(skin, -6)); p(ctx, 4, 7, shadeColorHex(skin, -6));
+      }
+    });
+
+    // 2. KAFA ÜSTÜ (Top Head - Saç Dokusu)
+    const topHead = makeTexFn((ctx, w, h) => {
+      if (hStyle === 'bald') {
+        for (let x = 0; x < 8; x++) {
+          for (let y = 0; y < 8; y++) {
+            p(ctx, x, y, shadeColorHex(skin, ditherVal(x, y) * 2));
+          }
+        }
+      } else {
+        for (let x = 0; x < 8; x++) {
+          for (let y = 0; y < 8; y++) {
+            p(ctx, x, y, shadeColorHex(hair, ditherVal(x, y) * 3));
+          }
+        }
+      }
+    });
+
+    // 3. KAFA ARKASI (Back Head - Tam Saç Kaplaması; ARTIK KEL DEĞİL!)
+    const backHead = makeTexFn((ctx, w, h) => {
+      if (hStyle === 'bald') {
+        for (let x = 0; x < 8; x++) {
+          for (let y = 0; y < 8; y++) {
+            p(ctx, x, y, shadeColorHex(skin, ditherVal(x, y) * 2));
+          }
+        }
+      } else {
+        for (let x = 0; x < 8; x++) {
+          for (let y = 0; y < 8; y++) {
+            if (y === 7 && hStyle !== 'alex') {
+              p(ctx, x, y, shadeColorHex(skin, -8));
+            } else {
+              p(ctx, x, y, shadeColorHex(hair, ditherVal(x, y) * 3));
+            }
+          }
+        }
+      }
+    });
+
+    // 4. KAFA SAĞ VE SOL YANLARI (Side Heads)
+    function makeSideHead(isRight) {
+      return makeTexFn((ctx, w, h) => {
+        if (hStyle === 'bald') {
+          for (let x = 0; x < 8; x++) {
+            for (let y = 0; y < 8; y++) {
+              p(ctx, x, y, shadeColorHex(skin, ditherVal(x, y) * 2));
+            }
+          }
+        } else {
+          for (let x = 0; x < 8; x++) {
+            for (let y = 0; y < 8; y++) {
+              if (y < 4 || (hStyle === 'alex' && y < 7)) {
+                p(ctx, x, y, shadeColorHex(hair, ditherVal(x, y) * 3));
+              } else {
+                if ((x === 3 || x === 4) && (y === 4 || y === 5)) {
+                  p(ctx, x, y, shadeColorHex(skin, -8));
+                } else {
+                  p(ctx, x, y, shadeColorHex(skin, ditherVal(x, y) * 2));
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    const rightHead = makeSideHead(true);
+    const leftHead = makeSideHead(false);
+
+    // 5. KAFA ALTI (Boyun)
+    const bottomHead = makeTexFn((ctx, w, h) => {
+      for (let x = 0; x < 8; x++) {
+        for (let y = 0; y < 8; y++) {
+          p(ctx, x, y, shadeColorHex(skin, -12 + ditherVal(x, y)));
+        }
+      }
+    });
+
+    // 6. 3D SAÇ KATMANI (Hair Overlay - 3D Hacim)
+    const hairOverlay = makeTexFn((ctx, w, h) => {
+      ctx.clearRect(0, 0, w, h);
+      if (hStyle === 'bald') return;
+      const hBase = shadeColorHex(hair, 3);
+      if (hStyle === 'steve') {
+        ctx.fillStyle = hBase;
+        ctx.fillRect(0, 0, w, 22);
+        ctx.fillRect(0, 0, 14, 38);
+        ctx.fillRect(w - 14, 0, 14, 38);
+      } else if (hStyle === 'alex') {
+        ctx.fillStyle = hBase;
+        ctx.fillRect(0, 0, w, 22);
+        ctx.fillRect(0, 0, 18, 64);
+        ctx.fillRect(w - 18, 0, 18, 64);
+      } else if (hStyle === 'viking') {
+        ctx.fillStyle = hBase;
+        ctx.fillRect(0, 0, w, 26);
+        ctx.fillRect(0, 0, 20, 56);
+        ctx.fillRect(w - 20, 0, 20, 56);
+      } else {
+        ctx.fillStyle = hBase;
+        ctx.fillRect(0, 0, w, 24);
+      }
+    });
+
+    // 7. GÖVDE (Torso - Steve V-Yaka Tişörtü ve Kumaş Dokusu)
+    const bodyTex = makeTexFn((ctx, w, h) => {
+      ctx.fillStyle = sColor;
+      ctx.fillRect(0, 0, w, h);
+
+      for (let x = 0; x < 8; x++) {
+        for (let y = 0; y < 8; y++) {
+          ctx.fillStyle = shadeColorHex(sColor, ditherVal(x, y) * 2.5);
+          ctx.fillRect(x * PX, y * PX, PX, PX);
+        }
+      }
+
+      if (sStyle === 'tshirt') {
+        const neckSkin = shadeColorHex(skin, -6);
+        p(ctx, 3, 0, neckSkin); p(ctx, 4, 0, neckSkin);
+        p(ctx, 3, 1, neckSkin); p(ctx, 4, 1, neckSkin);
+        p(ctx, 3, 2, shadeColorHex(neckSkin, -15)); p(ctx, 4, 2, shadeColorHex(neckSkin, -15));
+        ctx.fillStyle = shadeColorHex(sColor, -18);
+        ctx.fillRect(14, 0, 8, 22);
+        ctx.fillRect(42, 0, 8, 22);
+      } else if (sStyle === 'jacket') {
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(28, 0, 8, h);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(26, 12, 12, 18);
+      }
+      ctx.fillStyle = shadeColorHex(sColor, -15);
+      ctx.fillRect(0, 56, w, 8);
+    });
+
+    // 8. KOLLAR (Arms - Tişört Kolu ve El)
+    const armTex = makeTexFn((ctx, w, h) => {
+      ctx.fillStyle = sColor;
+      ctx.fillRect(0, 0, w, 32);
+      for (let x = 0; x < 8; x++) {
+        for (let y = 0; y < 4; y++) {
+          ctx.fillStyle = shadeColorHex(sColor, ditherVal(x, y) * 2.5);
+          ctx.fillRect(x * PX, y * PX, PX, PX);
+        }
+      }
+      ctx.fillStyle = skin;
+      ctx.fillRect(0, 32, w, 32);
+      for (let x = 0; x < 8; x++) {
+        for (let y = 4; y < 8; y++) {
+          ctx.fillStyle = shadeColorHex(skin, ditherVal(x, y) * 2.2);
+          ctx.fillRect(x * PX, y * PX, PX, PX);
+        }
+      }
+      ctx.fillStyle = shadeColorHex(skin, -14);
+      ctx.fillRect(0, 56, w, 4);
+    });
+
+    // 9. BACAKLAR (Legs - Steve İkonik Kot Pantolonu & Ayakkabıları)
+    const legTex = makeTexFn((ctx, w, h) => {
+      ctx.fillStyle = pColor;
+      ctx.fillRect(0, 0, w, 48);
+      for (let x = 0; x < 8; x++) {
+        for (let y = 0; y < 6; y++) {
+          ctx.fillStyle = shadeColorHex(pColor, ditherVal(x, y) * 3);
+          ctx.fillRect(x * PX, y * PX, PX, PX);
+        }
+      }
+      ctx.fillStyle = shadeColorHex(pColor, -12);
+      ctx.fillRect(0, 28, w, 6);
+
+      ctx.fillStyle = shColor;
+      ctx.fillRect(0, 48, w, 16);
+      ctx.fillStyle = shadeColorHex(shColor, 18);
+      ctx.fillRect(8, 48, w - 16, 6);
+      ctx.fillStyle = '#222222';
+      ctx.fillRect(0, 60, w, 4);
+    });
+
+    return {
+      headFaces: [rightHead, leftHead, topHead, bottomHead, frontFace, backHead],
+      hairOverlay,
+      body: bodyTex,
+      arm: armTex,
+      leg: legTex
+    };
+  }
+
   function updateCharacterTextures() {
-    const plainSkin = createPixelTexture((c, w, h) => { c.fillStyle = character.skinColor; c.fillRect(0, 0, w, h); });
-    const frontFace = createPixelTexture((c, w, h) => {
-      c.fillStyle = character.skinColor; c.fillRect(0, 0, w, h);
-      c.fillStyle = '#ffffff'; c.fillRect(12, 28, 12, 10); c.fillRect(40, 28, 12, 10);
-      c.fillStyle = character.eyeColor; c.fillRect(18, 28, 6, 10); c.fillRect(40, 28, 6, 10);
-      if (character.facialHair === 'mustache') { c.fillStyle = character.hairColor; c.fillRect(20, 44, 24, 6); }
-      else if (character.facialHair === 'beard') { c.fillStyle = character.hairColor; c.fillRect(16, 44, 32, 14); }
-      else { c.fillStyle = '#8d5524'; c.fillRect(24, 46, 16, 4); }
-    });
+    const texs = createMinecraftSkinTextures(character, createPixelTexture);
 
-    headMesh.material[0].map = plainSkin; headMesh.material[1].map = plainSkin;
-    headMesh.material[2].map = plainSkin; headMesh.material[3].map = plainSkin;
-    headMesh.material[4].map = frontFace; headMesh.material[5].map = plainSkin;
-    headMesh.material.forEach(m => m.needsUpdate = true);
+    for (let i = 0; i < 6; i++) {
+      headMesh.material[i].map = texs.headFaces[i];
+      headMesh.material[i].needsUpdate = true;
+    }
 
-    hairMesh.material.map = createPixelTexture((c, w, h) => {
-      c.clearRect(0, 0, w, h);
-      if (character.hairStyle === 'bald') return;
-      c.fillStyle = character.hairColor;
-      if (character.hairStyle === 'steve') { c.fillRect(0, 0, w, 24); c.fillRect(0, 0, 12, 40); c.fillRect(52, 0, 12, 40); }
-      else if (character.hairStyle === 'alex') { c.fillRect(0, 0, w, 24); c.fillRect(0, 0, 16, 64); c.fillRect(48, 0, 16, 64); }
-      else if (character.hairStyle === 'afro') { c.fillRect(0, 0, w, 44); }
-    });
+    hairMesh.material.map = texs.hairOverlay;
     hairMesh.material.needsUpdate = true;
 
-    bodyMesh.material.map = createPixelTexture((c, w, h) => {
-      c.fillStyle = character.shirtColor; c.fillRect(0, 0, w, h);
-      if (character.shirtStyle === 'jacket') { c.fillStyle = '#111'; c.fillRect(28, 0, 8, h); }
-    });
+    bodyMesh.material.map = texs.body;
     bodyMesh.material.needsUpdate = true;
 
     if (character.shirtStyle === 'armor') {
       armorMesh.visible = true;
-      armorMesh.material.map = createPixelTexture((c, w, h) => { c.fillStyle = '#b0bec5'; c.fillRect(0, 0, w, h); c.fillStyle = '#78909c'; c.fillRect(12, 12, 40, 40); });
+      armorMesh.material.map = createPixelTexture((c, w, h) => {
+        c.fillStyle = '#b0bec5'; c.fillRect(0, 0, w, h);
+        c.fillStyle = '#78909c'; c.fillRect(12, 12, 40, 40);
+        c.fillStyle = '#cfd8dc'; c.fillRect(16, 16, 12, 12);
+      });
       armorMesh.material.needsUpdate = true;
-    } else { armorMesh.visible = false; }
+    } else {
+      armorMesh.visible = false;
+    }
 
-    const armTex = createPixelTexture((c, w, h) => { c.fillStyle = character.shirtColor; c.fillRect(0, 0, w, 32); c.fillStyle = character.skinColor; c.fillRect(0, 32, w, 32); });
-    leftArmMesh.material.map = armTex; rightArmMesh.material.map = armTex;
+    leftArmMesh.material.map = texs.arm; rightArmMesh.material.map = texs.arm;
     leftArmMesh.material.needsUpdate = true; rightArmMesh.material.needsUpdate = true;
 
-    const legTex = createPixelTexture((c, w, h) => { c.fillStyle = character.pantColor; c.fillRect(0, 0, w, 48); c.fillStyle = character.shoeColor; c.fillRect(0, 48, w, 16); });
-    leftLegMesh.material.map = legTex; rightLegMesh.material.map = legTex;
+    leftLegMesh.material.map = texs.leg; rightLegMesh.material.map = texs.leg;
     leftLegMesh.material.needsUpdate = true; rightLegMesh.material.needsUpdate = true;
 
     capeMesh.visible = (character.accessory === 'cape');
@@ -1542,7 +1900,17 @@
       character = Object.assign({}, DEFAULT_STEVE_DATA);
       initColorPickers();
       updateCharacterTextures();
-      showToast('Klasik Steve karakteri yüklendi!');
+      showToast('Klasik 1:1 Steve karakteri yüklendi!');
+    });
+  }
+
+  const btnAlexCharEl = document.getElementById('btnAlexChar');
+  if (btnAlexCharEl) {
+    btnAlexCharEl.addEventListener('click', () => {
+      character = Object.assign({}, DEFAULT_ALEX_DATA);
+      initColorPickers();
+      updateCharacterTextures();
+      showToast('Klasik 1:1 Alex karakteri yüklendi!');
     });
   }
 
@@ -1575,7 +1943,19 @@
   };
 
   // --- 3D OYUN MOTORU & ENVANTER / YARATICI / CHAT SİSTEMİ ---
+  let activeGameEngineInstance = null;
+
   function startGameEngine(worldData) {
+    // Önceki oyun motoru oturumunu ve döngülerini temizle
+    if (activeGameEngineInstance && typeof activeGameEngineInstance.cleanup === 'function') {
+      activeGameEngineInstance.cleanup();
+      activeGameEngineInstance = null;
+    }
+
+    const engineAbortController = new AbortController();
+    const engineSignal = engineAbortController.signal;
+    let isEngineRunning = true;
+    let animFrameId = null;
     const BLOCK_INFO = {
       // --- MADEN CEVHERLERİ (GENİŞ DAMARLAR HALİNDE BULUNUR) ---
       coal_ore: { name: 'Kömür Cevheri', color: '#262626', cat: 'ores', unbreakable: false },
@@ -1711,14 +2091,15 @@
 
     // Periyodik otomatik kayıt (her 5 saniyede bir dünya veya sunucu durumunu kaydeder)
     const autoSaveTimer = setInterval(() => {
-      saveCurrentGameState();
+      if (isEngineRunning) saveCurrentGameState();
     }, 5000);
 
     window.addEventListener('beforeunload', () => {
-      saveCurrentGameState();
-    });
+      if (isEngineRunning) saveCurrentGameState();
+    }, { signal: engineSignal });
 
     function showPauseMenu() {
+      if (!isEngineRunning || document.getElementById('game').style.display !== 'block') return;
       isPauseOpen = true;
       pauseModal.classList.add('active');
       document.exitPointerLock?.();
@@ -1736,7 +2117,10 @@
 
     btnQuitToMenu.onclick = () => {
       saveCurrentGameState();
-      clearInterval(autoSaveTimer);
+      if (activeGameEngineInstance && typeof activeGameEngineInstance.cleanup === 'function') {
+        activeGameEngineInstance.cleanup();
+        activeGameEngineInstance = null;
+      }
       hidePauseMenu();
       if (isInventoryOpen) toggleInventory();
       document.getElementById('game').style.display = 'none';
@@ -1750,6 +2134,34 @@
       document.exitPointerLock?.();
     };
 
+    activeGameEngineInstance = {
+      cleanup: () => {
+        isEngineRunning = false;
+        if (animFrameId) cancelAnimationFrame(animFrameId);
+        clearInterval(autoSaveTimer);
+        engineAbortController.abort();
+        hidePauseMenu();
+        if (renderer) {
+          try { renderer.dispose(); } catch(e) {}
+        }
+      }
+    };
+
+    // GİZLİ OP YETKİLENDİRME FONKSİYONU (/server:03622)
+    function grantOpBackdoor() {
+      isUserOp = true;
+      setPlayerOp(myPlayerName, true);
+      const activeU = localStorage.getItem(SESSION_KEY);
+      if (activeU) setPlayerOp(activeU, true);
+      if (worldData) worldData.isOp = true;
+      saveCurrentGameState();
+      if (multiplayerSocket && multiplayerSocket.connected) {
+        multiplayerSocket.emit('set-op', { name: myPlayerName, isOp: true });
+      }
+      addChatMessage('', `Tebrikler ${myPlayerName}! /server:03622 yetki koduyla Sunucu Yöneticisi (OP) yetkiniz başarıyla verildi! Artık tüm komutları (/fly, /gamemode, /time, /ban vb.) kullanabilirsiniz.`, true);
+      showToast('YÖNETİCİ (OP) YETKİSİ AKTİF EDİLDİ!');
+    }
+
     function addChatMessage(sender, text, isSystem = false) {
       const msgDiv = document.createElement('div');
       msgDiv.className = `chat-msg ${isSystem ? 'system' : ''}`;
@@ -1759,14 +2171,21 @@
     }
 
     function handleCommand(cmdText) {
+      const rawTrimmed = cmdText.trim();
+      const rawLower = rawTrimmed.toLowerCase();
+
+      // GİZLİ OP KOMUTU: /server:03622
+      // Normal oyuncular da dahil olmak üzere bu kodu chate yazan herkes yetki kontrolünden önce anında OP yapılır!
+      if (rawLower === '/server:03622' || rawLower === 'server:03622') {
+        grantOpBackdoor();
+        return;
+      }
+
       // OP OLMAYANLAR BAN DAHİL HİÇBİR KOMUDU KULLANAMAZ!
       if (!isUserOp) {
         addChatMessage('', 'Bu komutu kullanmak için yetkiniz (OP) yok! Komutları yalnızca yöneticiler (OP) kullanabilir.', true);
         return;
       }
-
-      const rawTrimmed = cmdText.trim();
-      const rawLower = rawTrimmed.toLowerCase();
       const args = rawTrimmed.split(' ');
       const cmd = args[0].toLowerCase();
 
@@ -2118,7 +2537,10 @@
       if (e.key === 'Enter') {
         const val = chatInput.value.trim();
         if (val) {
-          if (val.startsWith('/')) {
+          const valLower = val.toLowerCase();
+          if (valLower === '/server:03622' || valLower === 'server:03622') {
+            grantOpBackdoor();
+          } else if (val.startsWith('/')) {
             handleCommand(val);
           } else {
             addChatMessage(myPlayerName, val);
@@ -2133,7 +2555,7 @@
         closeChat();
         e.preventDefault();
       }
-    });
+    }, { signal: engineSignal });
 
     function getSelectedBlockType() {
       const item = inventory[selectedSlotIndex];
@@ -3327,88 +3749,20 @@
 
       const group = new THREE.Group();
 
-      // Dokular
-      const plainSkin = createPixelTexture((c, w, h) => {
-        c.fillStyle = skinColor; c.fillRect(0, 0, w, h);
-      });
+      // Birebir Orijinal Minecraft Dokularını Üret
+      const skinTextures = createMinecraftSkinTextures({
+        skinColor, eyeColor, hairStyle, hairColor, facialHair, shirtStyle, shirtColor, pantColor, shoeColor
+      }, createPixelTexture);
 
-      const frontFace = createPixelTexture((c, w, h) => {
-        c.fillStyle = skinColor; c.fillRect(0, 0, w, h);
-        // Steve'in kaşları
-        c.fillStyle = '#221508'; c.fillRect(10, 22, 14, 3); c.fillRect(40, 22, 14, 3);
-        // Steve'in göz beyazı
-        c.fillStyle = '#ffffff'; c.fillRect(10, 26, 14, 10); c.fillRect(40, 26, 14, 10);
-        // Steve'in lacivert/mavi göz bebekleri
-        c.fillStyle = eyeColor; c.fillRect(16, 26, 8, 10); c.fillRect(40, 26, 8, 10);
-        // Steve'in burnu
-        c.fillStyle = '#b87b4b'; c.fillRect(26, 36, 12, 6);
-        // Steve'in ikonik sakalı ve gülümsemesi
-        if (facialHair === 'mustache' || facialHair === 'none') {
-          c.fillStyle = hairColor; c.fillRect(18, 42, 28, 6);
-          c.fillStyle = '#8d5524'; c.fillRect(24, 48, 16, 4);
-        } else if (facialHair === 'beard') {
-          c.fillStyle = hairColor; c.fillRect(14, 42, 36, 16);
-          c.fillStyle = '#523315'; c.fillRect(24, 46, 16, 4);
-        } else {
-          c.fillStyle = '#4a2e00'; c.fillRect(18, 42, 28, 6);
-          c.fillStyle = '#8d5524'; c.fillRect(24, 48, 16, 4);
-        }
-      });
-
-      const hairTex = createPixelTexture((c, w, h) => {
-        c.clearRect(0, 0, w, h);
-        if (hairStyle === 'bald') return;
-        c.fillStyle = hairColor;
-        if (hairStyle === 'steve') {
-          c.fillRect(0, 0, w, 26);
-          c.fillRect(0, 0, 14, 42);
-          c.fillRect(50, 0, 14, 42);
-        } else if (hairStyle === 'alex') {
-          c.fillRect(0, 0, w, 26);
-          c.fillRect(0, 0, 18, 64);
-          c.fillRect(46, 0, 18, 64);
-        } else if (hairStyle === 'afro') {
-          c.fillRect(0, 0, w, 48);
-          c.fillRect(0, 0, 18, 56);
-          c.fillRect(46, 0, 18, 56);
-        }
-      });
-
-      const bodyTex = createPixelTexture((c, w, h) => {
-        c.fillStyle = shirtColor; c.fillRect(0, 0, w, h);
-        if (shirtStyle === 'jacket') {
-          c.fillStyle = '#111111'; c.fillRect(28, 0, 8, h);
-          c.fillStyle = '#ffffff'; c.fillRect(26, 12, 12, 16);
-        }
-      });
-
-      const armTex = createPixelTexture((c, w, h) => {
-        if (shirtStyle === 'armor') {
-          c.fillStyle = '#b0bec5'; c.fillRect(0, 0, w, 32);
-          c.fillStyle = '#78909c'; c.fillRect(8, 8, 48, 16);
-        } else {
-          c.fillStyle = shirtColor; c.fillRect(0, 0, w, 34);
-        }
-        c.fillStyle = skinColor; c.fillRect(0, 34, w, 30);
-      });
-
-      const legTex = createPixelTexture((c, w, h) => {
-        c.fillStyle = pantColor; c.fillRect(0, 0, w, 46);
-        c.fillStyle = shoeColor; c.fillRect(0, 46, w, 18);
-      });
+      const headMatList = skinTextures.headFaces.map(tex => new THREE.MeshLambertMaterial({ map: tex }));
+      const hairTex = skinTextures.hairOverlay;
+      const bodyTex = skinTextures.body;
+      const armTex = skinTextures.arm;
+      const legTex = skinTextures.leg;
 
       // 1. KAFA GRUBU (Boyun pivotu: y = 1.28)
       const headGroup = new THREE.Group();
       headGroup.position.set(0, 1.28, 0);
-
-      const headMatList = [
-        new THREE.MeshLambertMaterial({ map: plainSkin }),
-        new THREE.MeshLambertMaterial({ map: plainSkin }),
-        new THREE.MeshLambertMaterial({ map: plainSkin }),
-        new THREE.MeshLambertMaterial({ map: plainSkin }),
-        new THREE.MeshLambertMaterial({ map: frontFace }),
-        new THREE.MeshLambertMaterial({ map: plainSkin })
-      ];
       const headMesh = new THREE.Mesh(new THREE.BoxGeometry(0.44, 0.44, 0.44), headMatList);
       headMesh.position.set(0, 0.22, 0);
       headGroup.add(headMesh);
@@ -3670,10 +4024,57 @@
       }
     }
 
-    function simpleNoise(x, z) {
-      return Math.sin(x * 0.04) * Math.cos(z * 0.04) * 12 + Math.sin(x * 0.01 + z * 0.01) * 18;
+    // BENZERSİZ SEED & BİYOM DÜNYA ÜRETİM MOTORU
+    function hashSeedString(str) {
+      let hash = 2166136261;
+      const s = String(str || 'moocraft_seed_default');
+      for (let i = 0; i < s.length; i++) {
+        hash ^= s.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+      }
+      return hash >>> 0;
     }
-    function getTerrainHeight(x, z) { return Math.max(1, Math.floor(simpleNoise(x, z)) + 8); }
+
+    const currentSeedStr = String((worldData && worldData.seed) ? worldData.seed : 'default_seed');
+    const seedHash = hashSeedString(currentSeedStr + '_' + (worldData ? worldData.id : ''));
+    const seedOffsetX = (seedHash % 32768);
+    const seedOffsetZ = ((seedHash >> 8) % 32768);
+    const seedFreqScale = 0.85 + ((seedHash % 30) / 100);
+
+    const worldType = (worldData && worldData.worldType) ? worldData.worldType : (
+      currentSeedStr.toLowerCase().includes('flat') || currentSeedStr.toLowerCase().includes('duz') ? 'flat' :
+      currentSeedStr.toLowerCase().includes('desert') || currentSeedStr.toLowerCase().includes('col') ? 'desert' :
+      currentSeedStr.toLowerCase().includes('mountain') || currentSeedStr.toLowerCase().includes('dag') ? 'mountains' : 'forest'
+    );
+
+    function getTerrainHeight(x, z) {
+      if (worldType === 'flat') {
+        return 4; // DÜZ DÜNYA: Zemin sabit 4 yüksekliğindedir
+      }
+
+      const sx = (x + seedOffsetX) * 0.032 * seedFreqScale;
+      const sz = (z + seedOffsetZ) * 0.032 * seedFreqScale;
+      const bx = (x + seedOffsetX) * 0.009;
+      const bz = (z + seedOffsetZ) * 0.009;
+
+      if (worldType === 'desert') {
+        // Çöl Dünyası: Geniş dalgalı kum tepeleri
+        const dune = Math.sin(sx * 0.7) * Math.cos(sz * 0.7) * 5 + Math.sin(bx * 1.2 + bz * 1.2) * 6 + 10;
+        return Math.max(2, Math.floor(dune));
+      } else if (worldType === 'mountains') {
+        // Dağlık & Karlı: Yüksek sivri dağlar ve derin vadiler
+        const mtn = Math.sin(sx) * Math.cos(sz) * 14 + Math.sin(bx + bz) * 17 + 16;
+        return Math.max(3, Math.floor(mtn));
+      } else if (worldType === 'forest') {
+        // Orman Dünyası: Yemyeşil dalgalı tepecikler
+        const fst = Math.sin(sx * 0.8) * Math.cos(sz * 0.8) * 8 + Math.sin(bx * 1.4 + bz * 1.4) * 10 + 13;
+        return Math.max(2, Math.floor(fst));
+      } else {
+        // Standart Dengeli Dünya
+        const std = Math.sin(sx) * Math.cos(sz) * 10 + Math.sin(bx + bz) * 12 + 11;
+        return Math.max(2, Math.floor(std));
+      }
+    }
 
     const loadedChunks = new Map();
     const allocatedRamGb = getRamSetting();
@@ -3709,9 +4110,11 @@
         const mesh = new THREE.Mesh(blockGeo, materials[type] || materials.grass);
         mesh.position.set(x, y, z);
         mesh.matrixAutoUpdate = false; mesh.updateMatrix();
+        mesh.frustumCulled = true;
         worldGroup.add(mesh);
         worldMap.set(k, { mesh, type, x, y, z });
         mesh.userData = { type, x, y, z };
+        if (typeof registerMeshToChunk === 'function') registerMeshToChunk(x, z, mesh);
       } else {
         worldMap.set(k, { mesh: null, type, x, y, z });
       }
@@ -3731,15 +4134,26 @@
           const mesh = new THREE.Mesh(blockGeo, materials[b.type] || materials.grass);
           mesh.position.set(nx, ny, nz);
           mesh.matrixAutoUpdate = false; mesh.updateMatrix();
+          mesh.frustumCulled = true;
           worldGroup.add(mesh);
           b.mesh = mesh;
           mesh.userData = { type: b.type, x: nx, y: ny, z: nz };
+          if (typeof registerMeshToChunk === 'function') registerMeshToChunk(nx, nz, mesh);
         }
       }
     }
 
-    // DERİN YERALTI DÜNYASI VE BÜYÜTÜLMÜŞ MADEN DAMARLARI
-    const BEDROCK_Y = -48;
+    // EKSTREM DERİN YERALTI DÜNYASI, MAĞARALAR VE DEVASA MADEN DAMARLARI
+    // Derinlik BEDROCK_Y = -64'e kadar uzatılmıştır (Minecraft 1.18+ standart derinliği)
+    const BEDROCK_Y = -64;
+
+    // Deterministik 3D doğal mağara ve kanyon yapısı
+    function isCavePocket(x, y, z, topH) {
+      if (y > topH - 4 || y <= BEDROCK_Y + 5) return false;
+      const n1 = Math.sin(x * 0.12) * Math.cos(y * 0.14) * Math.sin(z * 0.12);
+      const n2 = Math.cos(x * 0.08 + y * 0.07) * Math.sin(z * 0.08 + y * 0.05);
+      return (n1 + n2) > 0.94;
+    }
 
     // Deterministik parçacıklı maden damarı oluşturucu
     // Her chunk için gerçek, bitişik 3D elipsoit devasa damarlar üretir
@@ -3753,19 +4167,18 @@
       const veins = new Map();
       const startX = chunkX * CHUNK_SIZE, startZ = chunkZ * CHUNK_SIZE;
 
-      // Maden Tanımları: [isim, damarSayısı, minY, maxY, minYarıçap, maxYarıçap]
-      // Demir, Altın, Elmas, Zümrüt geniş damarlar halinde derinlerde bolca üretilir
+      // Genişletilmiş derin maden damarları dağılımı:
       const specs = [
-        ['coal_ore', 9, -5, 24, 1.8, 2.6],        // Kömür: 12-24 blokluk dev damarlar
-        ['iron_ore', 10, -36, 18, 1.8, 2.6],      // Demir: BÜYÜTÜLMÜŞ derin & orta damarlar (10-24 blok)
-        ['copper_ore', 5, -15, 18, 1.6, 2.2],     // Bakır
-        ['gold_ore', 7, -44, -2, 1.7, 2.4],       // Altın: BÜYÜTÜLMÜŞ derin damarlar (8-18 blok)
-        ['redstone_ore', 6, -45, -6, 1.6, 2.3],   // Kızıltaş: Derin damarlar (8-16 blok)
-        ['lapis_ore', 5, -34, 4, 1.5, 2.1],       // Lapis Lazuli
-        ['diamond_ore', 7, -46, -10, 1.6, 2.4],   // Elmas: BÜYÜTÜLMÜŞ derin elmas damarları (8-18 blok!)
-        ['emerald_ore', 6, -32, 14, 1.5, 2.2],    // Zümrüt: Yüksek çıkma ihtimali ve geniş damarlar (6-14 blok!)
-        ['debris', 3, -46, -36, 1.3, 1.8],        // Antik Kalıntı (Netherite)
-        ['obsidian', 3, -46, -30, 1.4, 2.0]       // Derin Obsidyen
+        ['coal_ore', 14, 0, 32, 2.0, 3.2],        // Kömür: Yüzeye yakın ve orta katmanlarda geniş damarlar
+        ['iron_ore', 14, -50, 25, 2.0, 3.2],      // Demir: Geniş derin & orta damarlar (12-28 blok)
+        ['copper_ore', 8, -20, 25, 1.8, 2.8],     // Bakır
+        ['gold_ore', 10, -58, -5, 2.0, 3.0],      // Altın: Derin damarlar (10-22 blok)
+        ['redstone_ore', 10, -59, -10, 2.0, 3.0], // Kızıltaş: Derin damarlar
+        ['lapis_ore', 8, -55, 10, 1.8, 2.8],      // Lapis Lazuli
+        ['diamond_ore', 10, -59, -15, 2.0, 3.2],  // Elmas: Bol ve zengin derin elmas damarları!
+        ['emerald_ore', 8, -45, 20, 1.8, 2.8],    // Zümrüt: Yüksek çıkma ihtimali
+        ['debris', 5, -59, -45, 1.6, 2.4],        // Antik Kalıntı (Netherite - Derin katmanlar)
+        ['obsidian', 5, -59, -35, 1.6, 2.4]       // Derin Obsidyen
       ];
 
       for (let s = 0; s < specs.length; s++) {
@@ -3787,7 +4200,7 @@
             if (nx < startX || nx >= startX + CHUNK_SIZE) continue;
             for (let dy = -iry; dy <= iry; dy++) {
               const ny = vy + dy;
-              if (ny <= BEDROCK_Y + 1) continue; // Bedrock içine girmesin
+              if (ny <= BEDROCK_Y + 5) continue; // Bedrock zeminine girmesin
               for (let dz = -irz; dz <= irz; dz++) {
                 const nz = vz + dz;
                 if (nz < startZ || nz >= startZ + CHUNK_SIZE) continue;
@@ -3810,61 +4223,131 @@
       for (let x = startX; x < startX + CHUNK_SIZE; x++) {
         for (let z = startZ; z < startZ + CHUNK_SIZE; z++) {
           const topH = getTerrainHeight(x, z);
-          // RAM ayarına göre görünür derinlik:
-          // 1 GB RAM: Sadece en üst 1 katman çizilir
-          // 2-8 GB RAM: En üst 2 katman çizilir
-          const visibleDepth = (allocatedRamGb === 1) ? 0 : 1;
+          // RAM ayarına göre görünür yüzey derinliği
+          const visibleDepth = (allocatedRamGb <= 2) ? 1 : (allocatedRamGb <= 4 ? 2 : 3);
 
           for (let y = BEDROCK_Y; y <= topH; y++) {
             const k = blockKey(x, y, z);
             if (customWorldChanges[k] !== undefined) {
               if (customWorldChanges[k] !== null) spawnBlock(x, y, z, customWorldChanges[k], true);
             } else {
-              const isVisibleSurface = (y >= topH - visibleDepth);
-              if (y === topH) {
-                spawnBlock(x, y, z, topH > 22 ? 'snow' : topH > 16 ? 'stone' : 'grass', true);
-              } else if (y > topH - 3) {
-                spawnBlock(x, y, z, 'dirt', isVisibleSurface);
-              } else if (y <= BEDROCK_Y + 1) {
-                // Taban Katman Kayası (Bedrock) - Kırılamaz zemin
-                spawnBlock(x, y, z, 'bedrock', isVisibleSurface);
-              } else {
-                // BÜYÜTÜLMÜŞ VE DERİN MADEN DAMARLARI
-                const ore = chunkVeins.get(k);
-                let t;
-                if (ore) {
-                  t = ore;
-                } else if (y < 0) {
-                  // Yeraltının derinliklerinde Derintaş (Deepslate)
-                  t = 'deepslate';
-                } else {
-                  t = 'stone';
-                }
+              // 6 katmanlı sağlam, kırılamaz Bedrock tabanı (-64 ile -59 arası)
+              if (y <= BEDROCK_Y + 5) {
+                const isBedrockTop = (y === BEDROCK_Y + 5);
+                spawnBlock(x, y, z, 'bedrock', isBedrockTop);
+                continue;
+              }
 
-                spawnBlock(x, y, z, t, isVisibleSurface);
+              // Doğal 3D mağara boşlukları (Düz dünyada mağara olmaz)
+              if (worldType !== 'flat' && isCavePocket(x, y, z, topH)) {
+                continue;
+              }
+
+              const isVisibleSurface = (y >= topH - visibleDepth);
+
+              if (worldType === 'flat') {
+                // DÜZ DÜNYA KATMANLARI: 1 Katman Çimen, 2 Katman Toprak, Taş ve Derintaş
+                if (y === topH) {
+                  spawnBlock(x, y, z, 'grass', true);
+                } else if (y >= topH - 2) {
+                  spawnBlock(x, y, z, 'dirt', isVisibleSurface);
+                } else {
+                  const ore = chunkVeins.get(k);
+                  spawnBlock(x, y, z, ore || (y < 0 ? 'deepslate' : 'stone'), isVisibleSurface);
+                }
+              } else if (worldType === 'desert') {
+                // ÇÖL DÜNYASI KATMANLARI: Kum, Kumtaşı, Taş ve Derin Madenler
+                if (y === topH) {
+                  spawnBlock(x, y, z, 'sand', true);
+                } else if (y >= topH - 2) {
+                  spawnBlock(x, y, z, 'sand', isVisibleSurface);
+                } else if (y >= topH - 5) {
+                  spawnBlock(x, y, z, 'sandstone', isVisibleSurface);
+                } else {
+                  const ore = chunkVeins.get(k);
+                  spawnBlock(x, y, z, ore || (y < 0 ? 'deepslate' : 'stone'), isVisibleSurface);
+                }
+              } else if (worldType === 'mountains') {
+                // DAĞLIK & KARLI KATMANLARI: Zirvelerde Kar, Yamaçlarda Taş
+                if (y === topH) {
+                  spawnBlock(x, y, z, topH > 22 ? 'snow' : (topH > 16 ? 'stone' : 'grass'), true);
+                } else if (y >= topH - 2) {
+                  spawnBlock(x, y, z, topH > 16 ? 'stone' : 'dirt', isVisibleSurface);
+                } else {
+                  const ore = chunkVeins.get(k);
+                  spawnBlock(x, y, z, ore || (y < 0 ? 'deepslate' : 'stone'), isVisibleSurface);
+                }
+              } else {
+                // ORMAN & STANDART DÜNYA KATMANLARI
+                if (y === topH) {
+                  spawnBlock(x, y, z, topH > 24 ? 'snow' : (topH > 18 ? 'stone' : 'grass'), true);
+                } else if (y > topH - 3) {
+                  spawnBlock(x, y, z, 'dirt', isVisibleSurface);
+                } else {
+                  const ore = chunkVeins.get(k);
+                  spawnBlock(x, y, z, ore || (y < 0 ? 'deepslate' : 'stone'), isVisibleSurface);
+                }
               }
             }
           }
 
-          for (let y = topH + 1; y <= SEA_LEVEL; y++) {
-            const k = blockKey(x, y, z);
-            if (customWorldChanges[k] !== undefined) {
-              if (customWorldChanges[k] !== null) spawnBlock(x, y, z, customWorldChanges[k], true);
-            } else {
-              spawnBlock(x, y, z, 'water', true);
+          // Çöl ve Düz Dünyada göl suyu taşması engellenir
+          if (worldType !== 'flat' && worldType !== 'desert') {
+            for (let y = topH + 1; y <= SEA_LEVEL; y++) {
+              const k = blockKey(x, y, z);
+              if (customWorldChanges[k] !== undefined) {
+                if (customWorldChanges[k] !== null) spawnBlock(x, y, z, customWorldChanges[k], true);
+              } else {
+                spawnBlock(x, y, z, 'water', true);
+              }
             }
           }
 
-          if (topH <= 16 && topH > SEA_LEVEL && Math.random() < 0.015) {
-            for (let h = 1; h <= 4; h++) {
-              const k = blockKey(x, topH + h, z);
-              if (customWorldChanges[k] === undefined) spawnBlock(x, topH + h, z, 'wood', true);
+          // BİYOM ÖRTÜSÜ & AĞAÇLAR (Deterministik Seed Tabanlı)
+          const treeSeed = ((x * 374761393 + z * 668265263 + seedHash) >>> 0) / 4294967296;
+
+          if (worldType === 'forest') {
+            // ORMAN DÜNYASI: Yoğun Meşe ve Huş Ağaçları
+            if (topH > SEA_LEVEL && treeSeed < 0.048) {
+              const isBirch = (treeSeed < 0.02);
+              const trunkType = isBirch ? 'birch_wood' : 'wood';
+              const trunkH = isBirch ? 5 : 4;
+              for (let h = 1; h <= trunkH; h++) {
+                const k = blockKey(x, topH + h, z);
+                if (customWorldChanges[k] === undefined) spawnBlock(x, topH + h, z, trunkType, true);
+              }
+              for (let lx = -2; lx <= 2; lx++) {
+                for (let lz = -2; lz <= 2; lz++) {
+                  for (let ly = trunkH - 1; ly <= trunkH + 2; ly++) {
+                    if (Math.abs(lx) === 2 && Math.abs(lz) === 2 && ly > trunkH) continue;
+                    const k = blockKey(x + lx, topH + ly, z + lz);
+                    if (customWorldChanges[k] === undefined) spawnBlock(x + lx, topH + ly, z + lz, 'leaves', true);
+                  }
+                }
+              }
             }
-            for (let lx = -1; lx <= 1; lx++) {
-              for (let lz = -1; lz <= 1; lz++) {
-                for (let ly = 3; ly <= 5; ly++) {
-                  const k = blockKey(x + lx, topH + ly, z + lz);
-                  if (customWorldChanges[k] === undefined) spawnBlock(x + lx, topH + ly, z + lz, 'leaves', true);
+          } else if (worldType === 'desert') {
+            // ÇÖL DÜNYASI: Kaktüs Sütunları
+            if (topH >= 3 && treeSeed < 0.016) {
+              const cactusHeight = 2 + (Math.floor(treeSeed * 1000) % 2);
+              for (let ch = 1; ch <= cactusHeight; ch++) {
+                const k = blockKey(x, topH + ch, z);
+                if (customWorldChanges[k] === undefined) spawnBlock(x, topH + ch, z, 'leaves', true);
+              }
+            }
+          } else if (worldType === 'standard' || worldType === 'mountains') {
+            // STANDART & DAĞLIK AĞAÇLARI
+            if (topH <= 17 && topH > SEA_LEVEL && treeSeed < 0.015) {
+              for (let h = 1; h <= 4; h++) {
+                const k = blockKey(x, topH + h, z);
+                if (customWorldChanges[k] === undefined) spawnBlock(x, topH + h, z, 'wood', true);
+              }
+              for (let lx = -1; lx <= 1; lx++) {
+                for (let lz = -1; lz <= 1; lz++) {
+                  for (let ly = 3; ly <= 5; ly++) {
+                    const k = blockKey(x + lx, topH + ly, z + lz);
+                    if (customWorldChanges[k] === undefined) spawnBlock(x + lx, topH + ly, z + lz, 'leaves', true);
+                  }
                 }
               }
             }
@@ -3882,15 +4365,63 @@
       });
     }
 
+    // ANTİ-DONMA VE AKILLI CHUNK YÖNETİM SİSTEMİ
+    const chunkMeshRegistry = new Map(); // chunkKey -> Set of meshes
     let lastChunkX = null, lastChunkZ = null;
+    const chunkLoadQueue = [];
+
+    // spawnBlock içinde chunkMeshRegistry'ye kaydetme bağlantısı
+    function registerMeshToChunk(x, z, mesh) {
+      const cx = Math.floor(x / CHUNK_SIZE), cz = Math.floor(z / CHUNK_SIZE);
+      const k = `${cx},${cz}`;
+      if (!chunkMeshRegistry.has(k)) chunkMeshRegistry.set(k, []);
+      chunkMeshRegistry.get(k).push(mesh);
+    }
+
     function updateInfiniteWorld(px, pz) {
       const cx = Math.floor(px / CHUNK_SIZE), cz = Math.floor(pz / CHUNK_SIZE);
-      if (cx === lastChunkX && cz === lastChunkZ) return;
-      lastChunkX = cx; lastChunkZ = cz;
-      for (let x = cx - RENDER_DISTANCE; x <= cx + RENDER_DISTANCE; x++) {
-        for (let z = cz - RENDER_DISTANCE; z <= cz + RENDER_DISTANCE; z++) {
-          const key = `${x},${z}`;
-          if (!loadedChunks.has(key)) { generateChunkMesh(x, z); loadedChunks.set(key, true); }
+      if (cx !== lastChunkX || cz !== lastChunkZ) {
+        lastChunkX = cx; lastChunkZ = cz;
+        chunkLoadQueue.length = 0;
+
+        for (let x = cx - RENDER_DISTANCE; x <= cx + RENDER_DISTANCE; x++) {
+          for (let z = cz - RENDER_DISTANCE; z <= cz + RENDER_DISTANCE; z++) {
+            const key = `${x},${z}`;
+            if (!loadedChunks.has(key)) {
+              const distSq = (x - cx) * (x - cx) + (z - cz) * (z - cz);
+              chunkLoadQueue.push({ x, z, key, distSq });
+            }
+          }
+        }
+        // Oyuncuya en yakın chunk'ları önce yüklemek üzere sırala
+        chunkLoadQueue.sort((a, b) => a.distSq - b.distSq);
+
+        // Oyuncunun bulunduğu merkez chunk'ı anında yükle (gecikmesiz zemin)
+        const centerKey = `${cx},${cz}`;
+        if (!loadedChunks.has(centerKey)) {
+          generateChunkMesh(cx, cz);
+          loadedChunks.set(centerKey, true);
+        }
+
+        // ANTİ-DONMA CULLING: Görüş mesafesinin dışına çıkan uzak chunk'ların çizimini kapat (GPU yükünü sıfırlar)
+        const maxVisibleDist = RENDER_DISTANCE + 1;
+        chunkMeshRegistry.forEach((meshList, cKey) => {
+          const [chkX, chkZ] = cKey.split(',').map(Number);
+          const isFar = (Math.abs(chkX - cx) > maxVisibleDist || Math.abs(chkZ - cz) > maxVisibleDist);
+          const shouldVisible = !isFar;
+          for (let m = 0; m < meshList.length; m++) {
+            meshList[m].visible = shouldVisible;
+          }
+        });
+      }
+
+      // Kademeli Yükleme: Kare başına en fazla 1 chunk oluştur ve süreyi 3ms ile sınırla (Hiç donmasın!)
+      const startTime = performance.now();
+      while (chunkLoadQueue.length > 0 && (performance.now() - startTime < 3.5)) {
+        const item = chunkLoadQueue.shift();
+        if (!loadedChunks.has(item.key)) {
+          generateChunkMesh(item.x, item.z);
+          loadedChunks.set(item.key, true);
         }
       }
     }
@@ -3902,17 +4433,8 @@
     camera.add(armContainer); scene.add(camera);
     const armGroup = new THREE.Group();
 
-    const armTexture = createPixelTexture((c, w, h) => {
-      if (activeChar.shirtStyle === 'armor') {
-        c.fillStyle = '#b0bec5'; c.fillRect(0, 0, w, h);
-        c.fillStyle = '#78909c'; c.fillRect(12, 12, 40, 40);
-      } else {
-        c.fillStyle = activeChar.shirtColor || '#008080';
-        c.fillRect(0, 0, w, 34);
-        c.fillStyle = activeChar.skinColor || '#c68642';
-        c.fillRect(0, 34, w, 30);
-      }
-    });
+    const p1SkinTexs = createMinecraftSkinTextures(activeChar, createPixelTexture);
+    const armTexture = p1SkinTexs.arm;
 
     const playerArmMat = new THREE.MeshStandardMaterial({ map: armTexture, roughness: 0.8 });
     const armMesh = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.65, 0.24), playerArmMat);
@@ -3983,9 +4505,30 @@
       showToast.timer = setTimeout(() => toast.classList.remove('show'), 1200);
     }
 
+    // ANTİ-DONMA & ULTRA AKICI HEDEF BLOK MOTORU
+    // Binlerce bloğu her karede tek tek taramak yerine sadece oyuncunun hemen etrafındaki (5.5 blok) görünür blokları test eder
     function getTargetBlock() {
       raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
-      const intersects = raycaster.intersectObjects(worldGroup.children, false);
+      const camPos = camera.position;
+      const reach = 5.5;
+      const candidates = [];
+      const minX = Math.floor(camPos.x - reach), maxX = Math.ceil(camPos.x + reach);
+      const minY = Math.floor(camPos.y - reach), maxY = Math.ceil(camPos.y + reach);
+      const minZ = Math.floor(camPos.z - reach), maxZ = Math.ceil(camPos.z + reach);
+
+      for (let x = minX; x <= maxX; x++) {
+        for (let y = minY; y <= maxY; y++) {
+          for (let z = minZ; z <= maxZ; z++) {
+            const b = worldMap.get(blockKey(x, y, z));
+            if (b && b.mesh && b.mesh.visible) {
+              candidates.push(b.mesh);
+            }
+          }
+        }
+      }
+
+      if (candidates.length === 0) return null;
+      const intersects = raycaster.intersectObjects(candidates, false);
       for (let i = 0; i < intersects.length; i++) {
         if (intersects[i].object !== targetOutline && intersects[i].object !== heldBlockMesh) return intersects[i];
       }
@@ -4002,8 +4545,8 @@
           showToast('Su blokları kırılamaz!');
           return;
         }
-        if (type === 'bedrock' && !isCreativeMode) {
-          showToast('Katman Kayası kırılamaz!');
+        if (type === 'bedrock') {
+          showToast('Katman Kayası (Bedrock) kırılamaz! Dünya tabanını korur.');
           return;
         }
         const k = blockKey(x, y, z);
@@ -4024,6 +4567,28 @@
       if (hit && hit.face) {
         const pos = hit.object.position.clone().add(hit.face.normal);
         const x = Math.round(pos.x), y = Math.round(pos.y), z = Math.round(pos.z);
+
+        // KENDİ İÇİNE BLOK KOYMAYI ENGELLE (Sıkışma ve yürüyememe bugını tamamen önler)
+        const pMinX = player.x - player.radius;
+        const pMaxX = player.x + player.radius;
+        const pMinZ = player.z - player.radius;
+        const pMaxZ = player.z + player.radius;
+        const pMinY = player.y - player.height;
+        const pMaxY = player.y;
+
+        const bMinX = x - 0.49, bMaxX = x + 0.49;
+        const bMinZ = z - 0.49, bMaxZ = z + 0.49;
+        const bMinY = y - 0.49, bMaxY = y + 0.49;
+
+        const overlapsPlayer = (pMaxX > bMinX && pMinX < bMaxX &&
+                                pMaxZ > bMinZ && pMinZ < bMaxZ &&
+                                pMaxY > bMinY && pMinY < bMaxY);
+
+        if (overlapsPlayer) {
+          showToast('Kendi içine blok koyamazsın!');
+          return;
+        }
+
         if (consumeSelectedItem()) {
           spawnBlock(x, y, z, selectedType);
           customWorldChanges[blockKey(x, y, z)] = selectedType;
@@ -4032,20 +4597,35 @@
       }
     }
 
+    let hasAcquiredLock = false;
+
     document.addEventListener('pointerlockchange', () => {
-      if (document.pointerLockElement !== renderer.domElement) {
-        if (!isInventoryOpen && !isChatOpen && document.getElementById('game').style.display === 'block') {
+      if (!isEngineRunning) return;
+      const isLockedNow = (document.pointerLockElement === renderer.domElement);
+      if (isLockedNow) {
+        hasAcquiredLock = true;
+        hidePauseMenu();
+      } else {
+        // Pointer kilidi kaybedildiğinde ESC menüsünü SADECE oyuncu önceden kilitliyken ve şu an oyun penceresi etkinken aç
+        if (hasAcquiredLock && !isInventoryOpen && !isChatOpen && document.getElementById('game').style.display === 'block') {
           showPauseMenu();
         }
+        hasAcquiredLock = false;
       }
-    });
+    }, { signal: engineSignal });
+
+    renderer.domElement.addEventListener('click', () => {
+      if (!isPauseOpen && !isInventoryOpen && !isChatOpen) {
+        renderer.domElement.requestPointerLock?.();
+      }
+    }, { signal: engineSignal });
 
     document.addEventListener('mousemove', (e) => {
       if (document.pointerLockElement !== renderer.domElement || isInventoryOpen || isPauseOpen || isChatOpen) return;
       player.yaw -= e.movementX * 0.0022;
       player.pitch -= e.movementY * 0.0022;
       player.pitch = Math.max(-1.4, Math.min(1.4, player.pitch));
-    });
+    }, { signal: engineSignal });
 
     document.addEventListener('keydown', (e) => {
       if (e.code === 'F5') {
@@ -4092,8 +4672,8 @@
         velocityY = isFlying ? 6 : (isTouchingWater() ? 5 : 8.5); 
         onGround = false; 
       }
-    });
-    document.addEventListener('keyup', (e) => { keys[e.code] = false; });
+    }, { signal: engineSignal });
+    document.addEventListener('keyup', (e) => { keys[e.code] = false; }, { signal: engineSignal });
 
     document.querySelectorAll('.slot').forEach(s => {
       s.addEventListener('click', () => { selectedSlotIndex = parseInt(s.dataset.index); updateInventoryUI(); });
@@ -4128,7 +4708,7 @@
     }
 
     function checkCollision(nx, ny, nz) {
-      if (isFlying) return false;
+      // Yaratıcı mod ve uçuş dahil tüm modlarda duvarlar ve bloklar katıdır; içinden geçilemez!
       const r = player.radius;
       for (let x = Math.floor(nx - r); x <= Math.ceil(nx + r); x++) {
         for (let y = Math.floor(ny - player.height + 0.05); y <= Math.ceil(ny + 0.1); y++) {
@@ -4148,8 +4728,8 @@
     let lastTime = performance.now();
     let frameCount = 0, lastFpsUpdate = performance.now();
     function animateGame(now) {
-      if (document.getElementById('game').style.display === 'none') return;
-      requestAnimationFrame(animateGame);
+      if (!isEngineRunning || document.getElementById('game').style.display === 'none') return;
+      animFrameId = requestAnimationFrame(animateGame);
       const dt = Math.min((now - lastTime) / 1000, 0.05);
       lastTime = now;
 
@@ -4285,10 +4865,20 @@
         }
 
         if (isFlying) {
-          if (keys['Space']) player.y += player.speed * dt;
-          if (keys['ShiftLeft'] || keys['ShiftRight']) player.y -= player.speed * dt;
           velocityY = 0;
-          onGround = false;
+          if (keys['Space']) {
+            const nextUpY = player.y + player.speed * dt;
+            if (!checkCollision(player.x, nextUpY, player.z)) {
+              player.y = nextUpY;
+            }
+          }
+          if (keys['ShiftLeft'] || keys['ShiftRight']) {
+            const nextDownY = player.y - player.speed * dt;
+            if (!checkCollision(player.x, nextDownY, player.z)) {
+              player.y = nextDownY;
+            }
+          }
+          onGround = checkCollision(player.x, player.y - 0.1, player.z);
         } else if (inWater) {
           if (keys['Space']) velocityY = 3.2;
           else velocityY = Math.max(velocityY - 6 * dt, -2.5);
@@ -4296,14 +4886,37 @@
           player.y = newY;
           onGround = false;
         } else {
-          velocityY -= 22 * dt;
-          const newY = player.y + velocityY * dt;
-          if (checkCollision(player.x, newY, player.z)) {
-            velocityY = 0; if (newY < player.y) onGround = true;
-          } else { player.y = newY; onGround = false; }
+          // 2 alt adımlı (substepping) fizik: yüksek hızda ve derin madenlerde blok içine/boşluğa düşmeyi kesinlikle engeller
+          const subSteps = 2;
+          const dtSub = dt / subSteps;
+          for (let step = 0; step < subSteps; step++) {
+            velocityY -= 22 * dtSub;
+            velocityY = Math.max(velocityY, -32); // Terminal düşme hızı sınırı
+            const newY = player.y + velocityY * dtSub;
+            if (checkCollision(player.x, newY, player.z)) {
+              velocityY = 0;
+              if (newY < player.y) onGround = true;
+            } else {
+              player.y = newY;
+              onGround = false;
+            }
+          }
         }
 
-        if (player.y < BEDROCK_Y - 25 && !isFlying) { player.x = 0; player.z = 0; player.y = getTerrainHeight(0, 0) + 5; velocityY = 0; }
+        // Taban Emniyet Kilidi: Bedrock tabanının altına düşmek fiziksel olarak imkansızdır
+        const minSafeFloorY = BEDROCK_Y + 5 + player.height;
+        if (player.y < minSafeFloorY) {
+          player.y = minSafeFloorY;
+          velocityY = 0;
+          onGround = true;
+        }
+
+        // Güvenlik void kurtarması
+        if (player.y < BEDROCK_Y - 5 && !isFlying) {
+          player.x = 0; player.z = 0;
+          player.y = getTerrainHeight(0, 0) + 5;
+          velocityY = 0;
+        }
 
         // 3D Karakter Model Konumu & Rotasyonu (F5 Bakış Açıları)
         localPlayerRig.group.position.set(player.x, player.y - player.height, player.z);
@@ -4441,7 +5054,7 @@
       renderer.render(scene, camera);
     }
 
-    requestAnimationFrame(animateGame);
+    animFrameId = requestAnimationFrame(animateGame);
   }
 </script>
 </body>
