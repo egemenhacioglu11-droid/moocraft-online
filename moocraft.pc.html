@@ -340,6 +340,73 @@
   .mc-btn-wide:active {
     border-color: #373737 #fff #fff #373737; background: #555;
   }
+  /* OTANTİK MINECRAFT DÜNYAYA VE SUNUCUYA KATILMA EKRANI */
+  #worldLoadingScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Press Start 2P', monospace;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .mc-loading-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+  }
+  .mc-loading-title {
+    position: relative;
+    z-index: 10;
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(14px, 2.2vw, 17px);
+    color: #ffffff;
+    text-shadow: 2px 2px 0 #000000;
+    text-align: center;
+    letter-spacing: 0.5px;
+    line-height: 1.5;
+    margin-top: -30px;
+  }
+  .mc-loading-cancel-btn {
+    position: absolute;
+    bottom: 48px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: min(88vw, 380px);
+    height: 44px;
+    padding: 13px 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    font-weight: bold;
+    color: #ffffff;
+    background: #737373;
+    border: 3px solid;
+    border-color: #ffffff #373737 #373737 #ffffff;
+    box-shadow: inset 0 0 0 2px #555555, 0 4px 12px rgba(0, 0, 0, 0.75);
+    text-shadow: 1px 1px 0 #000000;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.1s ease, border-color 0.1s ease;
+  }
+  .mc-loading-cancel-btn:hover {
+    background: #8c8c8c;
+    border-color: #ffffff #222222 #222222 #ffffff;
+    color: #ffffff;
+  }
+  .mc-loading-cancel-btn:active {
+    background: #555555;
+    border-color: #373737 #ffffff #ffffff #373737;
+    box-shadow: inset 0 0 0 2px #333333;
+  }
+
 
   /* ESC OYUN MENÜSÜ (PAUSE MENU) */
   #pauseModal {
@@ -688,41 +755,37 @@
 </style>
 </head>
 <body>
-<!-- DÜNYAYA VE SUNUCUYA GİRİŞ: ARAZİ YÜKLENİYOR EKRANI (GERÇEKÇİ DAĞ RESMİ ARKA PLANI) -->
-<div id="worldLoadingScreen" style="position: fixed; inset: 0; z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; background-size: cover; background-position: center center; background-repeat: no-repeat; font-family: 'Press Start 2P', monospace;">
-  <div style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(1px);"></div>
-  <div style="position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; max-width: 90vw; width: 440px; text-align: center; background: rgba(24, 24, 24, 0.9); border: 4px solid; border-color: #555 #222 #222 #555; padding: 28px 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.95);">
-    <div id="loadingWorldTitle" style="font-size: 11px; color: #ffffff; text-shadow: 2px 2px 0 #000; margin-bottom: 12px; font-weight: bold; letter-spacing: 1px;">
-      ARAZİ YÜKLENİYOR...
-    </div>
-    <div id="loadingWorldSub" style="font-size: 7px; color: #ffff55; text-shadow: 1px 1px 0 #000; margin-bottom: 22px; line-height: 1.6;">
-      Dünya Oluşturuluyor & Biyom Hazırlanıyor...
-    </div>
-    <div style="width: 100%; height: 20px; background: #0a0a0a; border: 3px solid; border-color: #373737 #fff #fff #373737; padding: 2px; margin-bottom: 12px;">
-      <div id="loadingProgressBar" style="width: 15%; height: 100%; background: #55ff55; transition: width 0.25s ease;"></div>
-    </div>
-    <div id="loadingProgressPercent" style="font-size: 7px; color: #aaa; text-shadow: 1px 1px 0 #000;">
-      %15
-    </div>
+<!-- DÜNYAYA VE SUNUCUYA GİRİŞ: DÜNYAYA KATILINIYOR EKRANI (KLASİK DAĞLI ARKA PLAN & OTANTİK MİNECRAFT DİZAYNI) -->
+<div id="worldLoadingScreen">
+  <div class="mc-loading-overlay"></div>
+  <div id="loadingWorldTitle" class="mc-loading-title">
+    Dünyaya katılınıyor...
   </div>
+  <button id="btnCancelLoading" class="mc-loading-cancel-btn" type="button">
+    İptal
+  </button>
+  <!-- Geriye dönük uyumluluk ve olası harici referanslar için gizli elemanlar -->
+  <div id="loadingWorldSub" style="display: none;"></div>
+  <div id="loadingProgressBar" style="display: none;"></div>
+  <div id="loadingProgressPercent" style="display: none;"></div>
 </div>
 
 
-<!-- OTURUM AÇMA EKRANI -->
+<!-- OTURUM ACMA VE KAYIT EKRANI (SADE VE EMOJISIZ) -->
 <div id="authOverlay" style="display: none;">
   <div class="auth-card">
     <div class="auth-logo">MOO<span>CRAFT</span></div>
     
     <div class="auth-tabs">
-      <button class="auth-tab active" id="tabLoginBtn">GİRİŞ YAP</button>
-      <button class="auth-tab" id="tabRegisterBtn">KAYIT OL</button>
+      <button class="auth-tab active" id="tabLoginBtn" type="button">GİRİŞ YAP</button>
+      <button class="auth-tab" id="tabRegisterBtn" type="button">KAYIT OL</button>
     </div>
 
     <div class="auth-msg" id="authMsg"></div>
 
     <div class="form-group">
-      <label>Kullanıcı Adı</label>
-      <input type="text" id="authUsername" placeholder="İsmini gir" autocomplete="username">
+      <label id="lblUsername">Kullanıcı Adı</label>
+      <input type="text" id="authUsername" placeholder="Kullanıcı adınızı girin" autocomplete="username">
     </div>
 
     <div class="form-group" id="emailGroup" style="display: none !important;">
@@ -730,12 +793,17 @@
     </div>
 
     <div class="form-group">
-      <label>Şifre</label>
-      <input type="password" id="authPassword" placeholder="••••••••" autocomplete="current-password">
+      <label id="lblPassword">Şifre</label>
+      <input type="password" id="authPassword" placeholder="Şifrenizi girin" autocomplete="current-password">
     </div>
 
-    <button class="btn btn-green" id="btnAuthSubmit" style="width: 100%; margin-top: 6px;">GİRİŞ YAP</button>
-    <button class="btn" id="btnGuestPlay" type="button" style="width: 100%; margin-top: 8px; font-size: 8px;" onclick="safeStorage.setItem('moocraft_active_session', 'Oyuncu'); document.getElementById('authOverlay').style.display='none'; document.getElementById('launcherApp').style.display='flex'; showTitleScreen();">MİSAFİR OLARAK OYNA</button>
+    <div class="form-group" id="confirmPasswordGroup" style="display: none;">
+      <label id="lblConfirmPassword">Şifre Tekrar</label>
+      <input type="password" id="authPasswordConfirm" placeholder="Şifrenizi tekrar girin" autocomplete="new-password">
+    </div>
+
+<button class="btn btn-green" id="btnAuthSubmit" type="button" style="width: 100%; margin-top: 10px;">GİRİŞ YAP</button>
+    
   </div>
 </div>
 
@@ -774,96 +842,227 @@
   </header>
 
   <main>
-    <!-- TAB 1: DÜNYALARIM (SADE SIRALI MOOCRAFT STİLİ) -->
+    <!-- TAB 1: DÜNYALARIM / DÜNYA SEÇ (FOTOĞRAFTAKİ BİREBİR TASARIM) -->
     <div class="tab-content" id="tab-worlds">
-      <div class="panel mc-selection-panel" style="width: 100%; max-width: 820px; margin: 0 auto; height: 100%;">
-        <div class="panel-header">
-          <span>TEK OYUNCULU - DÜNYA SEÇ</span>
-          <span id="worldCount" style="color:#2e7d32; font-weight: bold;">(0)</span>
+      <div style="width: 100%; max-width: 840px; margin: 0 auto; height: 100%; display: flex; flex-direction: column;">
+        <span id="worldCount" style="display: none;"></span>
+
+        <!-- Üst Başlık (Dünya Seç) -->
+        <div style="font-family: 'Press Start 2P', monospace; font-size: 13px; font-weight: bold; color: #ffffff; text-shadow: 2px 2px 0px #000; margin: 12px 0 10px 0; text-align: center; letter-spacing: 0.5px;">
+          Dünya Seç
         </div>
-        <div class="world-list" id="worldContainer"></div>
-        <div class="mc-btn-grid">
-          <button class="btn btn-green" id="btnPlay" disabled style="padding: 13px 8px; font-size: 8px;">SEÇİLEN DÜNYADA OYNA</button>
-          <button class="btn" id="btnGoToCreateWorld" type="button" onclick="openLauncherScreen('create', 'YENİ DÜNYA OLUŞTUR')" style="padding: 13px 8px; font-size: 8px; cursor: pointer;">YENİ DÜNYA OLUŞTUR</button>
-          <button class="btn btn-danger" id="btnDelete" disabled style="padding: 13px 8px; font-size: 8px;">DÜNYAYI SİL</button>
-          <button class="btn btn-back-to-title" type="button" onclick="showTitleScreen()" style="padding: 13px 8px; font-size: 8px; cursor: pointer;">ANA MENÜYE DÖN</button>
+
+        <!-- Arama Çubuğu (Ara...) -->
+        <div style="width: 100%; margin-bottom: 8px;">
+          <input type="text" id="worldSearchInput" placeholder="Ara..." style="width: 100%; box-sizing: border-box; background: #000000; border: 2px solid #555555; color: #ffffff; padding: 10px 14px; font-family: 'Press Start 2P', monospace; font-size: 8px; outline: none; border-radius: 0;">
+        </div>
+
+        <!-- Dünya Listesi Kutusu -->
+        <div class="world-list" id="worldContainer" style="flex: 1; overflow-y: auto; background: rgba(0, 0, 0, 0.65); border: 3px solid; border-color: #222 #555 #555 #222; padding: 6px; display: flex; flex-direction: column; gap: 4px; box-shadow: inset 0 0 12px rgba(0,0,0,0.85); min-height: 240px; max-height: calc(100vh - 240px);"></div>
+
+        <!-- 1. Buton Satırı (2 Büyük Buton: Seçilen dünyada oyna | Yeni Dünya Oluştur) -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin: 8px 0 6px 0;">
+          <button class="mc-btn" id="btnPlay" disabled style="padding: 12px 6px; font-size: 7.5px; width: 100%;">Seçilen dünyada oyna</button>
+          <button class="mc-btn" id="btnGoToCreateWorld" type="button" style="padding: 12px 6px; font-size: 7.5px; width: 100%; border-color: #ffffff #555 #555 #ffffff; font-weight: bold;">Yeni Dünya Oluştur</button>
+        </div>
+
+        <!-- 2. Buton Satırı (4 Buton: Düzenle | Sil | Tekrar Oluştur | Geri) -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; width: 100%; margin-bottom: 8px;">
+          <button class="mc-btn" id="btnEditWorld" disabled style="padding: 12px 4px; font-size: 7.5px; width: 100%;">Düzenle</button>
+          <button class="mc-btn" id="btnDelete" disabled style="padding: 12px 4px; font-size: 7.5px; width: 100%;">Sil</button>
+          <button class="mc-btn" id="btnRecreateWorld" disabled style="padding: 12px 4px; font-size: 7.5px; width: 100%;">Tekrar Oluştur</button>
+          <button class="mc-btn btn-back-to-title" id="btnBackWorlds" type="button" onclick="showTitleScreen()" style="padding: 12px 4px; font-size: 7.5px; width: 100%; cursor: pointer;">Geri</button>
         </div>
       </div>
     </div>
 
-    <!-- TAB 2: YENİ DÜNYA -->
+    <!-- MODAL: DÜNYA DÜZENLE (İSİM DEĞİŞTİRME) -->
+    <div id="modalEditWorld" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 2000; place-items: center;">
+      <div class="panel" style="width: min(92vw, 440px); padding: 20px; background: #c6c6c6; border: 4px solid; border-color: #fff #555 #555 #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.8); text-align: center;">
+        <div style="font-family: 'Press Start 2P', monospace; font-size: 10px; font-weight: bold; color: #111; margin-bottom: 12px; text-shadow: 1px 1px 0 #fff;">DÜNYAYI DÜZENLE</div>
+        <div class="form-group" style="text-align: left; margin-bottom: 16px;">
+          <label style="font-family: 'Press Start 2P', monospace; font-size: 7px; color: #333; margin-bottom: 4px; display: block;">Dünya Adı</label>
+          <input type="text" id="editWorldNameInput" style="width: 100%; padding: 8px; font-family: 'Press Start 2P', monospace; font-size: 8px;">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <button class="mc-btn btn-green" id="btnConfirmEditWorld" type="button" style="padding: 10px; font-size: 7.5px;">Kaydet</button>
+          <button class="mc-btn" id="btnCancelEditWorld" type="button" style="padding: 10px; font-size: 7.5px;">İptal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: DÜNYA SİL ONAY -->
+    <div id="modalDeleteWorld" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 2000; place-items: center;">
+      <div class="panel" style="width: min(92vw, 440px); padding: 20px; background: #c6c6c6; border: 4px solid; border-color: #fff #555 #555 #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.8); text-align: center;">
+        <div style="font-family: 'Press Start 2P', monospace; font-size: 10px; font-weight: bold; color: #c62828; margin-bottom: 12px; text-shadow: 1px 1px 0 #fff;">DÜNYAYI SİL</div>
+        <div id="deleteWorldConfirmMsg" style="font-family: 'Press Start 2P', monospace; font-size: 7.5px; color: #222; margin-bottom: 16px; line-height: 1.6;">Bu dünyayı silmek istediğinizden emin misiniz?</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <button class="mc-btn btn-danger" id="btnConfirmDeleteWorld" type="button" style="padding: 10px; font-size: 7.5px;">Sil</button>
+          <button class="mc-btn" id="btnCancelDeleteWorld" type="button" style="padding: 10px; font-size: 7.5px;">İptal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: YENİ DÜNYA OLUŞTUR (FOTOĞRAFTAKİ BİREBİR TASARIM) -->
     <div class="tab-content" id="tab-create">
-      <div class="panel create-box">
-        <div class="panel-header">DÜNYA OLUŞTURMA AYARLARI</div>
+      <div style="width: 100%; max-width: 600px; margin: 0 auto; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding: 12px 0;">
+        <input type="hidden" id="worldSeed" value="">
+        <img id="worldLandscapePreviewImg" style="display: none;" alt="">
+        <div id="worldLandscapeLabel" style="display: none;"></div>
+        
+        <!-- Üst Sekmeler (Oyun | Dünya | Dahası) -->
+        <div>
+          <div style="display: flex; justify-content: center; gap: 0px; margin-bottom: 24px; border-bottom: 2px solid #555;">
+            <button class="create-tab-btn active" id="tabCreateOyun" type="button" style="padding: 10px 24px; font-family: 'Press Start 2P', monospace; font-size: 8.5px; background: rgba(0,0,0,0.6); color: #fff; border: 2px solid; border-color: #555 #555 transparent #555; border-bottom: 3px solid #fff; cursor: pointer;">Oyun</button>
+            <button class="create-tab-btn" id="tabCreateDunya" type="button" style="padding: 10px 24px; font-family: 'Press Start 2P', monospace; font-size: 8.5px; background: rgba(0,0,0,0.3); color: #aaa; border: 2px solid transparent; cursor: pointer;">Dünya</button>
+            <button class="create-tab-btn" id="tabCreateDahasi" type="button" style="padding: 10px 24px; font-family: 'Press Start 2P', monospace; font-size: 8.5px; background: rgba(0,0,0,0.3); color: #aaa; border: 2px solid transparent; cursor: pointer;">Dahası</button>
+          </div>
 
-        <div class="form-group" style="text-align: center; margin-bottom: 12px;">
-          <label style="margin-bottom: 6px; display: block; color: #222; font-size: 7px; font-weight: bold;">DÜNYA MANZARA FOTOĞRAFI</label>
-          <div style="position: relative; width: 100%; height: 110px; border: 3px solid; border-color: #373737 #fff #fff #373737; background: #111; overflow: hidden; display: flex; align-items: center; justify-content: center;">
-            <img id="worldLandscapePreviewImg" style="width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated;" alt="Dünya Fotoğrafı">
-            <div id="worldLandscapeLabel" style="position: absolute; bottom: 5px; right: 6px; font-size: 7px; background: rgba(0,0,0,0.75); color: #ffff55; padding: 3px 8px; border: 1px solid #555;">Dağlık Arazi</div>
-            <button class="btn" id="btnChangeLandscape" type="button" style="position: absolute; top: 5px; right: 6px; padding: 4px 8px; font-size: 6px; cursor: pointer;">FARKLI FOTOĞRAF</button>
+          <!-- Sekme 1: OYUN (Fotoğraftaki Birebir Alanlar) -->
+          <div id="createTabContentOyun" style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="text-align: left;">
+              <div style="font-family: 'Press Start 2P', monospace; font-size: 7.5px; color: #ffffff; text-shadow: 1px 1px 0 #000; margin-bottom: 6px;">Dünya Adı</div>
+              <input type="text" id="createWorldNameInput" value="Yeni Dünya" style="width: 100%; box-sizing: border-box; background: #000000; border: 2px solid #555555; color: #ffffff; padding: 10px 12px; font-family: 'Press Start 2P', monospace; font-size: 8px; outline: none;">
+            </div>
+
+            <button class="mc-btn" id="btnToggleGameMode" type="button" style="width: 100%; padding: 12px; font-size: 8px;">Oyun Modu: Hayatta Kalma</button>
+            <button class="mc-btn" id="btnToggleDifficulty" type="button" style="width: 100%; padding: 12px; font-size: 8px;">Zorluk: Normal</button>
+            <button class="mc-btn" id="btnToggleCommands" type="button" style="width: 100%; padding: 12px; font-size: 8px;">Komutlara İzin Ver: KAPALI</button>
+          </div>
+
+          <!-- Sekme 2: DÜNYA (Tohum & Arazi) -->
+          <div id="createTabContentDunya" style="display: none; flex-direction: column; gap: 14px;">
+            <div style="text-align: left;">
+              <div style="font-family: 'Press Start 2P', monospace; font-size: 7.5px; color: #ffffff; text-shadow: 1px 1px 0 #000; margin-bottom: 6px;">Harita Tohumu (Seed)</div>
+              <div style="display: flex; gap: 6px;">
+                <input type="text" id="createWorldSeedInput" placeholder="Rastgele için boş bırakın..." style="flex: 1; box-sizing: border-box; background: #000000; border: 2px solid #555555; color: #ffffff; padding: 10px 12px; font-family: 'Press Start 2P', monospace; font-size: 8px; outline: none;">
+                <button class="mc-btn" id="btnRandomSeedAction" type="button" style="padding: 10px 12px; font-size: 7px;">Rastgele</button>
+              </div>
+            </div>
+
+            <button class="mc-btn" id="btnToggleWorldType" type="button" style="width: 100%; padding: 12px; font-size: 8px;">Dünya Tipi: Varsayılan</button>
+            <button class="mc-btn" id="btnToggleStructures" type="button" style="width: 100%; padding: 12px; font-size: 8px;">Yapıları Oluştur: AÇIK</button>
+          </div>
+
+          <!-- Sekme 3: DAHASI (Ek Seçenekler) -->
+          <div id="createTabContentDahasi" style="display: none; flex-direction: column; gap: 14px;">
+            <button class="mc-btn" id="btnToggleBonusChest" type="button" style="width: 100%; padding: 12px; font-size: 8px;">Bonus Sandık: KAPALI</button>
+            <button class="mc-btn" id="btnResetGameRules" type="button" style="width: 100%; padding: 12px; font-size: 8px;">Oyun Kuralları: Varsayılan</button>
           </div>
         </div>
 
-        <div class="form-group">
-          <label>Dünya İsmi</label>
-          <input type="text" id="worldName" value="Yeni Dünya" placeholder="İsim girin...">
+        <!-- Alt Butonlar: Yeni Dünya Oluştur | İptal -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: 24px;">
+          <button class="mc-btn btn-green" id="btnConfirmCreateWorld" type="button" style="padding: 13px; font-size: 8px; width: 100%;">Yeni Dünya Oluştur</button>
+          <button class="mc-btn" id="btnCancelCreateWorld" type="button" style="padding: 13px; font-size: 8px; width: 100%;">İptal</button>
         </div>
 
-        <div class="form-group">
-          <label>Tohum (Seed)</label>
-          <div style="display: flex; gap: 6px;">
-            <input type="text" id="worldSeed" placeholder="Rastgele için boş bırak">
-            <button class="btn" id="btnRandomSeed" style="padding:6px; font-size:6px;">RASTGELE</button>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Dünya Boyutu & Biyom</label>
-          <select id="worldDimension">
-            <option value="mountains" selected>Dağlık Zirveler (Yüksek Kayalıklar & Karlı Tepeler)</option>
-            <option value="snow">Karlı Tundra (Buzullar, Karlı Zemin & Çam Ormanları)</option>
-            <option value="ocean">Okyanus & Ada Boyutu (Geniş Denizler & Kumsallar)</option>
-            <option value="plains">Geniş Çayır (Yeşil Ovalar, Çiçekler & Meşe Ağaçları)</option>
-            <option value="nether">Kızıl Çorak (Nether Taşı, Ruh Kumu & Karanlık Gökyüzü)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Oyun Modu</label>
-          <select id="worldMode">
-            <option value="survival">Hayatta Kalma (Survival)</option>
-            <option value="creative">Yaratıcı (Creative)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Yönetici (OP) Yetkisi</label>
-          <select id="worldOpMode">
-            <option value="false" selected>Kapalı (Normal Oyuncu - Komutlar Yasak)</option>
-            <option value="true">Açık (OP - Komutlar Kullanılabilir)</option>
-          </select>
-        </div>
-
-        <button class="btn btn-green" id="btnCreateWorld" style="margin-top: 10px; width: 100%;">DÜNYAYI OLUŞTUR</button>
       </div>
     </div>
 
-    <!-- TAB 3: ÇOK OYUNCULU SUNUCULAR (SADE SIRALI MOOCRAFT STİLİ) -->
+    <!-- TAB 3: ÇOK OYUNCULU SUNUCULAR (FOTOĞRAFTAKİ BİREBİR TASARIM) -->
     <div class="tab-content" id="tab-servers">
-      <div class="panel mc-selection-panel" style="width: 100%; max-width: 820px; margin: 0 auto; height: 100%;">
-        <div class="panel-header">
-          <span>ÇOK OYUNCULU - SUNUCU SEÇ</span>
-          <span id="serverCount" style="color:#2e7d32; font-weight: bold;">(0)</span>
+      <div style="width: 100%; max-width: 840px; margin: 0 auto; height: 100%; display: flex; flex-direction: column;">
+        <span id="serverCount" style="display: none;"></span>
+        
+        <!-- Üst Başlık (Fotoğraftaki gibi ortalı 'Çok Oyunculu Oyna') -->
+        <div style="font-family: 'Press Start 2P', monospace; font-size: 13px; font-weight: bold; color: #ffffff; text-shadow: 2px 2px 0px #000; margin: 12px 0 10px 0; text-align: center; letter-spacing: 0.5px;">
+          Çok Oyunculu Oyna
         </div>
-        <div class="server-list" id="serverContainer"></div>
-        <div class="mc-btn-grid">
-          <button class="btn btn-green" id="btnJoinServer" disabled style="padding: 13px 8px; font-size: 8px;">SUNUCUYA BAĞLAN</button>
-          <button class="btn btn-danger" id="btnDeleteServer" disabled style="padding: 13px 8px; font-size: 8px;">SUNUCUYU SİL</button>
-          <button class="btn btn-back-to-title" type="button" onclick="showTitleScreen()" style="padding: 13px 8px; font-size: 8px; cursor: pointer;">ANA MENÜYE DÖN</button>
+
+        <!-- Sunucu Listesi (Arka planı yarı saydam dağ manzaralı liste kutusu) -->
+        <div class="server-list" id="serverContainer" style="flex: 1; overflow-y: auto; background: rgba(0, 0, 0, 0.65); border: 3px solid; border-color: #222 #555 #555 #222; padding: 6px; display: flex; flex-direction: column; gap: 4px; box-shadow: inset 0 0 12px rgba(0,0,0,0.85); min-height: 240px; max-height: calc(100vh - 240px);"></div>
+
+        <!-- Alt Durum Metni (Fotoğraftaki 'Yerel ağınızdaki oyunlar taranıyor') -->
+        <div id="localScanNotice" style="text-align: center; margin: 8px 0; font-family: 'Press Start 2P', monospace; font-size: 8px; color: #ffffff; text-shadow: 1px 1px 0 #000; letter-spacing: 0.5px;">
+          Yerel ağınızdaki oyunlar taranıyor
+        </div>
+
+        <!-- 1. Buton Satırı (3'lü Grup: Sunucuya Katıl | Doğrudan Bağlantı | Sunucu Ekle) -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; width: 100%; margin-bottom: 6px;">
+          <button class="mc-btn" id="btnJoinServer" disabled style="padding: 12px 4px; font-size: 7.5px; width: 100%;">Sunucuya Katıl</button>
+          <button class="mc-btn" id="btnDirectConnect" type="button" style="padding: 12px 4px; font-size: 7.5px; width: 100%;">Doğrudan Bağlantı</button>
+          <button class="mc-btn" id="btnAddServer" type="button" style="padding: 12px 4px; font-size: 7.5px; width: 100%;">Sunucu Ekle</button>
+        </div>
+
+        <!-- 2. Buton Satırı (4'lü Grup: Düzenle | Sil | Yenile | Geri) -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; width: 100%; margin-bottom: 8px;">
+          <button class="mc-btn" id="btnEditServer" disabled style="padding: 12px 4px; font-size: 7.5px; width: 100%;">Düzenle</button>
+          <button class="mc-btn" id="btnDeleteServer" disabled style="padding: 12px 4px; font-size: 7.5px; width: 100%;">Sil</button>
+          <button class="mc-btn" id="btnRefreshServers" type="button" style="padding: 12px 4px; font-size: 7.5px; width: 100%;">Yenile</button>
+          <button class="mc-btn btn-back-to-title" id="btnBackServers" type="button" onclick="showTitleScreen()" style="padding: 12px 4px; font-size: 7.5px; width: 100%; cursor: pointer;">Geri</button>
         </div>
       </div>
     </div>
+
+    <!-- MODAL 1: DOĞRUDAN BAĞLANTI MODALI -->
+    <div id="modalDirectConnect" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 2000; place-items: center;">
+      <div class="panel" style="width: min(92vw, 440px); padding: 20px; background: #c6c6c6; border: 4px solid; border-color: #fff #555 #555 #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.8); text-align: center;">
+        <div style="font-family: 'Press Start 2P', monospace; font-size: 10px; font-weight: bold; color: #111; margin-bottom: 12px; text-shadow: 1px 1px 0 #fff;">DOĞRUDAN BAĞLANTI</div>
+        <div style="font-size: 7.5px; color: #444; margin-bottom: 12px; text-align: left; font-family: 'Press Start 2P', monospace;">Sunucu Adresini Girin:</div>
+        <div id="directServerErrorMsg" style="font-family: 'Press Start 2P', monospace; font-size: 7.5px; color: #c62828; text-shadow: 1px 1px 0 #fff; margin-bottom: 10px; min-height: 12px; font-weight: bold; text-align: center;"></div>
+        <div class="form-group" style="margin-bottom: 16px;">
+          <input type="text" id="directServerAddressInput" placeholder="Örn: play.moocraft.net veya localhost:25565" value="" style="width: 100%; padding: 10px; font-family: 'Press Start 2P', monospace; font-size: 8px;">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <button class="mc-btn btn-green" id="btnConfirmDirectConnect" type="button" style="padding: 10px; font-size: 7.5px;">Sunucuya Katıl</button>
+          <button class="mc-btn" id="btnCancelDirectConnect" type="button" style="padding: 10px; font-size: 7.5px;">İptal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 2: SUNUCU EKLE MODALI -->
+    <div id="modalAddServer" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 2000; place-items: center;">
+      <div class="panel" style="width: min(92vw, 440px); padding: 20px; background: #c6c6c6; border: 4px solid; border-color: #fff #555 #555 #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.8); text-align: center;">
+        <div style="font-family: 'Press Start 2P', monospace; font-size: 10px; font-weight: bold; color: #111; margin-bottom: 12px; text-shadow: 1px 1px 0 #fff;">SUNUCU BİLGİLERİNİ DÜZENLE</div>
+        <div id="addServerErrorMsg" style="font-family: 'Press Start 2P', monospace; font-size: 7.5px; color: #c62828; text-shadow: 1px 1px 0 #fff; margin-bottom: 10px; min-height: 12px; font-weight: bold; text-align: center;"></div>
+        <div class="form-group" style="text-align: left; margin-bottom: 10px;">
+          <label style="font-family: 'Press Start 2P', monospace; font-size: 7px; color: #333; margin-bottom: 4px; display: block;">Sunucu Adı</label>
+          <input type="text" id="newServerNameInput" placeholder="Sunucu adını girin..." value="" style="width: 100%; padding: 8px; font-family: 'Press Start 2P', monospace; font-size: 8px;">
+        </div>
+        <div class="form-group" style="text-align: left; margin-bottom: 16px;">
+          <label style="font-family: 'Press Start 2P', monospace; font-size: 7px; color: #333; margin-bottom: 4px; display: block;">Sunucu Adresi</label>
+          <input type="text" id="newServerAddressInput" placeholder="Sunucu adresini girin..." value="" style="width: 100%; padding: 8px; font-family: 'Press Start 2P', monospace; font-size: 8px;">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <button class="mc-btn btn-green" id="btnConfirmAddServer" type="button" style="padding: 10px; font-size: 7.5px;">Tamam</button>
+          <button class="mc-btn" id="btnCancelAddServer" type="button" style="padding: 10px; font-size: 7.5px;">İptal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 3: SUNUCUYU DÜZENLE MODALI -->
+    <div id="modalEditServer" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 2000; place-items: center;">
+      <div class="panel" style="width: min(92vw, 440px); padding: 20px; background: #c6c6c6; border: 4px solid; border-color: #fff #555 #555 #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.8); text-align: center;">
+        <div style="font-family: 'Press Start 2P', monospace; font-size: 10px; font-weight: bold; color: #111; margin-bottom: 12px; text-shadow: 1px 1px 0 #fff;">SUNUCUYU DÜZENLE</div>
+        <div class="form-group" style="text-align: left; margin-bottom: 10px;">
+          <label style="font-family: 'Press Start 2P', monospace; font-size: 7px; color: #333; margin-bottom: 4px; display: block;">Sunucu Adı</label>
+          <input type="text" id="editServerNameInput" placeholder="Sunucu adı..." style="width: 100%; padding: 8px; font-family: 'Press Start 2P', monospace; font-size: 8px;">
+        </div>
+        <div class="form-group" style="text-align: left; margin-bottom: 16px;">
+          <label style="font-family: 'Press Start 2P', monospace; font-size: 7px; color: #333; margin-bottom: 4px; display: block;">Sunucu Adresi</label>
+          <input type="text" id="editServerAddressInput" placeholder="Sunucu adresi..." style="width: 100%; padding: 8px; font-family: 'Press Start 2P', monospace; font-size: 8px;">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <button class="mc-btn btn-green" id="btnConfirmEditServer" type="button" style="padding: 10px; font-size: 7.5px;">Tamam</button>
+          <button class="mc-btn" id="btnCancelEditServer" type="button" style="padding: 10px; font-size: 7.5px;">İptal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 4: SUNUCUYU SİL ONAY MODALI -->
+    <div id="modalDeleteServer" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 2000; place-items: center;">
+      <div class="panel" style="width: min(92vw, 440px); padding: 20px; background: #c6c6c6; border: 4px solid; border-color: #fff #555 #555 #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.8); text-align: center;">
+        <div style="font-family: 'Press Start 2P', monospace; font-size: 10px; font-weight: bold; color: #c62828; margin-bottom: 12px; text-shadow: 1px 1px 0 #fff;">SUNUCUYU SİL</div>
+        <div id="deleteServerConfirmMsg" style="font-family: 'Press Start 2P', monospace; font-size: 7.5px; color: #222; margin-bottom: 16px; line-height: 1.6;">Bu sunucuyu silmek istediğinizden emin misiniz?</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <button class="mc-btn btn-danger" id="btnConfirmDeleteServer" type="button" style="padding: 10px; font-size: 7.5px;">Sil</button>
+          <button class="mc-btn" id="btnCancelDeleteServer" type="button" style="padding: 10px; font-size: 7.5px;">İptal</button>
+        </div>
+      </div>
+    </div>
+
+    
 
     <!-- TAB 4: SUNUCU OLUŞTUR -->
     <div class="tab-content" id="tab-createServer">
@@ -1043,6 +1242,14 @@
               <option value="true" selected>Açık (Ekranda FPS Göster)</option>
               <option value="false">Kapalı</option>
             </select>
+          </div>
+
+          <div class="form-group" style="background: rgba(0,0,0,0.4); padding: 14px; border: 2px solid #555; grid-column: 1 / -1;">
+            <label style="color: #ffff55; font-size: 8px;">HESAP DOSYASI İNDİR</label>
+            <div style="font-size: 7px; color: #ccc; margin-top: 6px; line-height: 1.6;">
+              Hesabınızda yaptığınız her şeyi (karakter, dünyalar, sunucular, yapılar) içeren güncel hesap dosyanızı dilediğiniz zaman indirebilirsiniz.
+            </div>
+            <button class="mc-btn" id="btnDownloadCurrentAccountFile" type="button" style="width: 100%; margin-top: 10px; padding: 10px; font-size: 7.5px;">Güncel Hesap Dosyasını İndir (.json)</button>
           </div>
         </div>
 
@@ -1279,8 +1486,12 @@
     if (launcher) launcher.style.display = 'flex';
     if (titleScreen) titleScreen.style.display = 'none';
     if (subHeader) {
-      subHeader.style.display = 'flex';
-      if (titleEl) titleEl.textContent = titleText || 'MENÜ';
+      if (screenName === 'servers' || screenName === 'worlds' || screenName === 'create') {
+        subHeader.style.display = 'none';
+      } else {
+        subHeader.style.display = 'flex';
+        if (titleEl) titleEl.textContent = titleText || 'MENÜ';
+      }
     }
 
     const mainEl = document.querySelector('main');
@@ -1296,15 +1507,23 @@
   };
 
   window.handleLogoutOrSwitch = function() {
+    safeStorage.removeItem('moocraft_active_session');
     const authOverlay = document.getElementById('authOverlay');
     const launcherApp = document.getElementById('launcherApp');
-    if (authOverlay && launcherApp) {
-      launcherApp.style.display = 'none';
-      authOverlay.style.display = 'flex';
-      safeStorage.removeItem('moocraft_active_session');
+    if (authOverlay) {
+      if (launcherApp) launcherApp.style.display = 'none';
+      authOverlay.style.display = 'grid';
+      const authMsg = document.getElementById('authMsg');
+      if (authMsg) { authMsg.className = 'auth-msg'; authMsg.textContent = 'Hesaptan çıkış yapıldı.'; }
+      const authUser = document.getElementById('authUsername');
+      if (authUser) authUser.value = '';
+      const authPass = document.getElementById('authPassword');
+      if (authPass) authPass.value = '';
+      const authPassConf = document.getElementById('authPasswordConfirm');
+      if (authPassConf) authPassConf.value = '';
       if (typeof showToast === 'function') showToast('Hesaptan çıkış yapıldı.');
     } else {
-      window.showTitleScreen();
+      location.reload();
     }
   };
 
@@ -1493,23 +1712,415 @@
       safeStorage.setItem(RAM_SETTING_KEY, ramVal);
       safeStorage.setItem(RENDER_DIST_KEY, distVal);
       safeStorage.setItem(SHOW_FPS_KEY, fpsVal);
+      if (typeof syncActiveUserSnapshot === 'function') syncActiveUserSnapshot();
       showToast(`Ayarlar kaydedildi! RAM: ${ramVal} GB`);
     });
   }
 
+  // --- KOD DÜZEYİNDE İŞLENMİŞ, HER SÜRÜMDE KALICI ÇAPRAZ VERSİYON HESAP VE DÜNYA DEPOLAMA MOTORU ---
   const USERS_KEY = 'moocraft_users_db';
+  const BACKUP_USERS_KEY = 'moocraft_users_db_backup';
   const SESSION_KEY = 'moocraft_active_session';
+  const WORLDS_KEY = 'moocraft_worlds';
+  const SERVERS_KEY = 'moocraft_servers';
+  const ACTIVE_WORLD_KEY = 'moocraft_active_world';
+  const CHAR_KEY = 'moocraft_character';
+
+  // Her kullanıcıya özel bağımsız veri depolama anahtarları (Hesaplar arası karışmayı ve dünya silinmesini %100 önler)
+  const getUserWorldsKey = (u) => 'moocraft_worlds_' + (String(u || 'oyuncu').trim().toLowerCase());
+  const getUserCharKey = (u) => 'moocraft_char_' + (String(u || 'oyuncu').trim().toLowerCase());
+
+  // Varsayılan Karakter Yapılandırması
+  const DEFAULT_STEVE_DATA = {
+    skinColor: '#c68642', eyeColor: '#2b5797', hairStyle: 'steve',
+    hairColor: '#4a2e00', facialHair: 'mustache', shirtStyle: 'tshirt',
+    shirtColor: '#008080', pantColor: '#1a237e', shoeColor: '#333333', accessory: 'none'
+  };
+
+  const DEFAULT_WORLDS_TEMPLATE = [
+    { id: "w_yeni", name: "Yeni Dünya", date: "28.10.2026 13:20", mode: "creative", difficulty: "normal", allowCommands: true, seed: "99999", version: "26.3", customBlocks: {} },
+    { id: "w_survival", name: "New World", date: "15.10.2026 16:42", mode: "survival", difficulty: "normal", allowCommands: false, seed: "12345", version: "26.3", customBlocks: {} }
+  ];
+
+  // Global Çalışma Zamanı Değişkenleri (Her fonksiyon ve modül tarafından anında erişilebilir)
+  let worlds = JSON.parse(safeStorage.getItem(WORLDS_KEY) || JSON.stringify(DEFAULT_WORLDS_TEMPLATE));
+  let servers = JSON.parse(safeStorage.getItem(SERVERS_KEY) || '[]');
+  let character = JSON.parse(safeStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA));
+
+  let selectedWorldId = null;
+  let selectedServerId = null;
+
+  // Çapraz versiyon depolama anahtarları
+  const CROSS_VERSION_KEYS = [
+    'moocraft_users_db',
+    'moocraft_users_db_backup',
+    'moocraft_master_accounts_v_all',
+    'moocraft_global_accounts',
+    'moocraft_accounts_archive',
+    'moocraft_users',
+    'mc_users_db'
+  ];
+
+  // IndexedDB Dayanıklı Arka Plan Depolama
+  const IDB_NAME = 'MooCraftUniverseDB';
+  const IDB_STORE = 'accounts_store';
+
+  function openMooCraftIDB() {
+    return new Promise((resolve) => {
+      if (typeof window === 'undefined' || !window.indexedDB) return resolve(null);
+      try {
+        const req = indexedDB.open(IDB_NAME, 1);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(IDB_STORE)) {
+            db.createObjectStore(IDB_STORE);
+          }
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => resolve(null);
+      } catch(e) {
+        resolve(null);
+      }
+    });
+  }
+
+  async function saveAccountsToIndexedDB(accountsObj) {
+    try {
+      const db = await openMooCraftIDB();
+      if (!db) return;
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      tx.objectStore(IDB_STORE).put(accountsObj, 'master_accounts');
+    } catch(e) {}
+  }
+
+  async function loadAccountsFromIndexedDB() {
+    try {
+      const db = await openMooCraftIDB();
+      if (!db) return null;
+      return new Promise((resolve) => {
+        const tx = db.transaction(IDB_STORE, 'readonly');
+        const req = tx.objectStore(IDB_STORE).get('master_accounts');
+        req.onsuccess = () => resolve(req.result || null);
+        req.onerror = () => resolve(null);
+      });
+    } catch(e) {
+      return null;
+    }
+  }
+
+  window._moocraft_accounts_memory_cache = window._moocraft_accounts_memory_cache || {};
+
+  function getAllRegisteredUsers() {
+    let merged = Object.assign({}, window._moocraft_accounts_memory_cache);
+
+    CROSS_VERSION_KEYS.forEach(key => {
+      try {
+        const raw = safeStorage.getItem(key);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            Object.keys(parsed).forEach(uName => {
+              if (!merged[uName]) {
+                merged[uName] = parsed[uName];
+              } else {
+                merged[uName].pass = merged[uName].pass || parsed[uName].pass;
+                const existingDate = merged[uName].lastActiveAt || merged[uName].registeredAt || '';
+                const candidateDate = parsed[uName].lastActiveAt || parsed[uName].registeredAt || '';
+                if (candidateDate >= existingDate) {
+                  if (parsed[uName].character) merged[uName].character = parsed[uName].character;
+                  if (parsed[uName].worlds && Array.isArray(parsed[uName].worlds) && parsed[uName].worlds.length > 0) {
+                    merged[uName].worlds = parsed[uName].worlds;
+                  }
+                  if (parsed[uName].servers) merged[uName].servers = parsed[uName].servers;
+                  if (parsed[uName].settings) merged[uName].settings = parsed[uName].settings;
+                  merged[uName].lastActiveAt = candidateDate;
+                }
+              }
+            });
+          }
+        }
+      } catch(e) {}
+    });
+
+    window._moocraft_accounts_memory_cache = merged;
+    return merged;
+  }
+
+  function saveMasterAccounts(users) {
+    if (!users || typeof users !== 'object') return;
+    window._moocraft_accounts_memory_cache = users;
+    const str = JSON.stringify(users);
+
+    CROSS_VERSION_KEYS.forEach(key => {
+      try {
+        safeStorage.setItem(key, str);
+      } catch(e) {}
+    });
+
+    saveAccountsToIndexedDB(users);
+  }
+
+  // Kullanıcının dünyalarını hem genel hem de hesaba özel olarak kalıcı kaydeder
+  function saveWorlds() {
+    const curU = safeStorage.getItem(SESSION_KEY);
+    const worldsJson = JSON.stringify(worlds);
+    safeStorage.setItem(WORLDS_KEY, worldsJson);
+    if (curU) {
+      safeStorage.setItem(getUserWorldsKey(curU), worldsJson);
+    }
+    syncActiveUserSnapshot();
+  }
+
+  function saveServers() {
+    const curU = safeStorage.getItem(SESSION_KEY);
+    const srvJson = JSON.stringify(servers);
+    safeStorage.setItem(SERVERS_KEY, srvJson);
+    syncActiveUserSnapshot();
+  }
+
+  // Kullanıcının oyunda yaptığı her şeyi (dünyalar, bloklar, envanter, karakter, ayarlar) doğrudan hesabına işler
+  function syncActiveUserSnapshot() {
+    const curU = safeStorage.getItem(SESSION_KEY);
+    if (!curU) return;
+    const users = getAllRegisteredUsers();
+    if (!users[curU]) {
+      users[curU] = { pass: '', registeredAt: new Date().toISOString() };
+    }
+    users[curU].lastActiveAt = new Date().toISOString();
+    
+    // Dünyaları ve içindeki tüm blok değişikliklerini hesaba kaydet
+    if (Array.isArray(worlds)) {
+      users[curU].worlds = JSON.parse(JSON.stringify(worlds));
+      safeStorage.setItem(getUserWorldsKey(curU), JSON.stringify(worlds));
+    }
+    // Karakteri hesaba kaydet
+    if (character) {
+      users[curU].character = JSON.parse(JSON.stringify(character));
+      safeStorage.setItem(getUserCharKey(curU), JSON.stringify(character));
+    }
+    // Sunucuları hesaba kaydet
+    if (Array.isArray(servers)) {
+      users[curU].servers = JSON.parse(JSON.stringify(servers));
+    }
+    // Ayarları hesaba kaydet
+    users[curU].settings = {
+      ram: safeStorage.getItem(RAM_SETTING_KEY) || '2',
+      renderDist: safeStorage.getItem(RENDER_DIST_KEY) || '1',
+      showFps: safeStorage.getItem(SHOW_FPS_KEY) !== 'false'
+    };
+
+    saveMasterAccounts(users);
+
+    // Arka planda Render / Node.js sunucusuna da senkronize et (accounts.json dosyasına anında yazar)
+    try {
+      if (typeof window !== 'undefined' && window.location && window.location.protocol.startsWith('http')) {
+        fetch('/api/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: curU,
+            worlds: users[curU].worlds,
+            character: users[curU].character,
+            servers: users[curU].servers,
+            settings: users[curU].settings
+          })
+        }).catch(() => {});
+      }
+    } catch(e) {}
+  }
+
+  // Giriş yapıldığında kullanıcının kendi hesabında önceden yaptığı dünyaları ve blokları eksiksiz geri yükler
+  function loadUserDataForSession(uName) {
+    if (!uName) return;
+    const users = getAllRegisteredUsers();
+    const user = users[uName];
+
+    // 1. DÜNYALARI YÜKLEME (Hesapta önceden yapılan şeylerin kaybolmasını kesin olarak önler):
+    let loadedWorlds = null;
+    const userWorldsRaw = safeStorage.getItem(getUserWorldsKey(uName));
+    if (userWorldsRaw) {
+      try {
+        const parsed = JSON.parse(userWorldsRaw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          loadedWorlds = parsed;
+        }
+      } catch(e) {}
+    }
+
+    if (!loadedWorlds && user && user.worlds && Array.isArray(user.worlds) && user.worlds.length > 0) {
+      loadedWorlds = user.worlds;
+    }
+
+    if (loadedWorlds && Array.isArray(loadedWorlds) && loadedWorlds.length > 0) {
+      worlds = JSON.parse(JSON.stringify(loadedWorlds));
+      safeStorage.setItem(WORLDS_KEY, JSON.stringify(worlds));
+      safeStorage.setItem(getUserWorldsKey(uName), JSON.stringify(worlds));
+    } else {
+      // Eğer kullanıcının henüz kayıtlı dünyası yoksa mevcut dünyaları bu kullanıcıya ata
+      safeStorage.setItem(getUserWorldsKey(uName), JSON.stringify(worlds));
+      if (user) user.worlds = JSON.parse(JSON.stringify(worlds));
+    }
+
+    // 2. KARAKTER VE KOSTÜM YÜKLEME:
+    let loadedChar = null;
+    const userCharRaw = safeStorage.getItem(getUserCharKey(uName));
+    if (userCharRaw) {
+      try { loadedChar = JSON.parse(userCharRaw); } catch(e) {}
+    }
+    if (!loadedChar && user && user.character) {
+      loadedChar = user.character;
+    }
+    if (loadedChar) {
+      character = JSON.parse(JSON.stringify(loadedChar));
+      safeStorage.setItem(CHAR_KEY, JSON.stringify(character));
+      safeStorage.setItem(getUserCharKey(uName), JSON.stringify(character));
+      if (typeof updateSkinUIState === 'function') updateSkinUIState();
+      if (typeof updateCharacterTextures === 'function') updateCharacterTextures();
+    }
+
+    // 3. SUNUCULARI YÜKLEME:
+    if (user && user.servers && Array.isArray(user.servers) && user.servers.length > 0) {
+      servers = JSON.parse(JSON.stringify(user.servers));
+      safeStorage.setItem(SERVERS_KEY, JSON.stringify(servers));
+    }
+
+    // 4. AYARLARI YÜKLEME:
+    if (user && user.settings) {
+      if (user.settings.ram) safeStorage.setItem(RAM_SETTING_KEY, user.settings.ram);
+      if (user.settings.renderDist) safeStorage.setItem(RENDER_DIST_KEY, user.settings.renderDist);
+      if (typeof user.settings.showFps !== 'undefined') safeStorage.setItem(SHOW_FPS_KEY, String(user.settings.showFps));
+      const sRam = document.getElementById('settingRam');
+      const sDist = document.getElementById('settingRenderDistance');
+      const sFps = document.getElementById('settingShowFps');
+      if (sRam && user.settings.ram) sRam.value = user.settings.ram;
+      if (sDist && user.settings.renderDist) sDist.value = user.settings.renderDist;
+      if (sFps && typeof user.settings.showFps !== 'undefined') sFps.value = String(user.settings.showFps);
+    }
+
+    // Arayüz listelerini yenile
+    if (typeof renderWorldList === 'function') renderWorldList();
+    if (typeof renderServerList === 'function') renderServerList();
+
+    if (user) {
+      user.worlds = worlds;
+      user.character = character;
+      saveMasterAccounts(users);
+    }
+  }
+
+  // Yeni hesap oluşturulduğunda çağrılır ve hesaptaki tüm dünyaları/karakteri içeren dosyayı indirir
+  function downloadUserAccountFile(uName) {
+    if (!uName) uName = safeStorage.getItem(SESSION_KEY) || 'Oyuncu';
+    const users = getAllRegisteredUsers();
+    const curUser = users[uName] || {
+      pass: '',
+      registeredAt: new Date().toISOString()
+    };
+
+    const charData = (typeof character !== 'undefined' && character) 
+      ? JSON.parse(JSON.stringify(character)) 
+      : JSON.parse(safeStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA));
+
+    const worldsData = (typeof worlds !== 'undefined' && Array.isArray(worlds)) 
+      ? JSON.parse(JSON.stringify(worlds)) 
+      : JSON.parse(safeStorage.getItem(WORLDS_KEY) || '[]');
+
+    const serversData = (typeof servers !== 'undefined' && Array.isArray(servers)) 
+      ? JSON.parse(JSON.stringify(servers)) 
+      : JSON.parse(safeStorage.getItem(SERVERS_KEY) || '[]');
+
+    const settingsData = {
+      ram: safeStorage.getItem(RAM_SETTING_KEY) || '2',
+      renderDist: safeStorage.getItem(RENDER_DIST_KEY) || '1',
+      showFps: safeStorage.getItem(SHOW_FPS_KEY) !== 'false'
+    };
+
+    const accountSaveData = {
+      app: 'MooCraft',
+      version: '26.3',
+      accountType: 'MooCraft_Player_Save',
+      exportedAt: new Date().toISOString(),
+      username: uName,
+      account: {
+        username: uName,
+        pass: curUser.pass || '',
+        registeredAt: curUser.registeredAt || new Date().toISOString(),
+        lastActiveAt: new Date().toISOString(),
+        character: charData,
+        worlds: worldsData,
+        servers: serversData,
+        settings: settingsData
+      }
+    };
+
+    const jsonStr = JSON.stringify(accountSaveData, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const safeFilename = uName.replace(/[^a-zA-Z0-9_\-]/g, '_');
+    a.download = `moocraft_hesap_${safeFilename}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+
+    if (typeof showToast === 'function') {
+      showToast(`${uName} hesap dosyanız bilgisayarınıza indirildi!`);
+    }
+  }
+
+  function saveUserAccount(uName, uPass) {
+    const users = getAllRegisteredUsers();
+    const userWorlds = JSON.parse(safeStorage.getItem(WORLDS_KEY) || JSON.stringify(DEFAULT_WORLDS_TEMPLATE));
+    const userChar = JSON.parse(safeStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA));
+
+    users[uName] = {
+      pass: uPass,
+      registeredAt: new Date().toISOString(),
+      lastActiveAt: new Date().toISOString(),
+      character: userChar,
+      worlds: userWorlds,
+      servers: JSON.parse(safeStorage.getItem(SERVERS_KEY) || '[]'),
+      settings: {
+        ram: safeStorage.getItem(RAM_SETTING_KEY) || '2',
+        renderDist: safeStorage.getItem(RENDER_DIST_KEY) || '1',
+        showFps: safeStorage.getItem(SHOW_FPS_KEY) !== 'false'
+      }
+    };
+
+    safeStorage.setItem(getUserWorldsKey(uName), JSON.stringify(userWorlds));
+    safeStorage.setItem(getUserCharKey(uName), JSON.stringify(userChar));
+
+    saveMasterAccounts(users);
+    return users;
+  }
 
   const authOverlay = document.getElementById('authOverlay');
   const launcherApp = document.getElementById('launcherApp');
   const tabLoginBtn = document.getElementById('tabLoginBtn');
   const tabRegisterBtn = document.getElementById('tabRegisterBtn');
   const emailGroup = document.getElementById('emailGroup');
+  const confirmPasswordGroup = document.getElementById('confirmPasswordGroup');
   const btnAuthSubmit = document.getElementById('btnAuthSubmit');
   const authMsg = document.getElementById('authMsg');
   const authUsername = document.getElementById('authUsername');
   const authEmail = document.getElementById('authEmail');
   const authPassword = document.getElementById('authPassword');
+  const authPasswordConfirm = document.getElementById('authPasswordConfirm');
+
+  const btnDownloadCurrentAccountFile = document.getElementById('btnDownloadCurrentAccountFile');
+  if (btnDownloadCurrentAccountFile) {
+    btnDownloadCurrentAccountFile.onclick = () => {
+      const curU = safeStorage.getItem(SESSION_KEY);
+      if (curU) {
+        syncActiveUserSnapshot();
+        downloadUserAccountFile(curU);
+      } else {
+        if (typeof showToast === 'function') showToast('Önce bir hesaba giriş yapmalısınız!');
+      }
+    };
+  }
 
   let isLoginMode = true;
 
@@ -1517,8 +2128,10 @@
     isLoginMode = true;
     tabLoginBtn.classList.add('active');
     tabRegisterBtn.classList.remove('active');
-    emailGroup.style.display = 'none';
+    if (emailGroup) emailGroup.style.display = 'none';
+    if (confirmPasswordGroup) confirmPasswordGroup.style.display = 'none';
     btnAuthSubmit.textContent = 'GİRİŞ YAP';
+    authMsg.className = 'auth-msg';
     authMsg.textContent = '';
   });
 
@@ -1526,15 +2139,16 @@
     isLoginMode = false;
     tabRegisterBtn.classList.add('active');
     tabLoginBtn.classList.remove('active');
-    emailGroup.style.display = 'none';
+    if (emailGroup) emailGroup.style.display = 'none';
+    if (confirmPasswordGroup) confirmPasswordGroup.style.display = 'block';
     btnAuthSubmit.textContent = 'KAYIT OL';
+    authMsg.className = 'auth-msg';
     authMsg.textContent = '';
   });
 
-  btnAuthSubmit.addEventListener('click', () => {
+  btnAuthSubmit.addEventListener('click', async () => {
     const uName = authUsername.value.trim();
     const uPass = authPassword.value.trim();
-    const uEmail = authEmail.value.trim();
 
     if (!uName || !uPass) {
       authMsg.className = 'auth-msg error';
@@ -1542,9 +2156,46 @@
       return;
     }
 
-    let users = JSON.parse(safeStorage.getItem(USERS_KEY) || '{}');
+    const users = getAllRegisteredUsers();
 
     if (isLoginMode) {
+      // 1. Önce Render / Node.js sunucusundan accounts.json kontrolü yap (varsa)
+      try {
+        if (typeof window !== 'undefined' && window.location && window.location.protocol.startsWith('http')) {
+          const resp = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: uName, password: uPass })
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            if (data && data.success && data.user) {
+              const users = getAllRegisteredUsers();
+              users[uName] = data.user;
+              saveMasterAccounts(users);
+              safeStorage.setItem(SESSION_KEY, uName);
+              loadUserDataForSession(uName);
+
+              authMsg.className = 'auth-msg success';
+              authMsg.textContent = 'Giriş başarılı (accounts.json doğrulandı)! Menüye aktarılıyorsunuz...';
+              setTimeout(() => {
+                authOverlay.style.display = 'none';
+                launcherApp.style.display = 'flex';
+                showTitleScreen();
+                onWindowResize();
+              }, 400);
+              return;
+            } else if (data && data.message) {
+              authMsg.className = 'auth-msg error';
+              authMsg.textContent = data.message;
+              return;
+            }
+          }
+        }
+      } catch(e) {}
+
+      // 2. Çevrimdışı / Yerel Giriş Doğrulaması (Sunucuya ulaşılamazsa veya yerel moddaysa)
+      const users = getAllRegisteredUsers();
       if (users[uName] && users[uName].pass === uPass) {
         const bans = getBannedPlayers();
         if (bans[uName.toLowerCase()]) {
@@ -1553,72 +2204,152 @@
           return;
         }
         safeStorage.setItem(SESSION_KEY, uName);
+        loadUserDataForSession(uName);
+        
         authMsg.className = 'auth-msg success';
-        authMsg.textContent = 'MooCraft hesabınız açıldı!';
+        authMsg.textContent = 'Giriş başarılı! Menüye aktarılıyorsunuz...';
         setTimeout(() => {
           authOverlay.style.display = 'none';
           launcherApp.style.display = 'flex';
+          showTitleScreen();
           onWindowResize();
-        }, 600);
+        }, 400);
       } else {
         authMsg.className = 'auth-msg error';
         authMsg.textContent = 'Hatalı kullanıcı adı veya şifre!';
       }
     } else {
-      if (users[uName]) {
+      // Kayıt Modu
+      const confirmPass = authPasswordConfirm ? authPasswordConfirm.value.trim() : uPass;
+      if (uPass !== confirmPass) {
         authMsg.className = 'auth-msg error';
-        authMsg.textContent = 'Bu kullanıcı adı zaten alınmış!';
+        authMsg.textContent = 'Şifreler birbiriyle eşleşmiyor!';
         return;
       }
-      users[uName] = { pass: uPass };
-      safeStorage.setItem(USERS_KEY, JSON.stringify(users));
+      if (uPass.length < 3) {
+        authMsg.className = 'auth-msg error';
+        authMsg.textContent = 'Şifre en az 3 karakter olmalıdır!';
+        return;
+      }
+      if (users[uName]) {
+        authMsg.className = 'auth-msg error';
+        authMsg.textContent = 'Bu kullanıcı adı zaten kayıtlı! Giriş yapın.';
+        return;
+      }
+
+      // 1. Render / Node.js sunucusuna kayıt gönder (varsa accounts.json'a yazar)
+      try {
+        if (typeof window !== 'undefined' && window.location && window.location.protocol.startsWith('http')) {
+          const resp = await fetch('/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: uName,
+              password: uPass,
+              character: JSON.parse(safeStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA)),
+              worlds: JSON.parse(safeStorage.getItem(WORLDS_KEY) || JSON.stringify(DEFAULT_WORLDS_TEMPLATE)),
+              servers: JSON.parse(safeStorage.getItem(SERVERS_KEY) || '[]')
+            })
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            if (data && !data.success) {
+              authMsg.className = 'auth-msg error';
+              authMsg.textContent = data.message || 'Kayıt başarısız!';
+              return;
+            }
+          }
+        }
+      } catch(e) {}
+
+      saveUserAccount(uName, uPass);
       safeStorage.setItem(SESSION_KEY, uName);
-      
+      loadUserDataForSession(uName);
+
       authMsg.className = 'auth-msg success';
-      authMsg.textContent = 'MooCraft hesabınız açıldı!';
+      authMsg.textContent = 'Hesabınız başarıyla oluşturuldu ve kaydedildi!';
       setTimeout(() => {
         authOverlay.style.display = 'none';
         launcherApp.style.display = 'flex';
+        showTitleScreen();
         onWindowResize();
-      }, 600);
+      }, 400);
     }
   });
 
-  let initUser = safeStorage.getItem(SESSION_KEY);
-  if (!initUser) {
-    initUser = 'Oyuncu';
-    safeStorage.setItem(SESSION_KEY, initUser);
-  }
-  const bans = getBannedPlayers();
-  if (bans[initUser.toLowerCase()]) {
-    authOverlay.style.display = 'none';
-    launcherApp.style.display = 'none';
-    showBanScreen(bans[initUser.toLowerCase()]);
-  } else {
-    authOverlay.style.display = 'none';
-    launcherApp.style.display = 'flex';
-  }
-
-  // --- LAUNCHER, DÜNYALAR VE SUNUCU SİSTEMİ ---
-  const WORLDS_KEY = 'moocraft_worlds';
-  const SERVERS_KEY = 'moocraft_servers';
-  const ACTIVE_WORLD_KEY = 'moocraft_active_world';
-  const CHAR_KEY = 'moocraft_character';
-
-  let worlds = JSON.parse(safeStorage.getItem(WORLDS_KEY) || '[{"id":"w_creative","name":"Yaratıcı Dünya (Creative)","seed":"99999","mode":"creative"},{"id":"w_default","name":"Hayatta Kalma Dünyam","seed":"12345","mode":"survival"}]');
-  let servers = JSON.parse(safeStorage.getItem(SERVERS_KEY) || '[{"id":"srv_default","name":"MooCraft Resmi Halk Sunucusu","maxPlayers":30,"seed":"public_server","online":4}]');
-  
-  let selectedWorldId = null;
-  let selectedServerId = null;
-
-  const DEFAULT_STEVE_DATA = {
-    skinColor: '#c68642', eyeColor: '#2b5797', hairStyle: 'steve',
-    hairColor: '#4a2e00', facialHair: 'mustache', shirtStyle: 'tshirt',
-    shirtColor: '#008080', pantColor: '#1a237e', shoeColor: '#333333', accessory: 'none'
+  // Çıkış yaparken mevcut hesap verisini kaybetmeden güvenle kaydet
+  window.handleLogoutOrSwitch = function() {
+    const curU = safeStorage.getItem(SESSION_KEY);
+    if (curU) {
+      syncActiveUserSnapshot();
+    }
+    safeStorage.removeItem(SESSION_KEY);
+    const authOverlay = document.getElementById('authOverlay');
+    const launcherApp = document.getElementById('launcherApp');
+    if (authOverlay) {
+      if (launcherApp) launcherApp.style.display = 'none';
+      authOverlay.style.display = 'grid';
+      const authMsg = document.getElementById('authMsg');
+      if (authMsg) { authMsg.className = 'auth-msg'; authMsg.textContent = 'Hesaptan çıkış yapıldı.'; }
+      const authUser = document.getElementById('authUsername');
+      if (authUser) authUser.value = '';
+      const authPass = document.getElementById('authPassword');
+      if (authPass) authPass.value = '';
+      const authPassConf = document.getElementById('authPasswordConfirm');
+      if (authPassConf) authPassConf.value = '';
+      if (typeof showToast === 'function') showToast('Hesaptan çıkış yapıldı.');
+    } else {
+      location.reload();
+    }
   };
 
-  let character = JSON.parse(safeStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA));
+  // Başlangıç durumu: Eğer aktif oturum varsa ana menüye geç, yoksa temiz Giriş/Kayıt ekranını aç
+  let initUser = safeStorage.getItem(SESSION_KEY);
 
+  // Başlangıçta çapraz versiyon hesapları IndexedDB ve localStorage'dan senkronize et
+  (async function initCrossVersionAccountSync() {
+    try {
+      const currentUsers = getAllRegisteredUsers();
+      saveMasterAccounts(currentUsers);
+
+      const idbUsers = await loadAccountsFromIndexedDB();
+      if (idbUsers && typeof idbUsers === 'object' && Object.keys(idbUsers).length > 0) {
+        let changed = false;
+        Object.keys(idbUsers).forEach(u => {
+          if (!currentUsers[u]) {
+            currentUsers[u] = idbUsers[u];
+            changed = true;
+          }
+        });
+        if (changed) {
+          saveMasterAccounts(currentUsers);
+        }
+      }
+
+      const curU = safeStorage.getItem(SESSION_KEY);
+      if (curU) {
+        loadUserDataForSession(curU);
+      }
+    } catch(e) {}
+  })();
+
+  if (initUser) {
+    const bans = getBannedPlayers();
+    if (bans[initUser.toLowerCase()]) {
+      authOverlay.style.display = 'none';
+      launcherApp.style.display = 'none';
+      showBanScreen(bans[initUser.toLowerCase()]);
+    } else {
+      authOverlay.style.display = 'none';
+      launcherApp.style.display = 'flex';
+      loadUserDataForSession(initUser);
+    }
+  } else {
+    authOverlay.style.display = 'grid';
+    launcherApp.style.display = 'none';
+  }
+
+  // --- LAUNCHER PALETLERİ VE ARAYÜZ YÖNETİMİ ---
   const PALETTES = {
     skin: ['#ffcd94', '#f1c27d', '#e0ac69', '#8d5524', '#c68642', '#3c2e28'],
     eye: ['#2b5797', '#2e7d32', '#6d4c41', '#b71c1c', '#6a1b9a', '#fbc02d'],
@@ -1656,7 +2387,7 @@
   const btnJoinServer = document.getElementById('btnJoinServer');
   const btnDeleteServer = document.getElementById('btnDeleteServer');
 
-  function saveWorlds() { safeStorage.setItem(WORLDS_KEY, JSON.stringify(worlds)); }
+  function saveWorlds() { safeStorage.setItem(WORLDS_KEY, JSON.stringify(worlds)); if (typeof syncActiveUserSnapshot === "function") syncActiveUserSnapshot(); }
 
   // ==========================================
   // DÜNYA VE SUNUCU İÇİN OYUN İÇİ MANZARA ÜRETECİ (FOTOĞRAF)
@@ -1965,204 +2696,93 @@
     if (labelEl) labelEl.textContent = getLandscapeLabel(type);
   }
 
-  function saveServers() { safeStorage.setItem(SERVERS_KEY, JSON.stringify(servers)); }
+  function saveServers() { safeStorage.setItem(SERVERS_KEY, JSON.stringify(servers)); if (typeof syncActiveUserSnapshot === "function") syncActiveUserSnapshot(); }
 
-  function renderWorldList() {
-    worldContainer.innerHTML = '';
-    worldCount.textContent = `(${worlds.length})`;
+  function formatWorldDate(d) {
+    const pad = n => String(n).padStart(2, '0');
+    return `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
 
-    if (worlds.length === 0) {
-      worldContainer.innerHTML = `<div class="empty-state"><div>KAYITLI DÜNYA YOK!</div></div>`;
-      btnPlay.disabled = true; btnDelete.disabled = true; selectedWorldId = null;
+  function renderWorldList(filterText = '') {
+    const wContainer = document.getElementById('worldContainer');
+    const bPlay = document.getElementById('btnPlay');
+    const bEdit = document.getElementById('btnEditWorld');
+    const bDelete = document.getElementById('btnDelete');
+    const bRecreate = document.getElementById('btnRecreateWorld');
+
+    if (!wContainer) return;
+    wContainer.innerHTML = '';
+
+    let filtered = worlds;
+    if (filterText) {
+      const q = filterText.toLowerCase();
+      filtered = worlds.filter(w => (w.name || '').toLowerCase().includes(q) || (w.date || '').includes(q));
+    }
+
+    if (!filtered || filtered.length === 0) {
+      wContainer.innerHTML = '<div style="font-family: \'Press Start 2P\', monospace; font-size: 8px; color: #fff; text-shadow: 1px 1px 0 #000; text-align: center; padding: 40px 10px; line-height: 1.8;">Dünya bulunamadı.</div>';
+      if (bPlay) bPlay.disabled = true;
+      if (bEdit) bEdit.disabled = true;
+      if (bDelete) bDelete.disabled = true;
+      if (bRecreate) bRecreate.disabled = true;
+      selectedWorldId = null;
       return;
     }
 
-    // Dünyaları sıra sıra isimlerine göre alfabetik sırala
-    const sortedWorlds = [...worlds].sort((a, b) => (a.name || '').localeCompare(b.name || '', 'tr', { sensitivity: 'base' }));
-    if (!selectedWorldId && sortedWorlds.length > 0) {
-      selectedWorldId = sortedWorlds[0].id;
-      if (btnPlay) btnPlay.disabled = false;
-      if (btnDelete) btnDelete.disabled = false;
+    if (!selectedWorldId || !filtered.some(w => w.id === selectedWorldId)) {
+      selectedWorldId = filtered[0].id;
     }
 
-    sortedWorlds.forEach(w => {
-      const card = document.createElement('div');
-      card.className = `world-card ${w.id === selectedWorldId ? 'selected' : ''}`;
-      const modeText = w.mode === 'creative' ? 'Yaratıcı' : 'Hayatta Kalma';
+    const isSel = Boolean(selectedWorldId && filtered.some(w => w.id === selectedWorldId));
+    if (bPlay) bPlay.disabled = !isSel;
+    if (bEdit) bEdit.disabled = !isSel;
+    if (bDelete) bDelete.disabled = !isSel;
+    if (bRecreate) bRecreate.disabled = !isSel;
+
+    filtered.forEach(w => {
+      const isSelected = w.id === selectedWorldId;
+      const row = document.createElement('div');
+      row.className = 'world-row-item';
+      row.style.cssText = `
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 8px 10px; cursor: pointer; border: 2px solid ${isSelected ? '#ffffff' : 'transparent'};
+        background: ${isSelected ? 'rgba(0,0,0,0.75)' : 'rgba(0,0,0,0.35)'};
+        transition: background 0.1s ease;
+      `;
+
+      const modeStr = (w.mode === 'creative') ? 'Yaratıcı Mod' : (w.mode === 'hardcore' ? 'Zorlayıcı Mod' : 'Hayatta Kalma');
+      const commandsStr = w.allowCommands ? 'Komutlar' : 'Komutlar Kapalı';
+      const versionStr = w.version || '26.3';
+      const dateStr = w.date || '28.10.2026 13:20';
       const lType = w.landscapeType || LANDSCAPE_TYPES[Math.abs(hashSeed(w.seed || w.id)) % LANDSCAPE_TYPES.length];
       const thumb = w.thumbnail || generateLandscapeDataUrl(lType, hashSeed(w.seed || w.id));
-      card.innerHTML = `
-        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <img src="${thumb}" style="width: 44px; height: 44px; border: 2px solid #111; object-fit: cover; image-rendering: pixelated; flex-shrink: 0; background: #222;" alt="Dünya Fotoğrafı">
-            <div>
-              <div class="world-details-name">${w.name}</div>
-              <div class="world-details-sub">Mod: ${modeText} • ${getDimensionLabel(w.dimension || 'mountains')} • Tohum: ${w.seed}</div>
-            </div>
-          </div>
-          <div style="font-size: 6px; color: #ffff55; background: rgba(0,0,0,0.5); padding: 4px 8px; border: 1px solid #555;">
-            DÜNYA
+
+      row.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 12px; pointer-events: none;">
+          <img src="${thumb}" style="width: 44px; height: 44px; border: 2px solid #555; object-fit: cover; image-rendering: pixelated; flex-shrink: 0; background: #222;" alt="Dünya Fotoğrafı">
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <div style="font-family: 'Press Start 2P', monospace; font-size: 8.5px; font-weight: bold; color: #ffffff; text-shadow: 1px 1px 0 #000;">${w.name}</div>
+            <div style="font-family: 'Press Start 2P', monospace; font-size: 7px; color: #aaaaaa; text-shadow: 1px 1px 0 #000;">${w.name} (${dateStr})</div>
+            <div style="font-family: 'Press Start 2P', monospace; font-size: 6.5px; color: #888888; text-shadow: 1px 1px 0 #000;">${modeStr}, ${commandsStr}, Sürüm: ${versionStr}</div>
           </div>
         </div>
       `;
-      card.addEventListener('click', () => {
-        selectedWorldId = w.id; btnPlay.disabled = false; btnDelete.disabled = false; renderWorldList();
-      });
-      card.addEventListener('dblclick', () => {
+
+      row.addEventListener('click', () => {
         selectedWorldId = w.id;
-        if (btnPlay) btnPlay.click();
+        renderWorldList(filterText);
       });
-      worldContainer.appendChild(card);
+
+      row.addEventListener('dblclick', () => {
+        selectedWorldId = w.id;
+        playCurrentSelectedWorld();
+      });
+
+      wContainer.appendChild(row);
     });
   }
 
-  function renderServerList() {
-    const btnGoCreateWorld = document.getElementById('btnGoToCreateWorld');
-    if (btnGoCreateWorld) {
-      btnGoCreateWorld.onclick = () => openLauncherScreen('create', 'YENİ DÜNYA OLUŞTUR');
-    }
-
-    serverContainer.innerHTML = '';
-    serverCount.textContent = `(${servers.length})`;
-
-    if (servers.length === 0) {
-      serverContainer.innerHTML = `<div class="empty-state"><div>AKTİF SUNUCU YOK!</div></div>`;
-      btnJoinServer.disabled = true; btnDeleteServer.disabled = true; selectedServerId = null;
-      return;
-    }
-
-    // Sunucuları sıra sıra sunucu adıyla alfabetik sırala
-    const sortedServers = [...servers].sort((a, b) => (a.name || '').localeCompare(b.name || '', 'tr', { sensitivity: 'base' }));
-    if (!selectedServerId && sortedServers.length > 0) {
-      selectedServerId = sortedServers[0].id;
-      if (btnJoinServer) btnJoinServer.disabled = false;
-      if (btnDeleteServer) btnDeleteServer.disabled = false;
-    }
-
-    sortedServers.forEach(s => {
-      const card = document.createElement('div');
-      card.className = `server-card ${s.id === selectedServerId ? 'selected' : ''}`;
-      const sType = LANDSCAPE_TYPES[Math.abs(hashSeed(s.seed || s.name)) % LANDSCAPE_TYPES.length];
-      const sThumb = generateLandscapeDataUrl(sType, hashSeed(s.seed || s.name));
-      card.innerHTML = `
-        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <img src="${sThumb}" style="width: 44px; height: 44px; border: 2px solid #111; object-fit: cover; image-rendering: pixelated; flex-shrink: 0; background: #222;" alt="Sunucu Fotoğrafı">
-            <div>
-              <div class="server-details-name">${s.name}</div>
-              <div class="server-details-sub">Oyuncular: ${s.online || 1}/${s.maxPlayers} • Tohum: ${s.seed || 'moocraft'}</div>
-            </div>
-          </div>
-          <div style="font-size: 6px; color: #55ff55; font-weight: bold; background: rgba(0,0,0,0.5); padding: 4px 8px; border: 1px solid #2e7d32; display: flex; align-items: center; gap: 4px;">
-            ONLINE
-          </div>
-        </div>
-      `;
-      card.addEventListener('click', () => {
-        selectedServerId = s.id; btnJoinServer.disabled = false; btnDeleteServer.disabled = false; renderServerList();
-      });
-      card.addEventListener('dblclick', () => {
-        selectedServerId = s.id;
-        if (btnJoinServer) btnJoinServer.click();
-      });
-      serverContainer.appendChild(card);
-    });
-  }
-
-  document.getElementById('btnCreateWorld').addEventListener('click', () => {
-    const name = document.getElementById('worldName').value.trim() || 'Yeni Dünya';
-    const seed = document.getElementById('worldSeed').value.trim() || Math.floor(Math.random() * 999999).toString();
-    const mode = document.getElementById('worldMode').value;
-    const isOp = (document.getElementById('worldOpMode').value === 'true');
-    const dimEl = document.getElementById('worldDimension');
-    const dimension = dimEl ? dimEl.value : 'mountains';
-    let selectedType = LANDSCAPE_TYPES[currentCreateLandscapeIndex % LANDSCAPE_TYPES.length];
-    if (dimension === 'snow') selectedType = 'snow';
-    else if (dimension === 'ocean') selectedType = 'sea';
-    else if (dimension === 'plains') selectedType = 'plains';
-    else if (dimension === 'mountains') selectedType = 'mountain';
-
-    const newWorld = { 
-      id: 'w_' + Date.now(), 
-      name, 
-      seed, 
-      mode, 
-      isOp, 
-      dimension: dimension,
-      landscapeType: selectedType,
-      thumbnail: generateLandscapeDataUrl(selectedType, hashSeed(seed)),
-      customBlocks: {}, 
-      playerPos: null, 
-      inventory: null, 
-      selectedSlot: 0 
-    };
-    worlds.push(newWorld); saveWorlds(); selectedWorldId = newWorld.id;
-    document.querySelector('[data-tab="worlds"]').click();
-    renderWorldList();
-  });
-
-  const btnChangeLandscape = document.getElementById('btnChangeLandscape');
-  if (btnChangeLandscape) {
-    btnChangeLandscape.onclick = (e) => {
-      if (e) e.preventDefault();
-      currentCreateLandscapeIndex = (currentCreateLandscapeIndex + 1) % LANDSCAPE_TYPES.length;
-      updateCreateLandscapePreview();
-    };
-  }
-  const worldSeedInput = document.getElementById('worldSeed');
-  if (worldSeedInput) {
-    worldSeedInput.addEventListener('input', () => updateCreateLandscapePreview());
-  }
-
-  document.getElementById('btnBuildAndLaunchServer').addEventListener('click', () => {
-    const name = document.getElementById('serverNameInput').value.trim() || 'Çok Oyunculu Sunucu';
-    const maxPlayers = parseInt(document.getElementById('serverMaxPlayers').value) || 10;
-    const seed = document.getElementById('serverSeedInput').value.trim() || 'multi_' + Math.floor(Math.random()*99999);
-
-    const newServer = { id: 'srv_' + Date.now(), name, maxPlayers, seed, online: 1, mode: 'survival' };
-    servers.push(newServer);
-    saveServers();
-    selectedServerId = newServer.id;
-    renderServerList();
-
-    launchGameSession(newServer);
-  });
-
-  btnJoinServer.addEventListener('click', () => {
-    if (!selectedServerId) return;
-    const curU = safeStorage.getItem(SESSION_KEY);
-    const bans = getBannedPlayers();
-    if (curU && bans[curU.toLowerCase()]) {
-      showBanScreen(bans[curU.toLowerCase()]);
-      return;
-    }
-    const srv = servers.find(s => s.id === selectedServerId);
-    if (srv) launchGameSession(srv);
-  });
-
-  btnDeleteServer.addEventListener('click', () => {
-    if (!selectedServerId) return;
-    servers = servers.filter(s => s.id !== selectedServerId);
-    saveServers(); selectedServerId = null;
-    btnJoinServer.disabled = true; btnDeleteServer.disabled = true;
-    renderServerList();
-  });
-
-      document.getElementById('btnRandomSeed').addEventListener('click', () => {
-      document.getElementById('worldSeed').value = Math.floor(Math.random() * 9999999).toString();
-      currentCreateLandscapeIndex = Math.floor(Math.random() * LANDSCAPE_TYPES.length);
-      updateCreateLandscapePreview();
-    });
-
-  btnDelete.addEventListener('click', () => {
-    if (!selectedWorldId) return;
-    worlds = worlds.filter(w => w.id !== selectedWorldId);
-    saveWorlds(); selectedWorldId = null;
-    btnPlay.disabled = true; btnDelete.disabled = true;
-    renderWorldList();
-  });
-
-  btnPlay.addEventListener('click', () => {
+  function playCurrentSelectedWorld() {
     if (!selectedWorldId) return;
     const curU = safeStorage.getItem(SESSION_KEY);
     const bans = getBannedPlayers();
@@ -2172,41 +2792,643 @@
     }
     const activeWorld = worlds.find(w => w.id === selectedWorldId);
     if (activeWorld) launchGameSession(activeWorld);
-  });
+  }
+
+  // --- DÜNYA SEÇ EKRANI BUTONLARI & MODALLARI ---
+  const worldSearchInput = document.getElementById('worldSearchInput');
+  if (worldSearchInput) {
+    worldSearchInput.addEventListener('input', () => {
+      renderWorldList(worldSearchInput.value.trim());
+    });
+  }
+
+  if (btnPlay) {
+    btnPlay.onclick = playCurrentSelectedWorld;
+  }
+
+  const btnGoToCreateWorld = document.getElementById('btnGoToCreateWorld');
+  if (btnGoToCreateWorld) {
+    btnGoToCreateWorld.onclick = () => {
+      openLauncherScreen('create', 'Yeni Dünya Oluştur');
+      resetCreateWorldForm();
+    };
+  }
+
+  // Düzenle Modalı
+  const btnEditWorld = document.getElementById('btnEditWorld');
+  const modalEditWorld = document.getElementById('modalEditWorld');
+  const editWorldNameInput = document.getElementById('editWorldNameInput');
+  const btnConfirmEditWorld = document.getElementById('btnConfirmEditWorld');
+  const btnCancelEditWorld = document.getElementById('btnCancelEditWorld');
+
+  if (btnEditWorld) {
+    btnEditWorld.addEventListener('click', () => {
+      if (!selectedWorldId) return;
+      const w = worlds.find(item => item.id === selectedWorldId);
+      if (!w) return;
+      if (editWorldNameInput) editWorldNameInput.value = w.name || '';
+      if (modalEditWorld) modalEditWorld.style.display = 'grid';
+      if (editWorldNameInput) editWorldNameInput.focus();
+    });
+  }
+  if (btnConfirmEditWorld) {
+    btnConfirmEditWorld.addEventListener('click', () => {
+      if (!selectedWorldId) return;
+      const val = editWorldNameInput ? editWorldNameInput.value.trim() : '';
+      if (!val) {
+        showToast('Dünya adı boş bırakılamaz!');
+        return;
+      }
+      const w = worlds.find(item => item.id === selectedWorldId);
+      if (w) {
+        w.name = val;
+        saveWorlds();
+        if (modalEditWorld) modalEditWorld.style.display = 'none';
+        renderWorldList(worldSearchInput ? worldSearchInput.value.trim() : '');
+        showToast('Dünya adı güncellendi.');
+      }
+    });
+  }
+  if (btnCancelEditWorld) {
+    btnCancelEditWorld.addEventListener('click', () => {
+      if (modalEditWorld) modalEditWorld.style.display = 'none';
+    });
+  }
+
+  // Sil Modalı
+  const modalDeleteWorld = document.getElementById('modalDeleteWorld');
+  const deleteWorldConfirmMsg = document.getElementById('deleteWorldConfirmMsg');
+  const btnConfirmDeleteWorld = document.getElementById('btnConfirmDeleteWorld');
+  const btnCancelDeleteWorld = document.getElementById('btnCancelDeleteWorld');
+
+  if (btnDelete) {
+    btnDelete.onclick = () => {
+      if (!selectedWorldId) return;
+      const w = worlds.find(item => item.id === selectedWorldId);
+      if (!w) return;
+      if (deleteWorldConfirmMsg) deleteWorldConfirmMsg.textContent = `'${w.name}' adlı dünyayı silmek istediğinizden emin misiniz?`;
+      if (modalDeleteWorld) modalDeleteWorld.style.display = 'grid';
+    };
+  }
+  if (btnConfirmDeleteWorld) {
+    btnConfirmDeleteWorld.addEventListener('click', () => {
+      if (!selectedWorldId) return;
+      worlds = worlds.filter(w => w.id !== selectedWorldId);
+      saveWorlds();
+      selectedWorldId = null;
+      if (modalDeleteWorld) modalDeleteWorld.style.display = 'none';
+      renderWorldList(worldSearchInput ? worldSearchInput.value.trim() : '');
+      showToast('Dünya silindi.');
+    });
+  }
+  if (btnCancelDeleteWorld) {
+    btnCancelDeleteWorld.addEventListener('click', () => {
+      if (modalDeleteWorld) modalDeleteWorld.style.display = 'none';
+    });
+  }
+
+  // Tekrar Oluştur (Recreate)
+  const btnRecreateWorld = document.getElementById('btnRecreateWorld');
+  if (btnRecreateWorld) {
+    btnRecreateWorld.addEventListener('click', () => {
+      if (!selectedWorldId) return;
+      const w = worlds.find(item => item.id === selectedWorldId);
+      if (!w) return;
+      openLauncherScreen('create', 'Yeni Dünya Oluştur');
+      const nameInput = document.getElementById('createWorldNameInput');
+      const seedInput = document.getElementById('createWorldSeedInput');
+      if (nameInput) nameInput.value = w.name + ' Kopyası';
+      if (seedInput) seedInput.value = w.seed || '';
+      if (w.mode) setCreateGameMode(w.mode);
+      if (w.difficulty) setCreateDifficulty(w.difficulty);
+      if (typeof w.allowCommands === 'boolean') setCreateCommands(w.allowCommands);
+    });
+  }
+
+  // --- DÜNYA OLUŞTURMA EKRANI VE SEKMELERİ (FOTOĞRAFTAKİ BİREBİR) ---
+  const tabCreateOyun = document.getElementById('tabCreateOyun');
+  const tabCreateDunya = document.getElementById('tabCreateDunya');
+  const tabCreateDahasi = document.getElementById('tabCreateDahasi');
+
+  const createTabContentOyun = document.getElementById('createTabContentOyun');
+  const createTabContentDunya = document.getElementById('createTabContentDunya');
+  const createTabContentDahasi = document.getElementById('createTabContentDahasi');
+
+  function switchCreateTab(activeTab) {
+    const tabs = [
+      { btn: tabCreateOyun, content: createTabContentOyun, key: 'oyun' },
+      { btn: tabCreateDunya, content: createTabContentDunya, key: 'dunya' },
+      { btn: tabCreateDahasi, content: createTabContentDahasi, key: 'dahasi' }
+    ];
+    tabs.forEach(t => {
+      if (!t.btn || !t.content) return;
+      if (t.key === activeTab) {
+        t.btn.style.background = 'rgba(0,0,0,0.6)';
+        t.btn.style.color = '#fff';
+        t.btn.style.borderColor = '#555 #555 transparent #555';
+        t.btn.style.borderBottom = '3px solid #fff';
+        t.content.style.display = 'flex';
+      } else {
+        t.btn.style.background = 'rgba(0,0,0,0.3)';
+        t.btn.style.color = '#aaa';
+        t.btn.style.borderColor = 'transparent';
+        t.btn.style.borderBottom = 'none';
+        t.content.style.display = 'none';
+      }
+    });
+  }
+
+  if (tabCreateOyun) tabCreateOyun.onclick = () => switchCreateTab('oyun');
+  if (tabCreateDunya) tabCreateDunya.onclick = () => switchCreateTab('dunya');
+  if (tabCreateDahasi) tabCreateDahasi.onclick = () => switchCreateTab('dahasi');
+
+  // Oyun Modu Değiştirme
+  let currentCreateMode = 'survival';
+  const gameModesList = [
+    { key: 'survival', label: 'Oyun Modu: Hayatta Kalma' },
+    { key: 'creative', label: 'Oyun Modu: Yaratıcı' },
+    { key: 'hardcore', label: 'Oyun Modu: Zorlayıcı' }
+  ];
+  const btnToggleGameMode = document.getElementById('btnToggleGameMode');
+  function setCreateGameMode(modeKey) {
+    currentCreateMode = modeKey;
+    const found = gameModesList.find(m => m.key === modeKey);
+    if (btnToggleGameMode && found) btnToggleGameMode.textContent = found.label;
+  }
+  if (btnToggleGameMode) {
+    btnToggleGameMode.addEventListener('click', () => {
+      const idx = gameModesList.findIndex(m => m.key === currentCreateMode);
+      const next = gameModesList[(idx + 1) % gameModesList.length];
+      setCreateGameMode(next.key);
+    });
+  }
+
+  // Zorluk Değiştirme
+  let currentCreateDifficulty = 'normal';
+  const difficultiesList = [
+    { key: 'peaceful', label: 'Zorluk: Barışçıl' },
+    { key: 'easy', label: 'Zorluk: Kolay' },
+    { key: 'normal', label: 'Zorluk: Normal' },
+    { key: 'hard', label: 'Zorluk: Zor' }
+  ];
+  const btnToggleDifficulty = document.getElementById('btnToggleDifficulty');
+  function setCreateDifficulty(diffKey) {
+    currentCreateDifficulty = diffKey;
+    const found = difficultiesList.find(d => d.key === diffKey);
+    if (btnToggleDifficulty && found) btnToggleDifficulty.textContent = found.label;
+  }
+  if (btnToggleDifficulty) {
+    btnToggleDifficulty.addEventListener('click', () => {
+      const idx = difficultiesList.findIndex(d => d.key === currentCreateDifficulty);
+      const next = difficultiesList[(idx + 1) % difficultiesList.length];
+      setCreateDifficulty(next.key);
+    });
+  }
+
+  // Komutlara İzin Ver Değiştirme
+  let currentCreateCommands = false;
+  const btnToggleCommands = document.getElementById('btnToggleCommands');
+  function setCreateCommands(val) {
+    currentCreateCommands = Boolean(val);
+    if (btnToggleCommands) {
+      btnToggleCommands.textContent = currentCreateCommands ? 'Komutlara İzin Ver: AÇIK' : 'Komutlara İzin Ver: KAPALI';
+    }
+  }
+  if (btnToggleCommands) {
+    btnToggleCommands.addEventListener('click', () => {
+      setCreateCommands(!currentCreateCommands);
+    });
+  }
+
+  // Dünya Tipi Değiştirme
+  let currentCreateWorldType = 'mountains';
+  const worldTypesList = [
+    { key: 'mountains', label: 'Dünya Tipi: Varsayılan' },
+    { key: 'plains', label: 'Dünya Tipi: Geniş Çayır' },
+    { key: 'snow', label: 'Dünya Tipi: Karlı Tundra' },
+    { key: 'ocean', label: 'Dünya Tipi: Okyanus & Ada' }
+  ];
+  const btnToggleWorldType = document.getElementById('btnToggleWorldType');
+  if (btnToggleWorldType) {
+    btnToggleWorldType.addEventListener('click', () => {
+      const idx = worldTypesList.findIndex(t => t.key === currentCreateWorldType);
+      const next = worldTypesList[(idx + 1) % worldTypesList.length];
+      currentCreateWorldType = next.key;
+      btnToggleWorldType.textContent = next.label;
+    });
+  }
+
+  // Rastgele Tohum
+  const btnRandomSeedAction = document.getElementById('btnRandomSeedAction');
+  if (btnRandomSeedAction) {
+    btnRandomSeedAction.addEventListener('click', () => {
+      const seedInput = document.getElementById('createWorldSeedInput');
+      if (seedInput) seedInput.value = Math.floor(Math.random() * 9999999).toString();
+    });
+  }
+
+  // Ekstra seçenekler
+  const btnToggleStructures = document.getElementById('btnToggleStructures');
+  let allowStructures = true;
+  if (btnToggleStructures) {
+    btnToggleStructures.addEventListener('click', () => {
+      allowStructures = !allowStructures;
+      btnToggleStructures.textContent = allowStructures ? 'Yapıları Oluştur: AÇIK' : 'Yapıları Oluştur: KAPALI';
+    });
+  }
+
+  const btnToggleBonusChest = document.getElementById('btnToggleBonusChest');
+  let allowBonusChest = false;
+  if (btnToggleBonusChest) {
+    btnToggleBonusChest.addEventListener('click', () => {
+      allowBonusChest = !allowBonusChest;
+      btnToggleBonusChest.textContent = allowBonusChest ? 'Bonus Sandık: AÇIK' : 'Bonus Sandık: KAPALI';
+    });
+  }
+
+  const btnResetGameRules = document.getElementById('btnResetGameRules');
+  if (btnResetGameRules) {
+    btnResetGameRules.addEventListener('click', () => {
+      showToast('Oyun kuralları varsayılana sıfırlandı.');
+    });
+  }
+
+  function resetCreateWorldForm() {
+    switchCreateTab('oyun');
+    const nameInput = document.getElementById('createWorldNameInput');
+    const seedInput = document.getElementById('createWorldSeedInput');
+    if (nameInput) nameInput.value = 'Yeni Dünya';
+    if (seedInput) seedInput.value = '';
+    setCreateGameMode('survival');
+    setCreateDifficulty('normal');
+    setCreateCommands(false);
+  }
+
+  // Yeni Dünya Oluştur ve Başlat
+  const btnConfirmCreateWorld = document.getElementById('btnConfirmCreateWorld');
+  if (btnConfirmCreateWorld) {
+    btnConfirmCreateWorld.addEventListener('click', () => {
+      const nameInput = document.getElementById('createWorldNameInput');
+      const seedInput = document.getElementById('createWorldSeedInput');
+      const wName = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : 'Yeni Dünya';
+      const wSeed = (seedInput && seedInput.value.trim()) ? seedInput.value.trim() : Math.floor(Math.random() * 9999999).toString();
+      
+      const newWorld = {
+        id: 'w_' + Date.now(),
+        name: wName,
+        date: formatWorldDate(new Date()),
+        mode: currentCreateMode,
+        difficulty: currentCreateDifficulty,
+        allowCommands: currentCreateCommands,
+        seed: wSeed,
+        dimension: currentCreateWorldType,
+        version: '26.3'
+      };
+
+      worlds.push(newWorld);
+      saveWorlds();
+      selectedWorldId = newWorld.id;
+      showToast(`${wName} dünyası oluşturuldu!`);
+      launchGameSession(newWorld);
+    });
+  }
+
+  // İptal Butonu
+  const btnCancelCreateWorld = document.getElementById('btnCancelCreateWorld');
+  if (btnCancelCreateWorld) {
+    btnCancelCreateWorld.addEventListener('click', () => {
+      openLauncherScreen('worlds', 'Dünya Seç');
+    });
+  }
+
+  function renderServerList() {
+    const sContainer = document.getElementById('serverContainer');
+    const bJoin = document.getElementById('btnJoinServer');
+    const bEdit = document.getElementById('btnEditServer');
+    const bDelete = document.getElementById('btnDeleteServer');
+
+    if (!sContainer) return;
+    sContainer.innerHTML = '';
+
+    if (!servers || servers.length === 0) {
+      sContainer.innerHTML = '<div style="font-family: \'Press Start 2P\', monospace; font-size: 8px; color: #ffffff; text-shadow: 1px 1px 0 #000; text-align: center; padding: 48px 12px; line-height: 1.8;">Henüz kayıtlı bir sunucu yok.<br><span style="color: #aaaaaa; font-size: 7px;">Sunucu eklemek için aşağıdaki \'Sunucu Ekle\' butonunu kullanabilirsiniz.</span></div>';
+      if (bJoin) bJoin.disabled = true;
+      if (bEdit) bEdit.disabled = true;
+      if (bDelete) bDelete.disabled = true;
+      selectedServerId = null;
+      return;
+    }
+
+    if (!selectedServerId && servers.length > 0) {
+      selectedServerId = servers[0].id;
+    }
+
+    const isAnySelected = Boolean(selectedServerId && servers.some(s => s.id === selectedServerId));
+    if (bJoin) bJoin.disabled = !isAnySelected;
+    if (bEdit) bEdit.disabled = !isAnySelected;
+    if (bDelete) bDelete.disabled = !isAnySelected;
+
+    // Fotoğraftaki mavi labirent küp server ikonu
+    const cyanIconSvg = "data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' viewBox=\'0 0 48 48\'><rect width=\'48\' height=\'48\' rx=\'24\' fill=\'%23ffffff\'/><rect x=\'8\' y=\'8\' width=\'32\' height=\'32\' fill=\'%230099ff\'/><rect x=\'12\' y=\'12\' width=\'24\' height=\'24\' fill=\'%23ffffff\'/><rect x=\'16\' y=\'16\' width=\'16\' height=\'16\' fill=\'%230099ff\'/><rect x=\'20\' y=\'20\' width=\'8\' height=\'8\' fill=\'%23ffffff\'/></svg>";
+
+    servers.forEach(s => {
+      const isSel = s.id === selectedServerId;
+      const row = document.createElement('div');
+      row.className = 'server-row-item';
+      row.style.cssText = `
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 8px 10px; cursor: pointer; border: 2px solid ${isSel ? '#ffffff' : 'transparent'};
+        background: ${isSel ? 'rgba(0,0,0,0.75)' : 'rgba(0,0,0,0.35)'};
+        transition: background 0.1s ease;
+      `;
+
+      const isOffline = s.status === 'offline' || s.online === 0;
+      const motdText = s.motd || (isOffline ? 'This server is offline.' : 'MooCraft Çok Oyunculu Sunucusu');
+      const motdColor = isOffline ? '#ff5555' : '#aaaaaa';
+      const statusHtml = isOffline 
+        ? '<span style="color: #ff5555; font-size: 7.5px; font-family: \'Press Start 2P\', monospace; font-weight: bold;">&#9670; Offline &#10005;</span>'
+        : `<span style="color: #55ff55; font-size: 7.5px; font-family: \'Press Start 2P\', monospace; font-weight: bold;">&#9679; Online (${s.online || 1}/${s.maxPlayers || 20})</span>`;
+
+      row.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 12px; pointer-events: none;">
+          <img src="${cyanIconSvg}" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #fff; flex-shrink: 0; background: #fff;" alt="Server Icon">
+          <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+            <div style="font-family: 'Press Start 2P', monospace; font-size: 8.5px; font-weight: bold; color: #ffffff; text-shadow: 1px 1px 0 #000;">${s.name}</div>
+            <div style="font-family: 'Press Start 2P', monospace; font-size: 6.5px; color: ${motdColor}; text-shadow: 1px 1px 0 #000;">${motdText}</div>
+            <div style="font-family: 'Press Start 2P', monospace; font-size: 6px; color: #888888; text-shadow: 1px 1px 0 #000;">Adres: ${s.address || 'localhost:25565'}</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; pointer-events: none;">
+          ${statusHtml}
+        </div>
+      `;
+
+      row.addEventListener('click', () => {
+        selectedServerId = s.id;
+        renderServerList();
+      });
+
+      row.addEventListener('dblclick', () => {
+        selectedServerId = s.id;
+        connectToSelectedServer();
+      });
+
+      sContainer.appendChild(row);
+    });
+  }
+
+  function connectToSelectedServer() {
+    if (!selectedServerId) return;
+    const curU = safeStorage.getItem(SESSION_KEY);
+    const bans = getBannedPlayers();
+    if (curU && bans[curU.toLowerCase()]) {
+      showBanScreen(bans[curU.toLowerCase()]);
+      return;
+    }
+    const srv = servers.find(s => s.id === selectedServerId);
+    if (srv) launchGameSession(srv);
+  }
+
+  // --- TÜM SUNUCU BUTONLARI VE MODAL FONKSİYONLARI ---
+  const elBtnDirectConnect = document.getElementById('btnDirectConnect');
+  const elBtnAddServer = document.getElementById('btnAddServer');
+  const elBtnEditServer = document.getElementById('btnEditServer');
+  const elBtnRefreshServers = document.getElementById('btnRefreshServers');
+
+  // Modallar
+  const modalDirectConnect = document.getElementById('modalDirectConnect');
+  const modalAddServer = document.getElementById('modalAddServer');
+  const modalEditServer = document.getElementById('modalEditServer');
+  const modalDeleteServer = document.getElementById('modalDeleteServer');
+
+  // 1. Sunucuya Katıl Butonu
+  if (btnJoinServer) {
+    btnJoinServer.onclick = connectToSelectedServer;
+  }
+
+  // 2. Doğrudan Bağlantı Butonu & Modalı
+  if (elBtnDirectConnect) {
+    elBtnDirectConnect.addEventListener('click', () => {
+      if (modalDirectConnect) modalDirectConnect.style.display = 'grid';
+      const input = document.getElementById('directServerAddressInput');
+      if (input) { input.focus(); input.select(); }
+    });
+  }
+  const btnConfirmDirectConnect = document.getElementById('btnConfirmDirectConnect');
+  const btnCancelDirectConnect = document.getElementById('btnCancelDirectConnect');
+  if (btnConfirmDirectConnect) {
+    btnConfirmDirectConnect.addEventListener('click', () => {
+      const errMsg = document.getElementById('directServerErrorMsg');
+      if (errMsg) {
+        errMsg.textContent = 'Sunucu bulunamadı!';
+      }
+      showToast('Sunucu bulunamadı!');
+    });
+  }
+  if (btnCancelDirectConnect) {
+    btnCancelDirectConnect.addEventListener('click', () => {
+      if (modalDirectConnect) modalDirectConnect.style.display = 'none';
+    });
+  }
+
+  // 3. Sunucu Ekle Butonu & Modalı
+  if (elBtnAddServer) {
+    elBtnAddServer.addEventListener('click', () => {
+      if (modalAddServer) modalAddServer.style.display = 'grid';
+      const nameInput = document.getElementById('newServerNameInput');
+      const addrInput = document.getElementById('newServerAddressInput');
+      const errMsg = document.getElementById('addServerErrorMsg');
+      if (errMsg) errMsg.textContent = '';
+      if (nameInput) { nameInput.value = ''; nameInput.focus(); }
+      if (addrInput) { addrInput.value = ''; }
+    });
+  }
+  const btnConfirmAddServer = document.getElementById('btnConfirmAddServer');
+  const btnCancelAddServer = document.getElementById('btnCancelAddServer');
+  if (btnConfirmAddServer) {
+    btnConfirmAddServer.addEventListener('click', () => {
+      const nameInput = document.getElementById('newServerNameInput');
+      const addrInput = document.getElementById('newServerAddressInput');
+      const sName = nameInput ? nameInput.value.trim() : '';
+      const sAddr = addrInput ? addrInput.value.trim() : '';
+      const errMsg = document.getElementById('addServerErrorMsg');
+      
+      // Şu an açık / çalışan bir sunucu olmadığı için 'Sunucu bulunamadı' mesajı verilir
+      if (errMsg) {
+        errMsg.textContent = 'Sunucu bulunamadı!';
+      }
+      showToast('Sunucu bulunamadı!');
+    });
+  }
+  if (btnCancelAddServer) {
+    btnCancelAddServer.addEventListener('click', () => {
+      if (modalAddServer) modalAddServer.style.display = 'none';
+    });
+  }
+
+  // 4. Düzenle Butonu & Modalı
+  if (elBtnEditServer) {
+    elBtnEditServer.addEventListener('click', () => {
+      if (!selectedServerId) return;
+      const srv = servers.find(s => s.id === selectedServerId);
+      if (!srv) return;
+      const editName = document.getElementById('editServerNameInput');
+      const editAddr = document.getElementById('editServerAddressInput');
+      if (editName) editName.value = srv.name || '';
+      if (editAddr) editAddr.value = srv.address || 'localhost:25565';
+      if (modalEditServer) modalEditServer.style.display = 'grid';
+      if (editName) editName.focus();
+    });
+  }
+  const btnConfirmEditServer = document.getElementById('btnConfirmEditServer');
+  const btnCancelEditServer = document.getElementById('btnCancelEditServer');
+  if (btnConfirmEditServer) {
+    btnConfirmEditServer.addEventListener('click', () => {
+      if (!selectedServerId) return;
+      const editName = document.getElementById('editServerNameInput');
+      const editAddr = document.getElementById('editServerAddressInput');
+      const sName = editName ? editName.value.trim() : '';
+      const sAddr = editAddr ? editAddr.value.trim() : '';
+      if (!sName || !sAddr) {
+        showToast('Sunucu adı ve adresi boş bırakılamaz!');
+        return;
+      }
+      const srv = servers.find(s => s.id === selectedServerId);
+      if (srv) {
+        srv.name = sName;
+        srv.address = sAddr;
+        saveServers();
+        if (modalEditServer) modalEditServer.style.display = 'none';
+        renderServerList();
+        showToast('Sunucu bilgileri güncellendi!');
+      }
+    });
+  }
+  if (btnCancelEditServer) {
+    btnCancelEditServer.addEventListener('click', () => {
+      if (modalEditServer) modalEditServer.style.display = 'none';
+    });
+  }
+
+  // 5. Sil Butonu & Modalı
+  if (btnDeleteServer) {
+    btnDeleteServer.onclick = () => {
+      if (!selectedServerId) return;
+      const srv = servers.find(s => s.id === selectedServerId);
+      if (!srv) return;
+      const msg = document.getElementById('deleteServerConfirmMsg');
+      if (msg) msg.textContent = `'${srv.name}' adlı sunucuyu silmek istediğinizden emin misiniz?`;
+      if (modalDeleteServer) modalDeleteServer.style.display = 'grid';
+    };
+  }
+  const btnConfirmDeleteServer = document.getElementById('btnConfirmDeleteServer');
+  const btnCancelDeleteServer = document.getElementById('btnCancelDeleteServer');
+  if (btnConfirmDeleteServer) {
+    btnConfirmDeleteServer.addEventListener('click', () => {
+      if (!selectedServerId) return;
+      servers = servers.filter(s => s.id !== selectedServerId);
+      saveServers();
+      selectedServerId = null;
+      if (modalDeleteServer) modalDeleteServer.style.display = 'none';
+      renderServerList();
+      showToast('Sunucu silindi.');
+    });
+  }
+  if (btnCancelDeleteServer) {
+    btnCancelDeleteServer.addEventListener('click', () => {
+      if (modalDeleteServer) modalDeleteServer.style.display = 'none';
+    });
+  }
+
+  // 6. Yenile Butonu
+  if (elBtnRefreshServers) {
+    elBtnRefreshServers.addEventListener('click', () => {
+      const notice = document.getElementById('localScanNotice');
+      if (notice) {
+        notice.textContent = 'Yerel ağınızdaki oyunlar taranıyor...';
+        setTimeout(() => {
+          if (notice) notice.textContent = 'Yerel ağınızdaki oyunlar taranıyor';
+        }, 1200);
+      }
+      renderServerList();
+      showToast('Sunucu listesi yenilendi.');
+    });
+  }
+
+  let activeLoadingTimeouts = [];
+  let isSessionLoading = false;
+
+  function cancelGameSessionLoading(isServer) {
+    if (!isSessionLoading) return;
+    isSessionLoading = false;
+
+    // Bekleyen tüm geçiş ve başlatma zamanlayıcılarını iptal et
+    activeLoadingTimeouts.forEach(t => clearTimeout(t));
+    activeLoadingTimeouts = [];
+
+    const loadingScreen = document.getElementById('worldLoadingScreen');
+    if (loadingScreen) loadingScreen.style.display = 'none';
+
+    if (launcherApp) launcherApp.style.display = 'flex';
+
+    if (isServer) {
+      openLauncherScreen('servers', 'Sunucular');
+      showToast('Sunucu bağlantısı iptal edildi.');
+    } else {
+      openLauncherScreen('worlds', 'Dünya Seç');
+      showToast('Dünyaya katılma iptal edildi.');
+    }
+  }
 
   function launchGameSession(worldData) {
     safeStorage.setItem(CHAR_KEY, JSON.stringify(character));
     safeStorage.setItem(ACTIVE_WORLD_KEY, JSON.stringify(worldData));
-    
+
+    const isServer = Boolean(
+      (worldData && (worldData.isServer || worldData.maxPlayers !== undefined || worldData.address || (worldData.id && String(worldData.id).startsWith('srv_')))) ||
+      (selectedServerId && !selectedWorldId)
+    );
+
     launcherApp.style.display = 'none';
 
-    // GERÇEK MINECRAFT ARAZİ YÜKLENİYOR EKRANI
+    // GERÇEK MINECRAFT DÜNYAYA / SUNUCUYA KATILMA EKRANI
     const loadingScreen = document.getElementById('worldLoadingScreen');
     const loadingTitle = document.getElementById('loadingWorldTitle');
-    const loadingSub = document.getElementById('loadingWorldSub');
-    const progressBar = document.getElementById('loadingProgressBar');
-    const progressPercent = document.getElementById('loadingProgressPercent');
+    const btnCancel = document.getElementById('btnCancelLoading');
+
+    // Eski zamanlayıcıları temizle
+    activeLoadingTimeouts.forEach(t => clearTimeout(t));
+    activeLoadingTimeouts = [];
+    isSessionLoading = true;
 
     if (loadingScreen) {
-      // Gerçekçi dağ resmi (launcher ile birebir aynı yüksek kaliteli manzara)
       loadingScreen.style.display = 'flex';
-      if (loadingTitle) loadingTitle.textContent = `${(worldData.name || 'Dünya').toUpperCase()} YÜKLENİYOR...`;
-      if (loadingSub) loadingSub.textContent = `Arazi ve ${getDimensionLabel(worldData.dimension || 'mountains')} İnşa Ediliyor...`;
-      if (progressBar) progressBar.style.width = '20%';
-      if (progressPercent) progressPercent.textContent = '%20';
+      if (loadingTitle) {
+        loadingTitle.textContent = isServer ? 'Sunucuya bağlanılıyor...' : 'Dünyaya katılınıyor...';
+      }
     }
 
-    setTimeout(() => {
-      if (progressBar) progressBar.style.width = '65%';
-      if (progressPercent) progressPercent.textContent = '%65';
-    }, 350);
+    if (btnCancel) {
+      btnCancel.onclick = (e) => {
+        e.stopPropagation();
+        cancelGameSessionLoading(isServer);
+      };
+    }
 
-    setTimeout(() => {
-      if (progressBar) progressBar.style.width = '100%';
-      if (progressPercent) progressPercent.textContent = '%100 Hazır!';
-    }, 750);
+    // Sunucuya bağlanırken: önce 'Sunucuya bağlanılıyor...' ardından 'Dünyaya katılınıyor...' aşaması
+    if (isServer) {
+      const t1 = setTimeout(() => {
+        if (!isSessionLoading) return;
+        if (loadingTitle) loadingTitle.textContent = 'Dünyaya katılınıyor...';
+      }, 550);
+      activeLoadingTimeouts.push(t1);
+    }
 
-    setTimeout(() => {
+    const t2 = setTimeout(() => {
+      if (!isSessionLoading) return;
+      isSessionLoading = false;
+      activeLoadingTimeouts = [];
+
       if (loadingScreen) loadingScreen.style.display = 'none';
 
       document.getElementById('game').style.display = 'block';
@@ -2224,6 +3446,7 @@
 
       startGameEngine(worldData);
     }, 1100);
+    activeLoadingTimeouts.push(t2);
   }
 
   document.getElementById('btnExit').addEventListener('click', () => {
@@ -2887,6 +4110,7 @@
         return;
       }
       safeStorage.setItem(CHAR_KEY, JSON.stringify(character));
+      if (typeof syncActiveUserSnapshot === 'function') syncActiveUserSnapshot();
       showToast('Kostüm başarıyla kaydedildi! Oyunda bu kostüm kullanılacak.');
     }
 
@@ -2914,8 +4138,12 @@
 
     if (titleScreen) titleScreen.style.display = 'none';
     if (subHeader) {
-      subHeader.style.display = 'flex';
-      if (titleEl) titleEl.textContent = titleText || 'MENÜ';
+      if (screenName === 'servers') {
+        subHeader.style.display = 'none';
+      } else {
+        subHeader.style.display = 'flex';
+        if (titleEl) titleEl.textContent = titleText || 'MENÜ';
+      }
     }
 
     document.querySelector('main').style.display = 'flex';
@@ -2955,8 +4183,12 @@
     }
     if (btnLogout) {
       btnLogout.onclick = () => {
-        safeStorage.removeItem(SESSION_KEY);
-        location.reload();
+        if (typeof handleLogoutOrSwitch === 'function') {
+          handleLogoutOrSwitch();
+        } else {
+          safeStorage.removeItem(SESSION_KEY);
+          location.reload();
+        }
       };
     }
 
@@ -3623,6 +4855,25 @@
 
       const args = rawTrimmed.split(/\s+/);
       const cmd = args[0].toLowerCase();
+
+      // --- /KUKLA /BOT /PVP TEST KOMUTU ---
+      if (cmd === '/bot' || cmd === '/kukla' || cmd === '/dummy' || cmd === '/pvp') {
+        const botName = args[1] || 'EgitimKuklasi';
+        const botId = 'bot_' + Date.now();
+        const spawnX = player.x + Math.sin(player.yaw) * 2;
+        const spawnZ = player.z - Math.cos(player.yaw) * 2;
+        const spawnY = player.y - player.height;
+        const botAvatar = makeRemoteAvatar(botName, {
+          skinColor: '#c68642',
+          shirtColor: '#c62828',
+          pantColor: '#1565c0'
+        });
+        botAvatar.position.set(spawnX, spawnY, spawnZ);
+        scene.add(botAvatar);
+        remotePlayers.set(botId, botAvatar);
+        addChatMessage('', `[PvP] ${botName} yaniniza yerlestirildi. Vurarak test edebilirsiniz.`, true);
+        return;
+      }
 
       // --- /DAMAGE KOMUTU ---
       if (cmd === '/damage' || cmd === '/hasar') {
@@ -4383,6 +5634,9 @@
     }
 
     function toggleInventory() {
+      // SADECE OYUN EKRANI AKTIFKEN CALISIR - Menude veya giris ekraninda ASLA acilmaz!
+      const gameEl = document.getElementById('game');
+      if (!gameEl || gameEl.style.display !== 'block') return;
       if (isPauseOpen || isChatOpen) return;
       isInventoryOpen = !isInventoryOpen;
       const modal = document.getElementById('inventoryModal');
@@ -5944,17 +7198,27 @@
 
     function flashAvatarHurt(avatar) {
       if (!avatar) return;
+      const rig = avatar.userData ? avatar.userData.rig : null;
+      const heldMesh = rig ? rig.heldItemMesh : null;
       avatar.traverse(obj => {
-        if (obj.isMesh && obj.material) {
-          const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-          mats.forEach(m => {
-            if (m.color) {
-              const origHex = m.color.getHex();
-              m.color.setHex(0xff3333);
-              setTimeout(() => { try { m.color.setHex(origHex); } catch(e){} }, 220);
+        if (!obj.isMesh || !obj.material) return;
+        // Asla eldeki esyayi veya bloklari kirmizi yapma
+        if (obj === heldMesh || obj.name === 'heldItem') return;
+
+        const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+        mats.forEach(m => {
+          if (!m || !m.color || typeof m.color.getHex !== 'function') return;
+          // Zemin ve dunya bloklarinin paylasilan materyallerine ASLA dokunma
+          if (typeof materials !== 'undefined' && materials) {
+            for (let k in materials) {
+              const wm = materials[k];
+              if (wm === m || (Array.isArray(wm) && wm.includes(m))) return;
             }
-          });
-        }
+          }
+          const origHex = m.color.getHex();
+          m.color.setHex(0xff3333);
+          setTimeout(() => { try { m.color.setHex(origHex); } catch(e){} }, 200);
+        });
       });
     }
 
@@ -6232,7 +7496,9 @@
             heldItemMesh.visible = false;
           } else {
             heldItemMesh.visible = true;
-            heldItemMesh.material = mats[type] || mats.grass;
+            const baseMat = (mats && mats[type]) ? mats[type] : (mats ? mats.grass : materials.grass);
+            // Paylasilan dunya bloklarinin pvp hasarinda kirmizilasmamasi icin klon materyal kullanilir
+            heldItemMesh.material = Array.isArray(baseMat) ? baseMat.map(m => m.clone()) : (baseMat ? baseMat.clone() : materials.grass);
           }
         }
       };
@@ -6980,6 +8246,14 @@
     });
 
     document.addEventListener('keydown', (e) => {
+      // OYUNDA DEGILSEK (Giris ekraninda, Launcher'da veya menulerdeysek) OYUN TUSLARI ASLA CALISMAZ!
+      const gameEl = document.getElementById('game');
+      if (!gameEl || gameEl.style.display !== 'block') return;
+
+      // Kullanici herhangi bir yazi kutusuna (input, textarea) yaziyorsa oyun kisayollarini engelle
+      const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+      if (activeTag === 'input' || activeTag === 'textarea' || document.activeElement?.isContentEditable) return;
+
       if (e.code === 'F3' || e.key === 'F3') {
         e.preventDefault();
         toggleF3Debug();
@@ -7061,11 +8335,60 @@
         }
       }
     });
-    document.addEventListener('keyup', (e) => { keys[e.code] = false; });
+    document.addEventListener('keyup', (e) => {
+      const gameEl = document.getElementById('game');
+      if (!gameEl || gameEl.style.display !== 'block') {
+        for (let k in keys) keys[k] = false;
+        return;
+      }
+      keys[e.code] = false;
+    });
 
     document.querySelectorAll('.slot').forEach(s => {
       s.addEventListener('click', () => { selectedSlotIndex = parseInt(s.dataset.index); updateInventoryUI(); });
     });
+
+    // Vurulan oyuncunun bloklarin icinden gecmesini engelleyen AABB carpisma kontrolu
+    function checkAvatarCollision(nx, feetY, nz, r = 0.35, height = 1.7) {
+      const feet = feetY + 0.15;
+      const head = feetY + height + 0.05;
+      for (let x = Math.floor(nx - r); x <= Math.ceil(nx + r); x++) {
+        for (let y = Math.floor(feet); y <= Math.ceil(head); y++) {
+          for (let z = Math.floor(nz - r); z <= Math.ceil(nz + r); z++) {
+            if (hasSolidBlock(x, y, z)) {
+              const bType = getBlockAt(x, y, z);
+              if (bType && bType !== 'water') {
+                if (nx + r > x - 0.5 && nx - r < x + 0.5 &&
+                    nz + r > z - 0.5 && nz - r < z + 0.5 &&
+                    head > y - 0.5 && feet < y + 0.5) {
+                  return true;
+                }
+              }
+            }
+          }
+        }
+      }
+      return false;
+    }
+
+    function applyAvatarKnockback(avatar, dir, totalDist = 0.45) {
+      if (!avatar || !dir) return;
+      const steps = 12;
+      const stepDist = totalDist / steps;
+      const r = 0.35;
+      const h = 1.7;
+      for (let i = 0; i < steps; i++) {
+        const testX = avatar.position.x + dir.x * stepDist;
+        const testZ = avatar.position.z + dir.z * stepDist;
+        const feetY = avatar.position.y;
+        if (!checkAvatarCollision(testX, feetY, avatar.position.z, r, h)) {
+          avatar.position.x = testX;
+        }
+        if (!checkAvatarCollision(avatar.position.x, feetY, testZ, r, h)) {
+          avatar.position.z = testZ;
+        }
+      }
+    }
 
     function handlePlayerAttackOrBreak() {
       if (isInventoryOpen || isPauseOpen || isChatOpen) return;
@@ -7086,10 +8409,13 @@
         }
 
         flashAvatarHurt(hitPlayer.avatar);
-        // Geri itme (Knockback)
+        // Geri itme (Knockback) - Bloklarin icinden gecmeyi onleyen carpişma kontrollu mekanizma
         const kbDir = new THREE.Vector3().subVectors(hitPlayer.avatar.position, camera.position);
-        kbDir.y = 0; kbDir.normalize();
-        hitPlayer.avatar.position.addScaledVector(kbDir, 0.45);
+        kbDir.y = 0;
+        if (kbDir.lengthSq() > 0.0001) {
+          kbDir.normalize();
+          applyAvatarKnockback(hitPlayer.avatar, kbDir, 0.45);
+        }
 
         showToast(`${hitPlayer.name} adlı oyuncuya ${dmg / 2} kalp hasar verdiniz!`);
 
