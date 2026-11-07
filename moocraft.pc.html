@@ -4412,6 +4412,12 @@
 
     window.addEventListener('beforeunload', () => {
       saveCurrentGameState();
+      if (typeof multiplayerSocket !== 'undefined' && multiplayerSocket) {
+        try {
+          multiplayerSocket.emit('player-left', multiplayerSocket.id);
+          multiplayerSocket.disconnect();
+        } catch(e){}
+      }
     });
 
     let isExitingPause = false;
@@ -4646,6 +4652,21 @@
       isExitingPause = false;
       pauseModal.classList.remove('active');
       if (isInventoryOpen) toggleInventory();
+
+      // Oyundan çıkışta çok oyunculu sunucu ve hayalet oyuncu kopyalarını tamamen temizle
+      if (multiplayerSocket) {
+        try {
+          multiplayerSocket.emit('player-left', multiplayerSocket.id);
+          multiplayerSocket.disconnect();
+        } catch(err){}
+      }
+      if (typeof remotePlayers !== 'undefined' && remotePlayers) {
+        remotePlayers.forEach(avatar => {
+          try { scene.remove(avatar); } catch(err){}
+        });
+        remotePlayers.clear();
+      }
+
       document.getElementById('game').style.display = 'none';
       document.getElementById('topbar').style.display = 'none';
       document.getElementById('crosshair').style.display = 'none';
@@ -5544,7 +5565,7 @@
             inventory[selectedSlotIndex] = { type: blockKeyName, count: 99 };
             updateInventoryUI();
             toggleInventory();
-            showToast(`${info.name} seçildi! (x99)`);
+            // Bildirim kapatildi: showToast(`${info.name} seçildi! (x99)`);
           });
           grid.appendChild(slot);
         });
@@ -7240,9 +7261,27 @@
               if (wm === m || (Array.isArray(wm) && wm.includes(m))) return;
             }
           }
-          const origHex = m.color.getHex();
+          if (!m.userData) m.userData = {};
+          // Orijinal rengi ilk hasarda güvenli şekilde sakla, peş peşe vuruşlarda kırmızı rengi orijinal sanmasın
+          if (m.userData._origHex === undefined) {
+            m.userData._origHex = m.color.getHex();
+          }
+          // Varsa önceki geri alma sayacını sıfırla
+          if (m.userData._hurtTimer) {
+            clearTimeout(m.userData._hurtTimer);
+          }
+          // Minecraft hasar kırmızısı (0xff3333)
           m.color.setHex(0xff3333);
-          setTimeout(() => { try { m.color.setHex(origHex); } catch(e){} }, 200);
+          // Kullanıcı talebi: Tam 1 saniye (1000ms) kırmızı kalsın, asla kalıcı kırmızı kalmasın
+          m.userData._hurtTimer = setTimeout(() => {
+            try {
+              if (m.userData && m.userData._origHex !== undefined) {
+                m.color.setHex(m.userData._origHex);
+                delete m.userData._origHex;
+              }
+              if (m.userData) delete m.userData._hurtTimer;
+            } catch(e){}
+          }, 1000);
         });
       });
     }
@@ -7279,6 +7318,8 @@
     const remotePlayers = new Map();
     let lastNetworkUpdate = 0;
     const myPlayerName = safeStorage.getItem('moocraft_active_session') || 'Oyuncu';
+    // Aktif kullanıcının kendi karakter verisi (çok oyunculu senkronizasyon için en başta yüklenir)
+    const myActiveChar = JSON.parse(safeStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA));
 
 
     // --- 3D OYUNCU MODELİ & KARAKTER ÖZELLEŞTİRME RİGİ (1. VE 3. ŞAHIS - F5) ---
@@ -7513,6 +7554,13 @@
         rightArmGroup,
         leftLegGroup,
         rightLegGroup,
+        headMesh,
+        hairMesh,
+        bodyMesh,
+        leftArmMesh,
+        rightArmMesh,
+        leftLegMesh,
+        rightLegMesh,
         capeGroup,
         heldItemMesh,
         updateHeldItem: function(type, mats) {
@@ -7529,9 +7577,40 @@
       };
     }
 
+    // Karakter modeline (rig) özel kostüm veya Steve dokusunu doğrudan uygulama fonksiyonu
+    function applySkinToRig(rig, charData) {
+      if (!rig || !charData) return;
+      if (charData.customSkin) {
+        getOrCreateSkinCanvas(charData.customSkin, (skinCanvas) => {
+          const mats = createMaterialsFromSkin(skinCanvas, THREE.MeshLambertMaterial);
+          if (rig.headMesh) rig.headMesh.material = mats.head;
+          if (rig.hairMesh) rig.hairMesh.visible = false;
+          if (rig.bodyMesh) rig.bodyMesh.material = mats.torso;
+          if (rig.leftArmMesh) rig.leftArmMesh.material = mats.leftArm;
+          if (rig.rightArmMesh) rig.rightArmMesh.material = mats.rightArm;
+          if (rig.leftLegMesh) rig.leftLegMesh.material = mats.leftLeg;
+          if (rig.rightLegMesh) rig.rightLegMesh.material = mats.rightLeg;
+        });
+      } else {
+        const steveUrl = getDefaultSteveDataUrl();
+        getOrCreateSkinCanvas(steveUrl, (skinCanvas) => {
+          const mats = createMaterialsFromSkin(skinCanvas, THREE.MeshLambertMaterial);
+          if (rig.headMesh) rig.headMesh.material = mats.head;
+          if (rig.hairMesh) rig.hairMesh.visible = true;
+          if (rig.bodyMesh) rig.bodyMesh.material = mats.torso;
+          if (rig.leftArmMesh) rig.leftArmMesh.material = mats.leftArm;
+          if (rig.rightArmMesh) rig.rightArmMesh.material = mats.rightArm;
+          if (rig.leftLegMesh) rig.leftLegMesh.material = mats.leftLeg;
+          if (rig.rightLegMesh) rig.rightLegMesh.material = mats.rightLeg;
+        });
+      }
+    }
+
     function makeRemoteAvatar(name, customChar) {
-      const activeChar = customChar || JSON.parse(safeStorage.getItem(CHAR_KEY) || '{}');
-      const rig = createFullCharacterRig(activeChar, false);
+      // Kesinlikle yerel oyuncunun safeStorage'daki kendi kostümünü başkasına yükleme!
+      // Eğer customChar verilmemişse varsayılan Steve karakterini kullan, böylece herkes karşısındakinin gerçek karakterini görür
+      const charConfig = customChar || JSON.parse(JSON.stringify(DEFAULT_STEVE_DATA));
+      const rig = createFullCharacterRig(charConfig, false);
       const avatar = rig.group;
       const tag = createNameTagSprite(name || 'Oyuncu');
       avatar.add(tag);
@@ -7539,18 +7618,38 @@
         playerName: name || 'Oyuncu',
         rig: rig,
         lastPos: new THREE.Vector3(),
-        walkTime: 0
+        walkTime: 0,
+        currentSkinKey: (charConfig && charConfig.customSkin) ? charConfig.customSkin : 'default_steve',
+        velocityY: 0,
+        onGround: true
       };
       return avatar;
     }
 
     function updateRemotePlayer(data) {
       if (!data || !data.id || data.id === (multiplayerSocket && multiplayerSocket.id)) return;
+      // Bizim kendi kullanıcı adımıza sahip eski hayalet kopyaları kesinlikle engelle ve sahneden sil
+      if (data.name && myPlayerName && data.name.trim().toLowerCase() === myPlayerName.trim().toLowerCase()) {
+        const oldSelf = remotePlayers.get(data.id);
+        if (oldSelf) {
+          scene.remove(oldSelf);
+          remotePlayers.delete(data.id);
+        }
+        return;
+      }
+
       let remote = remotePlayers.get(data.id);
       if (!remote) {
         remote = makeRemoteAvatar(data.name, data.character);
         scene.add(remote);
         remotePlayers.set(data.id, remote);
+      } else if (data.character && remote.userData && remote.userData.rig) {
+        // Karşıdaki oyuncunun orijinal özel karakteri/kostümü geldiyse veya güncellendiyse modele uygula
+        const skinKey = (data.character && data.character.customSkin) ? data.character.customSkin : 'default_steve';
+        if (remote.userData.currentSkinKey !== skinKey) {
+          remote.userData.currentSkinKey = skinKey;
+          applySkinToRig(remote.userData.rig, data.character);
+        }
       }
       if (Number.isFinite(data.x) && Number.isFinite(data.y) && Number.isFinite(data.z)) {
         const newPos = new THREE.Vector3(data.x, data.y - player.height, data.z);
@@ -7578,7 +7677,8 @@
 
     if (multiplayerSocket) {
       multiplayerSocket.on('connect', () => {
-        multiplayerSocket.emit('player-join', { name: myPlayerName });
+        // Sunucuya bağlanınca kendi orijinal karakter/kostüm verimizi de gönderiyoruz
+        multiplayerSocket.emit('player-join', { name: myPlayerName, character: myActiveChar });
       });
 
       // SUNUCUDAN GELEN OP YETKİ DURUMUNU YAKALA
@@ -7618,7 +7718,12 @@
       });
 
       multiplayerSocket.on('players-state', (players) => {
-        Object.values(players || {}).forEach(updateRemotePlayer);
+        Object.values(players || {}).forEach(p => {
+          if (!p) return;
+          if (p.id === (multiplayerSocket && multiplayerSocket.id)) return;
+          if (p.name && myPlayerName && p.name.trim().toLowerCase() === myPlayerName.trim().toLowerCase()) return;
+          updateRemotePlayer(p);
+        });
       });
       multiplayerSocket.on('player-moved', updateRemotePlayer);
 
@@ -7650,6 +7755,12 @@
       multiplayerSocket.on('player-left', (id) => {
         const remote = remotePlayers.get(id);
         if (remote) { scene.remove(remote); remotePlayers.delete(id); }
+        for (let [rId, rGroup] of remotePlayers.entries()) {
+          if (rId === id || (typeof id === 'string' && rGroup.userData && rGroup.userData.playerName === id)) {
+            scene.remove(rGroup);
+            remotePlayers.delete(rId);
+          }
+        }
       });
       multiplayerSocket.on('chat-message', (data) => {
         if (data && data.name && data.text) {
@@ -7736,7 +7847,7 @@
           if (pPos.distanceTo(item.mesh.position) < 1.85) {
             const addCount = item.count || 1;
             if (addItemToInventory(item.type, addCount)) {
-              showToast(`+${addCount} ${BLOCK_INFO[item.type]?.name || 'Blok'}`);
+              // Bildirim kapatildi: showToast(`+${addCount} ${BLOCK_INFO[item.type]?.name || 'Blok'}`);
               scene.remove(item.mesh);
               droppedItems.splice(i, 1);
             }
@@ -8040,7 +8151,7 @@
       }
     }
 
-    const activeChar = JSON.parse(safeStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA));
+    const activeChar = myActiveChar;
 
     // 1. ŞAHIS SAĞ KOL GÖRÜNÜMÜ
     const armContainer = new THREE.Group();
@@ -8155,7 +8266,7 @@
       updateInventoryUI();
       updateHeldBlockMaterial(inventory[selectedSlotIndex]?.type);
       triggerArmPunch();
-      showToast(`-1 ${BLOCK_INFO[itemType]?.name || 'Eşya'}`);
+      // Bildirim kapatildi: showToast(`-1 ${BLOCK_INFO[itemType]?.name || 'Eşya'}`);
       saveCurrentGameState();
     }
 
@@ -8396,6 +8507,34 @@
       return false;
     }
 
+    // Uzak oyuncunun veya kuklanın altındaki katı zemin yüksekliğini bulan fonksiyon
+    function getAvatarGroundY(x, feetY, z, r = 0.35) {
+      let highest = -Infinity;
+      const minX = Math.floor(x - r), maxX = Math.ceil(x + r);
+      const minZ = Math.floor(z - r), maxZ = Math.ceil(z + r);
+      const startY = Math.floor(feetY + 0.25);
+      const endY = Math.max(typeof BEDROCK_Y !== 'undefined' ? BEDROCK_Y : -48, Math.floor(feetY - 8));
+      for (let bx = minX; bx <= maxX; bx++) {
+        for (let bz = minZ; bz <= maxZ; bz++) {
+          if (x + r > bx - 0.5 && x - r < bx + 0.5 && z + r > bz - 0.5 && z - r < bz + 0.5) {
+            for (let by = startY; by >= endY; by--) {
+              if (hasSolidBlock(bx, by, bz)) {
+                const bType = getBlockAt(bx, by, bz);
+                if (bType && bType !== 'water') {
+                  const top = by + 0.5;
+                  if (top <= feetY + 0.25 && top > highest) {
+                    highest = top;
+                  }
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+      return highest;
+    }
+
     function applyAvatarKnockback(avatar, dir, totalDist = 0.45) {
       if (!avatar || !dir) return;
       const steps = 12;
@@ -8412,6 +8551,11 @@
         if (!checkAvatarCollision(avatar.position.x, feetY, testZ, r, h)) {
           avatar.position.z = testZ;
         }
+      }
+      // Minecraft tarzı vuruş fiziği: Yatay geri fırlama + hafif yukarı sıçrama + yer çekimi etkisi
+      if (avatar.userData) {
+        avatar.userData.velocityY = 4.2;
+        avatar.userData.onGround = false;
       }
     }
 
@@ -8554,6 +8698,53 @@
         }
         updateInfiniteWorld(player.x, player.z);
         updateDroppedItems(dt);
+
+        // --- UZAK OYUNCULAR VE KUKLALAR / BOTLAR İÇİN YER ÇEKİMİ VE BOŞLUK FİZİĞİ (MINECRAFT GİBİ DÜŞME) ---
+        if (typeof remotePlayers !== 'undefined' && remotePlayers && remotePlayers.size > 0) {
+          const voidLimit = (typeof BEDROCK_Y !== 'undefined') ? (BEDROCK_Y - 20) : -40;
+          const fallenAvatars = [];
+          const r = 0.35;
+
+          remotePlayers.forEach((avatar, id) => {
+            if (!avatar || !avatar.position) return;
+            if (!avatar.userData) avatar.userData = {};
+            if (typeof avatar.userData.velocityY !== 'number') avatar.userData.velocityY = 0;
+
+            // Yer çekimi ivmesi (Minecraft stili: -22 * dt)
+            avatar.userData.velocityY -= 22 * dt;
+            if (avatar.userData.velocityY < -35) avatar.userData.velocityY = -35;
+
+            const nextY = avatar.position.y + avatar.userData.velocityY * dt;
+            const groundY = getAvatarGroundY(avatar.position.x, avatar.position.y, avatar.position.z, r);
+
+            if (avatar.userData.velocityY <= 0 && groundY !== -Infinity && nextY <= groundY) {
+              // Zemine oturdu
+              avatar.position.y = groundY;
+              avatar.userData.velocityY = 0;
+              avatar.userData.onGround = true;
+            } else {
+              // Altında blok yoksa veya boşluğa fırlatıldıysa aşağı düşer!
+              avatar.position.y = nextY;
+              avatar.userData.onGround = false;
+            }
+
+            // Boşluğa (Void) düşme kontrolü
+            if (avatar.position.y < voidLimit) {
+              fallenAvatars.push(id);
+            }
+          });
+
+          // Boşluğa düşen kuklaları temizle
+          fallenAvatars.forEach(id => {
+            const avatar = remotePlayers.get(id);
+            if (avatar) {
+              scene.remove(avatar);
+              remotePlayers.delete(id);
+              const pName = avatar.userData ? avatar.userData.playerName : 'Oyuncu';
+              addChatMessage('', `[PvP] ${pName} boşluğa düşerek yok oldu!`, true);
+            }
+          });
+        }
 
         // Gökyüzü, Güneş, Kare Ay, Işıklandırma ve Gerçekçi 3D Bulutlar Güncellemesi
         updateEnvironment(dt, true);
