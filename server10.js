@@ -1,3 +1,4 @@
+const { logNewAccount, logPlayerActivity } = require('./render_logger');
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
