@@ -1507,24 +1507,53 @@
   };
 
   window.handleLogoutOrSwitch = function() {
-    safeStorage.removeItem('moocraft_active_session');
-    const authOverlay = document.getElementById('authOverlay');
-    const launcherApp = document.getElementById('launcherApp');
-    if (authOverlay) {
-      if (launcherApp) launcherApp.style.display = 'none';
-      authOverlay.style.display = 'grid';
-      const authMsg = document.getElementById('authMsg');
-      if (authMsg) { authMsg.className = 'auth-msg'; authMsg.textContent = 'Hesaptan çıkış yapıldı.'; }
-      const authUser = document.getElementById('authUsername');
-      if (authUser) authUser.value = '';
-      const authPass = document.getElementById('authPassword');
-      if (authPass) authPass.value = '';
-      const authPassConf = document.getElementById('authPasswordConfirm');
-      if (authPassConf) authPassConf.value = '';
-      if (typeof showToast === 'function') showToast('Hesaptan çıkış yapıldı.');
-    } else {
-      location.reload();
+    try {
+      const curU = safeStorage.getItem(SESSION_KEY) || safeStorage.getItem('moocraft_active_session');
+      if (curU && typeof syncActiveUserSnapshot === 'function') {
+        syncActiveUserSnapshot();
+      }
+    } catch(err) {
+      console.warn('Sync on logout:', err);
     }
+
+    try {
+      safeStorage.removeItem(SESSION_KEY);
+      safeStorage.removeItem('moocraft_active_session');
+    } catch(err) {}
+
+    // Varsa acik cok oyunculu soketi kapat
+    try {
+      if (typeof multiplayerSocket !== 'undefined' && multiplayerSocket) {
+        multiplayerSocket.emit('player-left', multiplayerSocket.id);
+        multiplayerSocket.disconnect();
+      }
+    } catch(err) {}
+
+    // Arayuzu aninda giris ekranina gecir
+    try {
+      const authOverlay = document.getElementById('authOverlay');
+      const launcherApp = document.getElementById('launcherApp');
+      const gameEl = document.getElementById('game');
+      if (gameEl) gameEl.style.display = 'none';
+      if (launcherApp) launcherApp.style.display = 'none';
+      if (authOverlay) {
+        authOverlay.style.display = 'grid';
+        const authMsg = document.getElementById('authMsg');
+        if (authMsg) { authMsg.className = 'auth-msg success'; authMsg.textContent = 'Hesaptan çıkış yapıldı.'; }
+        const authUser = document.getElementById('authUsername');
+        if (authUser) authUser.value = '';
+        const authPass = document.getElementById('authPassword');
+        if (authPass) authPass.value = '';
+        const authPassConf = document.getElementById('authPasswordConfirm');
+        if (authPassConf) authPassConf.value = '';
+      }
+      if (typeof showToast === 'function') showToast('Hesaptan çıkış yapıldı.');
+    } catch(err) {}
+
+    // Sayfayi tazeleyerek tertemiz sifir oturum baslat
+    try {
+      window.location.reload();
+    } catch(err) {}
   };
 
   // --- MOOCRAFT HUD SVG RENDERING (TAM, YARIM VE BOŞ KALPLER / AÇLIK BUTLARI) ---
@@ -2286,45 +2315,8 @@
     }
   });
 
-  // Çıkış yaparken mevcut hesap verisini kaybetmeden güvenle kaydet
-  window.handleLogoutOrSwitch = function() {
-    const curU = safeStorage.getItem(SESSION_KEY);
-    if (curU) {
-      syncActiveUserSnapshot();
-    }
-    safeStorage.removeItem(SESSION_KEY);
-
-    // Çıkış yapıldığında hafızadaki ve arayüzdeki kostümü ve dünyaları sıfırla
-    character = JSON.parse(JSON.stringify(DEFAULT_STEVE_DATA));
-    character.customSkin = null;
-    character.skinName = 'Standart Karakter';
-    safeStorage.removeItem(CHAR_KEY);
-
-    worlds = JSON.parse(JSON.stringify(DEFAULT_WORLDS_TEMPLATE));
-    safeStorage.removeItem(WORLDS_KEY);
-
-    if (typeof updateSkinUIState === 'function') updateSkinUIState();
-    if (typeof updateCharacterTextures === 'function') updateCharacterTextures();
-    if (typeof renderWorldList === 'function') renderWorldList();
-
-    const authOverlay = document.getElementById('authOverlay');
-    const launcherApp = document.getElementById('launcherApp');
-    if (authOverlay) {
-      if (launcherApp) launcherApp.style.display = 'none';
-      authOverlay.style.display = 'grid';
-      const authMsg = document.getElementById('authMsg');
-      if (authMsg) { authMsg.className = 'auth-msg'; authMsg.textContent = 'Hesaptan çıkış yapıldı.'; }
-      const authUser = document.getElementById('authUsername');
-      if (authUser) authUser.value = '';
-      const authPass = document.getElementById('authPassword');
-      if (authPass) authPass.value = '';
-      const authPassConf = document.getElementById('authPasswordConfirm');
-      if (authPassConf) authPassConf.value = '';
-      if (typeof showToast === 'function') showToast('Hesaptan çıkış yapıldı.');
-    } else {
-      location.reload();
-    }
-  };
+  // Çıkış yaparken mevcut hesap verisini kaybetmeden güvenle kaydet ve sayfayı sıfırla
+  // (Tanım global window.handleLogoutOrSwitch olarak çalışır)
 
   // Başlangıç durumu: Eğer aktif oturum varsa ana menüye geç, yoksa temiz Giriş/Kayıt ekranını aç
   let initUser = safeStorage.getItem(SESSION_KEY);
@@ -3241,11 +3233,22 @@
   const btnCancelDirectConnect = document.getElementById('btnCancelDirectConnect');
   if (btnConfirmDirectConnect) {
     btnConfirmDirectConnect.addEventListener('click', () => {
+      const addrInput = document.getElementById('directServerAddressInput');
+      const sAddr = addrInput ? addrInput.value.trim() : '';
       const errMsg = document.getElementById('directServerErrorMsg');
-      if (errMsg) {
-        errMsg.textContent = 'Sunucu bulunamadı!';
+      if (!sAddr) {
+        if (errMsg) errMsg.textContent = 'Lütfen geçerli bir sunucu adresi veya IP girin!';
+        showToast('Sunucu adresi boş olamaz!');
+        return;
       }
-      showToast('Sunucu bulunamadı!');
+      if (modalDirectConnect) modalDirectConnect.style.display = 'none';
+      launchGameSession({
+        id: 'srv_direct_' + Date.now(),
+        name: 'Doğrudan Bağlantı',
+        address: sAddr,
+        isServer: true,
+        maxPlayers: 20
+      });
     });
   }
   if (btnCancelDirectConnect) {
@@ -3275,12 +3278,27 @@
       const sName = nameInput ? nameInput.value.trim() : '';
       const sAddr = addrInput ? addrInput.value.trim() : '';
       const errMsg = document.getElementById('addServerErrorMsg');
-      
-      // Şu an açık / çalışan bir sunucu olmadığı için 'Sunucu bulunamadı' mesajı verilir
-      if (errMsg) {
-        errMsg.textContent = 'Sunucu bulunamadı!';
+      if (!sName || !sAddr) {
+        if (errMsg) errMsg.textContent = 'Sunucu adı ve adresi/IP boş bırakılamaz!';
+        showToast('Sunucu adı ve adresi boş bırakılamaz!');
+        return;
       }
-      showToast('Sunucu bulunamadı!');
+
+      const newSrv = {
+        id: 'srv_' + Date.now(),
+        name: sName,
+        address: sAddr,
+        maxPlayers: 20,
+        isServer: true,
+        isOp: false
+      };
+      if (!Array.isArray(servers)) servers = [];
+      servers.push(newSrv);
+      saveServers();
+      selectedServerId = newSrv.id;
+      if (modalAddServer) modalAddServer.style.display = 'none';
+      renderServerList();
+      showToast(`${sName} sunucusu eklendi!`);
     });
   }
   if (btnCancelAddServer) {
@@ -3472,10 +3490,18 @@
     activeLoadingTimeouts.push(t2);
   }
 
-  document.getElementById('btnExit').addEventListener('click', () => {
-    safeStorage.removeItem(SESSION_KEY);
-    location.reload();
-  });
+  const btnExitEl = document.getElementById('btnExit');
+  if (btnExitEl) {
+    btnExitEl.addEventListener('click', (e) => {
+      if (e) { try { e.preventDefault(); e.stopPropagation(); } catch(err) {} }
+      if (typeof window.handleLogoutOrSwitch === 'function') {
+        window.handleLogoutOrSwitch();
+      } else {
+        try { safeStorage.removeItem(SESSION_KEY); safeStorage.removeItem('moocraft_active_session'); } catch(err) {}
+        window.location.reload();
+      }
+    });
+  }
 
   // Three.js Karakter Önizleme Rig
   let sceneChar, cameraChar, rendererChar;
@@ -4218,12 +4244,15 @@
       btnSettings.onclick = () => openLauncherScreen('settings', 'AYARLAR & PERFORMANS');
     }
     if (btnLogout) {
-      btnLogout.onclick = () => {
-        if (typeof handleLogoutOrSwitch === 'function') {
-          handleLogoutOrSwitch();
+      btnLogout.onclick = (e) => {
+        if (e) {
+          try { e.preventDefault(); e.stopPropagation(); } catch(err) {}
+        }
+        if (typeof window.handleLogoutOrSwitch === 'function') {
+          window.handleLogoutOrSwitch();
         } else {
-          safeStorage.removeItem(SESSION_KEY);
-          location.reload();
+          try { safeStorage.removeItem(SESSION_KEY); safeStorage.removeItem('moocraft_active_session'); } catch(err) {}
+          window.location.reload();
         }
       };
     }
@@ -7332,7 +7361,15 @@
     const isMultiplayerGame = Boolean(
       worldData && (worldData.maxPlayers !== undefined || (worldData.id && String(worldData.id).startsWith('srv_')))
     );
-    const multiplayerSocket = (isMultiplayerGame && typeof io === 'function') ? io() : null;
+    let targetServerUrl = undefined;
+    if (worldData && worldData.address) {
+      let addr = String(worldData.address).trim();
+      if (!addr.startsWith('http://') && !addr.startsWith('https://') && !addr.startsWith('ws://') && !addr.startsWith('wss://')) {
+        addr = (window.location.protocol === 'https:' ? 'https://' : 'http://') + addr;
+      }
+      targetServerUrl = addr;
+    }
+    const multiplayerSocket = (isMultiplayerGame && typeof io === 'function') ? (targetServerUrl ? io(targetServerUrl, { transports: ['websocket', 'polling'] }) : io()) : null;
     const remotePlayers = new Map();
     let lastNetworkUpdate = 0;
     const myPlayerName = safeStorage.getItem('moocraft_active_session') || 'Oyuncu';
