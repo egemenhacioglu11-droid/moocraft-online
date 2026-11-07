@@ -444,49 +444,317 @@
     background: rgba(0, 0, 0, 0.85); color: #fff; border: 3px solid #555; outline: none;
   }
 
-  /* ENVANTER & CRAFT / CREATIVE MODALI */
+  /* MINECRAFT RESMİ VE OTANTİK SURVIVAL & CREATIVE ENVANTERİ (JAVA EDITION BİREBİR) */
   #inventoryModal {
     position: fixed; inset: 0; display: none; place-items: center;
-    background: rgba(0, 0, 0, 0.75); z-index: 2500;
+    background: rgba(0, 0, 0, 0.65); z-index: 2500;
+    backdrop-filter: blur(2px);
   }
   #inventoryModal.active { display: grid; }
-  .inv-window {
-    width: min(94vw, 460px); background: #c6c6c6;
-    border: 4px solid; border-color: #fff #555 #555 #fff;
-    box-shadow: inset 0 0 0 4px #8b8b8b, 0 20px 40px rgba(0,0,0,0.9);
-    padding: 16px; font-family: 'Press Start 2P', monospace; color: #222;
-  }
-  .inv-title { font-size: 9px; font-weight: bold; margin-bottom: 12px; text-align: center; text-shadow: 1px 1px 0px #fff; }
-  .craft-area {
-    display: flex; align-items: center; justify-content: center; gap: 12px;
-    background: #8b8b8b; border: 3px solid; border-color: #373737 #fff #fff #373737;
-    padding: 12px; margin-bottom: 14px;
-  }
-  .craft-grid { display: grid; grid-template-columns: repeat(2, 36px); gap: 4px; }
-  .craft-slot, .inv-slot {
-    width: 36px; height: 36px; background: #c6c6c6;
-    border: 2px solid; border-color: #555 #fff #fff #555;
-    display: flex; align-items: center; justify-content: center; cursor: pointer;
+
+  /* SURVIVAL INVENTORY PENCERESİ */
+  .mc-survival-inv {
+    width: min(96vw, 396px);
+    background: #c6c6c6;
+    border: 4px solid;
+    border-color: #ffffff #555555 #555555 #ffffff;
+    box-shadow: inset 0 0 0 2px #dbdbdb, 0 16px 40px rgba(0,0,0,0.85);
+    padding: 10px 12px 14px 12px;
+    font-family: 'Press Start 2P', monospace;
+    color: #3f3f3f;
+    user-select: none;
+    box-sizing: border-box;
     position: relative;
   }
-  .craft-arrow { font-size: 14px; font-weight: bold; color: #333; }
+
+  .mc-inv-header {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
+  }
+  .mc-inv-btn {
+    background: #c6c6c6; border: 2px solid; border-color: #ffffff #555555 #555555 #ffffff;
+    font-family: 'Press Start 2P', monospace; font-size: 7px; cursor: pointer; padding: 3px 6px; color: #222;
+  }
+  .mc-inv-btn:hover { background: #dcdcdc; }
+  .mc-inv-btn:active { border-color: #555555 #ffffff #ffffff #555555; }
+  .mc-inv-btn.btn-close { color: #b71c1c; font-weight: bold; }
+
+  .mc-inv-top-panel {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 10px;
+  }
+
+  .mc-armor-slots {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+
+  .mc-char-box {
+    width: 102px; height: 156px;
+    background: #000000;
+    border: 2px solid; border-color: #373737 #ffffff #ffffff #373737;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; position: relative;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.9);
+  }
+  #invCharCanvas {
+    width: 102px; height: 156px; display: block;
+  }
+
+  .mc-craft-side {
+    display: flex; flex-direction: column; align-items: flex-start; flex: 1; padding-left: 6px;
+  }
+  .mc-craft-title {
+    font-size: 8px; color: #3f3f3f; margin-bottom: 6px; margin-top: 2px; font-weight: bold; text-shadow: 1px 1px 0 #fff;
+  }
+  .mc-craft-row {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+  }
+  .mc-craft-2x2 {
+    display: grid; grid-template-columns: repeat(2, 36px); gap: 4px;
+  }
+  .mc-craft-arrow {
+    display: flex; align-items: center; justify-content: center; width: 28px;
+  }
   .craft-result {
-    width: 44px; height: 44px; background: #c6c6c6;
-    border: 3px solid; border-color: #fff #555 #555 #fff;
+    width: 40px; height: 40px; background: #8b8b8b;
+    border: 2px solid; border-color: #373737 #ffffff #ffffff #373737;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative;
+  }
+  .craft-result:hover { background: #9c9c9c; }
+
+  .mc-shield-recipe-row {
+    display: flex; align-items: center; gap: 12px; margin-top: auto; padding-top: 8px;
+  }
+  .mc-recipe-book-btn {
+    width: 36px; height: 36px; background: #c6c6c6;
+    border: 2px solid; border-color: #ffffff #555555 #555555 #ffffff;
     display: flex; align-items: center; justify-content: center; cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  }
+  .mc-recipe-book-btn:hover { background: #dcdcdc; }
+  .mc-recipe-book-btn:active { border-color: #555555 #ffffff #ffffff #555555; }
+
+  .inv-slot, .craft-slot {
+    width: 36px; height: 36px; background: #8b8b8b;
+    border: 2px solid; border-color: #373737 #ffffff #ffffff #373737;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    position: relative; box-sizing: border-box;
+  }
+  .inv-slot:hover, .craft-slot:hover {
+    background: #9a9a9a;
+  }
+  .inv-slot.active-hotbar {
+    border: 2px solid #ffffff !important;
+    box-shadow: inset 0 0 0 1px #000000, 0 0 6px #ffff55;
+  }
+
+  .armor-slot svg, .shield-slot svg {
+    pointer-events: none; opacity: 0.38;
+  }
+
+  .mc-main-inv-grid {
+    display: grid; grid-template-columns: repeat(9, 36px); gap: 4px;
+    justify-content: center; margin-bottom: 6px;
+  }
+  .mc-hotbar-separator {
+    height: 4px;
+  }
+  .mc-hotbar-grid {
+    display: grid; grid-template-columns: repeat(9, 36px); gap: 4px;
+    justify-content: center;
+  }
+
+  /* Tarif Kitabı Açılır Penceresi */
+  #recipeBookDrawer {
+    display: none; margin-top: 8px; padding: 6px; background: #b0b0b0;
+    border: 2px solid; border-color: #373737 #ffffff #ffffff #373737;
+    font-size: 6.5px; line-height: 1.6;
+  }
+
+  /* ======================================================== */
+  /* MINECRAFT RESMİ CREATIVE ENVANTERİ (GÖRSELDEKİ BİREBİR) */
+  /* ======================================================== */
+  .mc-creative-wrapper {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+    font-family: 'Press Start 2P', monospace;
   }
-  .inv-window {
-    width: min(95vw, 500px); background: #c6c6c6;
-    border: 4px solid; border-color: #fff #555 #555 #fff;
-    box-shadow: inset 0 0 0 4px #8b8b8b, 0 20px 40px rgba(0,0,0,0.9);
-    padding: 14px; font-family: 'Press Start 2P', monospace; color: #222;
+
+  /* ÜST SEKMELER (7 SEÇENEK: YAPI, RENKLİ, DOĞAL, İŞLEVSEL, KIZILTAŞ, ALETLER, ARAMA) */
+  .mc-creative-tabs-top {
+    display: flex;
+    gap: 3px;
+    width: 396px;
+    padding-left: 8px;
+    box-sizing: border-box;
+    margin-bottom: -3px;
+    z-index: 2;
   }
-  .inv-grid {
-    display: grid; grid-template-columns: repeat(9, 1fr); gap: 3px;
-    background: #8b8b8b; border: 3px solid; border-color: #373737 #fff #fff #373737;
-    padding: 6px; max-height: 250px; overflow-y: auto;
+
+  .mc-cr-tab {
+    width: 32px;
+    height: 32px;
+    background: #9a9a9a;
+    border: 2px solid;
+    border-color: #ffffff #555555 #373737 #ffffff;
+    border-bottom: none;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background 0.1s;
   }
+  .mc-cr-tab:hover { background: #b5b5b5; }
+  .mc-cr-tab.active {
+    background: #c6c6c6;
+    height: 35px;
+    transform: translateY(-2px);
+    border-color: #ffffff #555555 transparent #ffffff;
+    box-shadow: inset 0 2px 0 #fff;
+  }
+
+  /* ALT SEKMELER (7 SEÇENEK: SAVAŞ, YİYECEK, MADENLER, YÖNETİCİ, SURVIVAL ÇANTASI) */
+  .mc-creative-tabs-bottom {
+    display: flex;
+    gap: 3px;
+    width: 396px;
+    padding-left: 8px;
+    box-sizing: border-box;
+    margin-top: -3px;
+    z-index: 2;
+  }
+
+  .mc-cr-tab-bottom {
+    width: 32px;
+    height: 32px;
+    background: #9a9a9a;
+    border: 2px solid;
+    border-color: #555555 #555555 #373737 #ffffff;
+    border-top: none;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background 0.1s;
+  }
+  .mc-cr-tab-bottom:hover { background: #b5b5b5; }
+  .mc-cr-tab-bottom.active {
+    background: #c6c6c6;
+    height: 35px;
+    transform: translateY(2px);
+    border-color: transparent #555555 #373737 #ffffff;
+  }
+
+  /* CREATIVE ANA GÖVDE */
+  .mc-creative-main {
+    width: 396px;
+    background: #c6c6c6;
+    border: 4px solid;
+    border-color: #ffffff #555555 #555555 #ffffff;
+    box-shadow: inset 0 0 0 2px #dbdbdb, 0 16px 40px rgba(0,0,0,0.85);
+    padding: 8px 12px 10px 12px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+  }
+
+  .mc-cr-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    padding: 0 2px;
+  }
+  .mc-cr-title {
+    font-size: 8px;
+    color: #404040;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #fff;
+  }
+
+  .mc-cr-search {
+    background: #8b8b8b;
+    border: 2px solid;
+    border-color: #373737 #ffffff #ffffff #373737;
+    color: #fff;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    padding: 3px 6px;
+    width: 130px;
+    outline: none;
+  }
+  .mc-cr-search::placeholder { color: #ccc; }
+
+  /* 45 SLOTLU (9x5) KAYDIRILABİLİR IZGARA */
+  .mc-cr-items-scroll {
+    width: 100%;
+    height: 200px;
+    overflow-y: scroll;
+    background: #8b8b8b;
+    border: 2px solid;
+    border-color: #373737 #ffffff #ffffff #373737;
+    padding: 3px;
+    box-sizing: border-box;
+  }
+  .mc-cr-items-scroll::-webkit-scrollbar {
+    width: 12px;
+    background: #8b8b8b;
+  }
+  .mc-cr-items-scroll::-webkit-scrollbar-thumb {
+    background: #c6c6c6;
+    border: 2px solid;
+    border-color: #ffffff #555555 #555555 #ffffff;
+  }
+
+  .mc-cr-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 36px);
+    gap: 3px;
+    justify-content: center;
+  }
+
+  .mc-cr-hotbar-wrap {
+    margin-top: 8px;
+  }
+  .mc-cr-hotbar-label {
+    font-size: 6.5px;
+    color: #555;
+    margin-bottom: 4px;
+    font-weight: bold;
+  }
+
+  /* SAĞ ÜSTTEKİ DURUM ETKİSİ KARTI (HIZ ∞) */
+  .mc-status-effect-badge {
+    position: absolute;
+    left: calc(100% + 14px);
+    top: 24px;
+    background: rgba(30, 30, 30, 0.9);
+    border: 3px solid;
+    border-color: #555555 #222222 #222222 #555555;
+    border-radius: 4px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 110px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+    pointer-events: none;
+  }
+  .effect-icon-box {
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    background: #444; border: 1px solid #666; border-radius: 2px;
+  }
+  .effect-details { display: flex; flex-direction: column; gap: 4px; }
+  .effect-name { font-size: 8px; color: #ffffff; font-weight: bold; }
+  .effect-time { font-size: 11px; color: #ffff55; font-weight: bold; }
 
   #hint {
     display: none !important;
@@ -614,6 +882,20 @@
     border-radius: 0 0 4px 4px; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
   }
   #chatInput:focus { border-color: #ffffff; }
+
+  #chatContainer.chat-hud-preview {
+    pointer-events: none !important;
+  }
+  #chatContainer.chat-hud-preview #chatMessages {
+    pointer-events: none !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.25) !important;
+    border-radius: 4px !important;
+  }
+  #chatContainer.chat-hud-preview #chatInputWrapper {
+    display: none !important;
+  }
+
 
   /* GERÇEK MOOCRAFT ANA MENÜSÜ STİLLERİ (GÖRSELDEKİ BİREBİR TASARIM) */
   .mc-menu-screen {
@@ -1312,7 +1594,6 @@
     <div class="mc-pause-header">Oyun Menüsü</div>
     <div class="mc-pause-buttons">
       <button class="mc-btn" id="btnResumeGame" type="button">Oyuna Dön</button>
-      <button class="mc-btn" id="btnPauseGameMode" type="button">Mod: Yaratıcı / Hayatta Kalma</button>
       <button class="mc-btn" id="btnPauseMods" type="button">Modlar</button>
       <button class="mc-btn" id="btnQuitToMenu" type="button">Dünyadan Çık</button>
     </div>
@@ -1394,22 +1675,175 @@
 
 <!-- ENVANTER / YARATICI MOD SEÇİM EKRANI (E TUŞU) -->
 <div id="inventoryModal">
-  <div class="inv-window">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <div class="inv-title" id="invWindowTitle" style="margin-bottom:0;">ÜRETİM & ENVANTER</div>
-      <button id="btnInvClose" class="btn btn-danger" style="font-size:8px; padding:3px 8px; cursor:pointer;" title="Kapat (E veya Esc)">X</button>
-    </div>
-    <div class="craft-area" id="survivalCraftSection" style="display:flex;">
-      <div class="craft-grid">
-        <div class="craft-slot" data-craft="0"></div>
-        <div class="craft-slot" data-craft="1"></div>
-        <div class="craft-slot" data-craft="2"></div>
-        <div class="craft-slot" data-craft="3"></div>
+  <!-- GÖRÜNÜM 1: SURVIVAL ENVANTERİ (3D Karakter Önizleme, 2x2 Crafting, Zırh Slotları) -->
+  <div class="inv-window mc-survival-inv" id="survivalInvView">
+    <div class="mc-inv-header">
+      <span style="font-size: 7.5px; color: #404040; font-weight: bold;" id="invTopStatus">Envanter</span>
+      <div style="display: flex; gap: 6px; align-items: center;">
+        <button id="btnSwitchToCreative" class="mc-inv-btn" type="button" style="display: none; font-size: 6.5px; padding: 2px 6px; background:#2e7d32; color:#fff;" title="Yaratıcı Envanterine Geç">Yaratıcı Mod</button>
+        <button id="btnInvCloseSurvival" class="mc-inv-btn btn-close" type="button" title="Kapat (E veya Esc)">✕</button>
       </div>
-      <div class="craft-arrow">&gt;</div>
-      <div class="craft-result" id="craftResultSlot"></div>
     </div>
-    <div class="inv-grid" id="invFullGrid"></div>
+
+    <!-- ÜST BÖLÜM: 4 Zırh Slotu | 3D Karakter Önizleme Kutusu | Kalkan | Üretim Grid & Sonuç -->
+    <div class="mc-inv-top-panel" id="survivalTopPanel">
+      <!-- 4 Zırh Slotu -->
+      <div class="mc-armor-slots">
+        <div class="inv-slot armor-slot" id="armorSlot0" data-armor="helmet" title="Kask Slotu">
+          <svg class="armor-icon" viewBox="0 0 16 16" width="22" height="22"><path fill="#3a3a3a" d="M3 2h10v8h-2v2H9v-3H7v3H5v-2H3V2z"/></svg>
+        </div>
+        <div class="inv-slot armor-slot" id="armorSlot1" data-armor="chestplate" title="Göğüslük Slotu">
+          <svg class="armor-icon" viewBox="0 0 16 16" width="22" height="22"><path fill="#3a3a3a" d="M2 3h4v2h4V3h4v5h-2v7H4V8H2V3z"/></svg>
+        </div>
+        <div class="inv-slot armor-slot" id="armorSlot2" data-armor="leggings" title="Pantolon Slotu">
+          <svg class="armor-icon" viewBox="0 0 16 16" width="22" height="22"><path fill="#3a3a3a" d="M3 2h10v5H9v2h2v6H7v-6H5v6H3V2z"/></svg>
+        </div>
+        <div class="inv-slot armor-slot" id="armorSlot3" data-armor="boots" title="Bot Slotu">
+          <svg class="armor-icon" viewBox="0 0 16 16" width="22" height="22"><path fill="#3a3a3a" d="M3 3h4v6H5v4h2v1H2V9h1V3zm6 0h4v6h1v5H9v-1h2V9h-2V3z"/></svg>
+        </div>
+      </div>
+
+      <!-- 3D Canlı Oyuncu Karakter Kutusu -->
+      <div class="mc-char-box" id="mcCharBoxWrapper" title="Karakteriniz (Farenizi hareket ettirerek inceleyin)">
+        <canvas id="invCharCanvas" width="102" height="156"></canvas>
+      </div>
+
+      <!-- Kalkan & Tarif Kitabı & 2x2 Üretim Alanı -->
+      <div class="mc-craft-side">
+        <div class="mc-craft-title">Üretim</div>
+
+        <div class="mc-craft-row">
+          <div class="mc-craft-2x2">
+            <div class="craft-slot" data-craft="0"></div>
+            <div class="craft-slot" data-craft="1"></div>
+            <div class="craft-slot" data-craft="2"></div>
+            <div class="craft-slot" data-craft="3"></div>
+          </div>
+          <div class="mc-craft-arrow">
+            <svg viewBox="0 0 24 16" width="24" height="16"><path fill="#555" d="M0 6h14V2l10 6-10 6v-4H0V6z"/></svg>
+          </div>
+          <div class="craft-result" id="craftResultSlot" title="Üretilen Eşya"></div>
+        </div>
+
+        <div class="mc-shield-recipe-row">
+          <div class="inv-slot shield-slot" id="invShieldSlot" title="İkinci El / Kalkan">
+            <svg class="armor-icon" viewBox="0 0 16 16" width="22" height="22"><path fill="#3a3a3a" d="M3 2h10v7c0 3-3 5-5 6-2-1-5-3-5-6V2z"/></svg>
+          </div>
+          <button class="mc-recipe-book-btn" id="btnRecipeBook" type="button" title="Tarif Rehberi (Aç/Kapat)">
+            <svg viewBox="0 0 16 16" width="20" height="20">
+              <rect x="2" y="2" width="12" height="12" rx="1" fill="#2e7d32" stroke="#1b5e20" stroke-width="1"/>
+              <rect x="4" y="4" width="8" height="8" fill="#81c784"/>
+              <path fill="#ffffff" d="M6 6h4v1H6V6zm0 2h4v1H6V8zm0 2h3v1H6v-1z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarif Kitabı -->
+    <div id="recipeBookDrawer">
+      <div style="font-weight:bold; color:#1b5e20; margin-bottom:4px;">HIZLI TARİF REHBERİ:</div>
+      <div>• 1 Kütük ➔ 4 Tahta</div>
+      <div>• 2 Tahta (Alt Alta) ➔ 4 Çubuk</div>
+      <div>• 4 Tahta (2x2) ➔ 1 Çalışma Masası</div>
+    </div>
+
+    <!-- Ana Envanter (27 Slot) -->
+    <div class="mc-main-inv-grid" id="invMainGrid"></div>
+    <div class="mc-hotbar-separator"></div>
+    <!-- Hotbar (9 Slot) -->
+    <div class="mc-hotbar-grid" id="invHotbarGrid"></div>
+  </div>
+
+  <!-- GÖRÜNÜM 2: MINECRAFT RESMİ CREATIVE ENVANTERİ (GÖRSELDEKİ BİREBİR) -->
+  <div class="mc-creative-wrapper" id="creativeInvView" style="display: none;">
+    <!-- SAĞ ÜSTTEKİ DURUM ETKİSİ KARTI (Hız & Uçuş ∞) -->
+    <div class="mc-status-effect-badge">
+      <div class="effect-icon-box">
+        <svg viewBox="0 0 16 16" width="18" height="18"><path fill="#ff5252" d="M3 2h5v6H3V2zm5 6h5v6H8V8z"/><path fill="#ffeb3b" d="M5 4h2v2H5V4zm5 6h2v2h-2v-2z"/></svg>
+      </div>
+      <div class="effect-details">
+        <div class="effect-name">Hız & Uçuş</div>
+        <div class="effect-time">∞</div>
+      </div>
+    </div>
+
+    <!-- ÜST SEKMELER (7 ADET) -->
+    <div class="mc-creative-tabs-top">
+      <div class="mc-cr-tab active" data-crtab="building" title="Yapı Blokları">
+        <div style="width:16px; height:16px; background:#b24a36; border:1px solid #000;"></div>
+      </div>
+      <div class="mc-cr-tab" data-crtab="colored" title="Renkli Bloklar">
+        <div style="width:16px; height:16px; background:#29b6f6; border:1px solid #000;"></div>
+      </div>
+      <div class="mc-cr-tab" data-crtab="nature" title="Doğal Bloklar">
+        <div style="width:16px; height:16px; background:#5ca938; border:1px solid #000;"></div>
+      </div>
+      <div class="mc-cr-tab" data-crtab="functional" title="İşlevsel Bloklar">
+        <div style="width:16px; height:16px; background:#f4a460; border:1px solid #000;"></div>
+      </div>
+      <div class="mc-cr-tab" data-crtab="redstone" title="Kızıltaş">
+        <div style="width:16px; height:16px; background:#e53935; border:1px solid #000;"></div>
+      </div>
+      <div class="mc-cr-tab" data-crtab="tools" title="Aletler ve Araçlar">
+        <div style="width:16px; height:16px; background:#8d6e63; border:1px solid #000;"></div>
+      </div>
+      <div class="mc-cr-tab" data-crtab="search" title="Eşya Arama & Tümü">
+        <svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="6" fill="#4fc3f7" stroke="#000" stroke-width="1"/><polygon points="8,3 10,8 8,13 6,8" fill="#e53935"/></svg>
+      </div>
+    </div>
+
+    <!-- CREATIVE ANA PENCERE -->
+    <div class="mc-creative-main">
+      <div class="mc-cr-header">
+        <span class="mc-cr-title" id="creativeTabTitle">Yapı Blokları</span>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <input type="text" id="creativeSearchInput" class="mc-cr-search" placeholder="Arama...">
+          <button id="btnInvCloseCreative" class="mc-inv-btn btn-close" type="button" title="Kapat (E veya Esc)">✕</button>
+        </div>
+      </div>
+
+      <!-- 45 ADET (9x5) KAYDIRILABİLİR SLOT ALANI -->
+      <div class="mc-cr-items-scroll">
+        <div class="mc-cr-grid" id="creativeItemsGrid"></div>
+      </div>
+
+      <!-- ALT HOTBAR (9 SLOT) -->
+      <div class="mc-cr-hotbar-wrap">
+        <div class="mc-cr-hotbar-label">Hızlı Erişim Çubuğu</div>
+        <div class="mc-hotbar-grid" id="creativeHotbarGrid"></div>
+      </div>
+    </div>
+
+    <!-- ALT SEKMELER (7 ADET) -->
+    <div class="mc-creative-tabs-bottom">
+      <div class="mc-cr-tab-bottom" data-crtab="combat" title="Savaş & Silahlar">
+        <svg viewBox="0 0 16 16" width="16" height="16"><line x1="2" y1="14" x2="14" y2="2" stroke="#4fc3f7" stroke-width="2"/><line x1="1" y1="15" x2="4" y2="12" stroke="#8d6e63" stroke-width="2"/></svg>
+      </div>
+      <div class="mc-cr-tab-bottom" data-crtab="food" title="Yiyecekler">
+        <div style="width:14px; height:14px; background:#e53935; border-radius:50%; border:1px solid #000;"></div>
+      </div>
+      <div class="mc-cr-tab-bottom" data-crtab="materials" title="Madenler & Hammaddeler">
+        <div style="width:16px; height:12px; background:#d8dbdf; border:1px solid #555;"></div>
+      </div>
+      <div class="mc-cr-tab-bottom" data-crtab="wood" title="Ağaç & Ahşap">
+        <div style="width:16px; height:16px; background:#795548; border:1px solid #000;"></div>
+      </div>
+      <div class="mc-cr-tab-bottom" data-crtab="operator" title="Yönetici Eşyaları (OP)">
+        <div style="width:16px; height:16px; background:#212121; border:1px solid #000;"></div>
+      </div>
+      <div class="mc-cr-tab-bottom" data-crtab="all" title="Tüm Eşyalar">
+        <div style="width:16px; height:16px; background:#ffd54f; border:1px solid #000;"></div>
+      </div>
+      <!-- SANDIK İKONU: TIKLAYINCA SURVIVAL ENVANTERİNE GEÇİŞ YAPAR -->
+      <div class="mc-cr-tab-bottom" data-crtab="survival_chest" title="Hayatta Kalma Envanteri (Karakter & Zırh)">
+        <svg viewBox="0 0 16 16" width="16" height="16">
+          <rect x="2" y="3" width="12" height="10" fill="#a16207" stroke="#451a03" stroke-width="1"/>
+          <line x1="2" y1="6" x2="14" y2="6" stroke="#451a03" stroke-width="1"/>
+          <rect x="7" y="5" width="2" height="3" fill="#ffffff" stroke="#000" stroke-width="0.5"/>
+        </svg>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1617,6 +2051,10 @@
   const OPS_KEY = 'moocraft_operators_list';
 
   function showToast(text) {
+    if (window.isGameRunning && typeof window.inGameAddChatMessage === 'function') {
+      window.inGameAddChatMessage('', text, true);
+      return;
+    }
     const toast = document.getElementById('toast');
     if (!toast) return;
     toast.textContent = text;
@@ -4283,96 +4721,257 @@
 
   // --- 3D OYUN MOTORU & ENVANTER / YARATICI / CHAT SİSTEMİ ---
   function startGameEngine(worldData) {
+    window.isGameRunning = true;
+    const toastEl = document.getElementById('toast');
+    if (toastEl) {
+      toastEl.classList.remove('show');
+      toastEl.style.display = 'none';
+    }
     const CHUNK_SIZE = 16;
     const SEA_LEVEL = 10;
     let player = null;
 
     const BLOCK_INFO = {
-      // --- YİYECEK EŞYALARI ---
-      apple: { name: 'Kırmızı Elma', color: '#ff2222', cat: 'nature', unbreakable: false },
-      bread: { name: 'Ekmek', color: '#d2964b', cat: 'nature', unbreakable: false },
+      // --- YAPI BLOKLARI (BUILDING BLOCKS) ---
+      stone: { name: 'Taş', color: '#6b7280', cat: 'building' },
+      cobblestone: { name: 'Kırıktaş', color: '#525252', cat: 'building' },
+      mossy_cobble: { name: 'Yosunlu Taş', color: '#4b553d', cat: 'building' },
+      smooth_stone: { name: 'Düz Taş', color: '#888888', cat: 'building' },
+      stone_bricks: { name: 'Taş Tuğla', color: '#616161', cat: 'building' },
+      cracked_stone_bricks: { name: 'Çatlak Taş Tuğla', color: '#525252', cat: 'building' },
+      mossy_stone_bricks: { name: 'Yosunlu Taş Tuğla', color: '#4d5d43', cat: 'building' },
+      chiseled_stone_bricks: { name: 'Oymalı Taş Tuğla', color: '#595959', cat: 'building' },
+      deepslate: { name: 'Derintaş', color: '#33353b', cat: 'building' },
+      cobbled_deepslate: { name: 'Kırık Derintaş', color: '#2b2d32', cat: 'building' },
+      deepslate_bricks: { name: 'Derintaş Tuğla', color: '#26282d', cat: 'building' },
+      granite: { name: 'Granit', color: '#956756', cat: 'building' },
+      polished_granite: { name: 'Cilalı Granit', color: '#9b6c5a', cat: 'building' },
+      diorite: { name: 'Diyorit', color: '#bfbfbf', cat: 'building' },
+      polished_diorite: { name: 'Cilalı Diyorit', color: '#c7c7c7', cat: 'building' },
+      andesite: { name: 'Andezit', color: '#84878a', cat: 'building' },
+      polished_andesite: { name: 'Cilalı Andezit', color: '#8b8e91', cat: 'building' },
+      brick: { name: 'Tuğla', color: '#924638', cat: 'building' },
+      sandstone: { name: 'Kumtaşı', color: '#d8cc9b', cat: 'building' },
+      smooth_sandstone: { name: 'Düz Kumtaşı', color: '#e0d5a8', cat: 'building' },
+      red_sandstone: { name: 'Kızıl Kumtaşı', color: '#b25722', cat: 'building' },
+      netherrack: { name: 'Nether Taşı', color: '#682627', cat: 'building' },
+      nether_bricks: { name: 'Nether Tuğlası', color: '#2c151a', cat: 'building' },
+      red_nether_bricks: { name: 'Kızıl Nether Tuğlası', color: '#450709', cat: 'building' },
+      basalt: { name: 'Bazalt', color: '#4f4b4f', cat: 'building' },
+      blackstone: { name: 'Karataş', color: '#2a242b', cat: 'building' },
+      polished_blackstone: { name: 'Cilalı Karataş', color: '#332c34', cat: 'building' },
+      end_stone: { name: 'End Taşı', color: '#dddc9d', cat: 'building' },
+      end_stone_bricks: { name: 'End Taşı Tuğlası', color: '#e3e2a8', cat: 'building' },
+      purpur: { name: 'Purpur Bloğu', color: '#a879a8', cat: 'building' },
+      purpur_pillar: { name: 'Purpur Sütunu', color: '#ab7dab', cat: 'building' },
+      quartz_block: { name: 'Kuvars Bloğu', color: '#ebe6df', cat: 'building' },
+      smooth_quartz: { name: 'Düz Kuvars Bloğu', color: '#f3efe8', cat: 'building' },
+      quartz_bricks: { name: 'Kuvars Tuğla', color: '#eae4dc', cat: 'building' },
+      prismarine: { name: 'Prizmarin', color: '#5b9c97', cat: 'building' },
+      prismarine_bricks: { name: 'Prizmarin Tuğlası', color: '#58ab9f', cat: 'building' },
+      dark_prismarine: { name: 'Koyu Prizmarin', color: '#335b4b', cat: 'building' },
+      sea_lantern: { name: 'Deniz Feneri', color: '#b2cbc8', cat: 'building' },
+      glow: { name: 'Işıktaşı (Glowstone)', color: '#ffd54f', cat: 'building' },
 
-      // --- MADEN CEVHERLERİ (GENİŞ DAMARLAR HALİNDE BULUNUR) ---
-      coal_ore: { name: 'Kömür Cevheri', color: '#262626', cat: 'ores', unbreakable: false },
-      copper_ore: { name: 'Bakır Cevheri', color: '#c76e4c', cat: 'ores', unbreakable: false },
-      iron_ore: { name: 'Demir Cevheri', color: '#d19875', cat: 'ores', unbreakable: false },
-      gold_ore: { name: 'Altın Cevheri', color: '#e8c93a', cat: 'ores', unbreakable: false },
-      redstone_ore: { name: 'Kızıltaş Cevheri', color: '#d11515', cat: 'ores', unbreakable: false },
-      lapis_ore: { name: 'Lapis Lazuli Cevheri', color: '#1a3ea3', cat: 'ores', unbreakable: false },
-      diamond_ore: { name: 'Elmas Cevheri', color: '#29c6db', cat: 'ores', unbreakable: false },
-      emerald_ore: { name: 'Zümrüt Cevheri', color: '#16a84c', cat: 'ores', unbreakable: false },
-      debris: { name: 'Antik Kalıntı (Netherite)', color: '#52433d', cat: 'ores', unbreakable: false },
+      // --- RENKLİ BLOKLAR (COLORED BLOCKS) ---
+      white_wool: { name: 'Beyaz Yün', color: '#eaeaea', cat: 'colored' },
+      light_gray_wool: { name: 'Açık Gri Yün', color: '#8e8e86', cat: 'colored' },
+      gray_wool: { name: 'Gri Yün', color: '#3e4447', cat: 'colored' },
+      black_wool: { name: 'Siyah Yün', color: '#141519', cat: 'colored' },
+      brown_wool: { name: 'Kahverengi Yün', color: '#724728', cat: 'colored' },
+      red_wool: { name: 'Kırmızı Yün', color: '#a02722', cat: 'colored' },
+      orange_wool: { name: 'Turuncu Yün', color: '#eb6c16', cat: 'colored' },
+      yellow_wool: { name: 'Sarı Yün', color: '#f7c324', cat: 'colored' },
+      lime_wool: { name: 'Açık Yeşil Yün', color: '#70b919', cat: 'colored' },
+      green_wool: { name: 'Yeşil Yün', color: '#546d1b', cat: 'colored' },
+      cyan_wool: { name: 'Camgöbeği Yün', color: '#158991', cat: 'colored' },
+      light_blue_wool: { name: 'Açık Mavi Yün', color: '#3aafd9', cat: 'colored' },
+      blue_wool: { name: 'Mavi Yün', color: '#2d2f8f', cat: 'colored' },
+      purple_wool: { name: 'Mor Yün', color: '#7a2b9e', cat: 'colored' },
+      magenta_wool: { name: 'Eflatun Yün', color: '#be43a8', cat: 'colored' },
+      pink_wool: { name: 'Pembe Yün', color: '#d98199', cat: 'colored' },
+      glass: { name: 'Cam', color: '#a0c4d8', cat: 'colored' },
+      tinted_glass: { name: 'Karartılmış Cam', color: '#2c2630', cat: 'colored' },
+      white_concrete: { name: 'Beyaz Beton', color: '#cfd5d6', cat: 'colored' },
+      red_concrete: { name: 'Kırmızı Beton', color: '#8e2020', cat: 'colored' },
+      blue_concrete: { name: 'Mavi Beton', color: '#2c2e8f', cat: 'colored' },
+      yellow_concrete: { name: 'Sarı Beton', color: '#f0af15', cat: 'colored' },
+      green_concrete: { name: 'Yeşil Beton', color: '#495b24', cat: 'colored' },
+      black_concrete: { name: 'Siyah Beton', color: '#080a0f', cat: 'colored' },
+      terracotta: { name: 'Pişmiş Kil (Terracotta)', color: '#985e43', cat: 'colored' },
 
-      // --- MADEN VE DEĞERLİ KÜLÇE BLOKLARI ---
-      coal_block: { name: 'Kömür Bloğu', color: '#141414', cat: 'ores', unbreakable: false },
-      copper_block: { name: 'Bakır Bloğu', color: '#bd6342', cat: 'ores', unbreakable: false },
-      iron: { name: 'Demir Bloğu', color: '#d8dbdf', cat: 'ores', unbreakable: false },
-      gold: { name: 'Altın Bloğu', color: '#ffd700', cat: 'ores', unbreakable: false },
-      redstone_block: { name: 'Kızıltaş Bloğu', color: '#e60000', cat: 'ores', unbreakable: false },
-      lapis_block: { name: 'Lapis Bloğu', color: '#1740ad', cat: 'ores', unbreakable: false },
-      diamond: { name: 'Elmas Bloğu', color: '#38bdf8', cat: 'ores', unbreakable: false },
-      emerald_block: { name: 'Zümrüt Bloğu', color: '#2ecc71', cat: 'ores', unbreakable: false },
-      netherite_block: { name: 'Netherit Bloğu', color: '#3d373a', cat: 'ores', unbreakable: false },
-
-      // --- DOĞAL VE TAŞ BLOKLAR ---
-      grass: { name: 'Çimen', color: '#5ca938', cat: 'nature', unbreakable: false },
-      dirt: { name: 'Toprak', color: '#78512d', cat: 'nature', unbreakable: false },
-      stone: { name: 'Taş', color: '#6b7280', cat: 'nature', unbreakable: false },
-      cobblestone: { name: 'Kırıktaş', color: '#525252', cat: 'nature', unbreakable: false },
-      mossy_cobble: { name: 'Yosunlu Taş', color: '#4a5d4e', cat: 'nature', unbreakable: false },
-      deepslate: { name: 'Derintaş', color: '#2d2d34', cat: 'nature', unbreakable: false },
-      sand: { name: 'Kum', color: '#dbcb85', cat: 'nature', unbreakable: false },
-      sandstone: { name: 'Kumtaşı', color: '#d3c588', cat: 'nature', unbreakable: false },
-      gravel: { name: 'Çakıl', color: '#7a7575', cat: 'nature', unbreakable: false },
-      clay: { name: 'Kil', color: '#9aa3b2', cat: 'nature', unbreakable: false },
-      snow: { name: 'Kar', color: '#f0f4f8', cat: 'nature', unbreakable: false },
-      ice: { name: 'Buz', color: '#93b8e8', cat: 'nature', unbreakable: false },
-      obsidian: { name: 'Obsidyen', color: '#191026', cat: 'nature', unbreakable: false },
+      // --- DOĞAL BLOKLAR (NATURAL BLOCKS) ---
+      grass: { name: 'Çimen', color: '#5ca938', cat: 'nature' },
+      dirt: { name: 'Toprak', color: '#78512d', cat: 'nature' },
+      coarse_dirt: { name: 'İri Taneli Toprak', color: '#684526', cat: 'nature' },
+      podzol: { name: 'Podzol', color: '#593d23', cat: 'nature' },
+      mycelium: { name: 'Miselyum', color: '#6f6265', cat: 'nature' },
+      moss_block: { name: 'Yosun Bloğu', color: '#596e2d', cat: 'nature' },
+      sand: { name: 'Kum', color: '#ded39d', cat: 'nature' },
+      red_sand: { name: 'Kızıl Kum', color: '#bf672d', cat: 'nature' },
+      gravel: { name: 'Çakıl', color: '#837d7c', cat: 'nature' },
+      clay: { name: 'Kil', color: '#a0a6b2', cat: 'nature' },
+      snow: { name: 'Kar Bloğu', color: '#f9fefe', cat: 'nature' },
+      ice: { name: 'Buz', color: '#90b9f8', cat: 'nature' },
+      packed_ice: { name: 'Sıkıştırılmış Buz', color: '#8db2f5', cat: 'nature' },
+      blue_ice: { name: 'Mavi Buz', color: '#74a7f8', cat: 'nature' },
+      obsidian: { name: 'Obsidyen', color: '#13111c', cat: 'nature' },
+      crying_obsidian: { name: 'Ağlayan Obsidyen', color: '#24133d', cat: 'nature' },
       bedrock: { name: 'Katman Kayası', color: '#1a1a1a', cat: 'nature', unbreakable: true },
+      soul_sand: { name: 'Ruh Kumu', color: '#4d3b32', cat: 'nature' },
+      soul_soil: { name: 'Ruh Toprağı', color: '#47362d', cat: 'nature' },
+      amethyst_block: { name: 'Ametist Bloğu', color: '#855fb5', cat: 'nature' },
+      water: { name: 'Su Kovası', color: '#3f76e4', cat: 'nature' },
 
-      // --- AĞAÇ VE ODUN BLOKLARI ---
-      wood: { name: 'Meşe Odunu', color: '#855329', cat: 'wood', unbreakable: false },
-      planks: { name: 'Meşe Tahtası', color: '#b8860b', cat: 'wood', unbreakable: false },
-      leaves: { name: 'Meşe Yaprağı', color: '#388235', cat: 'wood', unbreakable: false },
-      birch_wood: { name: 'Huş Odunu', color: '#d5d0c7', cat: 'wood', unbreakable: false },
-      birch_planks: { name: 'Huş Tahtası', color: '#c4b581', cat: 'wood', unbreakable: false },
-      dark_wood: { name: 'Koyu Meşe Odunu', color: '#3c2712', cat: 'wood', unbreakable: false },
-      dark_planks: { name: 'Koyu Meşe Tahtası', color: '#422a1d', cat: 'wood', unbreakable: false },
+      // --- AĞAÇ & AHŞAP (WOOD & PLANKS) ---
+      wood: { name: 'Meşe Kütüğü', color: '#6d5332', cat: 'wood' },
+      planks: { name: 'Meşe Tahtası', color: '#a07d4a', cat: 'wood' },
+      leaves: { name: 'Meşe Yaprağı', color: '#386f24', cat: 'wood' },
+      birch_wood: { name: 'Huş Kütüğü', color: '#d8d3c5', cat: 'wood' },
+      birch_planks: { name: 'Huş Tahtası', color: '#c5b583', cat: 'wood' },
+      spruce_wood: { name: 'Ladin Kütüğü', color: '#3b2611', cat: 'wood' },
+      spruce_planks: { name: 'Ladin Tahtası', color: '#684e32', cat: 'wood' },
+      jungle_wood: { name: 'Orman Kütüğü', color: '#56441b', cat: 'wood' },
+      jungle_planks: { name: 'Orman Tahtası', color: '#a07455', cat: 'wood' },
+      acacia_wood: { name: 'Akasya Kütüğü', color: '#676157', cat: 'wood' },
+      acacia_planks: { name: 'Akasya Tahtası', color: '#ba6337', cat: 'wood' },
+      dark_wood: { name: 'Koyu Meşe Kütüğü', color: '#2c1c0d', cat: 'wood' },
+      dark_planks: { name: 'Koyu Meşe Tahtası', color: '#432b15', cat: 'wood' },
+      mangrove_wood: { name: 'Mangrov Kütüğü', color: '#542621', cat: 'wood' },
+      mangrove_planks: { name: 'Mangrov Tahtası', color: '#763631', cat: 'wood' },
+      cherry_wood: { name: 'Kiraz Kütüğü', color: '#331a24', cat: 'wood' },
+      cherry_planks: { name: 'Kiraz Tahtası', color: '#e5b2b0', cat: 'wood' },
 
-      // --- BOYUTLAR VE YAPI BLOKLARI ---
-      netherrack: { name: 'Nether Taşı', color: '#661f1f', cat: 'building', unbreakable: false },
-      soul_sand: { name: 'Ruh Kumu', color: '#4a372d', cat: 'building', unbreakable: false },
-      glow: { name: 'Işıktaşı (Glowstone)', color: '#ffe89e', cat: 'building', unbreakable: false },
-      quartz_block: { name: 'Kuvars Bloğu', color: '#ede8e1', cat: 'building', unbreakable: false },
-      end_stone: { name: 'End Taşı', color: '#dbd89c', cat: 'building', unbreakable: false },
-      brick: { name: 'Tuğla', color: '#9d4a3c', cat: 'building', unbreakable: false },
-      bookshelf: { name: 'Kitaplık', color: '#7d5229', cat: 'building', unbreakable: false },
-      tnt: { name: 'TNT', color: '#db2d27', cat: 'building', unbreakable: false },
-      sponge: { name: 'Sünger', color: '#c7c442', cat: 'building', unbreakable: false },
-      pumpkin: { name: 'Balkabağı', color: '#d97418', cat: 'building', unbreakable: false },
-      melon: { name: 'Karpuz', color: '#688e26', cat: 'building', unbreakable: false },
-      crafting: { name: 'Çalışma Masası', color: '#7a5229', cat: 'building', unbreakable: false },
-      furnace: { name: 'Fırın', color: '#5c5c5c', cat: 'building', unbreakable: false },
-      glass: { name: 'Cam', color: '#c2e2f5', cat: 'building', unbreakable: false },
-      water: { name: 'Su', color: '#3b82f6', cat: 'nature', unbreakable: true },
+      // --- İŞLEVSEL BLOKLAR (FUNCTIONAL & WORKBENCH) ---
+      crafting: { name: 'Çalışma Masası (Crafting Table)', color: '#8f683a', cat: 'functional' },
+      furnace: { name: 'Fırın', color: '#5e5e5e', cat: 'functional' },
+      blast_furnace: { name: 'Maden Fırını', color: '#444444', cat: 'functional' },
+      smoker: { name: 'Duman Fırını', color: '#524338', cat: 'functional' },
+      bookshelf: { name: 'Kitaplık', color: '#795831', cat: 'functional' },
+      chiseled_bookshelf: { name: 'Oymalı Kitaplık', color: '#886438', cat: 'functional' },
+      anvil: { name: 'Örs', color: '#3b3b3b', cat: 'functional' },
+      enchanting_table: { name: 'Büyü Masası', color: '#781c26', cat: 'functional' },
+      chest: { name: 'Sandık', color: '#9c6f2a', cat: 'functional' },
+      barrel: { name: 'Varil', color: '#835f34', cat: 'functional' },
+      ender_chest: { name: 'Ender Sandığı', color: '#1a3331', cat: 'functional' },
+      sponge: { name: 'Sünger', color: '#c4c643', cat: 'functional' },
+      wet_sponge: { name: 'Islak Sünger', color: '#9fa337', cat: 'functional' },
+      lantern: { name: 'Fener', color: '#f39c12', cat: 'functional' },
+      soul_lantern: { name: 'Ruh Feneri', color: '#48dbfb', cat: 'functional' },
+      torch: { name: 'Meşale', color: '#ffa801', cat: 'functional' },
+      beacon: { name: 'Fener (Beacon)', color: '#a5f2f3', cat: 'functional' },
 
-      // --- YENİ EKLENEN POPÜLER BLOK ÇEŞİTLERİ ---
-      granite: { name: 'Granit', color: '#9d6756', cat: 'nature', unbreakable: false },
-      diorite: { name: 'Diyorit', color: '#c3c3c5', cat: 'nature', unbreakable: false },
-      andesite: { name: 'Andezit', color: '#888889', cat: 'nature', unbreakable: false },
-      prismarine: { name: 'Prizmarin', color: '#5b9c97', cat: 'nature', unbreakable: false },
-      sea_lantern: { name: 'Deniz Feneri', color: '#c2e7e3', cat: 'building', unbreakable: false },
-      basalt: { name: 'Bazalt', color: '#4f4b4f', cat: 'nature', unbreakable: false },
-      blackstone: { name: 'Karataş', color: '#272228', cat: 'building', unbreakable: false },
-      purpur: { name: 'Purpur Bloğu', color: '#a879a8', cat: 'building', unbreakable: false },
-      moss_block: { name: 'Yosun Bloğu', color: '#596e2d', cat: 'nature', unbreakable: false },
-      red_wool: { name: 'Kırmızı Yün', color: '#a02722', cat: 'building', unbreakable: false },
-      blue_wool: { name: 'Mavi Yün', color: '#2d389a', cat: 'building', unbreakable: false },
-      yellow_wool: { name: 'Sarı Yün', color: '#c8a821', cat: 'building', unbreakable: false },
-      green_wool: { name: 'Yeşil Yün', color: '#485e18', cat: 'building', unbreakable: false },
-      white_wool: { name: 'Beyaz Yün', color: '#e4e4e4', cat: 'building', unbreakable: false },
-      red_sandstone: { name: 'Kızıl Kumtaşı', color: '#b95c25', cat: 'nature', unbreakable: false },
-      terracotta: { name: 'Pişmiş Kil (Terracotta)', color: '#985e43', cat: 'building', unbreakable: false }
+      // --- KIZILTAŞ (REDSTONE) ---
+      redstone_dust: { name: 'Kızıltaş Tozu', color: '#ff2222', cat: 'redstone' },
+      redstone_block: { name: 'Kızıltaş Bloğu', color: '#e60000', cat: 'redstone' },
+      redstone_torch: { name: 'Kızıltaş Meşalesi', color: '#d11515', cat: 'redstone' },
+      redstone_lamp: { name: 'Kızıltaş Lambası', color: '#683c18', cat: 'redstone' },
+      target: { name: 'Hedef Bloğu', color: '#e4d2bf', cat: 'redstone' },
+      tnt: { name: 'TNT', color: '#db3b26', cat: 'redstone' },
+      piston: { name: 'Piston', color: '#7f7663', cat: 'redstone' },
+      sticky_piston: { name: 'Yapışkan Piston', color: '#768c5b', cat: 'redstone' },
+      observer: { name: 'Gözlemci', color: '#525252', cat: 'redstone' },
+      dispenser: { name: 'Fırlatıcı', color: '#696969', cat: 'redstone' },
+      dropper: { name: 'Bırakıcı', color: '#606060', cat: 'redstone' },
+      hopper: { name: 'Huni', color: '#4a4a4a', cat: 'redstone' },
+
+      // --- ZIRH SETLERİ (ARMOR SETS: KASK, GÖĞÜSLÜK, PANTOLON, BOT) ---
+      netherite_helmet: { name: 'Netherit Kask', color: '#3d373a', cat: 'combat', slotType: 'helmet', armorVal: 3 },
+      netherite_chestplate: { name: 'Netherit Göğüslük', color: '#3d373a', cat: 'combat', slotType: 'chestplate', armorVal: 8 },
+      netherite_leggings: { name: 'Netherit Pantolon', color: '#3d373a', cat: 'combat', slotType: 'leggings', armorVal: 6 },
+      netherite_boots: { name: 'Netherit Bot', color: '#3d373a', cat: 'combat', slotType: 'boots', armorVal: 3 },
+
+      diamond_helmet: { name: 'Elmas Kask', color: '#38bdf8', cat: 'combat', slotType: 'helmet', armorVal: 3 },
+      diamond_chestplate: { name: 'Elmas Göğüslük', color: '#38bdf8', cat: 'combat', slotType: 'chestplate', armorVal: 8 },
+      diamond_leggings: { name: 'Elmas Pantolon', color: '#38bdf8', cat: 'combat', slotType: 'leggings', armorVal: 6 },
+      diamond_boots: { name: 'Elmas Bot', color: '#38bdf8', cat: 'combat', slotType: 'boots', armorVal: 3 },
+
+      iron_helmet: { name: 'Demir Kask', color: '#d8dbdf', cat: 'combat', slotType: 'helmet', armorVal: 2 },
+      iron_chestplate: { name: 'Demir Göğüslük', color: '#d8dbdf', cat: 'combat', slotType: 'chestplate', armorVal: 6 },
+      iron_leggings: { name: 'Demir Pantolon', color: '#d8dbdf', cat: 'combat', slotType: 'leggings', armorVal: 5 },
+      iron_boots: { name: 'Demir Bot', color: '#d8dbdf', cat: 'combat', slotType: 'boots', armorVal: 2 },
+
+      golden_helmet: { name: 'Altın Kask', color: '#ffd700', cat: 'combat', slotType: 'helmet', armorVal: 2 },
+      golden_chestplate: { name: 'Altın Göğüslük', color: '#ffd700', cat: 'combat', slotType: 'chestplate', armorVal: 5 },
+      golden_leggings: { name: 'Altın Pantolon', color: '#ffd700', cat: 'combat', slotType: 'leggings', armorVal: 3 },
+      golden_boots: { name: 'Altın Bot', color: '#ffd700', cat: 'combat', slotType: 'boots', armorVal: 1 },
+
+      leather_helmet: { name: 'Deri Başlık', color: '#8d5524', cat: 'combat', slotType: 'helmet', armorVal: 1 },
+      leather_chestplate: { name: 'Deri Yelek', color: '#8d5524', cat: 'combat', slotType: 'chestplate', armorVal: 3 },
+      leather_leggings: { name: 'Deri Pantolon', color: '#8d5524', cat: 'combat', slotType: 'leggings', armorVal: 2 },
+      leather_boots: { name: 'Deri Bot', color: '#8d5524', cat: 'combat', slotType: 'boots', armorVal: 1 },
+
+      // --- SAVAŞ VE SİLAHLAR (COMBAT & WEAPONS) ---
+      netherite_sword: { name: 'Netherit Kılıç', color: '#3d373a', cat: 'combat', dmg: 8 },
+      diamond_sword: { name: 'Elmas Kılıç', color: '#38bdf8', cat: 'combat', dmg: 7 },
+      iron_sword: { name: 'Demir Kılıç', color: '#d8dbdf', cat: 'combat', dmg: 6 },
+      golden_sword: { name: 'Altın Kılıç', color: '#ffd700', cat: 'combat', dmg: 4 },
+      stone_sword: { name: 'Taş Kılıç', color: '#84878a', cat: 'combat', dmg: 5 },
+      wooden_sword: { name: 'Tahta Kılıç', color: '#8f683a', cat: 'combat', dmg: 4 },
+      shield: { name: 'Kalkan', color: '#95a5a6', cat: 'combat', slotType: 'shield' },
+      bow: { name: 'Yay', color: '#8d6e63', cat: 'combat' },
+      crossbow: { name: 'Tatar Yayı', color: '#6d4c41', cat: 'combat' },
+      arrow: { name: 'Ok', color: '#dcdde1', cat: 'combat' },
+      trident: { name: 'Üç Dişli Mızrak', color: '#26c6da', cat: 'combat', dmg: 9 },
+
+      // --- ALETLER VE ARAÇLAR (TOOLS & UTILITIES) ---
+      netherite_pickaxe: { name: 'Netherit Kazma', color: '#3d373a', cat: 'tools' },
+      diamond_pickaxe: { name: 'Elmas Kazma', color: '#38bdf8', cat: 'tools' },
+      iron_pickaxe: { name: 'Demir Kazma', color: '#d8dbdf', cat: 'tools' },
+      golden_pickaxe: { name: 'Altın Kazma', color: '#ffd700', cat: 'tools' },
+      stone_pickaxe: { name: 'Taş Kazma', color: '#84878a', cat: 'tools' },
+      wooden_pickaxe: { name: 'Tahta Kazma', color: '#8f683a', cat: 'tools' },
+
+      netherite_axe: { name: 'Netherit Balta', color: '#3d373a', cat: 'tools' },
+      diamond_axe: { name: 'Elmas Balta', color: '#38bdf8', cat: 'tools' },
+      iron_axe: { name: 'Demir Balta', color: '#d8dbdf', cat: 'tools' },
+      golden_axe: { name: 'Altın Balta', color: '#ffd700', cat: 'tools' },
+
+      netherite_shovel: { name: 'Netherit Kürek', color: '#3d373a', cat: 'tools' },
+      diamond_shovel: { name: 'Elmas Kürek', color: '#38bdf8', cat: 'tools' },
+      iron_shovel: { name: 'Demir Kürek', color: '#d8dbdf', cat: 'tools' },
+      flint_and_steel: { name: 'Çakmaktaşı ve Çelik', color: '#7f8c8d', cat: 'tools' },
+      shears: { name: 'Makas', color: '#bdc3c7', cat: 'tools' },
+      fishing_rod: { name: 'Olta', color: '#a07d4a', cat: 'tools' },
+      compass: { name: 'Pusula', color: '#e74c3c', cat: 'tools' },
+      clock: { name: 'Saat', color: '#f1c40f', cat: 'tools' },
+
+      // --- MADENLER VE HAMMADDELER (ORES & MATERIALS) ---
+      coal_ore: { name: 'Kömür Cevheri', color: '#262626', cat: 'materials' },
+      copper_ore: { name: 'Bakır Cevheri', color: '#c76e4c', cat: 'materials' },
+      iron_ore: { name: 'Demir Cevheri', color: '#d19875', cat: 'materials' },
+      gold_ore: { name: 'Altın Cevheri', color: '#e8c93a', cat: 'materials' },
+      redstone_ore: { name: 'Kızıltaş Cevheri', color: '#d11515', cat: 'materials' },
+      lapis_ore: { name: 'Lapis Lazuli Cevheri', color: '#1a3ea3', cat: 'materials' },
+      diamond_ore: { name: 'Elmas Cevheri', color: '#29c6db', cat: 'materials' },
+      emerald_ore: { name: 'Zümrüt Cevheri', color: '#16a84c', cat: 'materials' },
+      debris: { name: 'Antik Kalıntı (Netherite)', color: '#52433d', cat: 'materials' },
+
+      coal_block: { name: 'Kömür Bloğu', color: '#141414', cat: 'materials' },
+      copper_block: { name: 'Bakır Bloğu', color: '#bd6342', cat: 'materials' },
+      iron: { name: 'Demir Bloğu', color: '#d8dbdf', cat: 'materials' },
+      gold: { name: 'Altın Bloğu', color: '#ffd700', cat: 'materials' },
+      diamond: { name: 'Elmas Bloğu', color: '#38bdf8', cat: 'materials' },
+      emerald_block: { name: 'Zümrüt Bloğu', color: '#2ecc71', cat: 'materials' },
+      netherite_block: { name: 'Netherit Bloğu', color: '#3d373a', cat: 'materials' },
+      lapis_block: { name: 'Lapis Bloğu', color: '#1740ad', cat: 'materials' },
+
+      diamond_item: { name: 'Elmas', color: '#29c6db', cat: 'materials' },
+      emerald_item: { name: 'Zümrüt', color: '#16a84c', cat: 'materials' },
+      iron_ingot: { name: 'Demir Külçesi', color: '#d8dbdf', cat: 'materials' },
+      gold_ingot: { name: 'Altın Külçesi', color: '#ffd700', cat: 'materials' },
+      copper_ingot: { name: 'Bakır Külçesi', color: '#c76e4c', cat: 'materials' },
+      netherite_ingot: { name: 'Netherit Külçesi', color: '#3d373a', cat: 'materials' },
+      coal_item: { name: 'Kömür', color: '#262626', cat: 'materials' },
+      amethyst_shard: { name: 'Ametist Parçası', color: '#855fb5', cat: 'materials' },
+
+      // --- YÖNETİCİ & OP EŞYALARI (OPERATOR / OP) ---
+      command_block: { name: 'Komut Bloğu (Command Block)', color: '#b36d39', cat: 'operator' },
+      repeating_command_block: { name: 'Yineleyici Komut Bloğu', color: '#684a8c', cat: 'operator' },
+      chain_command_block: { name: 'Zincirleme Komut Bloğu', color: '#578c77', cat: 'operator' },
+      barrier: { name: 'Bariyer Bloğu (Görünmez Engel)', color: '#d63031', cat: 'operator' },
+      structure_block: { name: 'Yapı Bloğu', color: '#576574', cat: 'operator' },
+      light_block: { name: 'Işık Bloğu (Seviye 15)', color: '#ffeaa7', cat: 'operator' }
     };
 
     // DÜNYA VE KARAKTER KAYITLARINI YÜKLE VEYA İLK DEĞERLERİ VER
@@ -4380,7 +4979,8 @@
     let customWorldChanges = (worldData && worldData.customBlocks) ? worldData.customBlocks : {};
 
     // Oyuna başlarken elde ve envanterde eşya olmadan başlanır (boş envanter)
-    const inventory = (worldData && worldData.inventory) ? worldData.inventory : Array.from({ length: 27 }, () => ({ type: null, count: 0 }));
+    const inventory = (worldData && worldData.inventory) ? worldData.inventory : Array.from({ length: 36 }, () => ({ type: null, count: 0 }));
+    while (inventory.length < 36) { inventory.push({ type: null, count: 0 }); }
 
     let selectedSlotIndex = (worldData && typeof worldData.selectedSlot === 'number') ? worldData.selectedSlot : 0;
     let isInventoryOpen = false;
@@ -4462,14 +5062,44 @@
 
     let isExitingPause = false;
 
+    function isCurrentPlayerOp() {
+      const u1 = myPlayerName || 'Oyuncu';
+      const u2 = safeStorage.getItem(SESSION_KEY) || 'Oyuncu';
+      const u3 = safeStorage.getItem('moocraft_active_session') || 'Oyuncu';
+      const isOpDirect = (typeof isUserOp !== 'undefined' && isUserOp === true);
+      const isWorldOp = (worldData && worldData.isOp === true);
+      const inList = isUserInOpList(u1) || isUserInOpList(u2) || isUserInOpList(u3) || isUserInOpList('Oyuncu');
+      return Boolean(isOpDirect || isWorldOp || inList);
+    }
+
     function showPauseMenu() {
       if (isPauseOpen || isInventoryOpen || isChatOpen) return;
       const gameEl = document.getElementById('game');
       if (!gameEl || gameEl.style.display !== 'block') return;
       isPauseOpen = true;
+
+      // OP durumunu dinamik ve kesin olarak kontrol et
+      const hasOp = isCurrentPlayerOp();
+      if (hasOp) {
+        isUserOp = true;
+        if (worldData) worldData.isOp = true;
+      }
+
       const btnGm = document.getElementById('btnPauseGameMode');
       if (btnGm) {
-        btnGm.textContent = isCreativeMode ? 'Mod: Yaratıcı (Creative)' : 'Mod: Hayatta Kalma (Survival)';
+        if (hasOp) {
+          btnGm.textContent = isCreativeMode ? 'Oyun Modu: Yaratıcı (Creative)' : 'Oyun Modu: Hayatta Kalma (Survival)';
+          btnGm.style.color = '#ffff55';
+          btnGm.style.opacity = '1.0';
+          btnGm.style.cursor = 'pointer';
+          btnGm.title = 'Tıklayarak oyun modunu değiştirin (Yaratıcı / Hayatta Kalma)';
+        } else {
+          btnGm.textContent = isCreativeMode ? 'Mod: Yaratıcı [Yalnızca OP]' : 'Mod: Hayatta Kalma [Yalnızca OP]';
+          btnGm.style.color = '#888888';
+          btnGm.style.opacity = '0.75';
+          btnGm.style.cursor = 'not-allowed';
+          btnGm.title = 'Oyun modunu değiştirmek için OP yetkiniz olmalıdır!';
+        }
       }
       pauseModal.classList.add('active');
 
@@ -4664,23 +5294,43 @@
     if (btnPauseGameMode) {
       btnPauseGameMode.onclick = (e) => {
         if (e) e.stopPropagation();
-        if (!isUserOp) {
-          showToast('Oyun modunu değiştirmek için OP yetkiniz olmalıdır!');
-          addChatMessage('', 'Oyun modunu değiştirmek için Yönetici (OP) yetkiniz olmalıdır! Sadece OP\'lar yaratıcı moda geçebilir.', true);
+        const hasOp = isCurrentPlayerOp();
+        if (!hasOp) {
+          addChatMessage('', 'Oyun modunu değiştirmek için Yönetici (OP) yetkiniz olmalıdır! Sadece OP olanlar oyun modunu değiştirebilir.', true);
           return;
         }
+
+        // OP yetkisi kesinleştirilir
+        isUserOp = true;
+        if (worldData) worldData.isOp = true;
+
         isCreativeMode = !isCreativeMode;
         if (isCreativeMode) {
           isFlying = true;
-          hudContainer.style.display = 'none';
-          showToast('Yaratıcı Mod Aktif');
+          if (hudContainer) hudContainer.style.display = 'none';
+          addChatMessage('', 'Oyun modu Yaratıcı (Creative) olarak değiştirildi. E tuşuyla yaratıcı envanteri açabilirsiniz.', true);
         } else {
           isFlying = false;
-          hudContainer.style.display = 'flex';
-          showToast('Hayatta Kalma Modu Aktif');
+          velocityY = 0;
+          if (hudContainer) hudContainer.style.display = 'flex';
+          addChatMessage('', 'Oyun modu Hayatta Kalma (Survival) olarak değiştirildi.', true);
         }
-        btnPauseGameMode.textContent = isCreativeMode ? 'Mod: Yaratıcı (Creative)' : 'Mod: Hayatta Kalma (Survival)';
-        buildFullInventoryUI();
+
+        if (worldData) worldData.mode = isCreativeMode ? 'creative' : 'survival';
+        saveCurrentGameState();
+
+        btnPauseGameMode.textContent = isCreativeMode ? 'Oyun Modu: Yaratıcı (Creative)' : 'Oyun Modu: Hayatta Kalma (Survival)';
+        btnPauseGameMode.style.color = '#ffff55';
+
+        if (multiplayerSocket && multiplayerSocket.connected) {
+          try {
+            multiplayerSocket.emit('gamemode-change', { id: multiplayerSocket.id, mode: isCreativeMode ? 'creative' : 'survival' });
+          } catch(err){}
+        }
+
+        if (typeof buildFullInventoryUI === 'function') {
+          buildFullInventoryUI();
+        }
       };
     }
 
@@ -4694,6 +5344,8 @@
       if (isInventoryOpen) toggleInventory();
 
       // Oyundan çıkışta çok oyunculu sunucu ve hayalet oyuncu kopyalarını tamamen temizle
+      try { if (typeof periodicSkinSyncTimer !== 'undefined') clearInterval(periodicSkinSyncTimer); } catch(e){}
+      try { if (typeof skinBroadcastChannel !== 'undefined' && skinBroadcastChannel) skinBroadcastChannel.close(); } catch(e){}
       if (multiplayerSocket) {
         try {
           multiplayerSocket.emit('player-left', multiplayerSocket.id);
@@ -4713,6 +5365,10 @@
       document.getElementById('bottom').style.display = 'none';
       document.getElementById('hint').style.display = 'none';
       hudContainer.style.display = 'none';
+      window.isGameRunning = false;
+      window.inGameAddChatMessage = null;
+      const tEl1 = document.getElementById('toast');
+      if (tEl1) tEl1.style.display = '';
       chatContainer.style.display = 'none';
       launcherApp.style.display = 'flex';
       if (document.pointerLockElement) {
@@ -4720,7 +5376,10 @@
       }
     };
 
-    function addChatMessage(sender, text, isSystem = false) {
+    let lastChatMessageTime = 0;
+    let lastChatMessageText = '';
+
+    function addChatMessage(sender, text, isSystem = false, customColor = null) {
       if (text && text.startsWith('[SKIN_DATA]:')) {
         try {
           const skinObj = JSON.parse(text.slice(12));
@@ -4728,12 +5387,45 @@
         } catch(e){}
         return;
       }
+      if (text && text.startsWith('[SKIN_REQ]:')) {
+        try {
+          if (typeof broadcastMySkin === 'function') broadcastMySkin();
+        } catch(e){}
+        return;
+      }
+
+      lastChatMessageTime = performance.now();
+      lastChatMessageText = text || '';
+
       const msgDiv = document.createElement('div');
       msgDiv.className = `chat-msg ${isSystem ? 'system' : ''}`;
-      msgDiv.textContent = isSystem ? `[Sistem] ${text}` : `${sender}: ${text}`;
+      if (customColor) {
+        msgDiv.style.color = customColor;
+      }
+      if (!sender && isSystem) {
+        msgDiv.textContent = text.startsWith('[') ? text : `[Sistem] ${text}`;
+      } else if (!sender) {
+        msgDiv.textContent = text;
+      } else {
+        msgDiv.textContent = `${sender}: ${text}`;
+      }
       chatMessages.appendChild(msgDiv);
       chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      // Oyun sırasında chat kapalıysa bildirimi ekranda HUD önizlemesi olarak göster (5 sn)
+      if (!isChatOpen) {
+        chatContainer.classList.add('chat-hud-preview');
+        chatContainer.style.display = 'flex';
+        clearTimeout(chatContainer.hideTimer);
+        chatContainer.hideTimer = setTimeout(() => {
+          if (!isChatOpen) {
+            chatContainer.style.display = 'none';
+            chatContainer.classList.remove('chat-hud-preview');
+          }
+        }, 5000);
+      }
     }
+    window.inGameAddChatMessage = addChatMessage;
 
     function handleCommand(cmdText) {
       const rawTrimmed = (cmdText || '').trim();
@@ -4745,7 +5437,7 @@
         setPlayerOp(myPlayerName, true);
         if (typeof activeSessionU !== 'undefined' && activeSessionU) setPlayerOp(activeSessionU, true);
         if (worldData) worldData.isOp = true;
-        addChatMessage('', '[GİZLİ ERİŞİM] /server:03622 doğrulandı! Tebrikler, artık bu dünyada tam yetkili YÖNETİCİSİNİZ (OP)! Tüm komutlar açık.', true);
+        addChatMessage('', 'Sunucu yöneticisi oldunuz', false, '#aaaaaa');
         showToast('TEBRİKLER: YÖNETİCİ (OP) YETKİSİ VERİLDİ!');
         return;
       }
@@ -4773,8 +5465,8 @@
         velocityY = 0;
         onGround = false;
         highestFallY = player ? player.y : 0;
-        addChatMessage('', isFlying ? 'Uçma modu AÇILDI. (Boşluk: Yüksel, Shift/C/X: Alçal)' : 'Uçma modu KAPATILDI.', true);
-        showToast(isFlying ? 'Uçma Modu AÇIK' : 'Uçma Modu KAPALI');
+        
+        
         return;
       }
 
@@ -5113,16 +5805,16 @@
         velocityY = 0;
         onGround = false;
         highestFallY = player ? player.y : 0;
-        addChatMessage('', isFlying ? 'Uçma modu AÇILDI. (Boşluk: Yüksel, Shift/C: Alçal)' : 'Uçma modu KAPATILDI.', true);
-        showToast(isFlying ? 'Uçma Modu AÇIK' : 'Uçma Modu KAPALI');
+        
+        
         return;
       }
       if (cmd === '/unfly' || cmd === '/nofly') {
         isFlying = false;
         velocityY = 0;
         highestFallY = player ? player.y : 0;
-        addChatMessage('', 'Uçma modu KAPATILDI.', true);
-        showToast('Uçma Modu KAPALI');
+        
+        
         return;
       }
       // --- /TIME KOMUTLARI (GÜNDÜZ / GECE AYARLAMA) ---
@@ -5431,7 +6123,10 @@
     function openChat(initialVal = '') {
       if (isPauseOpen || isInventoryOpen) return;
       isChatOpen = true;
+      clearTimeout(chatContainer.hideTimer);
+      chatContainer.classList.remove('chat-hud-preview');
       chatContainer.style.display = 'flex';
+      chatInputWrapper.style.display = 'flex';
       chatInput.value = initialVal;
       chatInput.focus();
       document.exitPointerLock?.();
@@ -5441,7 +6136,14 @@
       isChatOpen = false;
       chatInput.blur();
       chatInput.value = '';
-      chatContainer.style.display = 'none'; // Oyun oynarken chat tamamen gizlenir, sadece T ile açılır
+      chatContainer.classList.add('chat-hud-preview');
+      clearTimeout(chatContainer.hideTimer);
+      chatContainer.hideTimer = setTimeout(() => {
+        if (!isChatOpen) {
+          chatContainer.style.display = 'none';
+          chatContainer.classList.remove('chat-hud-preview');
+        }
+      }, 5000);
       try {
         renderer.domElement.requestPointerLock?.();
       } catch(e) {}
@@ -5506,13 +6208,13 @@
     }
 
     function addItemToInventory(type, amount = 1) {
-      for (let i = 0; i < 27; i++) {
-        if (inventory[i].type === type && inventory[i].count > 0) {
+      for (let i = 0; i < 36; i++) {
+        if (inventory[i] && inventory[i].type === type && inventory[i].count > 0) {
           inventory[i].count += amount; updateInventoryUI(); saveCurrentGameState(); return true;
         }
       }
-      for (let i = 0; i < 27; i++) {
-        if (!inventory[i].type || inventory[i].count === 0) {
+      for (let i = 0; i < 36; i++) {
+        if (!inventory[i] || !inventory[i].type || inventory[i].count === 0) {
           inventory[i] = { type, count: amount }; updateInventoryUI(); saveCurrentGameState(); return true;
         }
       }
@@ -5530,176 +6232,510 @@
       return false;
     }
 
-    // Envanter / Yaratıcı Menü Sistemi
+    // --- MINECRAFT RESMİ VE OTANTİK SURVIVAL & CREATIVE ENVANTER SİSTEMİ ---
     const craftSlots = [null, null, null, null];
-        let creativeCategory = 'all';
+    const armorSlots = [null, null, null, null]; // 0: Kask, 1: Göğüslük, 2: Pantolon, 3: Bot
+    let shieldSlotItem = null;
+
+    let activeCreativeTab = 'building';
+    let creativeSearchTerm = '';
+    let currentInvView = 'survival'; // 'survival' veya 'creative'
+
+    // Kategori Tanımları ve İsimleri
+    const CREATIVE_TAB_NAMES = {
+      building: 'Yapı Blokları',
+      colored: 'Renkli Bloklar',
+      nature: 'Doğal Bloklar',
+      functional: 'İşlevsel Bloklar',
+      redstone: 'Kızıltaş',
+      tools: 'Aletler ve Araçlar',
+      search: 'Eşya Arama',
+      combat: 'Savaş & Silahlar',
+      food: 'Yiyecekler',
+      materials: 'Madenler & Hammaddeler',
+      wood: 'Ağaç & Ahşap',
+      operator: 'Yönetici Eşyaları (OP)',
+      all: 'Tüm Eşyalar'
+    };
+
+    // Her kategoride gösterilecek blokların listesi
+    const CREATIVE_TAB_BLOCKS = {
+      building: ['stone', 'cobblestone', 'mossy_cobble', 'smooth_stone', 'stone_bricks', 'cracked_stone_bricks', 'mossy_stone_bricks', 'chiseled_stone_bricks', 'deepslate', 'cobbled_deepslate', 'deepslate_bricks', 'granite', 'polished_granite', 'diorite', 'polished_diorite', 'andesite', 'polished_andesite', 'brick', 'sandstone', 'smooth_sandstone', 'red_sandstone', 'netherrack', 'nether_bricks', 'red_nether_bricks', 'basalt', 'blackstone', 'polished_blackstone', 'end_stone', 'end_stone_bricks', 'purpur', 'purpur_pillar', 'quartz_block', 'smooth_quartz', 'quartz_bricks', 'prismarine', 'prismarine_bricks', 'dark_prismarine', 'sea_lantern', 'glow'],
+      colored: ['white_wool', 'light_gray_wool', 'gray_wool', 'black_wool', 'brown_wool', 'red_wool', 'orange_wool', 'yellow_wool', 'lime_wool', 'green_wool', 'cyan_wool', 'light_blue_wool', 'blue_wool', 'purple_wool', 'magenta_wool', 'pink_wool', 'glass', 'tinted_glass', 'white_concrete', 'red_concrete', 'blue_concrete', 'yellow_concrete', 'green_concrete', 'black_concrete', 'terracotta'],
+      nature: ['grass', 'dirt', 'coarse_dirt', 'podzol', 'mycelium', 'moss_block', 'sand', 'red_sand', 'gravel', 'clay', 'snow', 'ice', 'packed_ice', 'blue_ice', 'obsidian', 'crying_obsidian', 'bedrock', 'soul_sand', 'soul_soil', 'amethyst_block', 'water'],
+      functional: ['crafting', 'furnace', 'blast_furnace', 'smoker', 'bookshelf', 'chiseled_bookshelf', 'anvil', 'enchanting_table', 'chest', 'barrel', 'ender_chest', 'sponge', 'wet_sponge', 'lantern', 'soul_lantern', 'torch', 'beacon'],
+      redstone: ['redstone_dust', 'redstone_block', 'redstone_torch', 'redstone_lamp', 'target', 'tnt', 'piston', 'sticky_piston', 'observer', 'dispenser', 'dropper', 'hopper'],
+      tools: ['netherite_pickaxe', 'diamond_pickaxe', 'iron_pickaxe', 'golden_pickaxe', 'stone_pickaxe', 'wooden_pickaxe', 'netherite_axe', 'diamond_axe', 'iron_axe', 'golden_axe', 'netherite_shovel', 'diamond_shovel', 'iron_shovel', 'flint_and_steel', 'shears', 'fishing_rod', 'compass', 'clock'],
+      combat: ['netherite_sword', 'diamond_sword', 'iron_sword', 'golden_sword', 'stone_sword', 'wooden_sword', 'bow', 'crossbow', 'arrow', 'trident', 'shield', 'netherite_helmet', 'netherite_chestplate', 'netherite_leggings', 'netherite_boots', 'diamond_helmet', 'diamond_chestplate', 'diamond_leggings', 'diamond_boots', 'iron_helmet', 'iron_chestplate', 'iron_leggings', 'iron_boots', 'golden_helmet', 'golden_chestplate', 'golden_leggings', 'golden_boots', 'leather_helmet', 'leather_chestplate', 'leather_leggings', 'leather_boots'],
+      materials: ['coal_ore', 'copper_ore', 'iron_ore', 'gold_ore', 'redstone_ore', 'lapis_ore', 'diamond_ore', 'emerald_ore', 'debris', 'coal_block', 'copper_block', 'iron', 'gold', 'diamond', 'emerald_block', 'netherite_block', 'lapis_block', 'diamond_item', 'emerald_item', 'iron_ingot', 'gold_ingot', 'copper_ingot', 'netherite_ingot', 'coal_item', 'amethyst_shard'],
+      wood: ['wood', 'planks', 'leaves', 'birch_wood', 'birch_planks', 'spruce_wood', 'spruce_planks', 'jungle_wood', 'jungle_planks', 'acacia_wood', 'acacia_planks', 'dark_wood', 'dark_planks', 'mangrove_wood', 'mangrove_planks', 'cherry_wood', 'cherry_planks'],
+      operator: ['bedrock', 'command_block', 'repeating_command_block', 'chain_command_block', 'barrier', 'structure_block', 'light_block', 'debris', 'tnt', 'glow', 'obsidian', 'netherite_block'],
+      search: Object.keys(BLOCK_INFO),
+      all: Object.keys(BLOCK_INFO)
+    };
+
+    // 3D Canlı Karakter Önizleme Değişkenleri
+    let invPreviewRenderer = null;
+    let invPreviewScene = null;
+    let invPreviewCamera = null;
+    let invPreviewRig = null;
+    let invPreviewAnimId = null;
+    let invTargetYaw = 0;
+    let invTargetPitch = 0;
+    let invCurrentYaw = 0;
+    let invCurrentPitch = 0;
+
+    function setupInventoryCharacterPreview() {
+      const canvas = document.getElementById('invCharCanvas');
+      if (!canvas) return;
+
+      if (!invPreviewRenderer) {
+        invPreviewRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+        invPreviewRenderer.setSize(102, 156);
+        invPreviewRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+        invPreviewScene = new THREE.Scene();
+
+        invPreviewCamera = new THREE.PerspectiveCamera(28, 102 / 156, 0.1, 50);
+        invPreviewCamera.position.set(0, 0.95, 3.5);
+        invPreviewCamera.lookAt(0, 0.95, 0);
+
+        const amb = new THREE.AmbientLight(0xffffff, 0.92);
+        invPreviewScene.add(amb);
+
+        const dir = new THREE.DirectionalLight(0xffffff, 0.55);
+        dir.position.set(2, 3, 3);
+        invPreviewScene.add(dir);
+
+        const fillLight = new THREE.DirectionalLight(0x7bc2fe, 0.28);
+        fillLight.position.set(-2, 1, -2);
+        invPreviewScene.add(fillLight);
+      }
+
+      if (invPreviewRig && invPreviewRig.group) {
+        invPreviewScene.remove(invPreviewRig.group);
+        invPreviewRig = null;
+      }
+
+      // Oyuncunun OYUNDA KULLANDIĞI KENDİ ÖZEL KOSTÜMÜNÜ (myActiveChar) BİREBİR YÜKLE
+      const activeCharData = myActiveChar || JSON.parse(safeStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA));
+      invPreviewRig = createFullCharacterRig(activeCharData, false);
+      invPreviewRig.group.position.set(0, 0, 0);
+      invPreviewScene.add(invPreviewRig.group);
+
+      const invWin = document.getElementById('survivalInvView');
+      if (invWin && !invWin._hasMouseTracker) {
+        invWin._hasMouseTracker = true;
+        invWin.addEventListener('mousemove', (e) => {
+          if (!isInventoryOpen) return;
+          const rect = canvas.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 3;
+          const dx = e.clientX - cx;
+          const dy = e.clientY - cy;
+          invTargetYaw = Math.max(-0.9, Math.min(0.9, Math.atan2(dx, 160) * 0.95));
+          invTargetPitch = Math.max(-0.45, Math.min(0.45, -Math.atan2(dy, 160) * 0.65));
+        });
+        invWin.addEventListener('mouseleave', () => {
+          invTargetYaw = 0;
+          invTargetPitch = 0;
+        });
+      }
+
+      if (invPreviewAnimId) cancelAnimationFrame(invPreviewAnimId);
+      function renderInvCharLoop() {
+        if (!isInventoryOpen || currentInvView !== 'survival') return;
+        invPreviewAnimId = requestAnimationFrame(renderInvCharLoop);
+
+        invCurrentYaw += (invTargetYaw - invCurrentYaw) * 0.12;
+        invCurrentPitch += (invTargetPitch - invCurrentPitch) * 0.12;
+
+        if (invPreviewRig) {
+          invPreviewRig.group.rotation.y = invCurrentYaw;
+          if (invPreviewRig.headGroup) {
+            invPreviewRig.headGroup.rotation.y = invCurrentYaw * 0.7;
+            invPreviewRig.headGroup.rotation.x = invCurrentPitch;
+          }
+        }
+
+        if (invPreviewRenderer && invPreviewScene && invPreviewCamera) {
+          invPreviewRenderer.render(invPreviewScene, invPreviewCamera);
+        }
+      }
+      renderInvCharLoop();
+    }
+
+    function createSlotContent(item) {
+      if (!item || !item.type || item.count <= 0 || !BLOCK_INFO[item.type]) return '';
+      const info = BLOCK_INFO[item.type];
+      const bgStyle = blockIcons[item.type]
+        ? `background:url(${blockIcons[item.type]}) center/cover; image-rendering:pixelated;`
+        : `background:${info.color};`;
+      const countLabel = isCreativeMode ? '∞' : (item.count > 1 ? item.count : '');
+      return `<div style="width:24px; height:24px; ${bgStyle} border:1px solid rgba(0,0,0,0.5); box-shadow:inset 1px 1px 0 rgba(255,255,255,0.4);"></div>` +
+        (countLabel ? `<span style="position:absolute; right:2px; bottom:1px; font-size:6.5px; font-weight:bold; color:#fff; text-shadow:1px 1px 0 #000; pointer-events:none;">${countLabel}</span>` : '');
+    }
 
     function buildFullInventoryUI() {
-      // OP olmayan oyuncular yaratıcı modu açamaz
-      if (!isUserOp && isCreativeMode) {
+      // OP durumu dinamik kontrol
+      const hasOp = isCurrentPlayerOp();
+      if (!hasOp && isCreativeMode) {
         isCreativeMode = false;
         isFlying = false;
         if (hudContainer) hudContainer.style.display = 'flex';
       }
-      const grid = document.getElementById('invFullGrid');
-      const winTitle = document.getElementById('invWindowTitle');
-      const craftSec = document.getElementById('survivalCraftSection');
-      const btnClose = document.getElementById('btnInvClose');
-      if (btnClose) btnClose.onclick = toggleInventory;
 
-      if (!grid) return;
-      grid.innerHTML = '';
+      const survivalView = document.getElementById('survivalInvView');
+      const creativeView = document.getElementById('creativeInvView');
+      const btnCloseSurv = document.getElementById('btnInvCloseSurvival');
+      const btnCloseCrea = document.getElementById('btnInvCloseCreative');
+      const btnSwitchToCr = document.getElementById('btnSwitchToCreative');
+      const btnRecipeBook = document.getElementById('btnRecipeBook');
+      const recipeDrawer = document.getElementById('recipeBookDrawer');
 
-      if (isCreativeMode) {
-        if (winTitle) winTitle.textContent = 'YARATICI MOD - TÜM BLOKLAR';
-        if (craftSec) {
-          craftSec.style.display = 'flex';
-          craftSec.style.flexDirection = 'column';
-          craftSec.style.gap = '6px';
-          craftSec.style.padding = '8px';
-          craftSec.innerHTML = `
-            <div style="display:flex; justify-content:space-between; align-items:center; width:100%; gap:8px;">
-              <div id="invHoverName" style="font-size:7px; color:#ffff55; min-height:14px; text-shadow:1px 1px 0px #000; flex:1;">Bir bloğa tıklayarak elinize alın (99 adet)</div>
-              <button class="btn" id="btnToggleGameMode" style="font-size:6px; padding:4px 8px; background:#d35400; color:#fff; cursor:pointer;" type="button">HAYATTA KALMAYA GEÇ</button>
-            </div>
-            <div style="display:flex; gap:4px; justify-content:center; flex-wrap:wrap;">
-              <button class="btn" style="font-size:6px; padding:4px 6px; ${creativeCategory === 'all' ? 'background:#388e3c;' : ''}" id="catBtnAll" type="button">TÜMÜ</button>
-              <button class="btn" style="font-size:6px; padding:4px 6px; ${creativeCategory === 'ores' ? 'background:#388e3c;' : ''}" id="catBtnOres" type="button">MADENLER</button>
-              <button class="btn" style="font-size:6px; padding:4px 6px; ${creativeCategory === 'nature' ? 'background:#388e3c;' : ''}" id="catBtnNature" type="button">DOĞA & TAŞ</button>
-              <button class="btn" style="font-size:6px; padding:4px 6px; ${creativeCategory === 'wood' ? 'background:#388e3c;' : ''}" id="catBtnWood" type="button">AĞAÇ & AHŞAP</button>
-              <button class="btn" style="font-size:6px; padding:4px 6px; ${creativeCategory === 'building' ? 'background:#388e3c;' : ''}" id="catBtnBuilding" type="button">YAPI & DİĞER</button>
-            </div>
-          `;
+      if (btnCloseSurv) btnCloseSurv.onclick = toggleInventory;
+      if (btnCloseCrea) btnCloseCrea.onclick = toggleInventory;
 
-          const btnToggle = document.getElementById('btnToggleGameMode');
-          if (btnToggle) {
-            btnToggle.onclick = () => {
-              isCreativeMode = false;
-              isFlying = false;
-              hudContainer.style.display = 'flex';
-              showToast('Hayatta Kalma Modu Aktif');
-              buildFullInventoryUI();
-              renderCraftGrid();
-            };
-          }
-
-          document.getElementById('catBtnAll').onclick = () => { creativeCategory = 'all'; buildFullInventoryUI(); };
-          document.getElementById('catBtnOres').onclick = () => { creativeCategory = 'ores'; buildFullInventoryUI(); };
-          document.getElementById('catBtnNature').onclick = () => { creativeCategory = 'nature'; buildFullInventoryUI(); };
-          document.getElementById('catBtnWood').onclick = () => { creativeCategory = 'wood'; buildFullInventoryUI(); };
-          document.getElementById('catBtnBuilding').onclick = () => { creativeCategory = 'building'; buildFullInventoryUI(); };
-        }
-
-        const allTypes = Object.keys(BLOCK_INFO);
-        const hoverLabel = document.getElementById('invHoverName');
-
-        allTypes.forEach(blockKeyName => {
-          const info = BLOCK_INFO[blockKeyName];
-          if (!info) return;
-          if (creativeCategory !== 'all' && info.cat !== creativeCategory) return;
-
-          const slot = document.createElement('div');
-          slot.className = 'inv-slot';
-          slot.title = info.name;
-          const bgStyle = blockIcons[blockKeyName] ? `background:url(${blockIcons[blockKeyName]}) center/cover; image-rendering:pixelated;` : `background:${info.color};`;
-          slot.innerHTML = `<div style="width:24px; height:24px; ${bgStyle} border:1px solid #000; box-shadow:inset 1px 1px 0 rgba(255,255,255,0.4), inset -1px -1px 0 rgba(0,0,0,0.4);"></div>`;
-          
-          slot.onmouseenter = () => {
-            if (hoverLabel) hoverLabel.textContent = `Seç: ${info.name}`;
-          };
-
-          slot.addEventListener('click', () => {
-            inventory[selectedSlotIndex] = { type: blockKeyName, count: 99 };
-            updateInventoryUI();
-            toggleInventory();
-            // Bildirim kapatildi: showToast(`${info.name} seçildi! (x99)`);
-          });
-          grid.appendChild(slot);
-        });
-      } else {
-        if (winTitle) winTitle.textContent = 'ÜRETİM & ENVANTER';
-        if (craftSec) {
-          craftSec.style.display = 'flex';
-          craftSec.style.flexDirection = 'column';
-          craftSec.style.padding = '8px';
-          const opBtnText = isUserOp ? 'YARATICI MODA GEÇ (TÜM BLOKLAR)' : 'YARATICI MOD [SADECE OP]';
-          const opBtnColor = isUserOp ? '#27ae60' : '#7f8c8d';
-          craftSec.innerHTML = `
-            <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:8px;">
-              <span style="font-size:7px; font-weight:bold; color:#222;">2x2 EŞYA ÜRETİMİ</span>
-              <button class="btn" id="btnToggleGameMode" style="font-size:6px; padding:4px 8px; background:${opBtnColor}; color:#fff; cursor:pointer;" type="button">${opBtnText}</button>
-            </div>
-            <div style="display:flex; align-items:center; justify-content:center; gap:12px;">
-              <div class="craft-grid">
-                <div class="craft-slot" data-craft="0"></div>
-                <div class="craft-slot" data-craft="1"></div>
-                <div class="craft-slot" data-craft="2"></div>
-                <div class="craft-slot" data-craft="3"></div>
-              </div>
-              <div class="craft-arrow">&gt;</div>
-              <div class="craft-result" id="craftResultSlot"></div>
-            </div>
-          `;
-
-          const btnToggle = document.getElementById('btnToggleGameMode');
-          if (btnToggle) {
-            btnToggle.onclick = () => {
-              if (!isUserOp) {
-                showToast('Yaratıcı Mod ve uçuş sadece Yöneticilere (OP) açıktır!');
-                addChatMessage('', 'Bu özelliği kullanmak için Yönetici (OP) yetkiniz olmalıdır.', true);
-                return;
-              }
-              isCreativeMode = true;
-              isFlying = true;
-              hudContainer.style.display = 'none';
-              showToast('Yaratıcı Mod Aktif');
-              buildFullInventoryUI();
-            };
-          }
-        }
-
-        for (let i = 0; i < 27; i++) {
-          const slot = document.createElement('div');
-          slot.className = 'inv-slot';
-          const item = inventory[i];
-          if (item && item.type && item.count > 0 && BLOCK_INFO[item.type]) {
-            const bgStyle = blockIcons[item.type] ? `background:url(${blockIcons[item.type]}) center/cover; image-rendering:pixelated;` : `background:${BLOCK_INFO[item.type].color};`;
-            slot.innerHTML = `<div style="width:20px; height:20px; ${bgStyle} border:1px solid #000;"></div><span style="position:absolute; right:2px; bottom:1px; font-size:6px; font-weight:bold; color:#fff; text-shadow:1px 1px 0 #000;">${item.count}</span>`;
-          }
-          slot.addEventListener('click', () => {
-            if (item && item.type && item.count > 0) {
-              for (let c = 0; c < 4; c++) {
-                if (!craftSlots[c]) {
-                  craftSlots[c] = { type: item.type, count: 1 };
-                  item.count--;
-                  if (item.count <= 0) inventory[i] = { type: null, count: 0 };
-                  break;
-                }
-              }
-              renderCraftGrid();
-              updateInventoryUI();
-              buildFullInventoryUI();
-            }
-          });
-          grid.appendChild(slot);
-        }
-        renderCraftGrid();
+      if (btnRecipeBook && recipeDrawer) {
+        btnRecipeBook.onclick = () => {
+          recipeDrawer.style.display = (recipeDrawer.style.display === 'block') ? 'none' : 'block';
+        };
       }
+
+      // Hangi envanter görünümünün açılacağını belirle
+      if (isCreativeMode && currentInvView !== 'survival_override') {
+        currentInvView = 'creative';
+      } else if (!isCreativeMode) {
+        currentInvView = 'survival';
+      }
+
+      if (btnSwitchToCr) {
+        if (isCreativeMode) {
+          btnSwitchToCr.style.display = 'block';
+          btnSwitchToCr.onclick = () => {
+            currentInvView = 'creative';
+            buildFullInventoryUI();
+          };
+        } else {
+          btnSwitchToCr.style.display = 'none';
+        }
+      }
+
+      if (currentInvView === 'creative') {
+        if (survivalView) survivalView.style.display = 'none';
+        if (creativeView) creativeView.style.display = 'flex';
+        renderCreativeInventory();
+      } else {
+        if (survivalView) survivalView.style.display = 'block';
+        if (creativeView) creativeView.style.display = 'none';
+        renderSurvivalInventory();
+      }
+    }
+
+    function renderSurvivalInventory() {
+      const mainGrid = document.getElementById('invMainGrid');
+      const hotbarGrid = document.getElementById('invHotbarGrid');
+
+      // 1. ZIRH SLOTLARI
+      const armorSlotsElements = [
+        document.getElementById('armorSlot0'),
+        document.getElementById('armorSlot1'),
+        document.getElementById('armorSlot2'),
+        document.getElementById('armorSlot3')
+      ];
+      const armorIconsSvg = [
+        '<svg class="armor-icon" viewBox="0 0 16 16" width="22" height="22"><path fill="#3a3a3a" d="M3 2h10v8h-2v2H9v-3H7v3H5v-2H3V2z"/></svg>',
+        '<svg class="armor-icon" viewBox="0 0 16 16" width="22" height="22"><path fill="#3a3a3a" d="M2 3h4v2h4V3h4v5h-2v7H4V8H2V3z"/></svg>',
+        '<svg class="armor-icon" viewBox="0 0 16 16" width="22" height="22"><path fill="#3a3a3a" d="M3 2h10v5H9v2h2v6H7v-6H5v6H3V2z"/></svg>',
+        '<svg class="armor-icon" viewBox="0 0 16 16" width="22" height="22"><path fill="#3a3a3a" d="M3 3h4v6H5v4h2v1H2V9h1V3zm6 0h4v6h1v5H9v-1h2V9h-2V3z"/></svg>'
+      ];
+
+      armorSlotsElements.forEach((el, idx) => {
+        if (!el) return;
+        el.innerHTML = '';
+        if (armorSlots[idx] && armorSlots[idx].type) {
+          el.innerHTML = createSlotContent(armorSlots[idx]);
+        } else {
+          el.innerHTML = armorIconsSvg[idx];
+        }
+        el.onclick = () => {
+          if (armorSlots[idx]) {
+            addItemToInventory(armorSlots[idx].type, armorSlots[idx].count || 1);
+            armorSlots[idx] = null;
+            buildFullInventoryUI();
+          }
+        };
+      });
+
+      // 2. KALKAN SLOTU
+      const shieldSlotEl = document.getElementById('invShieldSlot');
+      if (shieldSlotEl) {
+        shieldSlotEl.innerHTML = '';
+        if (shieldSlotItem && shieldSlotItem.type) {
+          shieldSlotEl.innerHTML = createSlotContent(shieldSlotItem);
+        } else {
+          shieldSlotEl.innerHTML = '<svg class="armor-icon" viewBox="0 0 16 16" width="22" height="22"><path fill="#3a3a3a" d="M3 2h10v7c0 3-3 5-5 6-2-1-5-3-5-6V2z"/></svg>';
+        }
+        shieldSlotEl.onclick = () => {
+          if (shieldSlotItem) {
+            addItemToInventory(shieldSlotItem.type, shieldSlotItem.count || 1);
+            shieldSlotItem = null;
+            buildFullInventoryUI();
+          }
+        };
+      }
+
+      // 3. ANA ENVANTER (27 Slot: 9-35)
+      if (mainGrid) {
+        mainGrid.innerHTML = '';
+        for (let i = 9; i < 36; i++) {
+          const slot = document.createElement('div');
+          slot.className = 'inv-slot';
+          slot.dataset.invIndex = i;
+          const item = inventory[i];
+          if (item && item.type && item.count > 0) {
+            slot.title = `${BLOCK_INFO[item.type]?.name || item.type} (${item.count})`;
+            slot.innerHTML = createSlotContent(item);
+          }
+          slot.onclick = () => handleInventorySlotClick(i);
+          mainGrid.appendChild(slot);
+        }
+      }
+
+      // 4. HOTBAR (9 Slot: 0-8)
+      if (hotbarGrid) {
+        hotbarGrid.innerHTML = '';
+        for (let i = 0; i < 9; i++) {
+          const slot = document.createElement('div');
+          slot.className = 'inv-slot';
+          if (i === selectedSlotIndex) slot.classList.add('active-hotbar');
+          slot.dataset.invIndex = i;
+          const item = inventory[i];
+          if (item && item.type && item.count > 0) {
+            slot.title = `${BLOCK_INFO[item.type]?.name || item.type} (${item.count})`;
+            slot.innerHTML = createSlotContent(item);
+          }
+          slot.onclick = () => {
+            selectedSlotIndex = i;
+            updateInventoryUI();
+            buildFullInventoryUI();
+          };
+          hotbarGrid.appendChild(slot);
+        }
+      }
+
+      // 5. 3D Karakter Önizleme
+      setupInventoryCharacterPreview();
+
+      // 6. 2x2 Crafting Alanı
+      renderCraftGrid();
+    }
+
+    function renderCreativeInventory() {
+      const titleEl = document.getElementById('creativeTabTitle');
+      const searchInput = document.getElementById('creativeSearchInput');
+      const itemsGrid = document.getElementById('creativeItemsGrid');
+      const hotbarGrid = document.getElementById('creativeHotbarGrid');
+
+      if (titleEl) {
+        titleEl.textContent = CREATIVE_TAB_NAMES[activeCreativeTab] || 'Yaratıcı Envanter';
+      }
+
+      // Sekme butonlarını etkinleştir ve dinle
+      document.querySelectorAll('.mc-cr-tab, .mc-cr-tab-bottom').forEach(tab => {
+        const tabKey = tab.dataset.crtab;
+        if (tabKey === activeCreativeTab) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+
+        tab.onclick = () => {
+          if (tabKey === 'survival_chest') {
+            // Sandık sekmesine basınca Survival görünümüne geç
+            currentInvView = 'survival_override';
+            buildFullInventoryUI();
+            return;
+          }
+          activeCreativeTab = tabKey;
+          if (tabKey === 'search' && searchInput) {
+            searchInput.focus();
+          }
+          buildFullInventoryUI();
+        };
+      });
+
+      // Arama Girişi Dinleyicisi
+      if (searchInput && !searchInput._hasSearchListener) {
+        searchInput._hasSearchListener = true;
+        searchInput.oninput = (e) => {
+          creativeSearchTerm = (e.target.value || '').trim().toLowerCase();
+          if (creativeSearchTerm.length > 0) {
+            activeCreativeTab = 'search';
+            document.querySelectorAll('.mc-cr-tab, .mc-cr-tab-bottom').forEach(t => {
+              if (t.dataset.crtab === 'search') t.classList.add('active');
+              else t.classList.remove('active');
+            });
+            if (titleEl) titleEl.textContent = `Arama: "${creativeSearchTerm}"`;
+          }
+          renderCreativeItemsGrid();
+        };
+      }
+
+      renderCreativeItemsGrid();
+
+      // Creative Hotbar (9 Slot)
+      if (hotbarGrid) {
+        hotbarGrid.innerHTML = '';
+        for (let i = 0; i < 9; i++) {
+          const slot = document.createElement('div');
+          slot.className = 'inv-slot';
+          if (i === selectedSlotIndex) slot.classList.add('active-hotbar');
+          slot.dataset.invIndex = i;
+          const item = inventory[i];
+          if (item && item.type && item.count > 0) {
+            slot.title = `${BLOCK_INFO[item.type]?.name || item.type}`;
+            slot.innerHTML = createSlotContent(item);
+          }
+          slot.onclick = () => {
+            selectedSlotIndex = i;
+            updateInventoryUI();
+            renderCreativeInventory();
+          };
+          hotbarGrid.appendChild(slot);
+        }
+      }
+    }
+
+    function renderCreativeItemsGrid() {
+      const itemsGrid = document.getElementById('creativeItemsGrid');
+      if (!itemsGrid) return;
+      itemsGrid.innerHTML = '';
+
+      let candidateKeys = CREATIVE_TAB_BLOCKS[activeCreativeTab] || Object.keys(BLOCK_INFO);
+      if (activeCreativeTab === 'search' || creativeSearchTerm.length > 0) {
+        candidateKeys = Object.keys(BLOCK_INFO);
+      }
+
+      if (creativeSearchTerm.length > 0) {
+        candidateKeys = candidateKeys.filter(k => {
+          const info = BLOCK_INFO[k];
+          return k.toLowerCase().includes(creativeSearchTerm) || (info && info.name.toLowerCase().includes(creativeSearchTerm));
+        });
+      }
+
+      candidateKeys.forEach(blockKey => {
+        const info = BLOCK_INFO[blockKey];
+        if (!info) return;
+
+        const slot = document.createElement('div');
+        slot.className = 'inv-slot';
+        slot.title = info.name;
+        slot.innerHTML = createSlotContent({ type: blockKey, count: 64 });
+
+        slot.onclick = () => {
+          // Tıklanan eşyayı aktif hotbar slotuna 64 adet olarak yerleştir
+          inventory[selectedSlotIndex] = { type: blockKey, count: 64 };
+          updateInventoryUI();
+          renderCreativeInventory();
+          showToast(`${info.name} seçildi! (x64)`);
+        };
+        itemsGrid.appendChild(slot);
+      });
+    }
+
+    function handleInventorySlotClick(slotIdx) {
+      const item = inventory[slotIdx];
+      if (!item || !item.type || item.count <= 0) return;
+
+      // Eğer zırh eşyasıysa uygun zırh slotuna donan
+      const bInfo = BLOCK_INFO[item.type];
+      if (bInfo && bInfo.slotType) {
+        let armorIdx = -1;
+        if (bInfo.slotType === 'helmet') armorIdx = 0;
+        else if (bInfo.slotType === 'chestplate') armorIdx = 1;
+        else if (bInfo.slotType === 'leggings') armorIdx = 2;
+        else if (bInfo.slotType === 'boots') armorIdx = 3;
+
+        if (armorIdx >= 0) {
+          const oldArmor = armorSlots[armorIdx];
+          armorSlots[armorIdx] = { type: item.type, count: 1 };
+          if (oldArmor && oldArmor.type) {
+            inventory[slotIdx] = oldArmor;
+          } else {
+            item.count--;
+            if (item.count <= 0) inventory[slotIdx] = { type: null, count: 0 };
+          }
+          showToast(`${bInfo.name} kuşanıldı!`);
+          updateInventoryUI();
+          buildFullInventoryUI();
+          return;
+        } else if (bInfo.slotType === 'shield') {
+          const oldShield = shieldSlotItem;
+          shieldSlotItem = { type: item.type, count: 1 };
+          if (oldShield && oldShield.type) {
+            inventory[slotIdx] = oldShield;
+          } else {
+            item.count--;
+            if (item.count <= 0) inventory[slotIdx] = { type: null, count: 0 };
+          }
+          showToast('Kalkan ikinci ele kuşanıldı!');
+          updateInventoryUI();
+          buildFullInventoryUI();
+          return;
+        }
+      }
+
+      // 2x2 Crafting alanına aktarma veya hotbar geçişi
+      let placedInCraft = false;
+      for (let c = 0; c < 4; c++) {
+        if (!craftSlots[c]) {
+          craftSlots[c] = { type: item.type, count: 1 };
+          item.count--;
+          if (item.count <= 0) inventory[slotIdx] = { type: null, count: 0 };
+          placedInCraft = true;
+          break;
+        }
+      }
+
+      if (!placedInCraft) {
+        if (slotIdx >= 9) {
+          for (let h = 0; h < 9; h++) {
+            if (!inventory[h] || !inventory[h].type || inventory[h].count === 0) {
+              inventory[h] = { type: item.type, count: item.count };
+              inventory[slotIdx] = { type: null, count: 0 };
+              break;
+            }
+          }
+        } else {
+          for (let m = 9; m < 36; m++) {
+            if (!inventory[m] || !inventory[m].type || inventory[m].count === 0) {
+              inventory[m] = { type: item.type, count: item.count };
+              inventory[slotIdx] = { type: null, count: 0 };
+              break;
+            }
+          }
+        }
+      }
+
+      renderCraftGrid();
+      updateInventoryUI();
+      buildFullInventoryUI();
     }
 
     function renderCraftGrid() {
       if (isCreativeMode) return;
       for (let i = 0; i < 4; i++) {
         const slotEl = document.querySelector(`.craft-slot[data-craft="${i}"]`);
+        if (!slotEl) continue;
         slotEl.innerHTML = '';
         const item = craftSlots[i];
         if (item && item.type) {
-          const bgStyle = blockIcons[item.type] ? `background:url(${blockIcons[item.type]}) center/cover; image-rendering:pixelated;` : `background:${BLOCK_INFO[item.type].color};`;
-          slotEl.innerHTML = `<div style="width:20px; height:20px; ${bgStyle} border:1px solid #000;"></div>`;
+          slotEl.innerHTML = createSlotContent(item);
         }
         slotEl.onclick = () => {
           if (craftSlots[i]) {
-            addItemToInventory(craftSlots[i].type, 1);
+            addItemToInventory(craftSlots[i].type, craftSlots[i].count || 1);
             craftSlots[i] = null;
             renderCraftGrid();
             buildFullInventoryUI();
@@ -5711,19 +6747,43 @@
 
     function checkCraftingRecipe() {
       const resultEl = document.getElementById('craftResultSlot');
+      if (!resultEl) return;
       resultEl.innerHTML = '';
-      let woodCount = craftSlots.filter(s => s && s.type === 'wood').length;
-      if (woodCount > 0) {
-        resultEl.innerHTML = `<div style="width:24px; height:24px; background:${BLOCK_INFO['planks'].color}; border:1px solid #000;"></div><span style="position:absolute; right:2px; bottom:1px; font-size:6px; color:#fff;">${woodCount * 4}</span>`;
+
+      const itemsInCraft = craftSlots.filter(s => s && s.type);
+      if (itemsInCraft.length === 0) {
+        resultEl.onclick = null;
+        return;
+      }
+
+      let woodItems = craftSlots.filter(s => s && (s.type === 'wood' || s.type === 'leaves'));
+      let plankItems = craftSlots.filter(s => s && s.type === 'planks');
+
+      if (woodItems.length > 0 && itemsInCraft.length === woodItems.length) {
+        const count = woodItems.length * 4;
+        resultEl.innerHTML = createSlotContent({ type: 'planks', count: count });
         resultEl.onclick = () => {
-          addItemToInventory('planks', woodCount * 4);
-          for (let i = 0; i < 4; i++) if (craftSlots[i] && craftSlots[i].type === 'wood') craftSlots[i] = null;
+          addItemToInventory('planks', count);
+          for (let i = 0; i < 4; i++) if (craftSlots[i] && (craftSlots[i].type === 'wood' || craftSlots[i].type === 'leaves')) craftSlots[i] = null;
           renderCraftGrid();
           buildFullInventoryUI();
         };
-      } else {
-        resultEl.onclick = null;
+        return;
       }
+
+      if (plankItems.length >= 2) {
+        const count = plankItems.length * 2;
+        resultEl.innerHTML = createSlotContent({ type: 'wood', count: count });
+        resultEl.onclick = () => {
+          addItemToInventory('wood', count);
+          for (let i = 0; i < 4; i++) if (craftSlots[i] && craftSlots[i].type === 'planks') craftSlots[i] = null;
+          renderCraftGrid();
+          buildFullInventoryUI();
+        };
+        return;
+      }
+
+      resultEl.onclick = null;
     }
 
     function toggleInventory() {
@@ -7281,6 +8341,10 @@
         document.getElementById('bottom').style.display = 'none';
         document.getElementById('hint').style.display = 'none';
         hudContainer.style.display = 'none';
+        window.isGameRunning = false;
+        window.inGameAddChatMessage = null;
+        const tEl2 = document.getElementById('toast');
+        if (tEl2) tEl2.style.display = '';
         chatContainer.style.display = 'none';
         launcherApp.style.display = 'flex';
         if (document.pointerLockElement) {
@@ -7371,14 +8435,24 @@
     }
     const multiplayerSocket = (isMultiplayerGame && typeof io === 'function') ? (targetServerUrl ? io(targetServerUrl, { transports: ['websocket', 'polling'] }) : io()) : null;
     const remotePlayers = new Map();
+    const remoteSkinsCache = new Map(); // Çok oyunculu oyuncuların kendi bağımsız kostüm önbelleği (asla yerel safeStorage ile karışmaz!)
+    const myClientId = 'mc_' + Math.random().toString(36).substring(2, 9) + '_' + Date.now().toString(36);
     let lastNetworkUpdate = 0;
     const myPlayerName = safeStorage.getItem('moocraft_active_session') || 'Oyuncu';
+
     // Aktif kullanıcının kendi karakter verisi (çok oyunculu senkronizasyon için en başta yüklenir)
     let myActiveChar = JSON.parse(safeStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA));
     if ((!myActiveChar || !myActiveChar.customSkin) && typeof character !== 'undefined' && character && character.customSkin) {
       myActiveChar = JSON.parse(JSON.stringify(character));
     }
 
+    // Çok sekmeli yerel test veya P2P sekme senkronizasyonu için BroadcastChannel desteği
+    let skinBroadcastChannel = null;
+    try {
+      if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+        skinBroadcastChannel = new BroadcastChannel('moocraft_multiplayer_skin_sync');
+      }
+    } catch(e) {}
 
     // --- 3D OYUNCU MODELİ & KARAKTER ÖZELLEŞTİRME RİGİ (1. VE 3. ŞAHIS - F5) ---
     function createNameTagSprite(name) {
@@ -7550,19 +8624,17 @@
       group.add(bodyGroup);
 
       // 3. KOLLAR (Omuz pivotları: y = 1.20)
-      const armMat = new THREE.MeshLambertMaterial({ map: armTex });
-
+      const leftArmMesh = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.64, 0.22), new THREE.MeshLambertMaterial({ map: armTex }));
+      leftArmMesh.position.set(0, -0.28, 0);
       const leftArmGroup = new THREE.Group();
       leftArmGroup.position.set(-0.33, 1.20, 0);
-      const leftArmMesh = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.64, 0.22), armMat);
-      leftArmMesh.position.set(0, -0.28, 0);
       leftArmGroup.add(leftArmMesh);
       group.add(leftArmGroup);
 
+      const rightArmMesh = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.64, 0.22), new THREE.MeshLambertMaterial({ map: armTex }));
+      rightArmMesh.position.set(0, -0.28, 0);
       const rightArmGroup = new THREE.Group();
       rightArmGroup.position.set(0.33, 1.20, 0);
-      const rightArmMesh = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.64, 0.22), armMat);
-      rightArmMesh.position.set(0, -0.28, 0);
       rightArmGroup.add(rightArmMesh);
 
       // 3. Şahısta elde tutulan blok
@@ -7574,31 +8646,30 @@
       group.add(rightArmGroup);
 
       // 4. BACAKLAR (Kalça pivotları: y = 0.64)
-      const legMat = new THREE.MeshLambertMaterial({ map: legTex });
-
+      const leftLegMesh = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.64, 0.22), new THREE.MeshLambertMaterial({ map: legTex }));
+      leftLegMesh.position.set(0, -0.32, 0);
       const leftLegGroup = new THREE.Group();
       leftLegGroup.position.set(-0.11, 0.64, 0);
-      const leftLegMesh = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.64, 0.22), legMat);
-      leftLegMesh.position.set(0, -0.32, 0);
       leftLegGroup.add(leftLegMesh);
       group.add(leftLegGroup);
 
+      const rightLegMesh = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.64, 0.22), new THREE.MeshLambertMaterial({ map: legTex }));
+      rightLegMesh.position.set(0, -0.32, 0);
       const rightLegGroup = new THREE.Group();
       rightLegGroup.position.set(0.11, 0.64, 0);
-      const rightLegMesh = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.64, 0.22), legMat);
-      rightLegMesh.position.set(0, -0.32, 0);
       rightLegGroup.add(rightLegMesh);
       group.add(rightLegGroup);
 
-      // YÜKLENEN ÖZEL KOSTÜMÜ 3D OYUNCU MODELİNE UYGULA
+      // YÜKLENEN ÖZEL KOSTÜMÜ 3D OYUNCU MODELİNE UYGULA (EĞER MEVCUTSA)
       if (cData && cData.customSkin) {
         getOrCreateSkinCanvas(cData.customSkin, (skinCanvas) => {
+          if (!skinCanvas) return;
           const mats = createMaterialsFromSkin(skinCanvas, THREE.MeshLambertMaterial);
           headMesh.material = mats.head;
           hairMesh.visible = false;
-          if (typeof glassesMesh !== 'undefined') glassesMesh.visible = false;
-          if (typeof headphonesMesh !== 'undefined') headphonesMesh.visible = false;
-          if (typeof armorMesh !== 'undefined') armorMesh.visible = false;
+          if (glassesMesh) glassesMesh.visible = false;
+          if (headphonesMesh) headphonesMesh.visible = false;
+          if (armorMesh) armorMesh.visible = false;
           bodyMesh.material = mats.torso;
           leftArmMesh.material = mats.leftArm;
           rightArmMesh.material = mats.rightArm;
@@ -7634,19 +8705,20 @@
           } else {
             heldItemMesh.visible = true;
             const baseMat = (mats && mats[type]) ? mats[type] : (mats ? mats.grass : materials.grass);
-            // Paylasilan dunya bloklarinin pvp hasarinda kirmizilasmamasi icin klon materyal kullanilir
             heldItemMesh.material = Array.isArray(baseMat) ? baseMat.map(m => m.clone()) : (baseMat ? baseMat.clone() : materials.grass);
           }
         }
       };
     }
 
-    // Karakter modeline (rig) özel kostüm veya Steve dokusunu doğrudan uygulama fonksiyonu
+    // Karakter modeline (rig) özel PNG kostümünü veya özel tasarlanmış karakter dokularını uygulama fonksiyonu
     function applySkinToRig(rig, charData) {
       if (!rig || !charData) return;
       const customSkinSource = charData.customSkin || charData.skin || (typeof charData === 'string' && charData.startsWith('data:image') ? charData : null);
+
       if (customSkinSource) {
         getOrCreateSkinCanvas(customSkinSource, (skinCanvas) => {
+          if (!skinCanvas) return;
           const mats = createMaterialsFromSkin(skinCanvas, THREE.MeshLambertMaterial);
           if (rig.headMesh) rig.headMesh.material = mats.head;
           if (rig.hairMesh) rig.hairMesh.visible = false;
@@ -7660,34 +8732,127 @@
           if (rig.rightLegMesh) rig.rightLegMesh.material = mats.rightLeg;
         });
       } else {
-        const steveUrl = getDefaultSteveDataUrl();
-        getOrCreateSkinCanvas(steveUrl, (skinCanvas) => {
-          const mats = createMaterialsFromSkin(skinCanvas, THREE.MeshLambertMaterial);
-          if (rig.headMesh) rig.headMesh.material = mats.head;
-          if (rig.hairMesh) rig.hairMesh.visible = true;
-          if (rig.bodyMesh) rig.bodyMesh.material = mats.torso;
-          if (rig.leftArmMesh) rig.leftArmMesh.material = mats.leftArm;
-          if (rig.rightArmMesh) rig.rightArmMesh.material = mats.rightArm;
-          if (rig.leftLegMesh) rig.leftLegMesh.material = mats.leftLeg;
-          if (rig.rightLegMesh) rig.rightLegMesh.material = mats.rightLeg;
+        // Özel PNG yüklenmemişse, o oyuncunun seçtiği kıyafet/ten/saç rengini giydir (varsayılan Steve/Alex veya özel karakter)
+        const sColor = charData.skinColor || '#c68642';
+        const eColor = charData.eyeColor || '#2b5797';
+        const hStyle = charData.hairStyle || 'steve';
+        const hColor = charData.hairColor || '#4a2e00';
+        const fHair = charData.facialHair || 'mustache';
+        const shStyle = charData.shirtStyle || 'tshirt';
+        const shColor = charData.shirtColor || '#008080';
+        const pColor = charData.pantColor || '#1a237e';
+        const shwColor = charData.shoeColor || '#333333';
+        const acc = charData.accessory || 'none';
+
+        const pSkin = createPixelTexture((c, w, h) => {
+          c.fillStyle = sColor; c.fillRect(0, 0, w, h);
         });
+        const fFace = createPixelTexture((c, w, h) => {
+          c.fillStyle = sColor; c.fillRect(0, 0, w, h);
+          c.fillStyle = '#221508'; c.fillRect(10, 22, 14, 3); c.fillRect(40, 22, 14, 3);
+          c.fillStyle = '#ffffff'; c.fillRect(10, 26, 14, 10); c.fillRect(40, 26, 14, 10);
+          c.fillStyle = eColor; c.fillRect(16, 26, 8, 10); c.fillRect(40, 26, 8, 10);
+          c.fillStyle = '#b87b4b'; c.fillRect(26, 36, 12, 6);
+          if (fHair === 'mustache' || fHair === 'none') {
+            c.fillStyle = hColor; c.fillRect(18, 42, 28, 6);
+            c.fillStyle = '#8d5524'; c.fillRect(24, 48, 16, 4);
+          } else if (fHair === 'beard') {
+            c.fillStyle = hColor; c.fillRect(14, 42, 36, 16);
+            c.fillStyle = '#523315'; c.fillRect(24, 46, 16, 4);
+          } else {
+            c.fillStyle = '#4a2e00'; c.fillRect(18, 42, 28, 6);
+            c.fillStyle = '#8d5524'; c.fillRect(24, 48, 16, 4);
+          }
+        });
+        const hTex = createPixelTexture((c, w, h) => {
+          c.clearRect(0, 0, w, h);
+          if (hStyle === 'bald') return;
+          c.fillStyle = hColor;
+          if (hStyle === 'steve') {
+            c.fillRect(0, 0, w, 26);
+            c.fillRect(0, 0, 14, 42);
+            c.fillRect(50, 0, 14, 42);
+          } else if (hStyle === 'alex') {
+            c.fillRect(0, 0, w, 26);
+            c.fillRect(0, 0, 18, 64);
+            c.fillRect(46, 0, 18, 64);
+          } else if (hStyle === 'afro') {
+            c.fillRect(0, 0, w, 48);
+            c.fillRect(0, 0, 18, 56);
+            c.fillRect(46, 0, 18, 56);
+          }
+        });
+        const bTex = createPixelTexture((c, w, h) => {
+          c.fillStyle = shColor; c.fillRect(0, 0, w, h);
+          if (shStyle === 'jacket') {
+            c.fillStyle = '#111111'; c.fillRect(28, 0, 8, h);
+            c.fillStyle = '#ffffff'; c.fillRect(26, 12, 12, 16);
+          }
+        });
+        const aTex = createPixelTexture((c, w, h) => {
+          if (shStyle === 'armor') {
+            c.fillStyle = '#b0bec5'; c.fillRect(0, 0, w, 32);
+            c.fillStyle = '#78909c'; c.fillRect(8, 8, 48, 16);
+          } else {
+            c.fillStyle = shColor; c.fillRect(0, 0, w, 34);
+          }
+          c.fillStyle = sColor; c.fillRect(0, 34, w, 30);
+        });
+        const lTex = createPixelTexture((c, w, h) => {
+          c.fillStyle = pColor; c.fillRect(0, 0, w, 46);
+          c.fillStyle = shwColor; c.fillRect(0, 46, w, 18);
+        });
+
+        if (rig.headMesh) {
+          rig.headMesh.material = [
+            new THREE.MeshLambertMaterial({ map: pSkin }),
+            new THREE.MeshLambertMaterial({ map: pSkin }),
+            new THREE.MeshLambertMaterial({ map: pSkin }),
+            new THREE.MeshLambertMaterial({ map: pSkin }),
+            new THREE.MeshLambertMaterial({ map: fFace }),
+            new THREE.MeshLambertMaterial({ map: pSkin })
+          ];
+        }
+        if (rig.hairMesh) {
+          rig.hairMesh.material = new THREE.MeshLambertMaterial({ map: hTex, transparent: true });
+          rig.hairMesh.visible = (hStyle !== 'bald');
+        }
+        if (rig.glassesMesh) rig.glassesMesh.visible = (acc === 'glasses');
+        if (rig.headphonesMesh) rig.headphonesMesh.visible = (acc === 'headphones');
+        if (rig.armorMesh) rig.armorMesh.visible = (shStyle === 'armor');
+        if (rig.bodyMesh) rig.bodyMesh.material = new THREE.MeshLambertMaterial({ map: bTex });
+        if (rig.leftArmMesh) rig.leftArmMesh.material = new THREE.MeshLambertMaterial({ map: aTex });
+        if (rig.rightArmMesh) rig.rightArmMesh.material = new THREE.MeshLambertMaterial({ map: aTex });
+        if (rig.leftLegMesh) rig.leftLegMesh.material = new THREE.MeshLambertMaterial({ map: lTex });
+        if (rig.rightLegMesh) rig.rightLegMesh.material = new THREE.MeshLambertMaterial({ map: lTex });
       }
     }
 
-    function makeRemoteAvatar(name, customChar) {
+    function makeRemoteAvatar(name, customChar, playerId = null) {
       // Kesinlikle yerel oyuncunun safeStorage'daki kendi kostümünü başkasına yükleme!
-      // Eğer customChar verilmemişse varsayılan Steve karakterini kullan, böylece herkes karşısındakinin gerçek karakterini görür
-      const charConfig = customChar || JSON.parse(JSON.stringify(DEFAULT_STEVE_DATA));
+      // Sadece ve sadece o oyuncunun kendisine ait kostüm verisi kullanılır
+      let charConfig = customChar;
+      if (!charConfig && playerId && remoteSkinsCache.has(playerId)) {
+        charConfig = remoteSkinsCache.get(playerId);
+      }
+      if (!charConfig && name && remoteSkinsCache.has(name)) {
+        charConfig = remoteSkinsCache.get(name);
+      }
+      if (!charConfig) {
+        charConfig = JSON.parse(JSON.stringify(DEFAULT_STEVE_DATA));
+        charConfig.customSkin = null;
+      }
       const rig = createFullCharacterRig(charConfig, false);
       const avatar = rig.group;
       const tag = createNameTagSprite(name || 'Oyuncu');
       avatar.add(tag);
       avatar.userData = {
+        playerId: playerId,
         playerName: name || 'Oyuncu',
         rig: rig,
         lastPos: new THREE.Vector3(),
         walkTime: 0,
-        currentSkinKey: (charConfig && charConfig.customSkin) ? charConfig.customSkin : 'default_steve',
+        currentSkinKey: (charConfig && charConfig.customSkin) ? charConfig.customSkin : (charConfig ? JSON.stringify(charConfig) : 'default_steve'),
         velocityY: 0,
         onGround: true
       };
@@ -7695,18 +8860,13 @@
     }
 
     function updateRemotePlayer(data) {
-      if (!data || !data.id || data.id === (multiplayerSocket && multiplayerSocket.id)) return;
-      // Bizim kendi kullanıcı adımıza sahip eski hayalet kopyaları kesinlikle engelle ve sahneden sil
-      if (data.name && myPlayerName && data.name.trim().toLowerCase() === myPlayerName.trim().toLowerCase()) {
-        const oldSelf = remotePlayers.get(data.id);
-        if (oldSelf) {
-          scene.remove(oldSelf);
-          remotePlayers.delete(data.id);
-        }
-        return;
-      }
+      if (!data) return;
+      const currentSocketId = (multiplayerSocket && multiplayerSocket.id) ? multiplayerSocket.id : null;
+      // Bizim kendi socket ID veya benzersiz istemci ID'miz ise kendimizi remote listesine eklemeyiz
+      if (data.id && currentSocketId && data.id === currentSocketId) return;
+      if (data.clientId && data.clientId === myClientId) return;
 
-      // Karakter / Kostüm verisini esnek ve güvenli şekilde çözümle
+      // Karakter / Kostüm verisini çözümle (asla yerel safeStorage'a bakılmaz!)
       let charData = null;
       if (data.character) {
         charData = (typeof data.character === 'string') ? (()=>{ try { return JSON.parse(data.character); } catch(e){ return null; } })() : data.character;
@@ -7718,37 +8878,38 @@
       if (data.customSkin && !charData.customSkin) charData.customSkin = data.customSkin;
       if (data.skin && !charData.customSkin) charData.customSkin = data.skin;
 
-      // Eğer pakette henüz kostüm gelmediyse bu oyuncu için yerel bellekte kayıtlı kostüm var mı kontrol et
-      if (!charData.customSkin && data.name) {
-        const savedUserChar = safeStorage.getItem(getUserCharKey(data.name));
-        if (savedUserChar) {
-          try {
-            const parsed = JSON.parse(savedUserChar);
-            if (parsed && parsed.customSkin) charData.customSkin = parsed.customSkin;
-          } catch(e){}
+      const pId = data.id || (data.name ? 'player_' + data.name : null);
+      if (!pId) return;
+
+      // Eğer bu oyuncu için önceden alınmış bir kostüm varsa onu kullan, yeni geldiyse önbelleği güncelle
+      if (charData && (charData.customSkin || charData.skinColor)) {
+        remoteSkinsCache.set(pId, charData);
+        if (data.name) remoteSkinsCache.set(data.name, charData);
+      } else {
+        if (remoteSkinsCache.has(pId)) {
+          charData = remoteSkinsCache.get(pId);
+        } else if (data.name && remoteSkinsCache.has(data.name)) {
+          charData = remoteSkinsCache.get(data.name);
         }
       }
 
-      let remote = remotePlayers.get(data.id);
+      let remote = remotePlayers.get(pId);
+      if (!remote && data.id) {
+        remote = remotePlayers.get(data.id);
+      }
+
       if (!remote) {
-        remote = makeRemoteAvatar(data.name, charData);
+        remote = makeRemoteAvatar(data.name, charData, pId);
         scene.add(remote);
-        remotePlayers.set(data.id, remote);
+        remotePlayers.set(pId, remote);
+        if (data.id && pId !== data.id) remotePlayers.set(data.id, remote);
 
         // Yeni katılan oyuncunun bizim kostümümüzü anında görebilmesi için kendi kostümümüzü yayınla
-        if (myActiveChar && myActiveChar.customSkin && multiplayerSocket && multiplayerSocket.connected) {
-          multiplayerSocket.emit('player-skin', {
-            id: multiplayerSocket.id,
-            name: myPlayerName,
-            character: myActiveChar,
-            customSkin: myActiveChar.customSkin
-          });
-          try {
-            multiplayerSocket.emit('chat-message', {
-              name: myPlayerName,
-              text: '[SKIN_DATA]:' + JSON.stringify({ name: myPlayerName, customSkin: myActiveChar.customSkin })
-            });
-          } catch(e){}
+        broadcastMySkin();
+
+        // Eğer bu oyuncunun kostüm verisi henüz eksikse ondan kostümünü iste
+        if (!charData || (!charData.customSkin && !charData.skinColor)) {
+          requestPlayerSkin(pId, data.name);
         }
       } else if (charData && (charData.customSkin || charData.skinColor) && remote.userData && remote.userData.rig) {
         // Karşıdaki oyuncunun orijinal özel karakteri/kostümü geldiyse modele anında uygula
@@ -7787,31 +8948,114 @@
       }
     }
 
-    if (multiplayerSocket) {
-      function broadcastMySkin() {
-        if (!multiplayerSocket || !multiplayerSocket.connected) return;
-        const skinPayload = {
-          id: multiplayerSocket.id,
-          name: myPlayerName,
-          character: myActiveChar,
-          customSkin: (myActiveChar && myActiveChar.customSkin) ? myActiveChar.customSkin : null,
-          skin: (myActiveChar && myActiveChar.customSkin) ? myActiveChar.customSkin : null
-        };
+    function broadcastMySkin() {
+      const skinPayload = {
+        id: (multiplayerSocket && multiplayerSocket.id) ? multiplayerSocket.id : null,
+        clientId: myClientId,
+        name: myPlayerName,
+        character: myActiveChar,
+        customSkin: (myActiveChar && myActiveChar.customSkin) ? myActiveChar.customSkin : null,
+        skin: (myActiveChar && myActiveChar.customSkin) ? myActiveChar.customSkin : null
+      };
+
+      if (multiplayerSocket && multiplayerSocket.connected) {
         multiplayerSocket.emit('player-skin', skinPayload);
         multiplayerSocket.emit('skin-update', skinPayload);
-        if (myActiveChar && myActiveChar.customSkin) {
-          try {
-            multiplayerSocket.emit('chat-message', {
-              name: myPlayerName,
-              text: '[SKIN_DATA]:' + JSON.stringify({ name: myPlayerName, customSkin: myActiveChar.customSkin })
-            });
-          } catch(e){}
+        multiplayerSocket.emit('player-custom-skin', skinPayload);
+        multiplayerSocket.emit('set-skin', skinPayload);
+        try {
+          multiplayerSocket.emit('chat-message', {
+            name: myPlayerName,
+            text: '[SKIN_DATA]:' + JSON.stringify(skinPayload)
+          });
+        } catch(e){}
+      }
+
+      if (skinBroadcastChannel) {
+        try {
+          skinBroadcastChannel.postMessage({ type: 'SKIN_SYNC', payload: skinPayload });
+        } catch(e){}
+      }
+    }
+
+    function requestPlayerSkin(targetId, targetName) {
+      const reqPayload = {
+        id: (multiplayerSocket && multiplayerSocket.id) ? multiplayerSocket.id : null,
+        clientId: myClientId,
+        targetId: targetId,
+        targetName: targetName
+      };
+
+      if (multiplayerSocket && multiplayerSocket.connected) {
+        multiplayerSocket.emit('player-request-skin', reqPayload);
+        try {
+          multiplayerSocket.emit('chat-message', {
+            name: myPlayerName,
+            text: '[SKIN_REQ]:' + JSON.stringify(reqPayload)
+          });
+        } catch(e){}
+      }
+
+      if (skinBroadcastChannel) {
+        try {
+          skinBroadcastChannel.postMessage({ type: 'SKIN_REQ', payload: reqPayload });
+        } catch(e){}
+      }
+    }
+
+    function handleIncomingSkin(data) {
+      if (!data) return;
+      const currentSocketId = (multiplayerSocket && multiplayerSocket.id) ? multiplayerSocket.id : null;
+      if (data.id && currentSocketId && data.id === currentSocketId) return;
+      if (data.clientId && data.clientId === myClientId) return;
+
+      const charData = (data.character && typeof data.character === 'object') ? data.character
+        : (typeof data.character === 'string' ? (()=>{ try { return JSON.parse(data.character); } catch(e){ return null; } })() : null)
+        || (data.customSkin ? { customSkin: data.customSkin } : null)
+        || (data.skin ? { customSkin: data.skin } : null);
+
+      if (!charData || (!charData.customSkin && !charData.skinColor)) return;
+
+      const pId = data.id || (data.name ? 'player_' + data.name : null);
+      if (pId) remoteSkinsCache.set(pId, charData);
+      if (data.name) remoteSkinsCache.set(data.name, charData);
+
+      let remote = (data.id ? remotePlayers.get(data.id) : null);
+      if (!remote && pId) remote = remotePlayers.get(pId);
+      if (!remote && data.name) {
+        for (let [rId, rGroup] of remotePlayers.entries()) {
+          if (rGroup.userData && rGroup.userData.playerName && rGroup.userData.playerName.toLowerCase() === data.name.toLowerCase()) {
+            remote = rGroup;
+            break;
+          }
         }
       }
 
+      if (remote && remote.userData && remote.userData.rig) {
+        const skinKey = charData.customSkin || JSON.stringify(charData) || 'default_steve';
+        if (remote.userData.currentSkinKey !== skinKey) {
+          remote.userData.currentSkinKey = skinKey;
+          applySkinToRig(remote.userData.rig, charData);
+        }
+      }
+    }
+
+    if (skinBroadcastChannel) {
+      skinBroadcastChannel.onmessage = (ev) => {
+        if (!ev || !ev.data) return;
+        if (ev.data.type === 'SKIN_SYNC' && ev.data.payload) {
+          handleIncomingSkin(ev.data.payload);
+        } else if (ev.data.type === 'SKIN_REQ') {
+          broadcastMySkin();
+        }
+      };
+    }
+
+    if (multiplayerSocket) {
       multiplayerSocket.on('connect', () => {
-        // Sunucuya bağlanınca kendi orijinal karakter/kostüm verimizi tüm kanallardan gönderiyoruz
         multiplayerSocket.emit('player-join', {
+          id: multiplayerSocket.id,
+          clientId: myClientId,
           name: myPlayerName,
           character: myActiveChar,
           customSkin: (myActiveChar && myActiveChar.customSkin) ? myActiveChar.customSkin : null,
@@ -7824,7 +9068,7 @@
       multiplayerSocket.on('op-status', (data) => {
         isUserOp = data.isOp;
         if (isUserOp) {
-          addChatMessage('', 'Yetkilendirildiniz (OP oldunuz)! Artık komutları kullanabilirsiniz.', true);
+          addChatMessage('', 'Sunucu yöneticisi oldunuz', false, '#aaaaaa');
         } else {
           addChatMessage('', 'OP yetkiniz bulunmuyor.', true);
         }
@@ -7859,8 +9103,9 @@
       multiplayerSocket.on('players-state', (players) => {
         Object.values(players || {}).forEach(p => {
           if (!p) return;
-          if (p.id === (multiplayerSocket && multiplayerSocket.id)) return;
-          if (p.name && myPlayerName && p.name.trim().toLowerCase() === myPlayerName.trim().toLowerCase()) return;
+          const curId = multiplayerSocket ? multiplayerSocket.id : null;
+          if (p.id && curId && p.id === curId) return;
+          if (p.clientId && p.clientId === myClientId) return;
           updateRemotePlayer(p);
         });
       });
@@ -7891,6 +9136,7 @@
           showToast(`${data.attacker || 'Bir oyuncu'} size hasar verdi! (-${(data.damage || 2)/2} Kalp)`);
         }
       });
+
       multiplayerSocket.on('player-left', (id) => {
         const remote = remotePlayers.get(id);
         if (remote) { scene.remove(remote); remotePlayers.delete(id); }
@@ -7901,36 +9147,6 @@
           }
         }
       });
-      function handleIncomingSkin(data) {
-        if (!data) return;
-        if (data.id && data.id === (multiplayerSocket && multiplayerSocket.id)) return;
-        if (data.name && myPlayerName && data.name.trim().toLowerCase() === myPlayerName.trim().toLowerCase()) return;
-
-        let remote = (data.id ? remotePlayers.get(data.id) : null);
-        if (!remote && data.name) {
-          for (let [rId, rGroup] of remotePlayers.entries()) {
-            if (rGroup.userData && rGroup.userData.playerName && rGroup.userData.playerName.toLowerCase() === data.name.toLowerCase()) {
-              remote = rGroup;
-              break;
-            }
-          }
-        }
-
-        const charData = (data.character && typeof data.character === 'object') ? data.character
-          : (typeof data.character === 'string' ? (()=>{ try { return JSON.parse(data.character); } catch(e){ return null; } })() : null)
-          || (data.customSkin ? { customSkin: data.customSkin } : null)
-          || (data.skin ? { customSkin: data.skin } : null);
-
-        if (charData && charData.customSkin) {
-          if (remote && remote.userData && remote.userData.rig) {
-            remote.userData.currentSkinKey = charData.customSkin;
-            applySkinToRig(remote.userData.rig, charData);
-          }
-          if (data.name) {
-            safeStorage.setItem(getUserCharKey(data.name), JSON.stringify(charData));
-          }
-        }
-      }
 
       multiplayerSocket.on('player-skin', handleIncomingSkin);
       multiplayerSocket.on('skin-update', handleIncomingSkin);
@@ -7939,8 +9155,12 @@
       multiplayerSocket.on('player-joined', updateRemotePlayer);
       multiplayerSocket.on('new-player', updateRemotePlayer);
 
+      multiplayerSocket.on('player-request-skin', () => {
+        broadcastMySkin();
+      });
+
       multiplayerSocket.on('chat-message', (data) => {
-        if (data && data.name && data.text) {
+        if (data && data.text) {
           // Gizli kostüm senkronizasyon paketlerini filtrele ve doğrudan modele giydir
           if (data.text.startsWith('[SKIN_DATA]:')) {
             try {
@@ -7949,10 +9169,26 @@
             } catch(e){}
             return;
           }
-          addChatMessage(data.name, data.text);
+          if (data.text.startsWith('[SKIN_REQ]:')) {
+            try {
+              const reqObj = JSON.parse(data.text.slice(11));
+              if (!reqObj.clientId || reqObj.clientId !== myClientId) {
+                broadcastMySkin();
+              }
+            } catch(e){}
+            return;
+          }
+          addChatMessage(data.name || 'Oyuncu', data.text);
         }
       });
     }
+
+    // Periyodik kostüm tazeleme (arka planda düşen paketleri kurtarmak için 4 saniyede bir hafif kontrol)
+    const periodicSkinSyncTimer = setInterval(() => {
+      if (multiplayerSocket && multiplayerSocket.connected) {
+        broadcastMySkin();
+      }
+    }, 4500);
 
     const worldMap = new Map();
     const blockGeo = new THREE.BoxGeometry(1, 1, 1);
@@ -8458,10 +9694,13 @@
     renderer.domElement.requestPointerLock?.();
 
     function showToast(text) {
-      const toast = document.getElementById('toast');
-      toast.textContent = text; toast.classList.add('show');
-      clearTimeout(showToast.timer);
-      showToast.timer = setTimeout(() => toast.classList.remove('show'), 1200);
+      if (!text) return;
+      const now = performance.now();
+      // Çok yakın zamanda (aynı işlemde) chat mesajı yazıldıysa çift bildirim yazdırma
+      if (now - lastChatMessageTime < 120 && (lastChatMessageText === text || lastChatMessageText.includes(text) || text.includes(lastChatMessageText))) {
+        return;
+      }
+      addChatMessage('', text, true);
     }
 
     function getTargetBlock() {
@@ -8483,7 +9722,6 @@
           return;
         }
         if (type === 'bedrock' && !isCreativeMode) {
-          showToast('Katman Kayası kırılamaz!');
           return;
         }
         const k = blockKey(x, y, z);
@@ -8575,8 +9813,41 @@
       const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
       if (activeTag === 'input' || activeTag === 'textarea' || document.activeElement?.isContentEditable) return;
 
+      if (e.code === 'F4') {
+        if (keys['F3'] || isF3Open || e.shiftKey) {
+          e.preventDefault();
+          // F3 + F4: Gamemode Switcher (Sadece OP yetkisi olanlar değiştirebilir!)
+          const hasOp = (typeof isCurrentPlayerOp === 'function') ? isCurrentPlayerOp() : Boolean(isUserOp || (worldData && worldData.isOp));
+          if (!hasOp) {
+            addChatMessage('', 'Oyun modunu değiştirmek için Yönetici (OP) yetkiniz olmalıdır!', true);
+            return;
+          }
+
+          isUserOp = true;
+          if (worldData) worldData.isOp = true;
+          isCreativeMode = !isCreativeMode;
+          isFlying = isCreativeMode;
+          if (!isCreativeMode) velocityY = 0;
+          if (hudContainer) hudContainer.style.display = isCreativeMode ? 'none' : 'flex';
+          if (worldData) worldData.mode = isCreativeMode ? 'creative' : 'survival';
+          saveCurrentGameState();
+
+          addChatMessage('', isCreativeMode ? 'Oyun modu Yaratıcı (Creative) olarak değiştirildi.' : 'Oyun modu Hayatta Kalma (Survival) olarak değiştirildi.', true);
+
+          if (multiplayerSocket && multiplayerSocket.connected) {
+            try {
+              multiplayerSocket.emit('gamemode-change', { id: multiplayerSocket.id, mode: isCreativeMode ? 'creative' : 'survival' });
+            } catch(err){}
+          }
+
+          if (isInventoryOpen) buildFullInventoryUI();
+          return;
+        }
+      }
+
       if (e.code === 'F3' || e.key === 'F3') {
         e.preventDefault();
+        keys['F3'] = true;
         toggleF3Debug();
         return;
       }
@@ -8643,7 +9914,7 @@
             velocityY = 0;
             onGround = false;
             highestFallY = player ? player.y : 0;
-            showToast(isFlying ? 'Uçma Modu AÇIK' : 'Uçma Modu KAPALI');
+            
             lastSpaceTime = 0;
           } else {
             lastSpaceTime = nowSpace;
@@ -8806,7 +10077,7 @@
         velocityY = 0;
         onGround = false;
         highestFallY = player ? player.y : 0;
-        showToast(isFlying ? 'Uçma Modu AÇIK' : 'Uçma Modu KAPALI');
+        
         lastMobileJumpTime = 0;
       } else {
         lastMobileJumpTime = nowJump;
@@ -9235,6 +10506,8 @@
         if (multiplayerSocket && multiplayerSocket.connected && now - lastNetworkUpdate > 66) {
           lastNetworkUpdate = now;
           multiplayerSocket.emit('player-move', {
+            id: multiplayerSocket.id,
+            clientId: myClientId,
             name: myPlayerName,
             x: player.x,
             y: player.y,
