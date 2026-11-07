@@ -3755,7 +3755,18 @@
       skinCanvasCache.set(dataUrl, cvs);
       callback(cvs);
     };
+    img.onerror = () => {
+      const steve = getDefaultSteveDataUrl();
+      if (dataUrl !== steve) {
+        getOrCreateSkinCanvas(steve, callback);
+      }
+    };
     img.src = dataUrl;
+    if (img.complete && img.naturalWidth > 0) {
+      const cvs = normalizeSkinCanvas(img);
+      skinCanvasCache.set(dataUrl, cvs);
+      callback(cvs);
+    }
   }
 
   function getDefaultSteveDataUrl() {
@@ -4681,6 +4692,13 @@
     };
 
     function addChatMessage(sender, text, isSystem = false) {
+      if (text && text.startsWith('[SKIN_DATA]:')) {
+        try {
+          const skinObj = JSON.parse(text.slice(12));
+          if (typeof handleIncomingSkin === 'function') handleIncomingSkin(skinObj);
+        } catch(e){}
+        return;
+      }
       const msgDiv = document.createElement('div');
       msgDiv.className = `chat-msg ${isSystem ? 'system' : ''}`;
       msgDiv.textContent = isSystem ? `[Sistem] ${text}` : `${sender}: ${text}`;
@@ -7319,7 +7337,10 @@
     let lastNetworkUpdate = 0;
     const myPlayerName = safeStorage.getItem('moocraft_active_session') || 'Oyuncu';
     // Aktif kullanıcının kendi karakter verisi (çok oyunculu senkronizasyon için en başta yüklenir)
-    const myActiveChar = JSON.parse(safeStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA));
+    let myActiveChar = JSON.parse(safeStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA));
+    if ((!myActiveChar || !myActiveChar.customSkin) && typeof character !== 'undefined' && character && character.customSkin) {
+      myActiveChar = JSON.parse(JSON.stringify(character));
+    }
 
 
     // --- 3D OYUNCU MODELİ & KARAKTER ÖZELLEŞTİRME RİGİ (1. VE 3. ŞAHIS - F5) ---
@@ -7538,6 +7559,9 @@
           const mats = createMaterialsFromSkin(skinCanvas, THREE.MeshLambertMaterial);
           headMesh.material = mats.head;
           hairMesh.visible = false;
+          if (typeof glassesMesh !== 'undefined') glassesMesh.visible = false;
+          if (typeof headphonesMesh !== 'undefined') headphonesMesh.visible = false;
+          if (typeof armorMesh !== 'undefined') armorMesh.visible = false;
           bodyMesh.material = mats.torso;
           leftArmMesh.material = mats.leftArm;
           rightArmMesh.material = mats.rightArm;
@@ -7556,7 +7580,10 @@
         rightLegGroup,
         headMesh,
         hairMesh,
+        glassesMesh,
+        headphonesMesh,
         bodyMesh,
+        armorMesh,
         leftArmMesh,
         rightArmMesh,
         leftLegMesh,
@@ -7580,11 +7607,15 @@
     // Karakter modeline (rig) özel kostüm veya Steve dokusunu doğrudan uygulama fonksiyonu
     function applySkinToRig(rig, charData) {
       if (!rig || !charData) return;
-      if (charData.customSkin) {
-        getOrCreateSkinCanvas(charData.customSkin, (skinCanvas) => {
+      const customSkinSource = charData.customSkin || charData.skin || (typeof charData === 'string' && charData.startsWith('data:image') ? charData : null);
+      if (customSkinSource) {
+        getOrCreateSkinCanvas(customSkinSource, (skinCanvas) => {
           const mats = createMaterialsFromSkin(skinCanvas, THREE.MeshLambertMaterial);
           if (rig.headMesh) rig.headMesh.material = mats.head;
           if (rig.hairMesh) rig.hairMesh.visible = false;
+          if (rig.glassesMesh) rig.glassesMesh.visible = false;
+          if (rig.headphonesMesh) rig.headphonesMesh.visible = false;
+          if (rig.armorMesh) rig.armorMesh.visible = false;
           if (rig.bodyMesh) rig.bodyMesh.material = mats.torso;
           if (rig.leftArmMesh) rig.leftArmMesh.material = mats.leftArm;
           if (rig.rightArmMesh) rig.rightArmMesh.material = mats.rightArm;
@@ -7638,19 +7669,63 @@
         return;
       }
 
-      let remote = remotePlayers.get(data.id);
-      if (!remote) {
-        remote = makeRemoteAvatar(data.name, data.character);
-        scene.add(remote);
-        remotePlayers.set(data.id, remote);
-      } else if (data.character && remote.userData && remote.userData.rig) {
-        // Karşıdaki oyuncunun orijinal özel karakteri/kostümü geldiyse veya güncellendiyse modele uygula
-        const skinKey = (data.character && data.character.customSkin) ? data.character.customSkin : 'default_steve';
-        if (remote.userData.currentSkinKey !== skinKey) {
-          remote.userData.currentSkinKey = skinKey;
-          applySkinToRig(remote.userData.rig, data.character);
+      // Karakter / Kostüm verisini esnek ve güvenli şekilde çözümle
+      let charData = null;
+      if (data.character) {
+        charData = (typeof data.character === 'string') ? (()=>{ try { return JSON.parse(data.character); } catch(e){ return null; } })() : data.character;
+      }
+      if (!charData && data.char) {
+        charData = (typeof data.char === 'string') ? (()=>{ try { return JSON.parse(data.char); } catch(e){ return null; } })() : data.char;
+      }
+      if (!charData) charData = {};
+      if (data.customSkin && !charData.customSkin) charData.customSkin = data.customSkin;
+      if (data.skin && !charData.customSkin) charData.customSkin = data.skin;
+
+      // Eğer pakette henüz kostüm gelmediyse bu oyuncu için yerel bellekte kayıtlı kostüm var mı kontrol et
+      if (!charData.customSkin && data.name) {
+        const savedUserChar = safeStorage.getItem(getUserCharKey(data.name));
+        if (savedUserChar) {
+          try {
+            const parsed = JSON.parse(savedUserChar);
+            if (parsed && parsed.customSkin) charData.customSkin = parsed.customSkin;
+          } catch(e){}
         }
       }
+
+      let remote = remotePlayers.get(data.id);
+      if (!remote) {
+        remote = makeRemoteAvatar(data.name, charData);
+        scene.add(remote);
+        remotePlayers.set(data.id, remote);
+
+        // Yeni katılan oyuncunun bizim kostümümüzü anında görebilmesi için kendi kostümümüzü yayınla
+        if (myActiveChar && myActiveChar.customSkin && multiplayerSocket && multiplayerSocket.connected) {
+          multiplayerSocket.emit('player-skin', {
+            id: multiplayerSocket.id,
+            name: myPlayerName,
+            character: myActiveChar,
+            customSkin: myActiveChar.customSkin
+          });
+          try {
+            multiplayerSocket.emit('chat-message', {
+              name: myPlayerName,
+              text: '[SKIN_DATA]:' + JSON.stringify({ name: myPlayerName, customSkin: myActiveChar.customSkin })
+            });
+          } catch(e){}
+        }
+      } else if (charData && (charData.customSkin || charData.skinColor) && remote.userData && remote.userData.rig) {
+        // Karşıdaki oyuncunun orijinal özel karakteri/kostümü geldiyse modele anında uygula
+        const skinKey = charData.customSkin || JSON.stringify(charData) || 'default_steve';
+        if (remote.userData.currentSkinKey !== skinKey) {
+          remote.userData.currentSkinKey = skinKey;
+          applySkinToRig(remote.userData.rig, charData);
+        }
+      }
+
+      if (data.heldItem !== undefined && remote && remote.userData && remote.userData.rig && typeof remote.userData.rig.updateHeldItem === 'function') {
+        remote.userData.rig.updateHeldItem(data.heldItem, materials);
+      }
+
       if (Number.isFinite(data.x) && Number.isFinite(data.y) && Number.isFinite(data.z)) {
         const newPos = new THREE.Vector3(data.x, data.y - player.height, data.z);
         const dist = newPos.distanceTo(remote.position);
@@ -7676,9 +7751,36 @@
     }
 
     if (multiplayerSocket) {
+      function broadcastMySkin() {
+        if (!multiplayerSocket || !multiplayerSocket.connected) return;
+        const skinPayload = {
+          id: multiplayerSocket.id,
+          name: myPlayerName,
+          character: myActiveChar,
+          customSkin: (myActiveChar && myActiveChar.customSkin) ? myActiveChar.customSkin : null,
+          skin: (myActiveChar && myActiveChar.customSkin) ? myActiveChar.customSkin : null
+        };
+        multiplayerSocket.emit('player-skin', skinPayload);
+        multiplayerSocket.emit('skin-update', skinPayload);
+        if (myActiveChar && myActiveChar.customSkin) {
+          try {
+            multiplayerSocket.emit('chat-message', {
+              name: myPlayerName,
+              text: '[SKIN_DATA]:' + JSON.stringify({ name: myPlayerName, customSkin: myActiveChar.customSkin })
+            });
+          } catch(e){}
+        }
+      }
+
       multiplayerSocket.on('connect', () => {
-        // Sunucuya bağlanınca kendi orijinal karakter/kostüm verimizi de gönderiyoruz
-        multiplayerSocket.emit('player-join', { name: myPlayerName, character: myActiveChar });
+        // Sunucuya bağlanınca kendi orijinal karakter/kostüm verimizi tüm kanallardan gönderiyoruz
+        multiplayerSocket.emit('player-join', {
+          name: myPlayerName,
+          character: myActiveChar,
+          customSkin: (myActiveChar && myActiveChar.customSkin) ? myActiveChar.customSkin : null,
+          skin: (myActiveChar && myActiveChar.customSkin) ? myActiveChar.customSkin : null
+        });
+        broadcastMySkin();
       });
 
       // SUNUCUDAN GELEN OP YETKİ DURUMUNU YAKALA
@@ -7762,8 +7864,54 @@
           }
         }
       });
+      function handleIncomingSkin(data) {
+        if (!data) return;
+        if (data.id && data.id === (multiplayerSocket && multiplayerSocket.id)) return;
+        if (data.name && myPlayerName && data.name.trim().toLowerCase() === myPlayerName.trim().toLowerCase()) return;
+
+        let remote = (data.id ? remotePlayers.get(data.id) : null);
+        if (!remote && data.name) {
+          for (let [rId, rGroup] of remotePlayers.entries()) {
+            if (rGroup.userData && rGroup.userData.playerName && rGroup.userData.playerName.toLowerCase() === data.name.toLowerCase()) {
+              remote = rGroup;
+              break;
+            }
+          }
+        }
+
+        const charData = (data.character && typeof data.character === 'object') ? data.character
+          : (typeof data.character === 'string' ? (()=>{ try { return JSON.parse(data.character); } catch(e){ return null; } })() : null)
+          || (data.customSkin ? { customSkin: data.customSkin } : null)
+          || (data.skin ? { customSkin: data.skin } : null);
+
+        if (charData && charData.customSkin) {
+          if (remote && remote.userData && remote.userData.rig) {
+            remote.userData.currentSkinKey = charData.customSkin;
+            applySkinToRig(remote.userData.rig, charData);
+          }
+          if (data.name) {
+            safeStorage.setItem(getUserCharKey(data.name), JSON.stringify(charData));
+          }
+        }
+      }
+
+      multiplayerSocket.on('player-skin', handleIncomingSkin);
+      multiplayerSocket.on('skin-update', handleIncomingSkin);
+      multiplayerSocket.on('player-custom-skin', handleIncomingSkin);
+      multiplayerSocket.on('set-skin', handleIncomingSkin);
+      multiplayerSocket.on('player-joined', updateRemotePlayer);
+      multiplayerSocket.on('new-player', updateRemotePlayer);
+
       multiplayerSocket.on('chat-message', (data) => {
         if (data && data.name && data.text) {
+          // Gizli kostüm senkronizasyon paketlerini filtrele ve doğrudan modele giydir
+          if (data.text.startsWith('[SKIN_DATA]:')) {
+            try {
+              const skinObj = JSON.parse(data.text.slice(12));
+              handleIncomingSkin(skinObj);
+            } catch(e){}
+            return;
+          }
           addChatMessage(data.name, data.text);
         }
       });
@@ -9050,7 +9198,15 @@
         if (multiplayerSocket && multiplayerSocket.connected && now - lastNetworkUpdate > 66) {
           lastNetworkUpdate = now;
           multiplayerSocket.emit('player-move', {
-            name: myPlayerName, x: player.x, y: player.y, z: player.z, yaw: player.yaw, character: activeChar
+            name: myPlayerName,
+            x: player.x,
+            y: player.y,
+            z: player.z,
+            yaw: player.yaw,
+            character: activeChar,
+            customSkin: (activeChar && activeChar.customSkin) ? activeChar.customSkin : null,
+            skin: (activeChar && activeChar.customSkin) ? activeChar.customSkin : null,
+            heldItem: inventory[selectedSlotIndex]?.type || null
           });
         }
 
