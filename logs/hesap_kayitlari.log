@@ -1,0 +1,58 @@
+================================================================================
+MOOCRAFT OTOMATIK HESAP VE HAREKET KAYIT LOGLARI
+================================================================================
+Olusturulma Tarihi: 07.11.2026 21:50:00
+Durum: Aktif Log Dosyasi (Her acilan hesabin kodlari buraya otomatik eklenir)
+================================================================================
+
+[07.11.2026 21:00:15] [YENI HESAP ACILDI]
+Kullanici Adi : Steve
+Sifre         : steve123
+Kayit Zamani  : 2026-11-07T18:00:00.000Z
+Kayitli Dosya : logs/hesaplar/Steve_hesap.json
+Dunya Sayisi  : 1 Adet (Steve Hayatta Kalma)
+HESAP KODLARI (RAW JSON):
+{
+  "username": "Steve",
+  "pass": "steve123",
+  "registeredAt": "2026-11-07T18:00:00.000Z",
+  "character": {
+    "skinColor": "#c68642",
+    "hairStyle": "steve",
+    "shirtColor": "#008080"
+  },
+  "worlds": [
+    { "id": "w_steve_1", "name": "Steve Hayatta Kalma", "mode": "survival", "customBlocks": {} }
+  ],
+  "settings": { "ram": "2", "renderDist": "1", "showFps": true }
+}
+--------------------------------------------------------------------------------
+
+[07.11.2026 21:20:45] [YENI HESAP ACILDI]
+Kullanici Adi : Oyuncu
+Sifre         : oyuncu123
+Kayit Zamani  : 2026-11-07T18:20:00.000Z
+Kayitli Dosya : logs/hesaplar/Oyuncu_hesap.json
+Dunya Sayisi  : 1 Adet (Yeni Maden Dunyasi)
+HESAP KODLARI (RAW JSON):
+{
+  "username": "Oyuncu",
+  "pass": "oyuncu123",
+  "registeredAt": "2026-11-07T18:20:00.000Z",
+  "character": {
+    "skinColor": "#d19a66",
+    "hairStyle": "alex",
+    "shirtColor": "#e74c3c"
+  },
+  "worlds": [
+    { "id": "w_oyuncu_1", "name": "Yeni Maden Dünyası", "mode": "creative", "customBlocks": {} }
+  ],
+  "settings": { "ram": "4", "renderDist": "2", "showFps": true }
+}
+--------------------------------------------------------------------------------
+
+[07.11.2026 21:35:10] [BLOK VE DUNYA KAYDEDILDI]
+Kullanici Adi : Steve
+Islem         : Dunya guncellendi ve yapilan blok degisiklikleri hesaba islendi.
+Son Aktiflik  : 2026-11-07T18:45:00.000Z
+--------------------------------------------------------------------------------

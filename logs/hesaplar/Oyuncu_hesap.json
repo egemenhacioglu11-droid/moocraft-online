@@ -1,0 +1,30 @@
+{
+  "app": "MooCraft",
+  "version": "26.3",
+  "accountType": "MooCraft_Player_Save",
+  "username": "Oyuncu",
+  "account": {
+    "username": "Oyuncu",
+    "pass": "oyuncu123",
+    "registeredAt": "2026-11-07T18:20:00.000Z",
+    "lastActiveAt": "2026-11-07T18:50:00.000Z",
+    "character": {
+      "skinColor": "#d19a66",
+      "hairStyle": "alex",
+      "shirtColor": "#e74c3c"
+    },
+    "worlds": [
+      {
+        "id": "w_oyuncu_1",
+        "name": "Yeni Maden Dünyası",
+        "mode": "creative",
+        "customBlocks": {}
+      }
+    ],
+    "settings": {
+      "ram": "4",
+      "renderDist": "2",
+      "showFps": true
+    }
+  }
+}
