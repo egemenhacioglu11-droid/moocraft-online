@@ -1961,7 +1961,7 @@
       if (user) user.worlds = JSON.parse(JSON.stringify(worlds));
     }
 
-    // 2. KARAKTER VE KOSTÜM YÜKLEME:
+    // 2. KARAKTER VE KOSTÜM YÜKLEME: Başka bir hesabın kostümü kesinlikle bu hesaba geçemez
     let loadedChar = null;
     const userCharRaw = safeStorage.getItem(getUserCharKey(uName));
     if (userCharRaw) {
@@ -1972,11 +1972,16 @@
     }
     if (loadedChar) {
       character = JSON.parse(JSON.stringify(loadedChar));
-      safeStorage.setItem(CHAR_KEY, JSON.stringify(character));
-      safeStorage.setItem(getUserCharKey(uName), JSON.stringify(character));
-      if (typeof updateSkinUIState === 'function') updateSkinUIState();
-      if (typeof updateCharacterTextures === 'function') updateCharacterTextures();
+    } else {
+      // Eğer bu hesabın özel kostümü yoksa temiz standart karakter yüklenir (önceki hesabın kostümü asla kalmaz)
+      character = JSON.parse(JSON.stringify(DEFAULT_STEVE_DATA));
+      character.customSkin = null;
+      character.skinName = 'Standart Karakter';
     }
+    safeStorage.setItem(CHAR_KEY, JSON.stringify(character));
+    safeStorage.setItem(getUserCharKey(uName), JSON.stringify(character));
+    if (typeof updateSkinUIState === 'function') updateSkinUIState();
+    if (typeof updateCharacterTextures === 'function') updateCharacterTextures();
 
     // 3. SUNUCULARI YÜKLEME:
     if (user && user.servers && Array.isArray(user.servers) && user.servers.length > 0) {
@@ -2072,25 +2077,29 @@
 
   function saveUserAccount(uName, uPass) {
     const users = getAllRegisteredUsers();
-    const userWorlds = JSON.parse(safeStorage.getItem(WORLDS_KEY) || JSON.stringify(DEFAULT_WORLDS_TEMPLATE));
-    const userChar = JSON.parse(safeStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA));
+    // Her yeni açılan hesap tamamen bağımsız, temiz varsayılan Steve kostümü ve bağımsız dünyalar ile başlar
+    const cleanChar = JSON.parse(JSON.stringify(DEFAULT_STEVE_DATA));
+    cleanChar.customSkin = null;
+    cleanChar.skinName = 'Standart Karakter';
+
+    const cleanWorlds = JSON.parse(JSON.stringify(DEFAULT_WORLDS_TEMPLATE));
 
     users[uName] = {
       pass: uPass,
       registeredAt: new Date().toISOString(),
       lastActiveAt: new Date().toISOString(),
-      character: userChar,
-      worlds: userWorlds,
-      servers: JSON.parse(safeStorage.getItem(SERVERS_KEY) || '[]'),
+      character: cleanChar,
+      worlds: cleanWorlds,
+      servers: [],
       settings: {
-        ram: safeStorage.getItem(RAM_SETTING_KEY) || '2',
-        renderDist: safeStorage.getItem(RENDER_DIST_KEY) || '1',
-        showFps: safeStorage.getItem(SHOW_FPS_KEY) !== 'false'
+        ram: '2',
+        renderDist: '1',
+        showFps: true
       }
     };
 
-    safeStorage.setItem(getUserWorldsKey(uName), JSON.stringify(userWorlds));
-    safeStorage.setItem(getUserCharKey(uName), JSON.stringify(userChar));
+    safeStorage.setItem(getUserWorldsKey(uName), JSON.stringify(cleanWorlds));
+    safeStorage.setItem(getUserCharKey(uName), JSON.stringify(cleanChar));
 
     saveMasterAccounts(users);
     return users;
@@ -2246,8 +2255,8 @@
             body: JSON.stringify({
               username: uName,
               password: uPass,
-              character: JSON.parse(safeStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA)),
-              worlds: JSON.parse(safeStorage.getItem(WORLDS_KEY) || JSON.stringify(DEFAULT_WORLDS_TEMPLATE)),
+              character: JSON.parse(JSON.stringify(DEFAULT_STEVE_DATA)),
+              worlds: JSON.parse(JSON.stringify(DEFAULT_WORLDS_TEMPLATE)),
               servers: JSON.parse(safeStorage.getItem(SERVERS_KEY) || '[]')
             })
           });
@@ -2284,6 +2293,20 @@
       syncActiveUserSnapshot();
     }
     safeStorage.removeItem(SESSION_KEY);
+
+    // Çıkış yapıldığında hafızadaki ve arayüzdeki kostümü ve dünyaları sıfırla
+    character = JSON.parse(JSON.stringify(DEFAULT_STEVE_DATA));
+    character.customSkin = null;
+    character.skinName = 'Standart Karakter';
+    safeStorage.removeItem(CHAR_KEY);
+
+    worlds = JSON.parse(JSON.stringify(DEFAULT_WORLDS_TEMPLATE));
+    safeStorage.removeItem(WORLDS_KEY);
+
+    if (typeof updateSkinUIState === 'function') updateSkinUIState();
+    if (typeof updateCharacterTextures === 'function') updateCharacterTextures();
+    if (typeof renderWorldList === 'function') renderWorldList();
+
     const authOverlay = document.getElementById('authOverlay');
     const launcherApp = document.getElementById('launcherApp');
     if (authOverlay) {
@@ -3867,6 +3890,7 @@
         character.skinName = file.name || 'Özel Kostüm';
         skinCanvasCache.set(normDataUrl, normCanvas);
         safeStorage.setItem(CHAR_KEY, JSON.stringify(character));
+        if (typeof syncActiveUserSnapshot === 'function') syncActiveUserSnapshot();
 
         // 2D Yüz Önizlemesini anında güncelle
         renderSkinPreview2D(normCanvas);
@@ -4093,6 +4117,7 @@
         character.customSkin = null;
         character.skinName = 'Standart Karakter';
         safeStorage.setItem(CHAR_KEY, JSON.stringify(character));
+        if (typeof syncActiveUserSnapshot === 'function') syncActiveUserSnapshot();
         updateSkinUIState();
         updateCharacterTextures();
         const previewCvs = document.getElementById('skinPreviewCanvas');
