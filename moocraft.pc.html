@@ -455,16 +455,24 @@
   /* SURVIVAL INVENTORY PENCERESİ */
   .mc-survival-inv {
     width: min(96vw, 396px);
-    background: #c6c6c6;
+    background-color: #c6c6c6;
+    background-image: 
+      linear-gradient(45deg, #bebebe 25%, transparent 25%), 
+      linear-gradient(-45deg, #bebebe 25%, transparent 25%), 
+      linear-gradient(45deg, transparent 75%, #bebebe 75%), 
+      linear-gradient(-45deg, transparent 75%, #bebebe 75%);
+    background-size: 4px 4px;
+    background-position: 0 0, 0 2px, 2px -2px, -2px 0px;
     border: 4px solid;
     border-color: #ffffff #555555 #555555 #ffffff;
-    box-shadow: inset 0 0 0 2px #dbdbdb, 0 16px 40px rgba(0,0,0,0.85);
+    box-shadow: 0 0 0 2px #000000, inset 0 0 0 2px #dbdbdb, 0 16px 48px rgba(0,0,0,0.92);
     padding: 10px 12px 14px 12px;
     font-family: 'Press Start 2P', monospace;
     color: #3f3f3f;
     user-select: none;
     box-sizing: border-box;
     position: relative;
+    image-rendering: pixelated;
   }
 
   .mc-inv-header {
@@ -533,13 +541,26 @@
   .mc-recipe-book-btn:active { border-color: #555555 #ffffff #ffffff #555555; }
 
   .inv-slot, .craft-slot {
-    width: 36px; height: 36px; background: #8b8b8b;
-    border: 2px solid; border-color: #373737 #ffffff #ffffff #373737;
+    width: 36px; height: 36px;
+    background-color: #8b8b8b;
+    background-image: 
+      linear-gradient(45deg, #818181 25%, transparent 25%), 
+      linear-gradient(-45deg, #818181 25%, transparent 25%), 
+      linear-gradient(45deg, transparent 75%, #818181 75%), 
+      linear-gradient(-45deg, transparent 75%, #818181 75%);
+    background-size: 4px 4px;
+    background-position: 0 0, 0 2px, 2px -2px, -2px 0px;
+    border: 3px solid;
+    border-color: #373737 #ffffff #ffffff #373737;
+    box-shadow: inset 1px 1px 0px #181818, inset -1px -1px 0px #b0b0b0;
     display: flex; align-items: center; justify-content: center; cursor: pointer;
     position: relative; box-sizing: border-box;
+    image-rendering: pixelated;
   }
   .inv-slot:hover, .craft-slot:hover {
-    background: #9a9a9a;
+    background-color: #a4a4a4;
+    border-color: #222222 #ffffff #ffffff #222222;
+    box-shadow: inset 1px 1px 0px #000000, inset -1px -1px 0px #ffffff;
   }
   .inv-slot.active-hotbar {
     border: 2px solid #ffffff !important;
@@ -655,14 +676,22 @@
   /* CREATIVE ANA GÖVDE */
   .mc-creative-main {
     width: 396px;
-    background: #c6c6c6;
+    background-color: #c6c6c6;
+    background-image: 
+      linear-gradient(45deg, #bebebe 25%, transparent 25%), 
+      linear-gradient(-45deg, #bebebe 25%, transparent 25%), 
+      linear-gradient(45deg, transparent 75%, #bebebe 75%), 
+      linear-gradient(-45deg, transparent 75%, #bebebe 75%);
+    background-size: 4px 4px;
+    background-position: 0 0, 0 2px, 2px -2px, -2px 0px;
     border: 4px solid;
     border-color: #ffffff #555555 #555555 #ffffff;
-    box-shadow: inset 0 0 0 2px #dbdbdb, 0 16px 40px rgba(0,0,0,0.85);
+    box-shadow: 0 0 0 2px #000000, inset 0 0 0 2px #dbdbdb, 0 16px 48px rgba(0,0,0,0.92);
     padding: 8px 12px 10px 12px;
     box-sizing: border-box;
     position: relative;
     z-index: 1;
+    image-rendering: pixelated;
   }
 
   .mc-cr-header {
@@ -695,13 +724,22 @@
   /* 45 SLOTLU (9x5) KAYDIRILABİLİR IZGARA */
   .mc-cr-items-scroll {
     width: 100%;
-    height: 200px;
+    height: 204px;
     overflow-y: scroll;
-    background: #8b8b8b;
-    border: 2px solid;
+    background-color: #8b8b8b;
+    background-image: 
+      linear-gradient(45deg, #818181 25%, transparent 25%), 
+      linear-gradient(-45deg, #818181 25%, transparent 25%), 
+      linear-gradient(45deg, transparent 75%, #818181 75%), 
+      linear-gradient(-45deg, transparent 75%, #818181 75%);
+    background-size: 4px 4px;
+    background-position: 0 0, 0 2px, 2px -2px, -2px 0px;
+    border: 3px solid;
     border-color: #373737 #ffffff #ffffff #373737;
-    padding: 3px;
+    box-shadow: inset 2px 2px 0px #181818, inset -2px -2px 0px #9a9a9a;
+    padding: 4px 2px;
     box-sizing: border-box;
+    image-rendering: pixelated;
   }
   .mc-cr-items-scroll::-webkit-scrollbar {
     width: 12px;
@@ -1284,7 +1322,7 @@
         <div style="font-size: 7.5px; color: #444; margin-bottom: 12px; text-align: left; font-family: 'Press Start 2P', monospace;">Sunucu Adresini Girin:</div>
         <div id="directServerErrorMsg" style="font-family: 'Press Start 2P', monospace; font-size: 7.5px; color: #c62828; text-shadow: 1px 1px 0 #fff; margin-bottom: 10px; min-height: 12px; font-weight: bold; text-align: center;"></div>
         <div class="form-group" style="margin-bottom: 16px;">
-          <input type="text" id="directServerAddressInput" placeholder="Örn: play.moocraft.net veya localhost:25565" value="" style="width: 100%; padding: 10px; font-family: 'Press Start 2P', monospace; font-size: 8px;">
+          <input type="text" id="directServerAddressInput" placeholder="MooCraft (play.moocraft.net)" value="" style="width: 100%; padding: 10px; font-family: 'Press Start 2P', monospace; font-size: 8px;">
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
           <button class="mc-btn btn-green" id="btnConfirmDirectConnect" type="button" style="padding: 10px; font-size: 7.5px;">Sunucuya Katıl</button>
@@ -1704,7 +1742,7 @@
       </div>
 
       <!-- 3D Canlı Oyuncu Karakter Kutusu -->
-      <div class="mc-char-box" id="mcCharBoxWrapper" title="Karakteriniz (Farenizi hareket ettirerek inceleyin)">
+      <div class="mc-char-box" id="mcCharBoxWrapper" title="Karakteriniz">
         <canvas id="invCharCanvas" width="102" height="156"></canvas>
       </div>
 
@@ -1729,24 +1767,11 @@
           <div class="inv-slot shield-slot" id="invShieldSlot" title="İkinci El / Kalkan">
             <svg class="armor-icon" viewBox="0 0 16 16" width="22" height="22"><path fill="#3a3a3a" d="M3 2h10v7c0 3-3 5-5 6-2-1-5-3-5-6V2z"/></svg>
           </div>
-          <button class="mc-recipe-book-btn" id="btnRecipeBook" type="button" title="Tarif Rehberi (Aç/Kapat)">
-            <svg viewBox="0 0 16 16" width="20" height="20">
-              <rect x="2" y="2" width="12" height="12" rx="1" fill="#2e7d32" stroke="#1b5e20" stroke-width="1"/>
-              <rect x="4" y="4" width="8" height="8" fill="#81c784"/>
-              <path fill="#ffffff" d="M6 6h4v1H6V6zm0 2h4v1H6V8zm0 2h3v1H6v-1z"/>
-            </svg>
-          </button>
         </div>
       </div>
     </div>
 
-    <!-- Tarif Kitabı -->
-    <div id="recipeBookDrawer">
-      <div style="font-weight:bold; color:#1b5e20; margin-bottom:4px;">HIZLI TARİF REHBERİ:</div>
-      <div>• 1 Kütük ➔ 4 Tahta</div>
-      <div>• 2 Tahta (Alt Alta) ➔ 4 Çubuk</div>
-      <div>• 4 Tahta (2x2) ➔ 1 Çalışma Masası</div>
-    </div>
+
 
     <!-- Ana Envanter (27 Slot) -->
     <div class="mc-main-inv-grid" id="invMainGrid"></div>
@@ -1757,16 +1782,7 @@
 
   <!-- GÖRÜNÜM 2: MINECRAFT RESMİ CREATIVE ENVANTERİ (GÖRSELDEKİ BİREBİR) -->
   <div class="mc-creative-wrapper" id="creativeInvView" style="display: none;">
-    <!-- SAĞ ÜSTTEKİ DURUM ETKİSİ KARTI (Hız & Uçuş ∞) -->
-    <div class="mc-status-effect-badge">
-      <div class="effect-icon-box">
-        <svg viewBox="0 0 16 16" width="18" height="18"><path fill="#ff5252" d="M3 2h5v6H3V2zm5 6h5v6H8V8z"/><path fill="#ffeb3b" d="M5 4h2v2H5V4zm5 6h2v2h-2v-2z"/></svg>
-      </div>
-      <div class="effect-details">
-        <div class="effect-name">Hız & Uçuş</div>
-        <div class="effect-time">∞</div>
-      </div>
-    </div>
+
 
     <!-- ÜST SEKMELER (7 ADET) -->
     <div class="mc-creative-tabs-top">
@@ -1942,6 +1958,9 @@
 
   window.handleLogoutOrSwitch = function() {
     try {
+      if (window.isGameRunning && typeof window.saveCurrentGameState === 'function') {
+        window.saveCurrentGameState();
+      }
       const curU = safeStorage.getItem(SESSION_KEY) || safeStorage.getItem('moocraft_active_session');
       if (curU && typeof syncActiveUserSnapshot === 'function') {
         syncActiveUserSnapshot();
@@ -2195,6 +2214,7 @@
 
   // Her kullanıcıya özel bağımsız veri depolama anahtarları (Hesaplar arası karışmayı ve dünya silinmesini %100 önler)
   const getUserWorldsKey = (u) => 'moocraft_worlds_' + (String(u || 'oyuncu').trim().toLowerCase());
+  const getUserServersKey = (u) => 'moocraft_servers_' + (String(u || 'oyuncu').trim().toLowerCase());
   const getUserCharKey = (u) => 'moocraft_char_' + (String(u || 'oyuncu').trim().toLowerCase());
 
   // Varsayılan Karakter Yapılandırması
@@ -2204,14 +2224,30 @@
     shirtColor: '#008080', pantColor: '#1a237e', shoeColor: '#333333', accessory: 'none'
   };
 
-  const DEFAULT_WORLDS_TEMPLATE = [
-    { id: "w_yeni", name: "Yeni Dünya", date: "28.10.2026 13:20", mode: "creative", difficulty: "normal", allowCommands: true, seed: "99999", version: "26.3", customBlocks: {} },
-    { id: "w_survival", name: "New World", date: "15.10.2026 16:42", mode: "survival", difficulty: "normal", allowCommands: false, seed: "12345", version: "26.3", customBlocks: {} }
-  ];
+  const DEFAULT_WORLDS_TEMPLATE = [];
 
-  // Global Çalışma Zamanı Değişkenleri (Her fonksiyon ve modül tarafından anında erişilebilir)
-  let worlds = JSON.parse(safeStorage.getItem(WORLDS_KEY) || JSON.stringify(DEFAULT_WORLDS_TEMPLATE));
-  let servers = JSON.parse(safeStorage.getItem(SERVERS_KEY) || '[]');
+  // Global Çalışma Zamanı Değişkenleri: Yeni açılan hesaplarda ve ilk girişte hazır dünya olmasın, oyuncu kendisi oluştursun!
+  let worlds = JSON.parse(safeStorage.getItem(WORLDS_KEY) || '[]').filter(w => w && w.id !== 'w_yeni' && w.id !== 'w_survival');
+  // Oyunda ve Render.com bulut sunucusunda daima TEK BİR 'MooCraft' sunucusu yer alır!
+  function getSingleMooCraftServer() {
+    const isRenderOrWeb = (typeof window !== 'undefined' && window.location && window.location.host && window.location.protocol.startsWith('http'));
+    const srvAddress = isRenderOrWeb ? window.location.host : 'play.moocraft.net';
+    return [{
+      id: 'srv_moocraft',
+      name: 'MooCraft',
+      address: srvAddress,
+      motd: 'MooCraft Resmi Çok Oyunculu Sunucusu',
+      maxPlayers: 50,
+      online: 1,
+      status: 'online',
+      ping: 15,
+      version: '26.3',
+      isServer: true
+    }];
+  }
+
+  let servers = getSingleMooCraftServer();
+  safeStorage.setItem(SERVERS_KEY, JSON.stringify(servers));
   let character = JSON.parse(safeStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA));
 
   let selectedWorldId = null;
@@ -2342,6 +2378,9 @@
     const curU = safeStorage.getItem(SESSION_KEY);
     const srvJson = JSON.stringify(servers);
     safeStorage.setItem(SERVERS_KEY, srvJson);
+    if (curU) {
+      safeStorage.setItem(getUserServersKey(curU), srvJson);
+    }
     syncActiveUserSnapshot();
   }
 
@@ -2368,6 +2407,7 @@
     // Sunucuları hesaba kaydet
     if (Array.isArray(servers)) {
       users[curU].servers = JSON.parse(JSON.stringify(servers));
+      safeStorage.setItem(getUserServersKey(curU), JSON.stringify(servers));
     }
     // Ayarları hesaba kaydet
     users[curU].settings = {
@@ -2408,24 +2448,26 @@
     if (userWorldsRaw) {
       try {
         const parsed = JSON.parse(userWorldsRaw);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          loadedWorlds = parsed;
+        if (Array.isArray(parsed)) {
+          loadedWorlds = parsed.filter(w => w && w.id !== 'w_yeni' && w.id !== 'w_survival');
         }
       } catch(e) {}
     }
 
-    if (!loadedWorlds && user && user.worlds && Array.isArray(user.worlds) && user.worlds.length > 0) {
-      loadedWorlds = user.worlds;
+    if (loadedWorlds === null && user && Array.isArray(user.worlds)) {
+      loadedWorlds = user.worlds.filter(w => w && w.id !== 'w_yeni' && w.id !== 'w_survival');
     }
 
-    if (loadedWorlds && Array.isArray(loadedWorlds) && loadedWorlds.length > 0) {
+    if (Array.isArray(loadedWorlds)) {
       worlds = JSON.parse(JSON.stringify(loadedWorlds));
       safeStorage.setItem(WORLDS_KEY, JSON.stringify(worlds));
       safeStorage.setItem(getUserWorldsKey(uName), JSON.stringify(worlds));
     } else {
-      // Eğer kullanıcının henüz kayıtlı dünyası yoksa mevcut dünyaları bu kullanıcıya ata
-      safeStorage.setItem(getUserWorldsKey(uName), JSON.stringify(worlds));
-      if (user) user.worlds = JSON.parse(JSON.stringify(worlds));
+      // Yeni açılan hesaplarda hazır dünya bulunmaz, oyuncu 'Yeni Dünya Oluştur' butonuyla kendi oluşturur
+      worlds = [];
+      safeStorage.setItem(WORLDS_KEY, '[]');
+      safeStorage.setItem(getUserWorldsKey(uName), '[]');
+      if (user) user.worlds = [];
     }
 
     // 2. KARAKTER VE KOSTÜM YÜKLEME: Başka bir hesabın kostümü kesinlikle bu hesaba geçemez
@@ -2450,11 +2492,28 @@
     if (typeof updateSkinUIState === 'function') updateSkinUIState();
     if (typeof updateCharacterTextures === 'function') updateCharacterTextures();
 
-    // 3. SUNUCULARI YÜKLEME:
-    if (user && user.servers && Array.isArray(user.servers) && user.servers.length > 0) {
-      servers = JSON.parse(JSON.stringify(user.servers));
-      safeStorage.setItem(SERVERS_KEY, JSON.stringify(servers));
+    // 3. SUNUCULARI YÜKLEME (Hesapta önceden yapılan şeylerin kaybolmasını kesin olarak önler):
+    let loadedServers = null;
+    const userServersRaw = safeStorage.getItem(getUserServersKey(uName));
+    if (userServersRaw) {
+      try {
+        const parsed = JSON.parse(userServersRaw);
+        if (Array.isArray(parsed) && parsed.length === 1 && parsed[0].name === 'MooCraft') {
+          loadedServers = parsed;
+        }
+      } catch(e) {}
     }
+    if (loadedServers === null && user && Array.isArray(user.servers) && user.servers.length === 1 && user.servers[0].name === 'MooCraft') {
+      loadedServers = user.servers;
+    }
+    if (loadedServers) {
+      servers = JSON.parse(JSON.stringify(loadedServers));
+    } else {
+      servers = getSingleMooCraftServer();
+    }
+    safeStorage.setItem(SERVERS_KEY, JSON.stringify(servers));
+    safeStorage.setItem(getUserServersKey(uName), JSON.stringify(servers));
+    if (user) user.servers = servers;
 
     // 4. AYARLARI YÜKLEME:
     if (user && user.settings) {
@@ -2549,7 +2608,7 @@
     cleanChar.customSkin = null;
     cleanChar.skinName = 'Standart Karakter';
 
-    const cleanWorlds = JSON.parse(JSON.stringify(DEFAULT_WORLDS_TEMPLATE));
+    const cleanWorlds = [];
 
     users[uName] = {
       pass: uPass,
@@ -2567,6 +2626,7 @@
 
     safeStorage.setItem(getUserWorldsKey(uName), JSON.stringify(cleanWorlds));
     safeStorage.setItem(getUserCharKey(uName), JSON.stringify(cleanChar));
+    safeStorage.setItem(getUserServersKey(uName), JSON.stringify(getSingleMooCraftServer()));
 
     saveMasterAccounts(users);
     return users;
@@ -2840,7 +2900,7 @@
   const btnJoinServer = document.getElementById('btnJoinServer');
   const btnDeleteServer = document.getElementById('btnDeleteServer');
 
-  function saveWorlds() { safeStorage.setItem(WORLDS_KEY, JSON.stringify(worlds)); if (typeof syncActiveUserSnapshot === "function") syncActiveUserSnapshot(); }
+  // saveWorlds() ana tanımı yukarıdadır
 
   // ==========================================
   // DÜNYA VE SUNUCU İÇİN OYUN İÇİ MANZARA ÜRETECİ (FOTOĞRAF)
@@ -3149,7 +3209,7 @@
     if (labelEl) labelEl.textContent = getLandscapeLabel(type);
   }
 
-  function saveServers() { safeStorage.setItem(SERVERS_KEY, JSON.stringify(servers)); if (typeof syncActiveUserSnapshot === "function") syncActiveUserSnapshot(); }
+  // saveServers() ana tanımı yukarıdadır
 
   function formatWorldDate(d) {
     const pad = n => String(n).padStart(2, '0');
@@ -3173,7 +3233,7 @@
     }
 
     if (!filtered || filtered.length === 0) {
-      wContainer.innerHTML = '<div style="font-family: \'Press Start 2P\', monospace; font-size: 8px; color: #fff; text-shadow: 1px 1px 0 #000; text-align: center; padding: 40px 10px; line-height: 1.8;">Dünya bulunamadı.</div>';
+      wContainer.innerHTML = '<div style="font-family: \'Press Start 2P\', monospace; font-size: 8px; color: #fff; text-shadow: 1px 1px 0 #000; text-align: center; padding: 40px 10px; line-height: 1.8;">Kayıtlı dünya yok.<br><span style="color:#aaa; font-size:7px;">Aşağıdaki \'Yeni Dünya Oluştur\' butonuna tıklayarak ilk dünyanızı oluşturabilirsiniz.</span></div>';
       if (bPlay) bPlay.disabled = true;
       if (bEdit) bEdit.disabled = true;
       if (bDelete) bDelete.disabled = true;
@@ -3351,7 +3411,8 @@
       const nameInput = document.getElementById('createWorldNameInput');
       const seedInput = document.getElementById('createWorldSeedInput');
       if (nameInput) nameInput.value = w.name + ' Kopyası';
-      if (seedInput) seedInput.value = w.seed || '';
+      // Kopyalanan / yeniden oluşturulan dünya da çakışmasın diye yeni tohum atanır
+      if (seedInput) seedInput.value = generateUniqueWorldSeed();
       if (w.mode) setCreateGameMode(w.mode);
       if (w.difficulty) setCreateDifficulty(w.difficulty);
       if (typeof w.allowCommands === 'boolean') setCreateCommands(w.allowCommands);
@@ -3476,7 +3537,7 @@
   if (btnRandomSeedAction) {
     btnRandomSeedAction.addEventListener('click', () => {
       const seedInput = document.getElementById('createWorldSeedInput');
-      if (seedInput) seedInput.value = Math.floor(Math.random() * 9999999).toString();
+      if (seedInput) seedInput.value = generateUniqueWorldSeed();
     });
   }
 
@@ -3506,12 +3567,31 @@
     });
   }
 
+  // Otomatik benzersiz tohum (seed) üretici: Hiçbir dünya aynı seed'e sahip olamaz!
+  function generateUniqueWorldSeed() {
+    const existing = new Set((worlds || []).map(w => String(w.seed || '').trim()));
+    let s;
+    let attempts = 0;
+    do {
+      attempts++;
+      // 8-9 basamaklı dinamik ve benzersiz tohum
+      s = Math.floor(10000000 + Math.random() * 89999999).toString();
+    } while (existing.has(s) && attempts < 100);
+    return s;
+  }
+
   function resetCreateWorldForm() {
     switchCreateTab('oyun');
     const nameInput = document.getElementById('createWorldNameInput');
     const seedInput = document.getElementById('createWorldSeedInput');
-    if (nameInput) nameInput.value = 'Yeni Dünya';
-    if (seedInput) seedInput.value = '';
+    if (nameInput) {
+      const existingCount = (worlds || []).filter(w => w.name && w.name.startsWith('Yeni Dünya')).length + 1;
+      nameInput.value = existingCount > 1 ? `Yeni Dünya ${existingCount}` : 'Yeni Dünya';
+    }
+    // Her yeni dünya oluşturma ekranı açıldığında otomatik benzersiz farklı tohum oluşturulur
+    if (seedInput) {
+      seedInput.value = generateUniqueWorldSeed();
+    }
     setCreateGameMode('survival');
     setCreateDifficulty('normal');
     setCreateCommands(false);
@@ -3524,10 +3604,15 @@
       const nameInput = document.getElementById('createWorldNameInput');
       const seedInput = document.getElementById('createWorldSeedInput');
       const wName = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : 'Yeni Dünya';
-      const wSeed = (seedInput && seedInput.value.trim()) ? seedInput.value.trim() : Math.floor(Math.random() * 9999999).toString();
+      
+      // Kullanıcı boş bıraksa bile kesinlikle mevcut dünyalardan farklı benzersiz bir seed verilir
+      let wSeed = (seedInput && seedInput.value.trim()) ? seedInput.value.trim() : '';
+      if (!wSeed) {
+        wSeed = generateUniqueWorldSeed();
+      }
       
       const newWorld = {
-        id: 'w_' + Date.now(),
+        id: 'w_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
         name: wName,
         date: formatWorldDate(new Date()),
         mode: currentCreateMode,
@@ -3541,8 +3626,9 @@
       worlds.push(newWorld);
       saveWorlds();
       selectedWorldId = newWorld.id;
-      showToast(`${wName} dünyası oluşturuldu!`);
-      launchGameSession(newWorld);
+      showToast(`${wName} oluşturuldu! (Seed: ${wSeed})`);
+      openLauncherScreen('worlds', 'Dünya Seç');
+      renderWorldList();
     });
   }
 
@@ -3563,26 +3649,21 @@
     if (!sContainer) return;
     sContainer.innerHTML = '';
 
-    if (!servers || servers.length === 0) {
-      sContainer.innerHTML = '<div style="font-family: \'Press Start 2P\', monospace; font-size: 8px; color: #ffffff; text-shadow: 1px 1px 0 #000; text-align: center; padding: 48px 12px; line-height: 1.8;">Henüz kayıtlı bir sunucu yok.<br><span style="color: #aaaaaa; font-size: 7px;">Sunucu eklemek için aşağıdaki \'Sunucu Ekle\' butonunu kullanabilirsiniz.</span></div>';
-      if (bJoin) bJoin.disabled = true;
-      if (bEdit) bEdit.disabled = true;
-      if (bDelete) bDelete.disabled = true;
-      selectedServerId = null;
-      return;
+    // Oyunda daima ve Render'a konulduğunda da sadece TEK BİR 'MooCraft' sunucusu yer alır!
+    if (!servers || servers.length !== 1 || servers[0].name !== 'MooCraft') {
+      servers = getSingleMooCraftServer();
+      saveServers();
     }
 
-    if (!selectedServerId && servers.length > 0) {
-      selectedServerId = servers[0].id;
-    }
+    selectedServerId = servers[0].id;
 
     const isAnySelected = Boolean(selectedServerId && servers.some(s => s.id === selectedServerId));
     if (bJoin) bJoin.disabled = !isAnySelected;
     if (bEdit) bEdit.disabled = !isAnySelected;
     if (bDelete) bDelete.disabled = !isAnySelected;
 
-    // Fotoğraftaki mavi labirent küp server ikonu
-    const cyanIconSvg = "data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' viewBox=\'0 0 48 48\'><rect width=\'48\' height=\'48\' rx=\'24\' fill=\'%23ffffff\'/><rect x=\'8\' y=\'8\' width=\'32\' height=\'32\' fill=\'%230099ff\'/><rect x=\'12\' y=\'12\' width=\'24\' height=\'24\' fill=\'%23ffffff\'/><rect x=\'16\' y=\'16\' width=\'16\' height=\'16\' fill=\'%230099ff\'/><rect x=\'20\' y=\'20\' width=\'8\' height=\'8\' fill=\'%23ffffff\'/></svg>";
+    // Klasik dağ fotoğrafı ve ortasında MooCraft yazılı resmi sunucu logosu
+    const moocraftServerLogo = "data:image/png;base64,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";
 
     servers.forEach(s => {
       const isSel = s.id === selectedServerId;
@@ -3604,7 +3685,7 @@
 
       row.innerHTML = `
         <div style="display: flex; align-items: center; gap: 12px; pointer-events: none;">
-          <img src="${cyanIconSvg}" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #fff; flex-shrink: 0; background: #fff;" alt="Server Icon">
+          <img src="${moocraftServerLogo}" style="width: 44px; height: 44px; border-radius: 4px; border: 2px solid #ffffff; flex-shrink: 0; object-fit: cover; box-shadow: 0 2px 6px rgba(0,0,0,0.8);" alt="MooCraft Server Icon">
           <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
             <div style="font-family: 'Press Start 2P', monospace; font-size: 8.5px; font-weight: bold; color: #ffffff; text-shadow: 1px 1px 0 #000;">${s.name}</div>
             <div style="font-family: 'Press Start 2P', monospace; font-size: 6.5px; color: ${motdColor}; text-shadow: 1px 1px 0 #000;">${motdText}</div>
@@ -4812,6 +4893,7 @@
       gravel: { name: 'Çakıl', color: '#837d7c', cat: 'nature' },
       clay: { name: 'Kil', color: '#a0a6b2', cat: 'nature' },
       snow: { name: 'Kar Bloğu', color: '#f9fefe', cat: 'nature' },
+      snow_dirt: { name: 'Kar Toprağı', color: '#eef3f7', cat: 'nature' },
       ice: { name: 'Buz', color: '#90b9f8', cat: 'nature' },
       packed_ice: { name: 'Sıkıştırılmış Buz', color: '#8db2f5', cat: 'nature' },
       blue_ice: { name: 'Mavi Buz', color: '#74a7f8', cat: 'nature' },
@@ -4965,6 +5047,13 @@
       coal_item: { name: 'Kömür', color: '#262626', cat: 'materials' },
       amethyst_shard: { name: 'Ametist Parçası', color: '#855fb5', cat: 'materials' },
 
+      // --- YİYECEKLER (FOOD & CONSUMABLES) ---
+      apple: { name: 'Elma', color: '#ff2222', cat: 'food' },
+      golden_apple: { name: 'Altın Elma', color: '#ffd700', cat: 'food' },
+      bread: { name: 'Ekmek', color: '#c48e48', cat: 'food' },
+      cooked_beef: { name: 'Pişmiş Biftek', color: '#8d4320', cat: 'food' },
+      carrot: { name: 'Havuç', color: '#ff7700', cat: 'food' },
+
       // --- YÖNETİCİ & OP EŞYALARI (OPERATOR / OP) ---
       command_block: { name: 'Komut Bloğu (Command Block)', color: '#b36d39', cat: 'operator' },
       repeating_command_block: { name: 'Yineleyici Komut Bloğu', color: '#684a8c', cat: 'operator' },
@@ -4981,6 +5070,7 @@
     // Oyuna başlarken elde ve envanterde eşya olmadan başlanır (boş envanter)
     const inventory = (worldData && worldData.inventory) ? worldData.inventory : Array.from({ length: 36 }, () => ({ type: null, count: 0 }));
     while (inventory.length < 36) { inventory.push({ type: null, count: 0 }); }
+    inventory.forEach(slot => { if (slot && slot.count > 64) slot.count = 64; });
 
     let selectedSlotIndex = (worldData && typeof worldData.selectedSlot === 'number') ? worldData.selectedSlot : 0;
     let isInventoryOpen = false;
@@ -5026,13 +5116,29 @@
           yaw: player.yaw,
           pitch: player.pitch
         };
+        if (worldData) {
+          worldData.customBlocks = customWorldChanges;
+          worldData.inventory = inventory;
+          worldData.selectedSlot = selectedSlotIndex;
+          worldData.health = playerHealth;
+          worldData.hunger = playerHunger;
+          worldData.playerPos = {
+            x: player.x,
+            y: player.y,
+            z: player.z,
+            yaw: player.yaw,
+            pitch: player.pitch
+          };
+        }
         saveWorlds();
       } else {
-        let sIdx = servers.findIndex(s => s.id === currentWorldId);
+        let sIdx = servers.findIndex(s => s.id === currentWorldId || s.name === 'MooCraft');
         if (sIdx !== -1) {
           servers[sIdx].customBlocks = customWorldChanges;
           servers[sIdx].inventory = inventory;
           servers[sIdx].selectedSlot = selectedSlotIndex;
+          servers[sIdx].health = playerHealth;
+          servers[sIdx].hunger = playerHunger;
           servers[sIdx].playerPos = {
             x: player.x,
             y: player.y,
@@ -5040,10 +5146,25 @@
             yaw: player.yaw,
             pitch: player.pitch
           };
+          if (worldData) {
+            worldData.customBlocks = customWorldChanges;
+            worldData.inventory = inventory;
+            worldData.selectedSlot = selectedSlotIndex;
+            worldData.health = playerHealth;
+            worldData.hunger = playerHunger;
+            worldData.playerPos = {
+              x: player.x,
+              y: player.y,
+              z: player.z,
+              yaw: player.yaw,
+              pitch: player.pitch
+            };
+          }
           saveServers();
         }
       }
     }
+    window.saveCurrentGameState = saveCurrentGameState;
 
     // Periyodik otomatik kayıt (her 5 saniyede bir dünya veya sunucu durumunu kaydeder)
     const autoSaveTimer = setInterval(() => {
@@ -5076,7 +5197,7 @@
       if (isPauseOpen || isInventoryOpen || isChatOpen) return;
       const gameEl = document.getElementById('game');
       if (!gameEl || gameEl.style.display !== 'block') return;
-      isPauseOpen = true;
+      isPauseOpen = true; if (typeof resetBreaking === 'function') resetBreaking();
 
       // OP durumunu dinamik ve kesin olarak kontrol et
       const hasOp = isCurrentPlayerOp();
@@ -5140,7 +5261,7 @@
 
     function toggleXray(forceState) {
       isXrayActive = (typeof forceState === 'boolean') ? forceState : !isXrayActive;
-      const hideTypes = ['stone', 'dirt', 'grass', 'cobblestone', 'deepslate', 'sand', 'gravel', 'sandstone'];
+      const hideTypes = ['stone', 'dirt', 'grass', 'snow', 'snow_dirt', 'cobblestone', 'deepslate', 'sand', 'gravel', 'sandstone'];
       hideTypes.forEach(t => {
         const mat = materials[t];
         if (mat) {
@@ -5437,8 +5558,8 @@
         setPlayerOp(myPlayerName, true);
         if (typeof activeSessionU !== 'undefined' && activeSessionU) setPlayerOp(activeSessionU, true);
         if (worldData) worldData.isOp = true;
-        addChatMessage('', 'Sunucu yöneticisi oldunuz', false, '#aaaaaa');
-        showToast('TEBRİKLER: YÖNETİCİ (OP) YETKİSİ VERİLDİ!');
+        addChatMessage('', 'Sunucu Yöneticisi Oldunuz', true, '#ffff55');
+        showToast('Sunucu Yöneticisi Oldunuz');
         return;
       }
 
@@ -5449,8 +5570,13 @@
         isUserOp = true;
         setPlayerOp(targetName, true);
         if (worldData) worldData.isOp = true;
-        addChatMessage('', `[OP] ${targetName} artık bu dünyada tam yetkili YÖNETİCİ (OP)! Tüm komutlar açık.`, true);
-        showToast('Yönetici (OP) Yetkisi Verildi');
+        if (!target || targetName.toLowerCase() === myPlayerName.toLowerCase()) {
+          addChatMessage('', 'Sunucu Yöneticisi Oldunuz', true, '#ffff55');
+          showToast('Sunucu Yöneticisi Oldunuz');
+        } else {
+          addChatMessage('', `${targetName} Sunucu Yöneticisi Oldu`, true, '#ffff55');
+          showToast(`${targetName} Sunucu Yöneticisi Oldu`);
+        }
         return;
       }
 
@@ -5879,6 +6005,8 @@
         else if (itemRaw === 'dirt') mappedType = 'dirt';
         else if (itemRaw === 'grass') mappedType = 'grass';
         else if (itemRaw === 'tnt') mappedType = 'tnt';
+        else if (itemRaw === 'snow' || itemRaw === 'kar') mappedType = 'snow';
+        else if (itemRaw === 'snow_dirt' || itemRaw === 'kar_topragi' || itemRaw === 'kartopragi' || itemRaw === 'kar_toprak' || itemRaw === 'karlı_toprak') mappedType = 'snow_dirt';
 
         if (BLOCK_INFO[mappedType]) {
           addItemToInventory(mappedType, count);
@@ -6084,16 +6212,19 @@
           isUserOp = true;
           setPlayerOp(myPlayerName, true);
           if (worldData) worldData.isOp = true;
-          addChatMessage('', `[OP] ${myPlayerName} artık tam yetkili YÖNETİCİ (OP)! Tüm komutlar açık.`, true);
-          showToast('Yönetici (OP) Oldunuz!');
+          addChatMessage('', 'Sunucu Yöneticisi Oldunuz', true, '#ffff55');
+          showToast('Sunucu Yöneticisi Oldunuz');
         } else {
           setPlayerOp(target, true);
           if (target.toLowerCase() === myPlayerName.toLowerCase()) {
             isUserOp = true;
             if (worldData) worldData.isOp = true;
+            addChatMessage('', 'Sunucu Yöneticisi Oldunuz', true, '#ffff55');
+            showToast('Sunucu Yöneticisi Oldunuz');
+          } else {
+            addChatMessage('', `${target} Sunucu Yöneticisi Oldu`, true, '#ffff55');
+            showToast(`${target} Sunucu Yöneticisi Oldu`);
           }
-          addChatMessage('', `[OP] ${target} adlı oyuncu OP yapıldı!`, true);
-          showToast(`${target} OP yapıldı`);
         }
         return;
       }
@@ -6207,16 +6338,32 @@
       updateHeldBlockMaterial(getSelectedBlockType());
     }
 
+    const MAX_STACK = 64;
+
     function addItemToInventory(type, amount = 1) {
-      for (let i = 0; i < 36; i++) {
-        if (inventory[i] && inventory[i].type === type && inventory[i].count > 0) {
-          inventory[i].count += amount; updateInventoryUI(); saveCurrentGameState(); return true;
+      if (!type || amount <= 0) return false;
+      let remaining = amount;
+      // 1. Aşama: Mevcut aynı tipteki slotları maksimum 64 adet ile doldur
+      for (let i = 0; i < 36 && remaining > 0; i++) {
+        if (inventory[i] && inventory[i].type === type && inventory[i].count > 0 && inventory[i].count < MAX_STACK) {
+          const space = MAX_STACK - inventory[i].count;
+          const toAdd = Math.min(space, remaining);
+          inventory[i].count += toAdd;
+          remaining -= toAdd;
         }
       }
-      for (let i = 0; i < 36; i++) {
+      // 2. Aşama: Kalan miktarı boş slotlara en fazla 64'er adet olarak dağıt
+      for (let i = 0; i < 36 && remaining > 0; i++) {
         if (!inventory[i] || !inventory[i].type || inventory[i].count === 0) {
-          inventory[i] = { type, count: amount }; updateInventoryUI(); saveCurrentGameState(); return true;
+          const toAdd = Math.min(MAX_STACK, remaining);
+          inventory[i] = { type, count: toAdd };
+          remaining -= toAdd;
         }
+      }
+      if (remaining < amount) {
+        updateInventoryUI();
+        saveCurrentGameState();
+        return true;
       }
       return false;
     }
@@ -6262,14 +6409,15 @@
     const CREATIVE_TAB_BLOCKS = {
       building: ['stone', 'cobblestone', 'mossy_cobble', 'smooth_stone', 'stone_bricks', 'cracked_stone_bricks', 'mossy_stone_bricks', 'chiseled_stone_bricks', 'deepslate', 'cobbled_deepslate', 'deepslate_bricks', 'granite', 'polished_granite', 'diorite', 'polished_diorite', 'andesite', 'polished_andesite', 'brick', 'sandstone', 'smooth_sandstone', 'red_sandstone', 'netherrack', 'nether_bricks', 'red_nether_bricks', 'basalt', 'blackstone', 'polished_blackstone', 'end_stone', 'end_stone_bricks', 'purpur', 'purpur_pillar', 'quartz_block', 'smooth_quartz', 'quartz_bricks', 'prismarine', 'prismarine_bricks', 'dark_prismarine', 'sea_lantern', 'glow'],
       colored: ['white_wool', 'light_gray_wool', 'gray_wool', 'black_wool', 'brown_wool', 'red_wool', 'orange_wool', 'yellow_wool', 'lime_wool', 'green_wool', 'cyan_wool', 'light_blue_wool', 'blue_wool', 'purple_wool', 'magenta_wool', 'pink_wool', 'glass', 'tinted_glass', 'white_concrete', 'red_concrete', 'blue_concrete', 'yellow_concrete', 'green_concrete', 'black_concrete', 'terracotta'],
-      nature: ['grass', 'dirt', 'coarse_dirt', 'podzol', 'mycelium', 'moss_block', 'sand', 'red_sand', 'gravel', 'clay', 'snow', 'ice', 'packed_ice', 'blue_ice', 'obsidian', 'crying_obsidian', 'bedrock', 'soul_sand', 'soul_soil', 'amethyst_block', 'water'],
+      nature: ['grass', 'dirt', 'coarse_dirt', 'snow_dirt', 'podzol', 'mycelium', 'moss_block', 'sand', 'red_sand', 'gravel', 'clay', 'snow', 'ice', 'packed_ice', 'blue_ice', 'obsidian', 'crying_obsidian', 'bedrock', 'soul_sand', 'soul_soil', 'amethyst_block', 'water'],
+      wood: ['wood', 'planks', 'leaves', 'birch_wood', 'birch_planks', 'spruce_wood', 'spruce_planks', 'jungle_wood', 'jungle_planks', 'acacia_wood', 'acacia_planks', 'dark_wood', 'dark_planks', 'mangrove_wood', 'mangrove_planks', 'cherry_wood', 'cherry_planks'],
       functional: ['crafting', 'furnace', 'blast_furnace', 'smoker', 'bookshelf', 'chiseled_bookshelf', 'anvil', 'enchanting_table', 'chest', 'barrel', 'ender_chest', 'sponge', 'wet_sponge', 'lantern', 'soul_lantern', 'torch', 'beacon'],
       redstone: ['redstone_dust', 'redstone_block', 'redstone_torch', 'redstone_lamp', 'target', 'tnt', 'piston', 'sticky_piston', 'observer', 'dispenser', 'dropper', 'hopper'],
       tools: ['netherite_pickaxe', 'diamond_pickaxe', 'iron_pickaxe', 'golden_pickaxe', 'stone_pickaxe', 'wooden_pickaxe', 'netherite_axe', 'diamond_axe', 'iron_axe', 'golden_axe', 'netherite_shovel', 'diamond_shovel', 'iron_shovel', 'flint_and_steel', 'shears', 'fishing_rod', 'compass', 'clock'],
       combat: ['netherite_sword', 'diamond_sword', 'iron_sword', 'golden_sword', 'stone_sword', 'wooden_sword', 'bow', 'crossbow', 'arrow', 'trident', 'shield', 'netherite_helmet', 'netherite_chestplate', 'netherite_leggings', 'netherite_boots', 'diamond_helmet', 'diamond_chestplate', 'diamond_leggings', 'diamond_boots', 'iron_helmet', 'iron_chestplate', 'iron_leggings', 'iron_boots', 'golden_helmet', 'golden_chestplate', 'golden_leggings', 'golden_boots', 'leather_helmet', 'leather_chestplate', 'leather_leggings', 'leather_boots'],
+      food: ['apple', 'golden_apple', 'bread', 'cooked_beef', 'carrot', 'melon', 'pumpkin'],
       materials: ['coal_ore', 'copper_ore', 'iron_ore', 'gold_ore', 'redstone_ore', 'lapis_ore', 'diamond_ore', 'emerald_ore', 'debris', 'coal_block', 'copper_block', 'iron', 'gold', 'diamond', 'emerald_block', 'netherite_block', 'lapis_block', 'diamond_item', 'emerald_item', 'iron_ingot', 'gold_ingot', 'copper_ingot', 'netherite_ingot', 'coal_item', 'amethyst_shard'],
-      wood: ['wood', 'planks', 'leaves', 'birch_wood', 'birch_planks', 'spruce_wood', 'spruce_planks', 'jungle_wood', 'jungle_planks', 'acacia_wood', 'acacia_planks', 'dark_wood', 'dark_planks', 'mangrove_wood', 'mangrove_planks', 'cherry_wood', 'cherry_planks'],
-      operator: ['bedrock', 'command_block', 'repeating_command_block', 'chain_command_block', 'barrier', 'structure_block', 'light_block', 'debris', 'tnt', 'glow', 'obsidian', 'netherite_block'],
+      operator: ['bedrock', 'command_block', 'repeating_command_block', 'chain_command_block', 'barrier', 'structure_block', 'light_block'],
       search: Object.keys(BLOCK_INFO),
       all: Object.keys(BLOCK_INFO)
     };
@@ -6323,46 +6471,28 @@
       invPreviewRig.group.position.set(0, 0, 0);
       invPreviewScene.add(invPreviewRig.group);
 
-      const invWin = document.getElementById('survivalInvView');
-      if (invWin && !invWin._hasMouseTracker) {
-        invWin._hasMouseTracker = true;
-        invWin.addEventListener('mousemove', (e) => {
-          if (!isInventoryOpen) return;
-          const rect = canvas.getBoundingClientRect();
-          const cx = rect.left + rect.width / 2;
-          const cy = rect.top + rect.height / 3;
-          const dx = e.clientX - cx;
-          const dy = e.clientY - cy;
-          invTargetYaw = Math.max(-0.9, Math.min(0.9, Math.atan2(dx, 160) * 0.95));
-          invTargetPitch = Math.max(-0.45, Math.min(0.45, -Math.atan2(dy, 160) * 0.65));
-        });
-        invWin.addEventListener('mouseleave', () => {
-          invTargetYaw = 0;
-          invTargetPitch = 0;
-        });
+      // Normal envanterde karakter hareket etmez; sabit, doğal Minecraft pozunda gösterilir
+      if (invPreviewAnimId) {
+        cancelAnimationFrame(invPreviewAnimId);
+        invPreviewAnimId = null;
       }
 
-      if (invPreviewAnimId) cancelAnimationFrame(invPreviewAnimId);
-      function renderInvCharLoop() {
+      function renderStaticInvChar() {
         if (!isInventoryOpen || currentInvView !== 'survival') return;
-        invPreviewAnimId = requestAnimationFrame(renderInvCharLoop);
-
-        invCurrentYaw += (invTargetYaw - invCurrentYaw) * 0.12;
-        invCurrentPitch += (invTargetPitch - invCurrentPitch) * 0.12;
-
         if (invPreviewRig) {
-          invPreviewRig.group.rotation.y = invCurrentYaw;
-          if (invPreviewRig.headGroup) {
-            invPreviewRig.headGroup.rotation.y = invCurrentYaw * 0.7;
-            invPreviewRig.headGroup.rotation.x = invCurrentPitch;
-          }
+          invPreviewRig.group.rotation.set(0, -0.22, 0);
+          if (invPreviewRig.headGroup) invPreviewRig.headGroup.rotation.set(0, 0, 0);
+          if (invPreviewRig.rightArmGroup) invPreviewRig.rightArmGroup.rotation.set(0, 0, 0);
+          if (invPreviewRig.leftArmGroup) invPreviewRig.leftArmGroup.rotation.set(0, 0, 0);
         }
-
         if (invPreviewRenderer && invPreviewScene && invPreviewCamera) {
           invPreviewRenderer.render(invPreviewScene, invPreviewCamera);
         }
       }
-      renderInvCharLoop();
+
+      renderStaticInvChar();
+      setTimeout(renderStaticInvChar, 40);
+      setTimeout(renderStaticInvChar, 120);
     }
 
     function createSlotContent(item) {
@@ -6791,7 +6921,7 @@
       const gameEl = document.getElementById('game');
       if (!gameEl || gameEl.style.display !== 'block') return;
       if (isPauseOpen || isChatOpen) return;
-      isInventoryOpen = !isInventoryOpen;
+      isInventoryOpen = !isInventoryOpen; if (typeof resetBreaking === 'function') resetBreaking();
       const modal = document.getElementById('inventoryModal');
       if (isInventoryOpen) {
         modal.classList.add('active');
@@ -7255,6 +7385,34 @@
       });
     });
 
+    // KARLI TOPRAK YANI (Birebir Minecraft Sarkan Kar Saçaklı Kar Toprağı Yanı)
+    const snowDirtSideCanvas = createBlockCanvas(c => {
+      c.drawImage(dirtCanvas, 0, 0);
+      rect(c, 0, 0, 16, 2, '#ffffff');
+      for (let x = 0; x < 16; x++) {
+        px(c, x, 0, (x % 3 === 0) ? '#ffffff' : '#f2f6fc');
+        px(c, x, 1, (x % 2 === 0) ? '#e6edf7' : '#ffffff');
+      }
+      // Otantik sarkan kar dişleri
+      const snowDripPattern = [
+        [0,2], [1,2], [1,3],
+        [2,2], [2,3], [2,4],
+        [3,2],
+        [5,2], [5,3],
+        [6,2], [6,3], [6,4], [6,5],
+        [7,2], [7,3], [7,4],
+        [8,2], [8,3],
+        [10,2], [10,3],
+        [11,2],
+        [13,2], [13,3], [13,4],
+        [14,2], [14,3],
+        [15,2]
+      ];
+      snowDripPattern.forEach(([dx, dy]) => {
+        px(c, dx, dy, (dy >= 4) ? '#dbe4f0' : ((dy === 3) ? '#e6edf7' : '#ffffff'));
+      });
+    });
+
     // 4. STONE (Geliştirilmiş & Sadeleştirilmiş Otantik Taş Dokusu)
     const stoneCanvas = createBlockCanvas(c => {
       fill(c, '#7a7a7a');
@@ -7477,19 +7635,46 @@
       rect(c, 3, 8, 1, 3, '#9b8b64'); rect(c, 13, 12, 1, 3, '#9b8b64');
     });
 
-    // 21. DARK OAK WOOD (Koyu Meşe Ağacı)
+    // 21. DARK OAK WOOD (Koyu Meşe Ağacı Kütüğü - Zengin Doğal Minecraft Dokusu)
     const darkWoodSideCanvas = createBlockCanvas(c => {
-      fill(c, '#2c1b0d');
+      fill(c, '#362111');
+      // Dikey doğal kabuk olukları ve derin yarıklar
       for (let x = 0; x < 16; x++) {
-        const isCrevice = (x === 1 || x === 6 || x === 11);
-        rect(c, x, 0, 1, 16, isCrevice ? '#1a0f07' : ((x % 2 === 0) ? '#3b2513' : '#2c1b0d'));
+        const isCrevice = (x === 0 || x === 4 || x === 9 || x === 13);
+        const col = isCrevice ? '#1c1007' : ((x % 3 === 0) ? '#442a16' : ((x % 2 === 0) ? '#3c2413' : '#321e10'));
+        rect(c, x, 0, 1, 16, col);
       }
+      // Doğal organik kabuk kabarcıkları, lifleri ve açık/koyu meşe çatlakları
+      for (let y = 0; y < 16; y++) {
+        for (let x = 0; x < 16; x++) {
+          if ((x * 17 + y * 23) % 7 === 0) px(c, x, y, '#4f321a');
+          if ((x * 29 + y * 13) % 9 === 0) px(c, x, y, '#5a391e');
+          if ((x * 11 + y * 31) % 8 === 0) px(c, x, y, '#24150a');
+          if ((x * 7 + y * 19) % 11 === 0) px(c, x, y, '#180d05');
+        }
+      }
+      // Belirgin kabuk damarları ve meşe lekeleri
+      px(c, 2, 3, '#5a391e'); px(c, 3, 3, '#4f321a'); px(c, 7, 7, '#5a391e');
+      px(c, 11, 11, '#5a391e'); px(c, 12, 11, '#4f321a'); px(c, 6, 14, '#5a391e');
+      px(c, 1, 8, '#140b04'); px(c, 5, 2, '#140b04'); px(c, 10, 13, '#140b04');
     });
     const darkWoodTopCanvas = createBlockCanvas(c => {
-      fill(c, '#4f321c');
-      c.strokeStyle = '#1a0f07'; c.lineWidth = 1; c.strokeRect(0.5, 0.5, 15, 15);
-      c.strokeStyle = '#382211'; c.strokeRect(3.5, 3.5, 9, 9);
-      rect(c, 7, 7, 2, 2, '#1a0f07');
+      fill(c, '#5c3d22');
+      // Dış kalın koyu meşe kabuğu
+      c.strokeStyle = '#1c1007'; c.lineWidth = 1; c.strokeRect(0.5, 0.5, 15, 15);
+      // İkinci kabuk geçiş halkası
+      c.strokeStyle = '#2d1b0d'; c.lineWidth = 1; c.strokeRect(1.5, 1.5, 13, 13);
+      // Açık ahşap iç gövde
+      rect(c, 2, 2, 12, 12, '#6a4728');
+      // Yıllık büyüme halkaları (Annual rings)
+      c.strokeStyle = '#4b3019'; c.strokeRect(3.5, 3.5, 9, 9);
+      c.strokeStyle = '#5c3d22'; c.strokeRect(5.5, 5.5, 5, 5);
+      // Ahşap özü (Pith / Core)
+      rect(c, 7, 7, 2, 2, '#2d1b0d');
+      // Halka çatlakları ve ahşap lif lekeleri
+      px(c, 4, 3, '#78502d'); px(c, 11, 4, '#78502d');
+      px(c, 3, 10, '#78502d'); px(c, 10, 11, '#78502d');
+      px(c, 7, 5, '#3b2512'); px(c, 8, 10, '#3b2512');
     });
 
     // 22. DARK OAK PLANKS (Koyu Meşe Tahta)
@@ -7787,6 +7972,7 @@
     const tDirt = texFromCanvas(dirtCanvas);
     const tGrassTop = texFromCanvas(grassTopCanvas);
     const tGrassSide = texFromCanvas(grassSideCanvas);
+    const tSnowDirtSide = texFromCanvas(snowDirtSideCanvas);
     const tStone = texFromCanvas(stoneCanvas);
     const tCobble = texFromCanvas(cobbleCanvas);
     const tMossyCobble = texFromCanvas(mossyCobbleCanvas);
@@ -7976,6 +8162,7 @@
     blockIcons['gravel'] = gravelCanvas.toDataURL();
     blockIcons['clay'] = clayCanvas.toDataURL();
     blockIcons['snow'] = snowCanvas.toDataURL();
+    blockIcons['snow_dirt'] = snowDirtSideCanvas.toDataURL();
     blockIcons['ice'] = iceCanvas.toDataURL();
     blockIcons['obsidian'] = obsidianCanvas.toDataURL();
     blockIcons['bedrock'] = bedrockCanvas.toDataURL();
@@ -8051,6 +8238,7 @@
       gravel: createMat(tGravel),
       clay: createMat(tClay),
       snow: createMat(tSnow, 0.8),
+      snow_dirt: createCubeMats(tSnowDirtSide, tSnow, tDirt),
       ice: createMat(tIce, 0.1, true, 0.85),
       obsidian: createMat(tObsidian, 0.4),
       bedrock: createMat(tBedrock, 0.95),
@@ -8124,6 +8312,396 @@
       terracotta: createMat(tTerracotta)
     };
 
+    // ========================================================
+    // MOOCRAFT TAM DOKU PAKETİ (TEXTURE PACK) SİSTEMİ
+    // Hiçbir blok asla çimene dönmez! Tüm blokların kendi özel
+    // 16x16 pixel-art dokuları ve materyalleri otomatik tanımlanır.
+    // ========================================================
+    function generateMissingBlockTextures() {
+      // 1. Taş Tuğla Çizici
+      function makeBrickCanvas(baseCol, mortarCol, crack = false, moss = false) {
+        return createBlockCanvas(c => {
+          fill(c, baseCol);
+          c.fillStyle = mortarCol;
+          // 4 sıra tuğla derz çizgileri
+          for (let y = 3; y < 16; y += 4) rect(c, 0, y, 16, 1, mortarCol);
+          rect(c, 7, 0, 1, 3, mortarCol); rect(c, 15, 0, 1, 3, mortarCol);
+          rect(c, 3, 4, 1, 3, mortarCol); rect(c, 11, 4, 1, 3, mortarCol);
+          rect(c, 7, 8, 1, 3, mortarCol); rect(c, 15, 8, 1, 3, mortarCol);
+          rect(c, 3, 12, 1, 3, mortarCol); rect(c, 11, 12, 1, 3, mortarCol);
+          if (crack) {
+            px(c, 5, 2, '#222'); px(c, 6, 3, '#222'); px(c, 6, 4, '#222');
+            px(c, 9, 9, '#222'); px(c, 10, 10, '#222'); px(c, 10, 11, '#222');
+          }
+          if (moss) {
+            px(c, 1, 3, '#4d5d43'); px(c, 2, 3, '#5a9638'); px(c, 2, 4, '#38691e');
+            px(c, 8, 7, '#4d5d43'); px(c, 9, 7, '#5a9638'); px(c, 14, 11, '#5a9638');
+          }
+        });
+      }
+
+      // 2. Cilalı Blok Çizici
+      function makePolishedCanvas(baseCol, borderDark, borderLight) {
+        return createBlockCanvas(c => {
+          fill(c, baseCol);
+          c.strokeStyle = borderLight; c.lineWidth = 1; c.strokeRect(0.5, 0.5, 15, 15);
+          c.strokeStyle = borderDark; c.strokeRect(1.5, 1.5, 13, 13);
+          for (let y = 2; y < 14; y++) {
+            for (let x = 2; x < 14; x++) {
+              if ((x * 19 + y * 7) % 11 === 0) px(c, x, y, borderDark);
+              if ((x * 13 + y * 23) % 9 === 0) px(c, x, y, borderLight);
+            }
+          }
+        });
+      }
+
+      // 3. Yün Çizici (Woven Fabric)
+      function makeWoolCanvas(baseCol, darkCol, lightCol) {
+        return createBlockCanvas(c => {
+          fill(c, baseCol);
+          for (let y = 0; y < 16; y++) {
+            for (let x = 0; x < 16; x++) {
+              if ((x + y) % 3 === 0) px(c, x, y, darkCol);
+              else if ((x * y) % 5 === 0) px(c, x, y, lightCol);
+            }
+          }
+        });
+      }
+
+      // 4. Beton Çizici (Solid Smooth Concrete)
+      function makeConcreteCanvas(baseCol, darkCol) {
+        return createBlockCanvas(c => {
+          fill(c, baseCol);
+          for (let y = 0; y < 16; y++) {
+            for (let x = 0; x < 16; x++) {
+              if ((x * 31 + y * 17) % 13 === 0) px(c, x, y, darkCol);
+            }
+          }
+        });
+      }
+
+      // 5. Ahşap Kütük ve Tahta Çizici
+      function makeWoodPlanksCanvas(baseCol, lineCol, lightCol) {
+        return createBlockCanvas(c => {
+          fill(c, baseCol);
+          for (let p = 0; p < 4; p++) {
+            const y0 = p * 4;
+            rect(c, 0, y0, 16, 3, (p % 2 === 0) ? lightCol : baseCol);
+            rect(c, 0, y0 + 3, 16, 1, lineCol);
+          }
+          rect(c, 8, 0, 1, 3, lineCol); rect(c, 3, 4, 1, 3, lineCol);
+          rect(c, 11, 8, 1, 3, lineCol); rect(c, 5, 12, 1, 3, lineCol);
+        });
+      }
+
+      function makeWoodLogSideCanvas(baseCol, darkCol, lightCol) {
+        return createBlockCanvas(c => {
+          fill(c, baseCol);
+          for (let x = 0; x < 16; x++) {
+            const isCr = (x === 0 || x === 4 || x === 9 || x === 13);
+            rect(c, x, 0, 1, 16, isCr ? darkCol : ((x % 2 === 0) ? lightCol : baseCol));
+          }
+          for (let y = 0; y < 16; y++) {
+            for (let x = 0; x < 16; x++) {
+              if ((x * 13 + y * 19) % 7 === 0) px(c, x, y, darkCol);
+              if ((x * 23 + y * 29) % 11 === 0) px(c, x, y, lightCol);
+            }
+          }
+        });
+      }
+
+      // 6. Eşya/Alet Çizici (Items, Swords, Pickaxes, Food)
+      function makeItemCanvas(mainCol, handleCol = '#553311', type = 'tool') {
+        return createBlockCanvas(c => {
+          c.clearRect(0, 0, 16, 16);
+          if (type === 'sword') {
+            for (let i = 0; i < 9; i++) {
+              px(c, 4 + i, 11 - i, mainCol);
+              px(c, 3 + i, 11 - i, '#111111');
+              px(c, 5 + i, 11 - i, '#ffffff');
+            }
+            px(c, 3, 12, '#333'); px(c, 2, 13, handleCol); px(c, 1, 14, '#111');
+          } else if (type === 'pickaxe') {
+            for (let i = 0; i < 11; i++) px(c, 2 + i, 13 - i, handleCol);
+            rect(c, 9, 2, 5, 3, mainCol);
+            px(c, 8, 3, mainCol); px(c, 13, 6, mainCol);
+          } else if (type === 'apple') {
+            fill(c, '#ff2222');
+            c.strokeStyle = '#990000'; c.strokeRect(2, 3, 11, 11);
+            px(c, 7, 1, '#4a2e00'); px(c, 8, 2, '#4a2e00');
+            px(c, 5, 5, '#ffffff'); px(c, 6, 5, '#ffffff');
+          } else if (type === 'bread') {
+            fill(c, '#c48e48');
+            c.strokeStyle = '#7c4819'; c.strokeRect(1, 4, 14, 8);
+            px(c, 4, 5, '#f5d198'); px(c, 7, 5, '#f5d198'); px(c, 10, 5, '#f5d198');
+          } else if (type === 'armor') {
+            fill(c, mainCol);
+            c.strokeStyle = '#222222'; c.strokeRect(1, 1, 14, 14);
+          } else {
+            // Standart kristal/maden külçesi
+            fill(c, mainCol);
+            c.strokeStyle = '#111111'; c.strokeRect(2, 4, 12, 8);
+            px(c, 4, 6, '#ffffff'); px(c, 5, 6, '#ffffff');
+          }
+        });
+      }
+
+      // DOKU HARİTASI TANIMLARI
+      const customTextures = {
+        // Taş Tuğlalar
+        stone_bricks: makeBrickCanvas('#616161', '#373737'),
+        cracked_stone_bricks: makeBrickCanvas('#525252', '#2a2a2a', true, false),
+        mossy_stone_bricks: makeBrickCanvas('#4d5d43', '#2a3a23', false, true),
+        chiseled_stone_bricks: makePolishedCanvas('#595959', '#373737', '#777777'),
+        deepslate_bricks: makeBrickCanvas('#26282d', '#141517'),
+        cobbled_deepslate: makePolishedCanvas('#2b2d32', '#18191c', '#3e4047'),
+        smooth_stone: makePolishedCanvas('#888888', '#555555', '#aaaaaa'),
+        polished_granite: makePolishedCanvas('#9b6c5a', '#6b4334', '#c98e79'),
+        polished_diorite: makePolishedCanvas('#c7c7c7', '#8a8a8a', '#ffffff'),
+        polished_andesite: makePolishedCanvas('#8b8e91', '#5c5e60', '#b5b8bb'),
+        smooth_sandstone: makePolishedCanvas('#e0d5a8', '#a89868', '#f2e8c2'),
+        nether_bricks: makeBrickCanvas('#2c151a', '#14080b'),
+        red_nether_bricks: makeBrickCanvas('#450709', '#240304'),
+        polished_blackstone: makePolishedCanvas('#332c34', '#191519', '#4d434e'),
+        end_stone_bricks: makeBrickCanvas('#e3e2a8', '#abab73'),
+        purpur_pillar: makePolishedCanvas('#ab7dab', '#6e4c6e', '#c996c9'),
+        smooth_quartz: makePolishedCanvas('#f3efe8', '#c2bcb3', '#ffffff'),
+        quartz_bricks: makeBrickCanvas('#eae4dc', '#bab2a8'),
+        prismarine_bricks: makeBrickCanvas('#58ab9f', '#326961'),
+        dark_prismarine: makePolishedCanvas('#335b4b', '#1c362c', '#4b7d69'),
+
+        // Yünler
+        light_gray_wool: makeWoolCanvas('#8e8e86', '#696962', '#abab9f'),
+        gray_wool: makeWoolCanvas('#3e4447', '#25292a', '#575f63'),
+        black_wool: makeWoolCanvas('#141519', '#08080a', '#26282e'),
+        brown_wool: makeWoolCanvas('#724728', '#492c17', '#915e37'),
+        orange_wool: makeWoolCanvas('#f07613', '#a84c04', '#ff9d47'),
+        lime_wool: makeWoolCanvas('#70b919', '#4c800e', '#94e827'),
+        green_wool: makeWoolCanvas('#546d1b', '#35470d', '#739428'),
+        cyan_wool: makeWoolCanvas('#158991', '#0b5257', '#25b6c2'),
+        light_blue_wool: makeWoolCanvas('#3aa0d8', '#1f6c96', '#62bef0'),
+        purple_wool: makeWoolCanvas('#7a2aac', '#4b156d', '#a444e0'),
+        magenta_wool: makeWoolCanvas('#bd30a1', '#751662', '#e851ca'),
+        pink_wool: makeWoolCanvas('#ed8dac', '#ad506c', '#f7b7cb'),
+        tinted_glass: makePolishedCanvas('#251c2e', '#120c17', '#3d2e4c'),
+
+        // Betonlar
+        white_concrete: makeConcreteCanvas('#cfd5d6', '#a6acae'),
+        red_concrete: makeConcreteCanvas('#8e2020', '#5c1010'),
+        blue_concrete: makeConcreteCanvas('#2c2e8e', '#191b5c'),
+        yellow_concrete: makeConcreteCanvas('#e0a715', '#9c7308'),
+        green_concrete: makeConcreteCanvas('#495b24', '#2d3814'),
+        black_concrete: makeConcreteCanvas('#080a0f', '#030406'),
+
+        // Doğal Bloklar
+        coarse_dirt: makePolishedCanvas('#77553b', '#4d3320', '#9c704f'),
+        podzol: makePolishedCanvas('#593d29', '#3b2516', '#7a553b'),
+        mycelium: makePolishedCanvas('#6f6265', '#493f41', '#8c7d81'),
+        red_sand: makePolishedCanvas('#be6721', '#8a430c', '#de853e'),
+        packed_ice: makePolishedCanvas('#8cb7f2', '#5888cc', '#b8d5fa'),
+        blue_ice: makePolishedCanvas('#74a7f9', '#3e75d4', '#a8cbff'),
+        crying_obsidian: makePolishedCanvas('#151124', '#0a0812', '#bd00ff'),
+        soul_soil: makePolishedCanvas('#4b392e', '#2c2018', '#634e40'),
+        amethyst_block: makePolishedCanvas('#855fb5', '#57387d', '#b18ee0'),
+
+        // Ağaçlar ve Tahtalar
+        spruce_wood: makeWoodLogSideCanvas('#3b2716', '#21150a', '#543922'),
+        spruce_planks: makeWoodPlanksCanvas('#684e32', '#412f1d', '#7d5f3f'),
+        jungle_wood: makeWoodLogSideCanvas('#56431a', '#34280d', '#755c26'),
+        jungle_planks: makeWoodPlanksCanvas('#a07355', '#694833', '#b88969'),
+        acacia_wood: makeWoodLogSideCanvas('#68615a', '#3e3934', '#8c847d'),
+        acacia_planks: makeWoodPlanksCanvas('#ba6337', '#7d3e1e', '#d47b4d'),
+        mangrove_wood: makeWoodLogSideCanvas('#542b26', '#311613', '#733e38'),
+        mangrove_planks: makeWoodPlanksCanvas('#763631', '#4d1e1a', '#944741'),
+        cherry_wood: makeWoodLogSideCanvas('#2e111a', '#17070b', '#471d29'),
+        cherry_planks: makeWoodPlanksCanvas('#e6b2b8', '#ad7d83', '#f7ccd2'),
+
+        // İşlevsel Bloklar
+        blast_furnace: makePolishedCanvas('#3d3d42', '#1f1f21', '#ff7700'),
+        smoker: makePolishedCanvas('#473b33', '#241b16', '#785b4a'),
+        chiseled_bookshelf: makeWoodPlanksCanvas('#78512d', '#422810', '#9c6f42'),
+        anvil: makePolishedCanvas('#37373c', '#18181a', '#595961'),
+        enchanting_table: makePolishedCanvas('#781822', '#140c17', '#29c6db'),
+        chest: makeWoodPlanksCanvas('#8a5c28', '#452b0f', '#ba813e'),
+        barrel: makeWoodPlanksCanvas('#78522d', '#2c1e11', '#96683c'),
+        ender_chest: makePolishedCanvas('#0d2626', '#040d0d', '#16a84c'),
+        wet_sponge: makePolishedCanvas('#969e2c', '#5e6314', '#b8c23e'),
+        lantern: makePolishedCanvas('#262626', '#111111', '#ffaa00'),
+        soul_lantern: makePolishedCanvas('#262626', '#111111', '#00e5ff'),
+        torch: makeItemCanvas('#ffaa00', '#553311', 'tool'),
+        beacon: makePolishedCanvas('#70ccd4', '#388891', '#ffffff'),
+
+        // Kızıltaş
+        redstone_dust: makeItemCanvas('#d11515', '#550000', 'item'),
+        redstone_torch: makeItemCanvas('#ff2200', '#553311', 'tool'),
+        redstone_lamp: makePolishedCanvas('#573819', '#2b1a0a', '#ff9900'),
+        target: makePolishedCanvas('#e8e8e8', '#d11515', '#ffffff'),
+        piston: makePolishedCanvas('#7d582c', '#48341a', '#84878a'),
+        sticky_piston: makePolishedCanvas('#5ca938', '#38691e', '#84878a'),
+        observer: makePolishedCanvas('#525252', '#333333', '#d11515'),
+        dispenser: makePolishedCanvas('#585858', '#333333', '#111111'),
+        dropper: makePolishedCanvas('#585858', '#333333', '#222222'),
+        hopper: makePolishedCanvas('#3f3f44', '#1f1f21', '#5f5f69'),
+
+        // Yönetici (Operator)
+        command_block: makePolishedCanvas('#b36d39', '#633919', '#29c6db'),
+        repeating_command_block: makePolishedCanvas('#684a8c', '#392452', '#29c6db'),
+        chain_command_block: makePolishedCanvas('#578c77', '#28473b', '#29c6db'),
+        barrier: makePolishedCanvas('#d63031', '#781516', '#ffffff'),
+        structure_block: makePolishedCanvas('#576574', '#2c353d', '#1dd1a1'),
+        light_block: makePolishedCanvas('#ffeaa7', '#d6a018', '#ffffff'),
+
+        // Yiyecekler
+        apple: makeItemCanvas('#ff2222', '#4a2e00', 'apple'),
+        golden_apple: makeItemCanvas('#ffd700', '#8a6500', 'apple'),
+        bread: makeItemCanvas('#c48e48', '#7c4819', 'bread'),
+        cooked_beef: makeItemCanvas('#8d4320', '#4a1e0b', 'bread'),
+        carrot: makeItemCanvas('#ff7700', '#1b7a12', 'tool'),
+
+        // Maden Eşyaları
+        diamond_item: makeItemCanvas('#29c6db', '#111', 'item'),
+        emerald_item: makeItemCanvas('#16a84c', '#111', 'item'),
+        iron_ingot: makeItemCanvas('#d8dbdf', '#888', 'item'),
+        gold_ingot: makeItemCanvas('#ffd700', '#aa8800', 'item'),
+        copper_ingot: makeItemCanvas('#c76e4c', '#773311', 'item'),
+        netherite_ingot: makeItemCanvas('#3d373a', '#111', 'item'),
+        coal_item: makeItemCanvas('#262626', '#000', 'item'),
+        amethyst_shard: makeItemCanvas('#855fb5', '#441166', 'item'),
+
+        // Silahlar, Aletler ve Zırhlar
+        netherite_sword: makeItemCanvas('#3d373a', '#222', 'sword'),
+        diamond_sword: makeItemCanvas('#29c6db', '#4a2e00', 'sword'),
+        iron_sword: makeItemCanvas('#d8dbdf', '#4a2e00', 'sword'),
+        golden_sword: makeItemCanvas('#ffd700', '#4a2e00', 'sword'),
+        stone_sword: makeItemCanvas('#84878a', '#4a2e00', 'sword'),
+        wooden_sword: makeItemCanvas('#8f683a', '#3a200a', 'sword'),
+        bow: makeItemCanvas('#8f683a', '#ddd', 'tool'),
+        crossbow: makeItemCanvas('#553311', '#888', 'tool'),
+        arrow: makeItemCanvas('#999999', '#4a2e00', 'tool'),
+        trident: makeItemCanvas('#29c6db', '#1565c0', 'sword'),
+        shield: makeItemCanvas('#8f683a', '#d8dbdf', 'armor'),
+
+        netherite_pickaxe: makeItemCanvas('#3d373a', '#222', 'pickaxe'),
+        diamond_pickaxe: makeItemCanvas('#29c6db', '#4a2e00', 'pickaxe'),
+        iron_pickaxe: makeItemCanvas('#d8dbdf', '#4a2e00', 'pickaxe'),
+        golden_pickaxe: makeItemCanvas('#ffd700', '#4a2e00', 'pickaxe'),
+        stone_pickaxe: makeItemCanvas('#84878a', '#4a2e00', 'pickaxe'),
+        wooden_pickaxe: makeItemCanvas('#8f683a', '#3a200a', 'pickaxe'),
+
+        netherite_axe: makeItemCanvas('#3d373a', '#222', 'pickaxe'),
+        diamond_axe: makeItemCanvas('#29c6db', '#4a2e00', 'pickaxe'),
+        iron_axe: makeItemCanvas('#d8dbdf', '#4a2e00', 'pickaxe'),
+        golden_axe: makeItemCanvas('#ffd700', '#4a2e00', 'pickaxe'),
+
+        netherite_shovel: makeItemCanvas('#3d373a', '#222', 'tool'),
+        diamond_shovel: makeItemCanvas('#29c6db', '#4a2e00', 'tool'),
+        iron_shovel: makeItemCanvas('#d8dbdf', '#4a2e00', 'tool'),
+        flint_and_steel: makeItemCanvas('#bdc3c7', '#222', 'tool'),
+        shears: makeItemCanvas('#d8dbdf', '#888', 'tool'),
+        fishing_rod: makeItemCanvas('#8f683a', '#ddd', 'tool'),
+        compass: makeItemCanvas('#e74c3c', '#222', 'item'),
+        clock: makeItemCanvas('#f1c40f', '#222', 'item'),
+
+        netherite_helmet: makeItemCanvas('#3d373a', '#111', 'armor'),
+        netherite_chestplate: makeItemCanvas('#3d373a', '#111', 'armor'),
+        netherite_leggings: makeItemCanvas('#3d373a', '#111', 'armor'),
+        netherite_boots: makeItemCanvas('#3d373a', '#111', 'armor'),
+        diamond_helmet: makeItemCanvas('#29c6db', '#111', 'armor'),
+        diamond_chestplate: makeItemCanvas('#29c6db', '#111', 'armor'),
+        diamond_leggings: makeItemCanvas('#29c6db', '#111', 'armor'),
+        diamond_boots: makeItemCanvas('#29c6db', '#111', 'armor'),
+        iron_helmet: makeItemCanvas('#d8dbdf', '#333', 'armor'),
+        iron_chestplate: makeItemCanvas('#d8dbdf', '#333', 'armor'),
+        iron_leggings: makeItemCanvas('#d8dbdf', '#333', 'armor'),
+        iron_boots: makeItemCanvas('#d8dbdf', '#333', 'armor'),
+        golden_helmet: makeItemCanvas('#ffd700', '#886600', 'armor'),
+        golden_chestplate: makeItemCanvas('#ffd700', '#886600', 'armor'),
+        golden_leggings: makeItemCanvas('#ffd700', '#886600', 'armor'),
+        golden_boots: makeItemCanvas('#ffd700', '#886600', 'armor'),
+        leather_helmet: makeItemCanvas('#8d5524', '#3c2e28', 'armor'),
+        leather_chestplate: makeItemCanvas('#8d5524', '#3c2e28', 'armor'),
+        leather_leggings: makeItemCanvas('#8d5524', '#3c2e28', 'armor'),
+        leather_boots: makeItemCanvas('#8d5524', '#3c2e28', 'armor')
+      };
+
+      // Tüm dokuları materyal ve ikon sözlüklerine kaydet
+      Object.keys(customTextures).forEach(key => {
+        const cvs = customTextures[key];
+        const tex = texFromCanvas(cvs);
+        materials[key] = createMat(tex);
+        blockIcons[key] = cvs.toDataURL();
+      });
+
+      // Herhangi bir blok eksik kalırsa güvenli yedekleme (ASLA çimene dönmez, taş dokusu alır)
+      Object.keys(BLOCK_INFO).forEach(key => {
+        if (!materials[key]) {
+          materials[key] = materials.stone || createMat(tStone);
+        }
+        if (!blockIcons[key]) {
+          blockIcons[key] = stoneCanvas.toDataURL();
+        }
+      });
+    }
+
+    generateMissingBlockTextures();
+
+
+
+    // DÜNYAYA ÖZEL BENZERSİZ TOHUM (SEED) VE PROSEDÜREL ARAZİ MOTORU:
+    // Her dünya kendi tohumuna göre tamamen farklı dağlar, vadiler, tepeler, göller ve madenler üretir!
+    function hashSeedToNumber(s) {
+      if (!s) return Math.floor(Math.random() * 2147483647);
+      if (typeof s === 'number' && !isNaN(s)) return Math.floor(Math.abs(s)) || 12345;
+      const str = String(s).trim();
+      const num = parseInt(str, 10);
+      if (!isNaN(num) && String(num) === str) {
+        return Math.abs(num) || 12345;
+      }
+      let h = 2166136261;
+      for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return (h >>> 0) || 12345;
+    }
+
+    const worldSeedRaw = (worldData && (worldData.seed !== undefined && worldData.seed !== null && String(worldData.seed).trim() !== '')) 
+      ? String(worldData.seed).trim() 
+      : ((worldData && worldData.id) ? String(worldData.id) : ('seed_' + Date.now()));
+    const worldSeedNum = hashSeedToNumber(worldSeedRaw);
+
+    // Her tohum için birbirinden tamamen farklı koordinat faz kaydırmaları
+    const seedOffset1X = ((worldSeedNum % 7919) * 23.47) % 20000;
+    const seedOffset1Z = (((worldSeedNum >>> 7) % 7907) * 29.13) % 20000;
+    const seedOffset2X = (((worldSeedNum >>> 13) % 7877) * 41.21) % 20000;
+    const seedOffset2Z = (((worldSeedNum >>> 19) % 7853) * 37.89) % 20000;
+    const seedOffset3X = (((worldSeedNum >>> 3) % 6547) * 19.83) % 20000;
+    const seedOffset3Z = (((worldSeedNum >>> 11) % 6529) * 21.67) % 20000;
+
+    // Tohuma özel değişken frekans ve genlik modülasyonları
+    const seedFreqScale1 = 0.024 + ((worldSeedNum % 23) * 0.0007);
+    const seedFreqScale2 = 0.048 + (((worldSeedNum >> 5) % 23) * 0.0009);
+    const seedAmp1 = 11 + ((worldSeedNum % 5) - 2);
+    const seedAmp2 = 7 + (((worldSeedNum >> 3) % 5) - 2);
+
+    // Her tohumda tamamen farklı dağlar, ovalar ve nehirler oluşturan çok katmanlı gürültü fonksiyonu
+    function simpleNoise(x, z) {
+      const q1 = Math.sin((x + seedOffset1X) * seedFreqScale1) * Math.cos((z + seedOffset1Z) * seedFreqScale1) * seedAmp1;
+      const q2 = Math.sin((x + seedOffset2X) * seedFreqScale2 + (z + seedOffset2Z) * 0.015) * Math.cos((z + seedOffset2Z) * seedFreqScale2 - (x + seedOffset2X) * 0.015) * seedAmp2;
+      const q3 = Math.sin((x + seedOffset3X) * 0.08 - (z + seedOffset3Z) * 0.08) * 2.8;
+      return q1 + q2 + q3;
+    }
+
+    function getTerrainHeight(x, z) {
+      return Math.max(1, Math.floor(simpleNoise(x, z)) + 12);
+    }
+
+    // Tohum bazlı deterministik rastgele sayı üretici (ağaçlar, bitkiler, vb.)
+    function posRnd(x, z, salt = 0) {
+      let h = Math.imul(x ^ worldSeedNum, 374761393) ^ Math.imul(z, 668265263) ^ Math.imul(salt, 1013904223);
+      h = (h ^ (h >>> 13)) * 1274126177;
+      return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+    }
 
     // OYUNCU POZİSYONUNU EN SON KALINAN YERDEN YÜKLE VEYA VARSAYILAN YAP
     // Oyuna başlarken doğrudan YERDE başlama (Havada başlayıp düşme hasarı alma hatası önlendi)
@@ -8183,23 +8761,18 @@
       return { x: bestX + 0.5, y: safeY, z: bestZ + 0.5 };
     }
 
-    // OYUNCU POZİSYONUNU EN SON KALINAN YERDEN YÜKLE VEYA GÜVENLİ KURU KARADA DOĞUR
-    // ASLA SUDA VE ASLA AĞAÇ İÇİNDE DOĞMAMA KURALI
+    // OYUNCU POZİSYONUNU EN SON KALINAN YERDEN YÜKLE:
+    // Oyundan en son çıkılan tam koordinatlarda (x, y, z, yaw, pitch) oyuna devam edilir!
+    // Sadece ilk defa girilen yeni dünyalarda güvenli kara noktası bulunur.
     let initPos;
-    if (worldData && worldData.playerPos && typeof worldData.playerPos.x === 'number') {
-      const sx = worldData.playerPos.x;
-      const sz = worldData.playerPos.z;
-      const sy = worldData.playerPos.y;
-      const sh = getTerrainHeight(Math.floor(sx), Math.floor(sz));
-      const minSafeSurfaceY = sh + 0.5 + 1.7 + 0.05;
-      if (sh <= SEA_LEVEL || sy <= SEA_LEVEL + 1) {
-        const safe = findSafeSpawnPoint(Math.floor(sx), Math.floor(sz));
-        initPos = { x: safe.x, y: safe.y, z: safe.z, yaw: worldData.playerPos.yaw || 0, pitch: worldData.playerPos.pitch || 0 };
-      } else if (sy < minSafeSurfaceY) {
-        initPos = { x: sx, y: minSafeSurfaceY, z: sz, yaw: worldData.playerPos.yaw || 0, pitch: worldData.playerPos.pitch || 0 };
-      } else {
-        initPos = worldData.playerPos;
-      }
+    if (worldData && worldData.playerPos && typeof worldData.playerPos.x === 'number' && typeof worldData.playerPos.y === 'number') {
+      initPos = {
+        x: worldData.playerPos.x,
+        y: worldData.playerPos.y,
+        z: worldData.playerPos.z,
+        yaw: worldData.playerPos.yaw || 0,
+        pitch: worldData.playerPos.pitch || 0
+      };
     } else {
       const safe = findSafeSpawnPoint(0, 0);
       initPos = { x: safe.x, y: safe.y, z: safe.z, yaw: 0, pitch: 0 };
@@ -8428,13 +9001,20 @@
     let targetServerUrl = undefined;
     if (worldData && worldData.address) {
       let addr = String(worldData.address).trim();
-      if (!addr.startsWith('http://') && !addr.startsWith('https://') && !addr.startsWith('ws://') && !addr.startsWith('wss://')) {
+      // Render.com veya web üzerinde çalışırken doğrudan sayfanın kendi origin / host adresini kullan
+      if (typeof window !== 'undefined' && window.location && window.location.host && 
+         (addr === window.location.host || addr === 'play.moocraft.net' || addr.includes('onrender.com'))) {
+        targetServerUrl = (window.location.protocol.startsWith('http')) ? window.location.origin : undefined;
+      } else if (!addr.startsWith('http://') && !addr.startsWith('https://') && !addr.startsWith('ws://') && !addr.startsWith('wss://')) {
         addr = (window.location.protocol === 'https:' ? 'https://' : 'http://') + addr;
+        targetServerUrl = addr;
+      } else {
+        targetServerUrl = addr;
       }
-      targetServerUrl = addr;
     }
     const multiplayerSocket = (isMultiplayerGame && typeof io === 'function') ? (targetServerUrl ? io(targetServerUrl, { transports: ['websocket', 'polling'] }) : io()) : null;
     const remotePlayers = new Map();
+    const announcedPlayerJoins = new Set();
     const remoteSkinsCache = new Map(); // Çok oyunculu oyuncuların kendi bağımsız kostüm önbelleği (asla yerel safeStorage ile karışmaz!)
     const myClientId = 'mc_' + Math.random().toString(36).substring(2, 9) + '_' + Date.now().toString(36);
     let lastNetworkUpdate = 0;
@@ -8638,7 +9218,7 @@
       rightArmGroup.add(rightArmMesh);
 
       // 3. Şahısta elde tutulan blok
-      const heldItemMesh = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.18, 0.18), materials.grass);
+      const heldItemMesh = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.18, 0.18), materials.stone);
       heldItemMesh.position.set(0, -0.52, 0.10);
       heldItemMesh.visible = false;
       rightArmGroup.add(heldItemMesh);
@@ -8704,8 +9284,8 @@
             heldItemMesh.visible = false;
           } else {
             heldItemMesh.visible = true;
-            const baseMat = (mats && mats[type]) ? mats[type] : (mats ? mats.grass : materials.grass);
-            heldItemMesh.material = Array.isArray(baseMat) ? baseMat.map(m => m.clone()) : (baseMat ? baseMat.clone() : materials.grass);
+            const baseMat = (mats && mats[type]) ? mats[type] : (mats ? mats.stone : materials.stone);
+            heldItemMesh.material = Array.isArray(baseMat) ? baseMat.map(m => m.clone()) : (baseMat ? baseMat.clone() : materials.stone);
           }
         }
       };
@@ -8904,6 +9484,12 @@
         remotePlayers.set(pId, remote);
         if (data.id && pId !== data.id) remotePlayers.set(data.id, remote);
 
+        // Uzak oyuncu odaya/sunucuya katıldığında katılma mesajı yayınla
+        if (data.name && typeof announcedPlayerJoins !== 'undefined' && !announcedPlayerJoins.has(pId)) {
+          announcedPlayerJoins.add(pId);
+          addChatMessage('', `[${data.name} oyuna katıldı]`, true, '#ffff55');
+        }
+
         // Yeni katılan oyuncunun bizim kostümümüzü anında görebilmesi için kendi kostümümüzü yayınla
         broadcastMySkin();
 
@@ -9065,12 +9651,19 @@
       });
 
       // SUNUCUDAN GELEN OP YETKİ DURUMUNU YAKALA
+      let initialOpStatusReceived = false;
       multiplayerSocket.on('op-status', (data) => {
-        isUserOp = data.isOp;
-        if (isUserOp) {
-          addChatMessage('', 'Sunucu yöneticisi oldunuz', false, '#aaaaaa');
-        } else {
-          addChatMessage('', 'OP yetkiniz bulunmuyor.', true);
+        const wasOp = isUserOp;
+        isUserOp = Boolean(data && data.isOp);
+        if (!initialOpStatusReceived) {
+          initialOpStatusReceived = true;
+          // Oyuna girerken OP durumu yazılmaz! Sadece sessizce yetki ayarlanır.
+          return;
+        }
+        // Oyun sırasında sonradan OP yapıldığında bildir:
+        if (isUserOp && !wasOp) {
+          addChatMessage('', 'Sunucu Yöneticisi Oldunuz', true, '#ffff55');
+          showToast('Sunucu Yöneticisi Oldunuz');
         }
       });
 
@@ -9211,7 +9804,7 @@
 
     function spawnDroppedItem(x, y, z, type, vx = 0, vy = 2.5, vz = 0, pickupDelay = 0.5, count = 1) {
       if (!type || type === 'water') return;
-      const mesh = new THREE.Mesh(dropGeo, materials[type] || materials.grass);
+      const mesh = new THREE.Mesh(dropGeo, materials[type] || materials.stone);
       mesh.position.set(x, y + 0.1, z);
       scene.add(mesh);
       droppedItems.push({
@@ -9277,10 +9870,7 @@
       }
     }
 
-    function simpleNoise(x, z) {
-      return Math.sin(x * 0.04) * Math.cos(z * 0.04) * 12 + Math.sin(x * 0.01 + z * 0.01) * 18;
-    }
-    function getTerrainHeight(x, z) { return Math.max(1, Math.floor(simpleNoise(x, z)) + 8); }
+    // (simpleNoise ve getTerrainHeight fonksiyonları tohum desteğiyle yukarıda tanımlanmıştır)
 
     const loadedChunks = new Map();
     const allocatedRamGb = getRamSetting();
@@ -9332,6 +9922,7 @@
         <div>Chunk: ${cx} ${cz} (Görüş Mesafesi: ${RENDER_DISTANCE} chunk)</div>
         <div>Yön: ${facing} (yaw: ${degYaw.toFixed(1)}° / pitch: ${(player.pitch * 180 / Math.PI).toFixed(1)}°)</div>
         <div>Biyom: ${biome} (Zemin Y: ${topH})</div>
+        <div>Tohum (Seed): ${worldSeedRaw}</div>
         <div>Işık: ${isFullbrightActive ? '15 (FullBright Gece Görüşü)' : '15 Gökyüzü'}</div>
         <div>Yüklü Chunk: ${loadedChunks.size} | Çok Oyunculu: ${remotePlayers.size + 1} Oyuncu</div>
       `;
@@ -9349,7 +9940,7 @@
       if (worldMap.has(k)) {
         const existing = worldMap.get(k);
         if (!existing.mesh && withMesh) {
-          const mesh = new THREE.Mesh(blockGeo, materials[type] || materials.grass);
+          const mesh = new THREE.Mesh(blockGeo, materials[type] || materials.stone);
           mesh.position.set(x, y, z);
           mesh.matrixAutoUpdate = false; mesh.updateMatrix();
           worldGroup.add(mesh);
@@ -9360,7 +9951,7 @@
       }
 
       if (withMesh) {
-        const mesh = new THREE.Mesh(blockGeo, materials[type] || materials.grass);
+        const mesh = new THREE.Mesh(blockGeo, materials[type] || materials.stone);
         mesh.position.set(x, y, z);
         mesh.matrixAutoUpdate = false; mesh.updateMatrix();
         worldGroup.add(mesh);
@@ -9382,7 +9973,7 @@
         const k = blockKey(nx, ny, nz);
         const b = worldMap.get(k);
         if (b && !b.mesh && b.type && b.type !== 'water') {
-          const mesh = new THREE.Mesh(blockGeo, materials[b.type] || materials.grass);
+          const mesh = new THREE.Mesh(blockGeo, materials[b.type] || materials.stone);
           mesh.position.set(nx, ny, nz);
           mesh.matrixAutoUpdate = false; mesh.updateMatrix();
           worldGroup.add(mesh);
@@ -9399,7 +9990,7 @@
     // Madenler asla 20-30 blokluk dev yığınlar halinde çıkmaz; en fazla 8 blokluk doğal damarlar oluşturur.
     // Zümrüt en düşük orana sahiptir (tek veya nadiren 2 blok).
     function getChunkVeinBlocks(chunkX, chunkZ) {
-      let seed = ((chunkX * 73856093) ^ (chunkZ * 19349663) ^ 0x5bd1e995) >>> 0;
+      let seed = ((chunkX * 73856093) ^ (chunkZ * 19349663) ^ worldSeedNum ^ 0x5bd1e995) >>> 0;
       function rnd() {
         seed = (seed * 1664525 + 1013904223) >>> 0;
         return seed / 4294967296;
@@ -9409,37 +10000,50 @@
       const startX = chunkX * CHUNK_SIZE, startZ = chunkZ * CHUNK_SIZE;
 
       // [oreType, countOrProb, minY, maxY, maxVeinSize (MAX 8)]
+      // Maden Değerleri & Dağılım Sıralaması:
+      // 1. En çok rastlanan: Bakır (copper_ore) -> chunk başına 6.0 damar
+      // 2. Kömür (coal_ore) -> chunk başına 4.5 damar
+      // 3. Demir (iron_ore) -> chunk başına 3.5 damar
+      // 4. Lapis (lapis_ore) -> chunk başına 2.5 damar
+      // 5. Altın (gold_ore) -> chunk başına 1.5 damar
+      // 6. Elmas (diamond_ore) -> chunk başına 0.8 damar
+      // 7. En nadir: Zümrüt (emerald_ore) -> chunk başına 0.22 damar
+      // Kural: En fazla yan yana aynı madenden 8 tane çıkabilir (veinLimit <= 8)
       const specs = [
-        ['coal_ore', 4, -8, 24, 8],      // Kömür: Chunk başına 3-4 damar, en fazla 8 blok
-        ['iron_ore', 4, -36, 16, 7],     // Demir: Chunk başına 3-4 damar, en fazla 7 blok
-        ['copper_ore', 2, -15, 18, 6],   // Bakır: Chunk başına 2 damar, en fazla 6 blok
-        ['gold_ore', 2, -44, -10, 5],    // Altın: Derinlerde 2 damar, en fazla 5 blok
-        ['redstone_ore', 2, -46, -16, 6],// Kızıltaş: Derinlerde 2 damar, en fazla 6 blok
-        ['lapis_ore', 1, -36, -4, 5],    // Lapis: Chunk başına 1 damar, en fazla 5 blok
-        ['diamond_ore', 1.3, -46, -18, 6],// Elmas: Sadece çok derinlerde, en fazla 6 blok
-        ['emerald_ore', 0.35, -28, 14, 2],// Zümrüt: EN DÜŞÜK ORAN (3 chunkta bir, en fazla 1-2 blok!)
-        ['debris', 0.25, -46, -38, 2],   // Antik Kalıntı: En dipte çok nadir, en fazla 2 blok
-        ['obsidian', 1, -46, -32, 5]     // Derin Obsidyen: en fazla 5 blok
+        ['copper_ore', 6.0, -16, 24, 8],  // 1. Bakır: En çok rastlanan maden (en fazla 8 blok)
+        ['coal_ore', 4.5, -8, 24, 8],     // 2. Kömür: Bakırdan sonra en çok (en fazla 8 blok)
+        ['iron_ore', 3.5, -36, 16, 8],    // 3. Demir: Kömürden sonra (en fazla 8 blok)
+        ['lapis_ore', 2.5, -36, -4, 8],   // 4. Lapis: Demirden sonra (en fazla 8 blok)
+        ['redstone_ore', 1.8, -46, -16, 8],// Kızıltaş: Derinlerde (en fazla 8 blok)
+        ['gold_ore', 1.5, -44, -10, 8],   // 5. Altın: Lapisten sonra (en fazla 8 blok)
+        ['diamond_ore', 0.8, -46, -18, 8],// 6. Elmas: Altından sonra, nadir (en fazla 8 blok)
+        ['emerald_ore', 0.22, -28, 14, 8],// 7. Zümrüt: En nadir maden (en fazla 8 blok)
+        ['obsidian', 0.7, -46, -32, 6]    // Derin Obsidyen: en fazla 6 blok
       ];
 
       for (let s = 0; s < specs.length; s++) {
         const [oreType, countOrProb, minY, maxY, maxVeinSize] = specs[s];
-        const numVeins = (countOrProb < 1) ? (rnd() < countOrProb ? 1 : 0) : Math.floor(countOrProb);
+        // Kesirli değerleri ve tam sayıları olasılıksal olarak hesapla
+        const numVeins = Math.floor(countOrProb) + (rnd() < (countOrProb % 1) ? 1 : 0);
 
         for (let i = 0; i < numVeins; i++) {
           let cx = startX + 1 + Math.floor(rnd() * (CHUNK_SIZE - 2));
-          let cy = Math.floor(minY + rnd() * (maxY - minY));
           let cz = startZ + 1 + Math.floor(rnd() * (CHUNK_SIZE - 2));
+          let colTopH = getTerrainHeight(cx, cz);
+          let effectiveMaxY = Math.min(maxY, colTopH - 2);
+          let cy = Math.floor(minY + rnd() * (Math.max(minY + 2, effectiveMaxY) - minY));
+          if (cy >= colTopH - 1) cy = Math.max(minY, colTopH - 2);
 
-          // Kesin Kural: Bir damar asla 8 bloğu geçemez!
-          const veinLimit = Math.min(8, Math.max(1, Math.floor(1 + rnd() * maxVeinSize)));
+          // Kesin Kural: En fazla yan yana aynı madenden 8 tane çıkabilir!
+          const veinLimit = Math.min(8, Math.max(1, Math.floor(1 + rnd() * Math.min(8, maxVeinSize))));
           let placed = 0;
 
-          // Bitişik organik 3D maden damarı adımı (Random Walk)
+          // Bitişik organik 3D maden damarı adımı (Random Walk) - SADECE YERİN ALTINDA!
           for (let step = 0; step < veinLimit * 4 && placed < veinLimit; step++) {
+            const hAtPos = getTerrainHeight(cx, cz);
             if (cx >= startX && cx < startX + CHUNK_SIZE &&
                 cz >= startZ && cz < startZ + CHUNK_SIZE &&
-                cy > BEDROCK_Y + 1 && cy <= 30) {
+                cy > BEDROCK_Y + 1 && cy < hAtPos) {
               const k = blockKey(cx, cy, cz);
               if (!veins.has(k)) {
                 veins.set(k, oreType);
@@ -9487,35 +10091,32 @@
             } else {
               const isVisibleSurface = (y >= topH - visibleDepth);
               if (y === topH) {
+                // YER YÜZÜ: Yeryüzünde ASLA maden çıkmaz! Tamamen doğal çim/kar/kum yüzeyi
                 let surfaceType = 'grass';
-                if (curDim === 'snow') surfaceType = 'snow';
+                if (curDim === 'snow') surfaceType = 'snow_dirt';
                 else if (curDim === 'nether') surfaceType = (x + z) % 7 === 0 ? 'soul_sand' : 'netherrack';
                 else if (curDim === 'ocean' && topH <= SEA_LEVEL + 2) surfaceType = 'sand';
-                else surfaceType = topH > 22 ? 'snow' : topH > 16 ? 'stone' : 'grass';
+                else surfaceType = topH > 22 ? 'snow' : topH > 16 ? 'snow_dirt' : 'grass';
                 spawnBlock(x, y, z, surfaceType, true);
-              } else if (y > topH - 3) {
-                let subType = 'dirt';
-                if (curDim === 'nether') subType = 'netherrack';
-                else if (curDim === 'snow' && topH > 16) subType = 'snow';
-                else if (curDim === 'ocean' && y <= SEA_LEVEL + 1) subType = 'sandstone';
-                spawnBlock(x, y, z, subType, isVisibleSurface);
               } else if (y <= BEDROCK_Y + 1) {
                 // Taban Katman Kayası (Bedrock) - Kırılamaz zemin
                 spawnBlock(x, y, z, 'bedrock', isVisibleSurface);
               } else {
-                // BÜYÜTÜLMÜŞ VE DERİN MADEN DAMARLARI
+                // YERİN ALTI: Madenler yalnızca yerin altında çıkar!
                 const ore = chunkVeins.get(k);
-                let t;
                 if (ore) {
-                  t = ore;
-                } else if (y < 0) {
-                  // Yeraltının derinliklerinde Derintaş (Deepslate)
-                  t = 'deepslate';
+                  // Yeraltındaki madenler 3D blok olarak oluşturulur (kazıldığında ve X-Ray'de görünür)
+                  spawnBlock(x, y, z, ore, true);
+                } else if (y > topH - 3) {
+                  let subType = 'dirt';
+                  if (curDim === 'nether') subType = 'netherrack';
+                  else if (curDim === 'snow' && topH > 16) subType = 'dirt';
+                  else if (curDim === 'ocean' && y <= SEA_LEVEL + 1) subType = 'sandstone';
+                  spawnBlock(x, y, z, subType, isVisibleSurface);
                 } else {
-                  t = 'stone';
+                  let t = (y < 0) ? 'deepslate' : 'stone';
+                  spawnBlock(x, y, z, t, isVisibleSurface);
                 }
-
-                spawnBlock(x, y, z, t, isVisibleSurface);
               }
             }
           }
@@ -9532,14 +10133,17 @@
           // AĞACIN İÇİNDE DOĞMAYI ENGELLE (SPAWN ALANI KORUMASI):
           // Başlangıç noktasının (spawn) 4 blokluk yarıçapında asla ağaç oluşturulmaz!
           const distToSpawn = Math.hypot(x - initPos.x, z - initPos.z);
-          if (distToSpawn >= 5 && topH <= 16 && topH > SEA_LEVEL && Math.random() < 0.015) {
-            for (let h = 1; h <= 4; h++) {
+          const treeChance = (curDim === 'snow') ? 0.012 : (curDim === 'plains' ? 0.015 : 0.022);
+          if (distToSpawn >= 5 && topH <= 16 && topH > SEA_LEVEL && posRnd(x, z, 77) < treeChance) {
+            const treeWood = (curDim === 'snow' || (topH > 14 && posRnd(x, z, 55) > 0.5)) ? 'dark_wood' : (posRnd(x, z, 44) > 0.7 ? 'birch_wood' : 'wood');
+            const treeHeight = 4 + (posRnd(x, z, 99) > 0.6 ? 1 : 0);
+            for (let h = 1; h <= treeHeight; h++) {
               const k = blockKey(x, topH + h, z);
-              if (customWorldChanges[k] === undefined) spawnBlock(x, topH + h, z, 'wood', true);
+              if (customWorldChanges[k] === undefined) spawnBlock(x, topH + h, z, treeWood, true);
             }
             for (let lx = -1; lx <= 1; lx++) {
               for (let lz = -1; lz <= 1; lz++) {
-                for (let ly = 3; ly <= 5; ly++) {
+                for (let ly = treeHeight - 1; ly <= treeHeight + 1; ly++) {
                   const k = blockKey(x + lx, topH + ly, z + lz);
                   if (customWorldChanges[k] === undefined) spawnBlock(x + lx, topH + ly, z + lz, 'leaves', true);
                 }
@@ -9603,7 +10207,7 @@
       });
     }
 
-    const heldBlockMesh = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.2), materials.grass);
+    const heldBlockMesh = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.2), materials.stone);
     heldBlockMesh.position.set(0, -0.35, -0.15); heldBlockMesh.visible = false;
     armGroup.add(heldBlockMesh);
     armGroup.position.set(0.38, -0.30, -0.52); armGroup.rotation.set(1.57, 0, 0.4);
@@ -9642,7 +10246,7 @@
         heldBlockMesh.visible = false;
       } else {
         heldBlockMesh.visible = true;
-        heldBlockMesh.material = materials[type] || materials.grass;
+        heldBlockMesh.material = materials[type] || materials.stone;
       }
       if (localPlayerRig && localPlayerRig.updateHeldItem) {
         localPlayerRig.updateHeldItem(type, materials);
@@ -9712,26 +10316,245 @@
       return null;
     }
 
-    function breakBlock() {
-      if (isInventoryOpen || isPauseOpen || isChatOpen) return;
-      triggerArmPunch();
-      const hit = getTargetBlock();
-      if (hit && hit.object && hit.object.userData) {
-        const { type, x, y, z } = hit.object.userData;
-        if (type === 'water') {
-          return;
-        }
-        if (type === 'bedrock' && !isCreativeMode) {
-          return;
-        }
-        const k = blockKey(x, y, z);
-        customWorldChanges[k] = null;
-        worldGroup.remove(hit.object); worldMap.delete(k);
-        spawnDroppedItem(x, y, z, type);
-        revealNeighbors(x, y, z);
-        saveCurrentGameState();
+
+    // ========================================================
+    // MINECRAFT GERÇEKÇİ BLOK KIRMA SÜRESİ, ÇATLAMA & PARÇACIK EFEKTİ
+    // ========================================================
+    const crackTextures = [];
+    function generateCrackTextures() {
+      if (crackTextures.length > 0) return;
+      const crackPatterns = [
+        [[7,7],[8,7],[7,8]],
+        [[7,7],[8,7],[7,8],[6,8],[8,6],[9,6]],
+        [[7,7],[8,7],[7,8],[6,8],[8,6],[9,6],[5,9],[9,5],[10,5],[6,9]],
+        [[7,7],[8,7],[7,8],[6,8],[8,6],[9,6],[5,9],[9,5],[10,5],[6,9],[4,10],[11,4],[7,5],[6,4],[8,9]],
+        [[7,7],[8,7],[7,8],[6,8],[8,6],[9,6],[5,9],[9,5],[10,5],[6,9],[4,10],[11,4],[7,5],[6,4],[8,9],[3,11],[12,3],[5,4],[6,3],[9,10],[10,11],[2,8],[3,8]],
+        [[7,7],[8,7],[7,8],[6,8],[8,6],[9,6],[5,9],[9,5],[10,5],[6,9],[4,10],[11,4],[7,5],[6,4],[8,9],[3,11],[12,3],[5,4],[6,3],[9,10],[10,11],[2,8],[3,8],[1,8],[13,3],[11,12],[12,12],[4,5],[5,6]],
+        [[7,7],[8,7],[7,8],[6,8],[8,6],[9,6],[5,9],[9,5],[10,5],[6,9],[4,10],[11,4],[7,5],[6,4],[8,9],[3,11],[12,3],[5,4],[6,3],[9,10],[10,11],[2,8],[3,8],[1,8],[13,3],[11,12],[12,12],[4,5],[5,6],[0,8],[14,3],[10,13],[11,14],[3,4],[4,3],[7,9],[8,10],[8,11],[7,12]],
+        [[7,7],[8,7],[7,8],[6,8],[8,6],[9,6],[5,9],[9,5],[10,5],[6,9],[4,10],[11,4],[7,5],[6,4],[8,9],[3,11],[12,3],[5,4],[6,3],[9,10],[10,11],[2,8],[3,8],[1,8],[13,3],[11,12],[12,12],[4,5],[5,6],[0,8],[14,3],[10,13],[11,14],[3,4],[4,3],[7,9],[8,10],[8,11],[7,12],[2,3],[1,3],[12,8],[13,8],[14,8],[3,12],[2,13],[10,4],[9,3],[8,2]],
+        [[7,7],[8,7],[7,8],[6,8],[8,6],[9,6],[5,9],[9,5],[10,5],[6,9],[4,10],[11,4],[7,5],[6,4],[8,9],[3,11],[12,3],[5,4],[6,3],[9,10],[10,11],[2,8],[3,8],[1,8],[13,3],[11,12],[12,12],[4,5],[5,6],[0,8],[14,3],[10,13],[11,14],[3,4],[4,3],[7,9],[8,10],[8,11],[7,12],[2,3],[1,3],[12,8],[13,8],[14,8],[3,12],[2,13],[10,4],[9,3],[8,2],[15,3],[0,9],[12,14],[13,14],[2,2],[1,2],[11,3],[12,2],[8,1],[7,0],[8,13],[7,14],[6,15]],
+        [[7,7],[8,7],[7,8],[6,8],[8,6],[9,6],[5,9],[9,5],[10,5],[6,9],[4,10],[11,4],[7,5],[6,4],[8,9],[3,11],[12,3],[5,4],[6,3],[9,10],[10,11],[2,8],[3,8],[1,8],[13,3],[11,12],[12,12],[4,5],[5,6],[0,8],[14,3],[10,13],[11,14],[3,4],[4,3],[7,9],[8,10],[8,11],[7,12],[2,3],[1,3],[12,8],[13,8],[14,8],[3,12],[2,13],[10,4],[9,3],[8,2],[15,3],[0,9],[12,14],[13,14],[2,2],[1,2],[11,3],[12,2],[8,1],[7,0],[8,13],[7,14],[6,15],[0,3],[15,8],[3,1],[4,1],[11,1],[12,1],[3,14],[4,14],[11,15],[12,15],[5,7],[6,7],[9,8],[10,8]]
+      ];
+
+      crackPatterns.forEach(pts => {
+        const cvs = document.createElement('canvas');
+        cvs.width = 16; cvs.height = 16;
+        const ctx = cvs.getContext('2d');
+        ctx.imageSmoothingEnabled = false;
+        ctx.clearRect(0, 0, 16, 16);
+        pts.forEach(([x, y]) => {
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+          ctx.fillRect(x + 1, y, 1, 1);
+          ctx.fillRect(x, y + 1, 1, 1);
+        });
+        pts.forEach(([x, y]) => {
+          ctx.fillStyle = '#111111';
+          ctx.fillRect(x, y, 1, 1);
+        });
+        const tex = new THREE.CanvasTexture(cvs);
+        tex.magFilter = THREE.NearestFilter;
+        tex.minFilter = THREE.NearestFilter;
+        crackTextures.push(tex);
+      });
+    }
+
+    generateCrackTextures();
+
+    const crackMat = new THREE.MeshBasicMaterial({
+      map: crackTextures[0],
+      transparent: true,
+      opacity: 0.95,
+      depthWrite: false,
+      polygonOffset: true,
+      polygonOffsetFactor: -2,
+      polygonOffsetUnits: -4
+    });
+    const crackMesh = new THREE.Mesh(new THREE.BoxGeometry(1.006, 1.006, 1.006), crackMat);
+    crackMesh.visible = false;
+    scene.add(crackMesh);
+
+    // Kırılma Parçacıkları (Debris Particles)
+    const activeBreakParticles = [];
+    const debrisGeo = new THREE.BoxGeometry(0.09, 0.09, 0.09);
+
+    function spawnBlockDebrisParticles(bx, by, bz, blockType, count = 14) {
+      const bColor = (BLOCK_INFO[blockType] && BLOCK_INFO[blockType].color) ? BLOCK_INFO[blockType].color : '#888888';
+      const pMat = new THREE.MeshBasicMaterial({ color: bColor });
+      for (let i = 0; i < count; i++) {
+        const pMesh = new THREE.Mesh(debrisGeo, pMat);
+        pMesh.position.set(
+          bx + (Math.random() - 0.5) * 0.75,
+          by + (Math.random() - 0.5) * 0.75,
+          bz + (Math.random() - 0.5) * 0.75
+        );
+        scene.add(pMesh);
+        activeBreakParticles.push({
+          mesh: pMesh,
+          vx: (Math.random() - 0.5) * 4.2,
+          vy: Math.random() * 3.2 + 1.2,
+          vz: (Math.random() - 0.5) * 4.2,
+          life: 0.65
+        });
       }
     }
+
+    // Taş ve Maden Blokları Kümesi (Kazmasız asla eşya vermeyen bloklar)
+    const STONE_AND_ORE_BLOCKS = new Set([
+      'stone', 'cobblestone', 'mossy_cobble', 'smooth_stone', 'stone_bricks', 'cracked_stone_bricks',
+      'mossy_stone_bricks', 'chiseled_stone_bricks', 'deepslate', 'cobbled_deepslate', 'deepslate_bricks',
+      'granite', 'polished_granite', 'diorite', 'polished_diorite', 'andesite', 'polished_andesite',
+      'brick', 'sandstone', 'smooth_sandstone', 'red_sandstone', 'netherrack', 'nether_bricks',
+      'red_nether_bricks', 'basalt', 'blackstone', 'polished_blackstone', 'end_stone', 'end_stone_bricks',
+      'purpur', 'purpur_pillar', 'quartz_block', 'smooth_quartz', 'quartz_bricks', 'prismarine',
+      'prismarine_bricks', 'dark_prismarine', 'coal_ore', 'copper_ore', 'iron_ore', 'gold_ore',
+      'redstone_ore', 'lapis_ore', 'diamond_ore', 'emerald_ore', 'debris', 'coal_block',
+      'copper_block', 'iron', 'gold', 'diamond', 'emerald_block', 'netherite_block', 'lapis_block',
+      'obsidian', 'crying_obsidian', 'amethyst_block', 'furnace', 'blast_furnace', 'smoker', 'anvil',
+      'enchanting_table', 'ender_chest'
+    ]);
+
+    function isPickaxe(itemType) {
+      if (!itemType) return false;
+      return itemType.endsWith('_pickaxe') || itemType === 'pickaxe';
+    }
+
+    function canHarvestBlock(blockType, heldItem) {
+      if (STONE_AND_ORE_BLOCKS.has(blockType)) {
+        // Taş ve madenler SADECE KAZMA İLE KIRILIRSA düşer!
+        // Yumrukla / elle kırılırsa ASLA düşmez!
+        return isPickaxe(heldItem);
+      }
+      // Toprak, kum, yaprak, ağaç vb. her zaman kırılınca düşer
+      return true;
+    }
+
+    function getBlockBreakTime(blockType, heldItem) {
+      if (isCreativeMode) return 0.0;
+      if (blockType === 'bedrock' || blockType === 'barrier') return Infinity;
+
+      const hasPick = isPickaxe(heldItem);
+      const hasAxe = heldItem && (heldItem.endsWith('_axe') || heldItem === 'axe');
+      const hasShovel = heldItem && (heldItem.endsWith('_shovel') || heldItem === 'shovel');
+
+      let speedMult = 1.0;
+      if (heldItem) {
+        if (heldItem.startsWith('netherite_')) speedMult = 9.0;
+        else if (heldItem.startsWith('diamond_')) speedMult = 8.0;
+        else if (heldItem.startsWith('iron_')) speedMult = 6.0;
+        else if (heldItem.startsWith('stone_')) speedMult = 4.0;
+        else if (heldItem.startsWith('golden_')) speedMult = 12.0;
+        else if (heldItem.startsWith('wooden_')) speedMult = 2.0;
+      }
+
+      // 1. Taş ve Madenler
+      if (STONE_AND_ORE_BLOCKS.has(blockType)) {
+        if (!hasPick) {
+          // Elimizle taş ve madenleri uzunnn bir süreyle kırabilme (Minecraft'taki gibi ~7.5s)
+          if (blockType === 'obsidian' || blockType === 'crying_obsidian') return 16.0;
+          if (blockType === 'netherrack') return 2.2;
+          return 7.5;
+        } else {
+          // Kazma ile hızlı kırma
+          let basePick = 1.6;
+          if (blockType === 'netherrack') basePick = 0.4;
+          else if (blockType === 'obsidian' || blockType === 'crying_obsidian') basePick = 8.0;
+          else if (blockType.endsWith('_ore')) basePick = 2.0;
+          return Math.max(0.18, basePick / speedMult);
+        }
+      }
+
+      // 2. Ağaç ve Ahşap Eşyalar
+      const isWood = blockType.includes('wood') || blockType.includes('planks') ||
+                     ['crafting', 'bookshelf', 'chiseled_bookshelf', 'chest', 'barrel'].includes(blockType);
+      if (isWood) {
+        if (hasAxe) return Math.max(0.2, 3.0 / speedMult);
+        return 2.6; // Elle ağaç kırma: ~2.6 saniye
+      }
+
+      // 3. Yapraklar ve Meşaleler
+      if (blockType === 'leaves' || blockType === 'torch' || blockType === 'redstone_torch' || blockType === 'redstone_dust') {
+        return 0.28;
+      }
+
+      // 4. Toprak, Kum, Çakıl, Kil
+      const isDirt = ['dirt', 'grass', 'snow_dirt', 'coarse_dirt', 'podzol', 'mycelium', 'sand', 'red_sand', 'gravel', 'clay', 'snow'].includes(blockType);
+      if (isDirt) {
+        if (hasShovel) return Math.max(0.15, 0.75 / speedMult);
+        return 0.75; // Elle toprak kırma: 0.75 saniye
+      }
+
+      return 0.8;
+    }
+
+    function getBlockDropType(blockType, heldItem) {
+      if (blockType === 'stone') return 'cobblestone';
+      if (blockType === 'coal_ore') return 'coal_item';
+      if (blockType === 'diamond_ore') return 'diamond_item';
+      if (blockType === 'emerald_ore') return 'emerald_item';
+      if (blockType === 'leaves') return Math.random() < 0.22 ? 'apple' : null;
+      return blockType;
+    }
+
+    let isBreakingMouseDown = false;
+    let currentBreakBlock = null;
+    let breakProgress = 0;
+    let breakRequiredTime = 1.0;
+    let lastArmSwingTime = 0;
+    let lastDebrisParticleTime = 0;
+
+    function resetBreaking() {
+      isBreakingMouseDown = false;
+      currentBreakBlock = null;
+      breakProgress = 0;
+      if (crackMesh) crackMesh.visible = false;
+    }
+
+    function startBreakingAction() {
+      if (isInventoryOpen || isPauseOpen || isChatOpen) return;
+
+      const hit = getTargetBlock();
+      if (!hit || !hit.object || !hit.object.userData) return;
+      const { type, x, y, z } = hit.object.userData;
+
+      if (type === 'water') return;
+      // Katman kayası survival modda da çatlama/kırma efekti alır ama bildirim yazmaz ve asla kırılmaz
+      if (type === 'barrier' && !isCreativeMode) return;
+
+      triggerArmPunch();
+      lastArmSwingTime = performance.now();
+
+      // Yaratıcı (Creative) modda tıklandığı anda anında kırılır!
+      if (isCreativeMode) {
+        spawnBlockDebrisParticles(x, y, z, type, 14);
+        const k = blockKey(x, y, z);
+        customWorldChanges[k] = null;
+        worldGroup.remove(hit.object);
+        worldMap.delete(k);
+        revealNeighbors(x, y, z);
+        saveCurrentGameState();
+        resetBreaking();
+        return;
+      }
+
+      // Hayatta Kalma (Survival) Modu: Kırma ve çatlama sürecini başlat
+      const heldItem = (inventory && inventory[selectedSlotIndex]) ? inventory[selectedSlotIndex].type : null;
+      isBreakingMouseDown = true;
+      currentBreakBlock = { x, y, z, type, object: hit.object };
+      breakProgress = 0;
+      breakRequiredTime = getBlockBreakTime(type, heldItem);
+
+      if (crackMesh) {
+        crackMesh.position.set(x, y, z);
+        crackMesh.material.map = crackTextures[0];
+        crackMesh.material.needsUpdate = true;
+        crackMesh.visible = true;
+      }
+    }
+
+    function breakBlock() {
+      startBreakingAction();
+    }
+
 
     function placeBlock() {
       if (isInventoryOpen || isPauseOpen || isChatOpen) return;
@@ -10060,12 +10883,24 @@
     }
 
     renderer.domElement.addEventListener('mousedown', (e) => {
-      if (e.button === 0) handlePlayerAttackOrBreak();
+      if (e.button === 0) {
+        handlePlayerAttackOrBreak();
+      }
       if (e.button === 2) placeBlock();
     });
     renderer.domElement.addEventListener('contextmenu', e => e.preventDefault());
 
-    document.getElementById('breakBtn').onclick = breakBlock;
+    window.addEventListener('mouseup', (e) => {
+      if (e.button === 0) resetBreaking();
+    });
+
+    const mBreakBtn = document.getElementById('breakBtn');
+    if (mBreakBtn) {
+      mBreakBtn.onmousedown = startBreakingAction;
+      mBreakBtn.ontouchstart = (e) => { e.preventDefault(); startBreakingAction(); };
+      mBreakBtn.onmouseup = resetBreaking;
+      mBreakBtn.ontouchend = resetBreaking;
+    }
     document.getElementById('placeBtn').onclick = placeBlock;
     const mDropBtn = document.getElementById('dropBtn'); if (mDropBtn) mDropBtn.onclick = dropHeldItemSingle;
     let lastMobileJumpTime = 0;
@@ -10144,6 +10979,85 @@
       }
       if (isF3Open) {
         updateF3Debug();
+      }
+
+      // Parçacık simülasyonu
+      for (let i = activeBreakParticles.length - 1; i >= 0; i--) {
+        const p = activeBreakParticles[i];
+        p.life -= dt;
+        p.vy -= 14 * dt;
+        p.mesh.position.x += p.vx * dt;
+        p.mesh.position.y += p.vy * dt;
+        p.mesh.position.z += p.vz * dt;
+        if (p.life <= 0) {
+          scene.remove(p.mesh);
+          activeBreakParticles.splice(i, 1);
+        }
+      }
+
+      // Survival Blok Kırma Süreç ve Çatlama Efekti Takibi
+      if (isBreakingMouseDown && !isCreativeMode && currentBreakBlock) {
+        if (isInventoryOpen || isPauseOpen || isChatOpen) {
+          resetBreaking();
+        } else {
+          const nowMs = performance.now();
+          if (nowMs - lastArmSwingTime >= 240) {
+            triggerArmPunch();
+            lastArmSwingTime = nowMs;
+          }
+
+          const hit = getTargetBlock();
+          if (hit && hit.object && hit.object.userData &&
+              hit.object.userData.x === currentBreakBlock.x &&
+              hit.object.userData.y === currentBreakBlock.y &&
+              hit.object.userData.z === currentBreakBlock.z) {
+            
+            const speedFactor = isFastMinerActive ? 18.0 : 1.0;
+            breakProgress += dt * speedFactor;
+
+            if (nowMs - lastDebrisParticleTime >= 220) {
+              spawnBlockDebrisParticles(currentBreakBlock.x, currentBreakBlock.y, currentBreakBlock.z, currentBreakBlock.type, 3);
+              lastDebrisParticleTime = nowMs;
+            }
+
+            const stageTime = (currentBreakBlock.type === 'bedrock') ? 6.0 : breakRequiredTime;
+            const stage = Math.min(9, Math.floor((breakProgress / stageTime) * 10));
+            if (crackMesh) {
+              crackMesh.position.set(currentBreakBlock.x, currentBreakBlock.y, currentBreakBlock.z);
+              crackMesh.material.map = crackTextures[stage];
+              crackMesh.material.needsUpdate = true;
+              crackMesh.visible = true;
+            }
+
+            // Katman kayası (bedrock) survival modda çatlama efekti gösterir ama ASLA kırılmaz!
+            if (currentBreakBlock.type === 'bedrock') {
+              return;
+            }
+
+            if (breakProgress >= breakRequiredTime) {
+              const { x, y, z, type, object } = currentBreakBlock;
+              spawnBlockDebrisParticles(x, y, z, type, 16);
+
+              const k = blockKey(x, y, z);
+              customWorldChanges[k] = null;
+              worldGroup.remove(object);
+              worldMap.delete(k);
+
+              // Taş ve madenleri elle kırınca blok gelmez; kazmayla veya yumuşak bloklarda gelir
+              const heldItem = (inventory && inventory[selectedSlotIndex]) ? inventory[selectedSlotIndex].type : null;
+              if (canHarvestBlock(type, heldItem)) {
+                const dropType = getBlockDropType(type, heldItem);
+                if (dropType) spawnDroppedItem(x, y, z, dropType);
+              }
+
+              revealNeighbors(x, y, z);
+              saveCurrentGameState();
+              resetBreaking();
+            }
+          } else {
+            resetBreaking();
+          }
+        }
       }
 
       if (!isInventoryOpen && !isPauseOpen && !isChatOpen) {
@@ -10551,28 +11465,15 @@
 
     // İlk dünya yüklemesi ve oyuncunun hiçbir bloğun içinde kalmamasını sağlayan kontrol
     updateInfiniteWorld(player.x, player.z);
-    let highestOverlapY = -Infinity;
-    const spawnPx = Math.floor(player.x), spawnPz = Math.floor(player.z);
-    for (let ox = -1; ox <= 1; ox++) {
-      for (let oz = -1; oz <= 1; oz++) {
-        for (let cy = Math.floor(player.y - player.height - 0.5); cy <= Math.ceil(player.y + 2.0); cy++) {
-          const k = blockKey(spawnPx + ox, cy, spawnPz + oz);
-          if (hasSolidBlock(spawnPx + ox, cy, spawnPz + oz)) {
-            const bType = getBlockAt(spawnPx + ox, cy, spawnPz + oz);
-            if (bType !== 'water') {
-              const bTop = cy + 0.5;
-              if (bTop > highestOverlapY) highestOverlapY = bTop;
-            }
-          }
-        }
-      }
+    // Sadece oyuncunun vücut merkezinde doğrudan katı bir blok varsa hafifçe yukarı kaydır (asla çatıya/dağa fırlatma)
+    const checkX = Math.round(player.x), checkZ = Math.round(player.z);
+    const bodyY = Math.round(player.y - player.height * 0.5);
+    if (hasSolidBlock(checkX, bodyY, checkZ) && getBlockAt(checkX, bodyY, checkZ) !== 'water') {
+      player.y = bodyY + 0.5 + player.height + 0.05;
     }
-    if (highestOverlapY > -Infinity) {
-      const neededY = highestOverlapY + player.height + 0.05;
-      if (player.y < neededY) {
-        player.y = neededY;
-      }
-    }
+
+    // Oyuna girerken op durumu yazılmaz, sadece oyuncu katılım mesajı gösterilir
+    addChatMessage('', `[${myPlayerName} oyuna katıldı]`, true, '#ffff55');
 
     requestAnimationFrame(animateGame);
   }
