@@ -424,24 +424,81 @@
     margin-bottom: 20px; line-height: 1.6;
   }
 
-  /* CHAT SİSTEMİ STİLLERİ */
+  /* CHAT SİSTEMİ STİLLERİ (PİKSEL PİKSEL VE GRİ RETRO TASARIM) */
   #chatContainer {
     position: fixed; left: 16px; top: 16px; bottom: auto; width: min(540px, 90vw);
     display: none; flex-direction: column; z-index: 1200; pointer-events: auto;
+    font-family: 'Press Start 2P', monospace;
+    image-rendering: pixelated;
   }
   #chatMessages {
-    max-height: 150px; overflow-y: auto; display: flex; flex-direction: column;
-    gap: 4px; margin-bottom: 6px; padding: 4px; mask-image: linear-gradient(to top, black 80%, transparent 100%);
+    background: rgba(48, 48, 48, 0.94);
+    border: 3px solid #1a1a1a;
+    border-bottom: none;
+    box-shadow: inset 2px 2px 0px #757575, inset -2px 0px 0px #222222, 0 8px 24px rgba(0,0,0,0.85);
+    border-radius: 0px !important;
+    padding: 10px 12px;
+    max-height: 240px; min-height: 130px;
+    overflow-y: auto; display: flex; flex-direction: column; gap: 5px;
+    image-rendering: pixelated;
+    -webkit-font-smoothing: none; -moz-osx-font-smoothing: grayscale;
+  }
+  #chatMessages::-webkit-scrollbar {
+    width: 8px;
+  }
+  #chatMessages::-webkit-scrollbar-track {
+    background: #242424;
+    border-left: 2px solid #141414;
+  }
+  #chatMessages::-webkit-scrollbar-thumb {
+    background: #5a5a5a;
+    border: 2px solid #141414;
+    box-shadow: inset 1px 1px 0px #888888;
   }
   .chat-msg {
-    background: rgba(0, 0, 0, 0.5); padding: 4px 8px; font-size: 7px; color: #fff;
-    text-shadow: 1px 1px 0px #000; border-left: 3px solid var(--gold); word-break: break-word;
+    background: rgba(34, 34, 34, 0.75);
+    border: 1px solid #202020;
+    border-left: 3px solid #8e9a9d;
+    box-shadow: inset 1px 1px 0px rgba(255,255,255,0.06);
+    border-radius: 0px !important;
+    padding: 4px 8px;
+    font-size: 7.5px;
+    color: #e8e8e8;
+    font-family: 'Press Start 2P', monospace;
+    line-height: 1.6;
+    word-break: break-word;
+    text-shadow: 1px 1px 0px #000000;
+    image-rendering: pixelated;
+    -webkit-font-smoothing: none;
   }
-  .chat-msg.system { border-left-color: var(--accent-green); color: var(--accent-green); }
-  #chatInputWrapper { display: flex; pointer-events: auto; }
+  .chat-msg.system {
+    border-left-color: #f1c40f;
+    color: #f9ca24;
+    background: rgba(46, 42, 24, 0.75);
+  }
+  #chatInputWrapper {
+    display: flex; width: 100%; pointer-events: auto;
+    border: 3px solid #1a1a1a;
+    border-top: 2px solid #2e2e2e;
+    background: #2d2d2d;
+    box-shadow: inset 2px 2px 0px #141414, inset -2px -2px 0px #525252;
+    border-radius: 0px !important;
+    image-rendering: pixelated;
+  }
   #chatInput {
-    width: 100%; padding: 8px; font-family: 'Press Start 2P', monospace; font-size: 7px;
-    background: rgba(0, 0, 0, 0.85); color: #fff; border: 3px solid #555; outline: none;
+    width: 100%; padding: 10px 12px;
+    font-family: 'Press Start 2P', monospace; font-size: 7.5px;
+    background: #2d2d2d; color: #ffffff;
+    border: none; outline: none; box-shadow: none;
+    border-radius: 0px !important;
+    image-rendering: pixelated;
+    -webkit-font-smoothing: none;
+    text-shadow: 1px 1px 0px #000;
+  }
+  #chatInput::placeholder { color: #888888; }
+  #chatInputWrapper:focus-within {
+    border-color: #ffffff;
+    box-shadow: inset 2px 2px 0px #141414, inset -2px -2px 0px #777777, 0 0 0 1px #ffffff;
   }
 
   /* MINECRAFT RESMİ VE OTANTİK SURVIVAL & CREATIVE ENVANTERİ (JAVA EDITION BİREBİR) */
@@ -514,6 +571,14 @@
   }
   .mc-craft-row {
     display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+  }
+  .mc-craft-3x3 {
+    display: grid;
+    grid-template-columns: repeat(3, 36px);
+    gap: 4px;
+  }
+  #craftingTableModal.active {
+    display: grid !important;
   }
   .mc-craft-2x2 {
     display: grid; grid-template-columns: repeat(2, 36px); gap: 4px;
@@ -897,38 +962,92 @@
     box-shadow: inset 0 0 0 2px #333333;
   }
 
-  /* BÜYÜK EKRAN GERÇEK MOOCRAFT CHAT SİSTEMİ */
+  /* BÜYÜK EKRAN GERÇEK MOOCRAFT CHAT SİSTEMİ (PİKSEL PİKSEL VE GRİ TEMA) */
   #chatContainer {
     position: fixed; left: 16px; top: 16px; bottom: auto; width: min(540px, 90vw);
     display: none; flex-direction: column; z-index: 1200; pointer-events: auto;
+    font-family: 'Press Start 2P', monospace;
+    image-rendering: pixelated;
   }
   #chatMessages {
-    background: rgba(0, 0, 0, 0.65); border: 2px solid rgba(255, 255, 255, 0.25);
-    border-bottom: none; border-radius: 4px 4px 0 0; padding: 12px 14px;
-    max-height: 250px; min-height: 130px; overflow-y: auto; display: flex;
-    flex-direction: column; gap: 6px; box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+    background: rgba(48, 48, 48, 0.94);
+    border: 3px solid #1a1a1a;
+    border-bottom: none;
+    box-shadow: inset 2px 2px 0px #757575, inset -2px 0px 0px #222222, 0 8px 24px rgba(0,0,0,0.85);
+    border-radius: 0px !important;
+    padding: 10px 12px;
+    max-height: 240px; min-height: 130px;
+    overflow-y: auto; display: flex; flex-direction: column; gap: 5px;
+    image-rendering: pixelated;
+    -webkit-font-smoothing: none; -moz-osx-font-smoothing: grayscale;
+  }
+  #chatMessages::-webkit-scrollbar {
+    width: 8px;
+  }
+  #chatMessages::-webkit-scrollbar-track {
+    background: #242424;
+    border-left: 2px solid #141414;
+  }
+  #chatMessages::-webkit-scrollbar-thumb {
+    background: #5a5a5a;
+    border: 2px solid #141414;
+    box-shadow: inset 1px 1px 0px #888888;
   }
   .chat-msg {
-    padding: 3px 0; font-size: 8px; color: #f1f2f6; font-family: 'Press Start 2P', monospace;
-    text-shadow: 1px 1px 0px #000; line-height: 1.5; word-break: break-word;
+    background: rgba(34, 34, 34, 0.75);
+    border: 1px solid #202020;
+    border-left: 3px solid #8e9a9d;
+    box-shadow: inset 1px 1px 0px rgba(255,255,255,0.06);
+    border-radius: 0px !important;
+    padding: 4px 8px;
+    font-size: 7.5px;
+    color: #e8e8e8;
+    font-family: 'Press Start 2P', monospace;
+    line-height: 1.6;
+    word-break: break-word;
+    text-shadow: 1px 1px 0px #000000;
+    image-rendering: pixelated;
+    -webkit-font-smoothing: none;
   }
-  .chat-msg.system { color: #f9ca24; }
-  #chatInputWrapper { display: flex; width: 100%; }
+  .chat-msg.system {
+    border-left-color: #f1c40f;
+    color: #f9ca24;
+    background: rgba(46, 42, 24, 0.75);
+  }
+  #chatInputWrapper {
+    display: flex; width: 100%;
+    border: 3px solid #1a1a1a;
+    border-top: 2px solid #2e2e2e;
+    background: #2d2d2d;
+    box-shadow: inset 2px 2px 0px #141414, inset -2px -2px 0px #525252;
+    border-radius: 0px !important;
+    image-rendering: pixelated;
+  }
   #chatInput {
-    width: 100%; padding: 11px 14px; font-family: 'Press Start 2P', monospace; font-size: 8px;
-    background: rgba(0, 0, 0, 0.88); color: #ffffff; border: 2px solid #555555;
-    border-radius: 0 0 4px 4px; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+    width: 100%; padding: 10px 12px;
+    font-family: 'Press Start 2P', monospace; font-size: 7.5px;
+    background: #2d2d2d; color: #ffffff;
+    border: none; outline: none; box-shadow: none;
+    border-radius: 0px !important;
+    image-rendering: pixelated;
+    -webkit-font-smoothing: none;
+    text-shadow: 1px 1px 0px #000;
   }
-  #chatInput:focus { border-color: #ffffff; }
+  #chatInput::placeholder { color: #888888; }
+  #chatInputWrapper:focus-within {
+    border-color: #ffffff;
+    box-shadow: inset 2px 2px 0px #141414, inset -2px -2px 0px #777777, 0 0 0 1px #ffffff;
+  }
 
   #chatContainer.chat-hud-preview {
     pointer-events: none !important;
   }
   #chatContainer.chat-hud-preview #chatMessages {
     pointer-events: none !important;
-    background: rgba(0, 0, 0, 0.5) !important;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.25) !important;
-    border-radius: 4px !important;
+    background: rgba(38, 38, 38, 0.85) !important;
+    border: 3px solid #1a1a1a !important;
+    box-shadow: inset 2px 2px 0px #686868, inset -2px -2px 0px #1c1c1c !important;
+    border-radius: 0px !important;
   }
   #chatContainer.chat-hud-preview #chatInputWrapper {
     display: none !important;
@@ -1632,6 +1751,7 @@
     <div class="mc-pause-header">Oyun Menüsü</div>
     <div class="mc-pause-buttons">
       <button class="mc-btn" id="btnResumeGame" type="button">Oyuna Dön</button>
+      <button class="mc-btn" id="btnPauseGameMode" type="button" style="display: none;">Oyun Modu</button>
       <button class="mc-btn" id="btnPauseMods" type="button">Modlar</button>
       <button class="mc-btn" id="btnQuitToMenu" type="button">Dünyadan Çık</button>
     </div>
@@ -1719,6 +1839,8 @@
       <span style="font-size: 7.5px; color: #404040; font-weight: bold;" id="invTopStatus">Envanter</span>
       <div style="display: flex; gap: 6px; align-items: center;">
         <button id="btnSwitchToCreative" class="mc-inv-btn" type="button" style="display: none; font-size: 6.5px; padding: 2px 6px; background:#2e7d32; color:#fff;" title="Yaratıcı Envanterine Geç">Yaratıcı Mod</button>
+        <button id="btnRecipeBook" type="button" style="display: none;"></button>
+        <div id="recipeBookDrawer" style="display: none;"></div>
         <button id="btnInvCloseSurvival" class="mc-inv-btn btn-close" type="button" title="Kapat (E veya Esc)">✕</button>
       </div>
     </div>
@@ -1861,6 +1983,37 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- ÇALIŞMA MASASI (CRAFTING TABLE - 3x3) PENCERESİ -->
+<div id="craftingTableModal" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(2px); z-index: 2500; place-items: center;">
+  <div class="inv-window mc-survival-inv" style="width: min(96vw, 420px); padding: 14px 16px;">
+    <div class="mc-inv-header" style="margin-bottom: 10px;">
+      <span style="font-size: 8px; color: #404040; font-weight: bold;">Çalışma Masası</span>
+      <button id="btnCraftTableClose" class="mc-inv-btn btn-close" type="button" title="Kapat (E veya Esc)">✕</button>
+    </div>
+
+    <!-- ÜST BÖLÜM: 3x3 Crafting Grid -> Ok -> Sonuç Slotu -->
+    <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin: 8px 0 16px 0;">
+      <div class="mc-craft-3x3" id="craftTable3x3Grid"></div>
+      <div class="mc-craft-arrow" style="width: 32px;">
+        <svg viewBox="0 0 24 16" width="28" height="18"><path fill="#555" d="M0 6h14V2l10 6-10 6v-4H0V6z"/></svg>
+      </div>
+      <div class="craft-result" id="craftTableResultSlot" style="width: 44px; height: 44px;" title="Üretilen Eşya"></div>
+    </div>
+
+    <!-- ALT BÖLÜM: Oyuncu Envanteri (27 Slot) & Hotbar (9 Slot) -->
+    <div style="font-size: 7px; color: #404040; font-weight: bold; margin-bottom: 4px;">Envanter</div>
+    <div class="mc-main-inv-grid" id="craftTableMainGrid"></div>
+    <div class="mc-hotbar-separator"></div>
+    <div class="mc-hotbar-grid" id="craftTableHotbarGrid"></div>
+  </div>
+</div>
+
+<!-- FARE OKUNU TAKİP EDEN SÜRÜKLENEN EŞYA (CURSOR ITEM) -->
+<div id="floatingCursorItem" style="display:none; position:fixed; pointer-events:none; z-index:999999; transform:translate(-50%, -50%); filter:drop-shadow(2px 3px 2px rgba(0,0,0,0.6));">
+  <div id="floatingCursorIcon" style="width:28px; height:28px; image-rendering:pixelated;"></div>
+  <span id="floatingCursorCount" style="position:absolute; right:1px; bottom:0px; font-size:8px; font-weight:bold; color:#fff; text-shadow:1px 1px 0 #000; font-family:'Press Start 2P', monospace;"></span>
 </div>
 
 <div id="hint">WASD: Yürü · Space: Zıpla · E: Envanter · F5: Kamera (1./3. Şahıs) · T veya /: Sohbet (/tp) · Esc: Menü</div>
@@ -4986,7 +5139,7 @@
       // --- SAVAŞ VE SİLAHLAR (COMBAT & WEAPONS) ---
       netherite_sword: { name: 'Netherit Kılıç', color: '#3d373a', cat: 'combat', dmg: 8 },
       diamond_sword: { name: 'Elmas Kılıç', color: '#38bdf8', cat: 'combat', dmg: 7 },
-      iron_sword: { name: 'Demir Kılıç', color: '#d8dbdf', cat: 'combat', dmg: 6 },
+      iron_sword: { name: 'Demir Kılıç', color: '#f8fafc', cat: 'combat', dmg: 6 },
       golden_sword: { name: 'Altın Kılıç', color: '#ffd700', cat: 'combat', dmg: 4 },
       stone_sword: { name: 'Taş Kılıç', color: '#84878a', cat: 'combat', dmg: 5 },
       wooden_sword: { name: 'Tahta Kılıç', color: '#8f683a', cat: 'combat', dmg: 4 },
@@ -4999,19 +5152,24 @@
       // --- ALETLER VE ARAÇLAR (TOOLS & UTILITIES) ---
       netherite_pickaxe: { name: 'Netherit Kazma', color: '#3d373a', cat: 'tools' },
       diamond_pickaxe: { name: 'Elmas Kazma', color: '#38bdf8', cat: 'tools' },
-      iron_pickaxe: { name: 'Demir Kazma', color: '#d8dbdf', cat: 'tools' },
+      iron_pickaxe: { name: 'Demir Kazma', color: '#f8fafc', cat: 'tools' },
       golden_pickaxe: { name: 'Altın Kazma', color: '#ffd700', cat: 'tools' },
       stone_pickaxe: { name: 'Taş Kazma', color: '#84878a', cat: 'tools' },
       wooden_pickaxe: { name: 'Tahta Kazma', color: '#8f683a', cat: 'tools' },
 
       netherite_axe: { name: 'Netherit Balta', color: '#3d373a', cat: 'tools' },
       diamond_axe: { name: 'Elmas Balta', color: '#38bdf8', cat: 'tools' },
-      iron_axe: { name: 'Demir Balta', color: '#d8dbdf', cat: 'tools' },
+      iron_axe: { name: 'Demir Balta', color: '#f8fafc', cat: 'tools' },
       golden_axe: { name: 'Altın Balta', color: '#ffd700', cat: 'tools' },
+      stone_axe: { name: 'Taş Balta', color: '#84878a', cat: 'tools' },
+      wooden_axe: { name: 'Tahta Balta', color: '#8f683a', cat: 'tools' },
 
       netherite_shovel: { name: 'Netherit Kürek', color: '#3d373a', cat: 'tools' },
       diamond_shovel: { name: 'Elmas Kürek', color: '#38bdf8', cat: 'tools' },
-      iron_shovel: { name: 'Demir Kürek', color: '#d8dbdf', cat: 'tools' },
+      iron_shovel: { name: 'Demir Kürek', color: '#f8fafc', cat: 'tools' },
+      golden_shovel: { name: 'Altın Kürek', color: '#ffd700', cat: 'tools' },
+      stone_shovel: { name: 'Taş Kürek', color: '#84878a', cat: 'tools' },
+      wooden_shovel: { name: 'Tahta Kürek', color: '#8f683a', cat: 'tools' },
       flint_and_steel: { name: 'Çakmaktaşı ve Çelik', color: '#7f8c8d', cat: 'tools' },
       shears: { name: 'Makas', color: '#bdc3c7', cat: 'tools' },
       fishing_rod: { name: 'Olta', color: '#a07d4a', cat: 'tools' },
@@ -5046,6 +5204,7 @@
       netherite_ingot: { name: 'Netherit Külçesi', color: '#3d373a', cat: 'materials' },
       coal_item: { name: 'Kömür', color: '#262626', cat: 'materials' },
       amethyst_shard: { name: 'Ametist Parçası', color: '#855fb5', cat: 'materials' },
+      stick: { name: 'Çubuk (Stick)', color: '#8f683a', cat: 'materials' },
 
       // --- YİYECEKLER (FOOD & CONSUMABLES) ---
       apple: { name: 'Elma', color: '#ff2222', cat: 'food' },
@@ -5080,15 +5239,23 @@
     let lastSpaceTime = 0;
     let isCreativeMode = (worldData && worldData.mode === 'creative');
     
-    // OYUNCUNUN OP YETKİ DURUMU
-    // Sadece açıkça OP yetkisi olan oyuncular OP olabilir.
-    // OP olmayanlar ban komutu ve HİÇBİR komutu kesinlikle kullanamaz.
-    const activeSessionU = safeStorage.getItem(SESSION_KEY) || 'Oyuncu';
+    // DÜNYA VE SUNUCU TESPİTİ
+    const isServerGame = Boolean(
+      (worldData && (worldData.isServer || worldData.maxPlayers !== undefined || worldData.address || (worldData.id && String(worldData.id).startsWith('srv_')))) ||
+      (selectedServerId && !selectedWorldId)
+    );
+    const isSingleplayer = !isServerGame;
+
+    // OYUNCUNUN OP YETKİ DURUMU:
+    // SADECE TEK OYUNCULUDADA OTOMATİK OP OLUNUR!
+    // ÇOK OYUNCULU SUNUCULARDA KESİNLİKLE OTOMATİK OP OLUNMAZ!
     let isUserOp = false;
-    if (worldData && typeof worldData.isOp === 'boolean') {
-      isUserOp = worldData.isOp;
+    if (isSingleplayer) {
+      isUserOp = true;
+      if (worldData) worldData.isOp = true;
     } else {
-      isUserOp = isUserInOpList(activeSessionU);
+      // Çok oyunculu sunucuda kesinlikle otomatik OP olunmaz!
+      isUserOp = Boolean(worldData && worldData.isOp === true);
     }
 
     const pauseModal = document.getElementById('pauseModal');
@@ -5098,6 +5265,63 @@
     const chatMessages = document.getElementById('chatMessages');
     const chatInput = document.getElementById('chatInput');
     const hudContainer = document.getElementById('hudContainer');
+
+    // DÜNYA VE SUNUCUYA ÖZEL İZOLE CHAT SİSTEMİ
+    // Her dünya ve her sunucunun sohbet geçmişi birbirinden tamamen bağımsızdır
+    function getSessionChatStorageKey(wData) {
+      if (!wData) return 'moocraft_chat_sp_default';
+      if (wData.id) return 'moocraft_chat_' + wData.id;
+      if (wData.address) return 'moocraft_chat_srv_' + String(wData.address).replace(/[^a-zA-Z0-9_-]/g, '_');
+      if (wData.name) return 'moocraft_chat_' + (wData.isServer ? 'srv_' : 'w_') + encodeURIComponent(wData.name);
+      return 'moocraft_chat_default';
+    }
+
+    const currentChatStorageKey = getSessionChatStorageKey(worldData);
+    let currentSessionChatHistory = [];
+    try {
+      const savedChat = safeStorage.getItem(currentChatStorageKey);
+      if (savedChat) {
+        currentSessionChatHistory = JSON.parse(savedChat);
+      } else if (worldData && Array.isArray(worldData.chatHistory)) {
+        currentSessionChatHistory = worldData.chatHistory;
+      }
+    } catch(err) {
+      currentSessionChatHistory = [];
+    }
+    if (!Array.isArray(currentSessionChatHistory)) currentSessionChatHistory = [];
+
+    // Önceki dünya/sunucudan kalan tüm sohbet DOM öğelerini tamamen temizle
+    chatMessages.innerHTML = '';
+
+    function renderChatMessageElement(sender, text, isSystem = false, customColor = null) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `chat-msg ${isSystem ? 'system' : ''}`;
+      if (customColor) {
+        msgDiv.style.color = customColor;
+      }
+      if (!sender && isSystem) {
+        msgDiv.textContent = text.startsWith('[') ? text : `[Sistem] ${text}`;
+      } else if (!sender) {
+        msgDiv.textContent = text;
+      } else {
+        msgDiv.textContent = `${sender}: ${text}`;
+      }
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Bu dünya veya sunucuya ait geçmiş mesajları yükle
+    currentSessionChatHistory.forEach(item => {
+      if (item && item.text) {
+        renderChatMessageElement(item.sender, item.text, item.isSystem, item.customColor);
+      }
+    });
+
+    if (isSingleplayer) {
+      setTimeout(() => {
+        addChatMessage('', 'Tek oyunculu moddasınız: Yönetici (OP) yetkileri otomatik olarak devrede.', true, '#55ff55');
+      }, 400);
+    }
 
     function saveCurrentGameState() {
       if (!currentWorldId || !player) return;
@@ -5109,6 +5333,7 @@
         worlds[wIdx].selectedSlot = selectedSlotIndex;
         worlds[wIdx].health = playerHealth;
         worlds[wIdx].hunger = playerHunger;
+        worlds[wIdx].chatHistory = currentSessionChatHistory;
         worlds[wIdx].playerPos = {
           x: player.x,
           y: player.y,
@@ -5122,6 +5347,7 @@
           worldData.selectedSlot = selectedSlotIndex;
           worldData.health = playerHealth;
           worldData.hunger = playerHunger;
+          worldData.chatHistory = currentSessionChatHistory;
           worldData.playerPos = {
             x: player.x,
             y: player.y,
@@ -5139,6 +5365,7 @@
           servers[sIdx].selectedSlot = selectedSlotIndex;
           servers[sIdx].health = playerHealth;
           servers[sIdx].hunger = playerHunger;
+          servers[sIdx].chatHistory = currentSessionChatHistory;
           servers[sIdx].playerPos = {
             x: player.x,
             y: player.y,
@@ -5152,6 +5379,7 @@
             worldData.selectedSlot = selectedSlotIndex;
             worldData.health = playerHealth;
             worldData.hunger = playerHunger;
+            worldData.chatHistory = currentSessionChatHistory;
             worldData.playerPos = {
               x: player.x,
               y: player.y,
@@ -5184,13 +5412,15 @@
     let isExitingPause = false;
 
     function isCurrentPlayerOp() {
-      const u1 = myPlayerName || 'Oyuncu';
-      const u2 = safeStorage.getItem(SESSION_KEY) || 'Oyuncu';
-      const u3 = safeStorage.getItem('moocraft_active_session') || 'Oyuncu';
+      // SADECE TEK OYUNCULUDADA OTOMATİK OP:
+      if (isSingleplayer) {
+        return true;
+      }
+      // ÇOK OYUNCULU SUNUCULARDA ASLA OTOMATİK OP OLUNMAZ!
+      // Sadece o sunucuda yetkisi varsa OP olunur:
       const isOpDirect = (typeof isUserOp !== 'undefined' && isUserOp === true);
       const isWorldOp = (worldData && worldData.isOp === true);
-      const inList = isUserInOpList(u1) || isUserInOpList(u2) || isUserInOpList(u3) || isUserInOpList('Oyuncu');
-      return Boolean(isOpDirect || isWorldOp || inList);
+      return Boolean(isOpDirect || isWorldOp);
     }
 
     function showPauseMenu() {
@@ -5480,6 +5710,12 @@
         remotePlayers.clear();
       }
 
+      // Sohbet geçmişini kaydet ve DOM öğelerini temizle (dünyalar/sunucular arası karışmasın)
+      try {
+        safeStorage.setItem(currentChatStorageKey, JSON.stringify(currentSessionChatHistory));
+      } catch(e){}
+      chatMessages.innerHTML = '';
+
       document.getElementById('game').style.display = 'none';
       document.getElementById('topbar').style.display = 'none';
       document.getElementById('crosshair').style.display = 'none';
@@ -5518,20 +5754,23 @@
       lastChatMessageTime = performance.now();
       lastChatMessageText = text || '';
 
-      const msgDiv = document.createElement('div');
-      msgDiv.className = `chat-msg ${isSystem ? 'system' : ''}`;
-      if (customColor) {
-        msgDiv.style.color = customColor;
+      renderChatMessageElement(sender, text, isSystem, customColor);
+
+      // Bu dünya veya sunucuya özel bağımsız sohbet geçmişine ekle
+      currentSessionChatHistory.push({
+        sender: sender || '',
+        text: text,
+        isSystem: Boolean(isSystem),
+        customColor: customColor || null,
+        timestamp: Date.now()
+      });
+      if (currentSessionChatHistory.length > 100) currentSessionChatHistory.shift();
+      try {
+        safeStorage.setItem(currentChatStorageKey, JSON.stringify(currentSessionChatHistory));
+      } catch(e){}
+      if (worldData) {
+        worldData.chatHistory = currentSessionChatHistory;
       }
-      if (!sender && isSystem) {
-        msgDiv.textContent = text.startsWith('[') ? text : `[Sistem] ${text}`;
-      } else if (!sender) {
-        msgDiv.textContent = text;
-      } else {
-        msgDiv.textContent = `${sender}: ${text}`;
-      }
-      chatMessages.appendChild(msgDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
 
       // Oyun sırasında chat kapalıysa bildirimi ekranda HUD önizlemesi olarak göster (5 sn)
       if (!isChatOpen) {
@@ -6380,13 +6619,79 @@
     }
 
     // --- MINECRAFT RESMİ VE OTANTİK SURVIVAL & CREATIVE ENVANTER SİSTEMİ ---
-    const craftSlots = [null, null, null, null];
+    
+    // --- MINECRAFT RESMİ VE OTANTİK SURVIVAL, CREATIVE & ÇALIŞMA MASASI (3x3) MOTORU ---
+    const craftSlots = [null, null, null, null]; // 2x2 Envanter Üretim Grid'i
+    const craftTableSlots = [null, null, null, null, null, null, null, null, null]; // 3x3 Çalışma Masası Grid'i
     const armorSlots = [null, null, null, null]; // 0: Kask, 1: Göğüslük, 2: Pantolon, 3: Bot
     let shieldSlotItem = null;
 
     let activeCreativeTab = 'building';
     let creativeSearchTerm = '';
     let currentInvView = 'survival'; // 'survival' veya 'creative'
+
+    // FARE OKUNU TAKİP EDEN EŞYA (CURSOR ITEM SİSTEMİ)
+    let heldCursorItem = null; // { type: string, count: number }
+    let isRightMouseDown = false;
+    let isCraftingTableOpen = false;
+
+    // YERE BLOK OLARAK YERLEŞTİRİLEMEYEN EŞYALAR (ALETLER, SİLAHLAR, ZIRHLAR, ÇUBUK, HAMMADELER)
+    const NON_PLACEABLE_ITEMS = new Set([
+      'stick', 'diamond_item', 'emerald_item', 'iron_ingot', 'gold_ingot', 'copper_ingot',
+      'netherite_ingot', 'coal_item', 'amethyst_shard', 'redstone_dust',
+      'wooden_sword', 'stone_sword', 'iron_sword', 'golden_sword', 'diamond_sword', 'netherite_sword',
+      'wooden_pickaxe', 'stone_pickaxe', 'iron_pickaxe', 'golden_pickaxe', 'diamond_pickaxe', 'netherite_pickaxe',
+      'wooden_axe', 'stone_axe', 'iron_axe', 'golden_axe', 'diamond_axe', 'netherite_axe',
+      'wooden_shovel', 'diamond_shovel', 'iron_shovel', 'netherite_shovel',
+      'bow', 'crossbow', 'arrow', 'trident', 'shield',
+      'netherite_helmet', 'netherite_chestplate', 'netherite_leggings', 'netherite_boots',
+      'diamond_helmet', 'diamond_chestplate', 'diamond_leggings', 'diamond_boots',
+      'iron_helmet', 'iron_chestplate', 'iron_leggings', 'iron_boots',
+      'golden_helmet', 'golden_chestplate', 'golden_leggings', 'golden_boots',
+      'leather_helmet', 'leather_chestplate', 'leather_leggings', 'leather_boots',
+      'flint_and_steel', 'shears', 'fishing_rod', 'compass', 'clock'
+    ]);
+
+    // FARE HAREKETİ VE İMLEÇ EŞYA GÖRSEL TAKİBİ
+    window.addEventListener('mousemove', (e) => {
+      const el = document.getElementById('floatingCursorItem');
+      if (el && heldCursorItem && heldCursorItem.type && heldCursorItem.count > 0) {
+        el.style.left = (e.clientX + 6) + 'px';
+        el.style.top = (e.clientY + 6) + 'px';
+      }
+    });
+
+    window.addEventListener('mousedown', (e) => {
+      if (e.button === 2) isRightMouseDown = true;
+    });
+
+    window.addEventListener('mouseup', (e) => {
+      if (e.button === 2) isRightMouseDown = false;
+    });
+
+    function updateFloatingCursorUI() {
+      const el = document.getElementById('floatingCursorItem');
+      if (!el) return;
+      if (!heldCursorItem || !heldCursorItem.type || heldCursorItem.count <= 0) {
+        el.style.display = 'none';
+        return;
+      }
+      el.style.display = 'block';
+      const icon = document.getElementById('floatingCursorIcon');
+      const count = document.getElementById('floatingCursorCount');
+      const info = BLOCK_INFO[heldCursorItem.type];
+      if (blockIcons[heldCursorItem.type]) {
+        icon.style.backgroundImage = 'url(' + blockIcons[heldCursorItem.type] + ')';
+        icon.style.backgroundSize = 'cover';
+        icon.style.backgroundColor = 'transparent';
+      } else {
+        icon.style.backgroundImage = 'none';
+        icon.style.backgroundColor = info?.color || '#888888';
+      }
+      icon.style.border = '1px solid rgba(0,0,0,0.6)';
+      icon.style.boxShadow = 'inset 1px 1px 0 rgba(255,255,255,0.4)';
+      count.textContent = heldCursorItem.count > 1 ? heldCursorItem.count : '';
+    }
 
     // Kategori Tanımları ve İsimleri
     const CREATIVE_TAB_NAMES = {
@@ -6413,14 +6718,691 @@
       wood: ['wood', 'planks', 'leaves', 'birch_wood', 'birch_planks', 'spruce_wood', 'spruce_planks', 'jungle_wood', 'jungle_planks', 'acacia_wood', 'acacia_planks', 'dark_wood', 'dark_planks', 'mangrove_wood', 'mangrove_planks', 'cherry_wood', 'cherry_planks'],
       functional: ['crafting', 'furnace', 'blast_furnace', 'smoker', 'bookshelf', 'chiseled_bookshelf', 'anvil', 'enchanting_table', 'chest', 'barrel', 'ender_chest', 'sponge', 'wet_sponge', 'lantern', 'soul_lantern', 'torch', 'beacon'],
       redstone: ['redstone_dust', 'redstone_block', 'redstone_torch', 'redstone_lamp', 'target', 'tnt', 'piston', 'sticky_piston', 'observer', 'dispenser', 'dropper', 'hopper'],
-      tools: ['netherite_pickaxe', 'diamond_pickaxe', 'iron_pickaxe', 'golden_pickaxe', 'stone_pickaxe', 'wooden_pickaxe', 'netherite_axe', 'diamond_axe', 'iron_axe', 'golden_axe', 'netherite_shovel', 'diamond_shovel', 'iron_shovel', 'flint_and_steel', 'shears', 'fishing_rod', 'compass', 'clock'],
+      tools: ['stick', 'netherite_pickaxe', 'diamond_pickaxe', 'iron_pickaxe', 'golden_pickaxe', 'stone_pickaxe', 'wooden_pickaxe', 'netherite_axe', 'diamond_axe', 'iron_axe', 'golden_axe', 'netherite_shovel', 'diamond_shovel', 'iron_shovel', 'flint_and_steel', 'shears', 'fishing_rod', 'compass', 'clock'],
       combat: ['netherite_sword', 'diamond_sword', 'iron_sword', 'golden_sword', 'stone_sword', 'wooden_sword', 'bow', 'crossbow', 'arrow', 'trident', 'shield', 'netherite_helmet', 'netherite_chestplate', 'netherite_leggings', 'netherite_boots', 'diamond_helmet', 'diamond_chestplate', 'diamond_leggings', 'diamond_boots', 'iron_helmet', 'iron_chestplate', 'iron_leggings', 'iron_boots', 'golden_helmet', 'golden_chestplate', 'golden_leggings', 'golden_boots', 'leather_helmet', 'leather_chestplate', 'leather_leggings', 'leather_boots'],
       food: ['apple', 'golden_apple', 'bread', 'cooked_beef', 'carrot', 'melon', 'pumpkin'],
-      materials: ['coal_ore', 'copper_ore', 'iron_ore', 'gold_ore', 'redstone_ore', 'lapis_ore', 'diamond_ore', 'emerald_ore', 'debris', 'coal_block', 'copper_block', 'iron', 'gold', 'diamond', 'emerald_block', 'netherite_block', 'lapis_block', 'diamond_item', 'emerald_item', 'iron_ingot', 'gold_ingot', 'copper_ingot', 'netherite_ingot', 'coal_item', 'amethyst_shard'],
+      materials: ['stick', 'coal_ore', 'copper_ore', 'iron_ore', 'gold_ore', 'redstone_ore', 'lapis_ore', 'diamond_ore', 'emerald_ore', 'debris', 'coal_block', 'copper_block', 'iron', 'gold', 'diamond', 'emerald_block', 'netherite_block', 'lapis_block', 'diamond_item', 'emerald_item', 'iron_ingot', 'gold_ingot', 'copper_ingot', 'netherite_ingot', 'coal_item', 'amethyst_shard'],
       operator: ['bedrock', 'command_block', 'repeating_command_block', 'chain_command_block', 'barrier', 'structure_block', 'light_block'],
       search: Object.keys(BLOCK_INFO),
       all: Object.keys(BLOCK_INFO)
     };
+
+    // =========================================================================
+    // MINECRAFT GELİŞMİŞ TARİF VERİTABANI VE EŞLEŞTİRİCİSİ (RECIPE ENGINE)
+    // =========================================================================
+    const MC_RECIPES = [];
+
+    function registerShapedRecipe(resultType, count, pattern, mirrors = true) {
+      MC_RECIPES.push({
+        isShaped: true,
+        result: { type: resultType, count: count },
+        w: pattern[0].length,
+        h: pattern.length,
+        pattern: pattern,
+        mirrors: mirrors
+      });
+    }
+
+    function registerShapelessRecipe(resultType, count, ingredients) {
+      MC_RECIPES.push({
+        isShaped: false,
+        result: { type: resultType, count: count },
+        ingredients: ingredients.slice().sort()
+      });
+    }
+
+    function cellMatches(patternCell, gridType) {
+      if (patternCell === null) return gridType === null;
+      if (gridType === null) return false;
+      if (patternCell === gridType) return true;
+      if (patternCell === '#planks') {
+        return ['planks', 'birch_planks', 'spruce_planks', 'jungle_planks', 'acacia_planks', 'dark_planks', 'mangrove_planks', 'cherry_planks'].includes(gridType);
+      }
+      if (patternCell === '#wood') {
+        return ['wood', 'birch_wood', 'spruce_wood', 'jungle_wood', 'acacia_wood', 'dark_wood', 'mangrove_wood', 'cherry_wood'].includes(gridType);
+      }
+      if (patternCell === '#stone') {
+        return ['cobblestone', 'blackstone', 'cobbled_deepslate', 'stone'].includes(gridType);
+      }
+      if (patternCell === '#wool') {
+        return ['white_wool', 'light_gray_wool', 'gray_wool', 'black_wool', 'brown_wool', 'red_wool', 'orange_wool', 'yellow_wool', 'lime_wool', 'green_wool', 'cyan_wool', 'light_blue_wool', 'blue_wool', 'purple_wool', 'magenta_wool', 'pink_wool'].includes(gridType);
+      }
+      if (patternCell === '#sand') {
+        return ['sand', 'red_sand'].includes(gridType);
+      }
+      return false;
+    }
+
+    // 1. Kütük -> 4 Tahta (Wood -> Planks)
+    const logPlankMap = [
+      ['wood', 'planks'], ['birch_wood', 'birch_planks'], ['spruce_wood', 'spruce_planks'],
+      ['jungle_wood', 'jungle_planks'], ['acacia_wood', 'acacia_planks'], ['dark_wood', 'dark_planks'],
+      ['mangrove_wood', 'mangrove_planks'], ['cherry_wood', 'cherry_planks']
+    ];
+    logPlankMap.forEach(([log, plank]) => {
+      registerShapelessRecipe(plank, 4, [log]);
+    });
+
+    // 2. Tahtalar -> 4 Çubuk (2 Planks Vertical -> 4 Sticks)
+    registerShapedRecipe('stick', 4, [['#planks'], ['#planks']]);
+
+    // 3. 4 Tahta -> Çalışma Masası (2x2 Planks -> Crafting Table)
+    registerShapedRecipe('crafting', 1, [['#planks', '#planks'], ['#planks', '#planks']]);
+
+    // 4. Meşale & Kızıltaş Meşalesi
+    registerShapedRecipe('torch', 4, [['coal_item'], ['stick']]);
+    registerShapedRecipe('redstone_torch', 1, [['redstone_dust'], ['stick']]);
+
+    // 5. Sandık & Varil
+    registerShapedRecipe('chest', 1, [
+      ['#planks', '#planks', '#planks'],
+      ['#planks', null, '#planks'],
+      ['#planks', '#planks', '#planks']
+    ]);
+    registerShapedRecipe('barrel', 1, [
+      ['#planks', 'stick', '#planks'],
+      ['#planks', null, '#planks'],
+      ['#planks', 'stick', '#planks']
+    ]);
+
+    // 6. Fırın (Furnace)
+    registerShapedRecipe('furnace', 1, [
+      ['#stone', '#stone', '#stone'],
+      ['#stone', null, '#stone'],
+      ['#stone', '#stone', '#stone']
+    ]);
+
+    // 7. Kılıçlar (Swords)
+    registerShapedRecipe('wooden_sword', 1, [['#planks'], ['#planks'], ['stick']]);
+    registerShapedRecipe('stone_sword', 1, [['#stone'], ['#stone'], ['stick']]);
+    registerShapedRecipe('iron_sword', 1, [['iron_ingot'], ['iron_ingot'], ['stick']]);
+    registerShapedRecipe('golden_sword', 1, [['gold_ingot'], ['gold_ingot'], ['stick']]);
+    registerShapedRecipe('diamond_sword', 1, [['diamond_item'], ['diamond_item'], ['stick']]);
+    registerShapelessRecipe('netherite_sword', 1, ['diamond_sword', 'netherite_ingot']);
+
+    // 8. Kazmalar (Pickaxes)
+    registerShapedRecipe('wooden_pickaxe', 1, [
+      ['#planks', '#planks', '#planks'],
+      [null, 'stick', null],
+      [null, 'stick', null]
+    ]);
+    registerShapedRecipe('stone_pickaxe', 1, [
+      ['#stone', '#stone', '#stone'],
+      [null, 'stick', null],
+      [null, 'stick', null]
+    ]);
+    registerShapedRecipe('iron_pickaxe', 1, [
+      ['iron_ingot', 'iron_ingot', 'iron_ingot'],
+      [null, 'stick', null],
+      [null, 'stick', null]
+    ]);
+    registerShapedRecipe('golden_pickaxe', 1, [
+      ['gold_ingot', 'gold_ingot', 'gold_ingot'],
+      [null, 'stick', null],
+      [null, 'stick', null]
+    ]);
+    registerShapedRecipe('diamond_pickaxe', 1, [
+      ['diamond_item', 'diamond_item', 'diamond_item'],
+      [null, 'stick', null],
+      [null, 'stick', null]
+    ]);
+    registerShapelessRecipe('netherite_pickaxe', 1, ['diamond_pickaxe', 'netherite_ingot']);
+
+    // 9. Baltalar (Axes)
+    registerShapedRecipe('wooden_axe', 1, [
+      ['#planks', '#planks'],
+      ['#planks', 'stick'],
+      [null, 'stick']
+    ]);
+    registerShapedRecipe('iron_axe', 1, [
+      ['iron_ingot', 'iron_ingot'],
+      ['iron_ingot', 'stick'],
+      [null, 'stick']
+    ]);
+    registerShapedRecipe('golden_axe', 1, [
+      ['gold_ingot', 'gold_ingot'],
+      ['gold_ingot', 'stick'],
+      [null, 'stick']
+    ]);
+    registerShapedRecipe('diamond_axe', 1, [
+      ['diamond_item', 'diamond_item'],
+      ['diamond_item', 'stick'],
+      [null, 'stick']
+    ]);
+    registerShapelessRecipe('netherite_axe', 1, ['diamond_axe', 'netherite_ingot']);
+
+    // 10. Kürekler (Shovels)
+    registerShapedRecipe('iron_shovel', 1, [['iron_ingot'], ['stick'], ['stick']]);
+    registerShapedRecipe('diamond_shovel', 1, [['diamond_item'], ['stick'], ['stick']]);
+    registerShapelessRecipe('netherite_shovel', 1, ['diamond_shovel', 'netherite_ingot']);
+
+    // 11. Zırh Setleri (Kask, Göğüslük, Pantolon, Bot)
+    // Kasklar
+    registerShapedRecipe('iron_helmet', 1, [
+      ['iron_ingot', 'iron_ingot', 'iron_ingot'],
+      ['iron_ingot', null, 'iron_ingot']
+    ]);
+    registerShapedRecipe('golden_helmet', 1, [
+      ['gold_ingot', 'gold_ingot', 'gold_ingot'],
+      ['gold_ingot', null, 'gold_ingot']
+    ]);
+    registerShapedRecipe('diamond_helmet', 1, [
+      ['diamond_item', 'diamond_item', 'diamond_item'],
+      ['diamond_item', null, 'diamond_item']
+    ]);
+    registerShapedRecipe('leather_helmet', 1, [
+      ['#wool', '#wool', '#wool'],
+      ['#wool', null, '#wool']
+    ]);
+    registerShapelessRecipe('netherite_helmet', 1, ['diamond_helmet', 'netherite_ingot']);
+
+    // Göğüslükler
+    registerShapedRecipe('iron_chestplate', 1, [
+      ['iron_ingot', null, 'iron_ingot'],
+      ['iron_ingot', 'iron_ingot', 'iron_ingot'],
+      ['iron_ingot', 'iron_ingot', 'iron_ingot']
+    ]);
+    registerShapedRecipe('golden_chestplate', 1, [
+      ['gold_ingot', null, 'gold_ingot'],
+      ['gold_ingot', 'gold_ingot', 'gold_ingot'],
+      ['gold_ingot', 'gold_ingot', 'gold_ingot']
+    ]);
+    registerShapedRecipe('diamond_chestplate', 1, [
+      ['diamond_item', null, 'diamond_item'],
+      ['diamond_item', 'diamond_item', 'diamond_item'],
+      ['diamond_item', 'diamond_item', 'diamond_item']
+    ]);
+    registerShapedRecipe('leather_chestplate', 1, [
+      ['#wool', null, '#wool'],
+      ['#wool', '#wool', '#wool'],
+      ['#wool', '#wool', '#wool']
+    ]);
+    registerShapelessRecipe('netherite_chestplate', 1, ['diamond_chestplate', 'netherite_ingot']);
+
+    // Pantolonlar
+    registerShapedRecipe('iron_leggings', 1, [
+      ['iron_ingot', 'iron_ingot', 'iron_ingot'],
+      ['iron_ingot', null, 'iron_ingot'],
+      ['iron_ingot', null, 'iron_ingot']
+    ]);
+    registerShapedRecipe('golden_leggings', 1, [
+      ['gold_ingot', 'gold_ingot', 'gold_ingot'],
+      ['gold_ingot', null, 'gold_ingot'],
+      ['gold_ingot', null, 'gold_ingot']
+    ]);
+    registerShapedRecipe('diamond_leggings', 1, [
+      ['diamond_item', 'diamond_item', 'diamond_item'],
+      ['diamond_item', null, 'diamond_item'],
+      ['diamond_item', null, 'diamond_item']
+    ]);
+    registerShapedRecipe('leather_leggings', 1, [
+      ['#wool', '#wool', '#wool'],
+      ['#wool', null, '#wool'],
+      ['#wool', null, '#wool']
+    ]);
+    registerShapelessRecipe('netherite_leggings', 1, ['diamond_leggings', 'netherite_ingot']);
+
+    // Botlar
+    registerShapedRecipe('iron_boots', 1, [
+      ['iron_ingot', null, 'iron_ingot'],
+      ['iron_ingot', null, 'iron_ingot']
+    ]);
+    registerShapedRecipe('golden_boots', 1, [
+      ['gold_ingot', null, 'gold_ingot'],
+      ['gold_ingot', null, 'gold_ingot']
+    ]);
+    registerShapedRecipe('diamond_boots', 1, [
+      ['diamond_item', null, 'diamond_item'],
+      ['diamond_item', null, 'diamond_item']
+    ]);
+    registerShapedRecipe('leather_boots', 1, [
+      ['#wool', null, '#wool'],
+      ['#wool', null, '#wool']
+    ]);
+    registerShapelessRecipe('netherite_boots', 1, ['diamond_boots', 'netherite_ingot']);
+
+    // 12. Kalkan (Shield)
+    registerShapedRecipe('shield', 1, [
+      ['#planks', 'iron_ingot', '#planks'],
+      ['#planks', '#planks', '#planks'],
+      [null, '#planks', null]
+    ]);
+
+    // 13. Yay & Ok (Bow & Arrow)
+    registerShapedRecipe('bow', 1, [
+      ['stick', '#wool', null],
+      ['stick', null, '#wool'],
+      ['stick', '#wool', null]
+    ]);
+    registerShapedRecipe('arrow', 4, [
+      ['iron_ingot'],
+      ['stick'],
+      ['#wool']
+    ]);
+
+    // 14. TNT
+    registerShapedRecipe('tnt', 1, [
+      ['#sand', 'redstone_dust', '#sand'],
+      ['redstone_dust', '#sand', 'redstone_dust'],
+      ['#sand', 'redstone_dust', '#sand']
+    ]);
+
+    // 15. Kızıltaş Aletleri
+    registerShapedRecipe('redstone_lamp', 1, [
+      [null, 'redstone_dust', null],
+      ['redstone_dust', 'glow', 'redstone_dust'],
+      [null, 'redstone_dust', null]
+    ]);
+    registerShapedRecipe('piston', 1, [
+      ['#planks', '#planks', '#planks'],
+      ['#stone', 'iron_ingot', '#stone'],
+      ['#stone', 'redstone_dust', '#stone']
+    ]);
+    registerShapedRecipe('sticky_piston', 1, [
+      ['moss_block'],
+      ['piston']
+    ]);
+    registerShapedRecipe('hopper', 1, [
+      ['iron_ingot', null, 'iron_ingot'],
+      ['iron_ingot', 'chest', 'iron_ingot'],
+      [null, 'iron_ingot', null]
+    ]);
+    registerShapedRecipe('dropper', 1, [
+      ['#stone', '#stone', '#stone'],
+      ['#stone', null, '#stone'],
+      ['#stone', 'redstone_dust', '#stone']
+    ]);
+    registerShapedRecipe('dispenser', 1, [
+      ['#stone', '#stone', '#stone'],
+      ['#stone', 'bow', '#stone'],
+      ['#stone', 'redstone_dust', '#stone']
+    ]);
+    registerShapedRecipe('observer', 1, [
+      ['#stone', '#stone', '#stone'],
+      ['redstone_dust', 'redstone_dust', 'quartz_block'],
+      ['#stone', '#stone', '#stone']
+    ]);
+
+    // 16. Örs, Kitaplık, Büyü Masası, Fener
+    registerShapedRecipe('anvil', 1, [
+      ['iron', 'iron', 'iron'],
+      [null, 'iron_ingot', null],
+      ['iron_ingot', 'iron_ingot', 'iron_ingot']
+    ]);
+    registerShapedRecipe('bookshelf', 1, [
+      ['#planks', '#planks', '#planks'],
+      ['#wool', '#wool', '#wool'],
+      ['#planks', '#planks', '#planks']
+    ]);
+    registerShapedRecipe('beacon', 1, [
+      ['glass', 'glass', 'glass'],
+      ['glass', 'diamond_item', 'glass'],
+      ['obsidian', 'obsidian', 'obsidian']
+    ]);
+    registerShapedRecipe('lantern', 1, [
+      ['iron_ingot', 'iron_ingot', 'iron_ingot'],
+      ['iron_ingot', 'torch', 'iron_ingot'],
+      ['iron_ingot', 'iron_ingot', 'iron_ingot']
+    ]);
+    registerShapedRecipe('soul_lantern', 1, [
+      ['iron_ingot', 'iron_ingot', 'iron_ingot'],
+      ['iron_ingot', 'soul_sand', 'iron_ingot'],
+      ['iron_ingot', 'iron_ingot', 'iron_ingot']
+    ]);
+    registerShapedRecipe('blast_furnace', 1, [
+      ['iron_ingot', 'iron_ingot', 'iron_ingot'],
+      ['iron_ingot', 'furnace', 'iron_ingot'],
+      ['smooth_stone', 'smooth_stone', 'smooth_stone']
+    ]);
+    registerShapedRecipe('smoker', 1, [
+      [null, '#wood', null],
+      ['#wood', 'furnace', '#wood'],
+      [null, '#wood', null]
+    ]);
+
+    // 17. Araç ve Gereçler (Makas, Çakmak, Olta, Pusula, Saat)
+    registerShapedRecipe('shears', 1, [
+      ['iron_ingot', null],
+      [null, 'iron_ingot']
+    ]);
+    registerShapelessRecipe('flint_and_steel', 1, ['iron_ingot', 'gravel']);
+    registerShapedRecipe('fishing_rod', 1, [
+      [null, null, 'stick'],
+      [null, 'stick', '#wool'],
+      ['stick', null, '#wool']
+    ]);
+    registerShapedRecipe('compass', 1, [
+      [null, 'iron_ingot', null],
+      ['iron_ingot', 'redstone_dust', 'iron_ingot'],
+      [null, 'iron_ingot', null]
+    ]);
+    registerShapedRecipe('clock', 1, [
+      [null, 'gold_ingot', null],
+      ['gold_ingot', 'redstone_dust', 'gold_ingot'],
+      [null, 'gold_ingot', null]
+    ]);
+
+    // 18. Maden Blok Sıkıştırma (9 Külçe/Cevher -> 1 Blok)
+    registerShapedRecipe('coal_block', 1, [
+      ['coal_item', 'coal_item', 'coal_item'],
+      ['coal_item', 'coal_item', 'coal_item'],
+      ['coal_item', 'coal_item', 'coal_item']
+    ]);
+    registerShapedRecipe('iron', 1, [
+      ['iron_ingot', 'iron_ingot', 'iron_ingot'],
+      ['iron_ingot', 'iron_ingot', 'iron_ingot'],
+      ['iron_ingot', 'iron_ingot', 'iron_ingot']
+    ]);
+    registerShapedRecipe('gold', 1, [
+      ['gold_ingot', 'gold_ingot', 'gold_ingot'],
+      ['gold_ingot', 'gold_ingot', 'gold_ingot'],
+      ['gold_ingot', 'gold_ingot', 'gold_ingot']
+    ]);
+    registerShapedRecipe('diamond', 1, [
+      ['diamond_item', 'diamond_item', 'diamond_item'],
+      ['diamond_item', 'diamond_item', 'diamond_item'],
+      ['diamond_item', 'diamond_item', 'diamond_item']
+    ]);
+    registerShapedRecipe('emerald_block', 1, [
+      ['emerald_item', 'emerald_item', 'emerald_item'],
+      ['emerald_item', 'emerald_item', 'emerald_item'],
+      ['emerald_item', 'emerald_item', 'emerald_item']
+    ]);
+    registerShapedRecipe('copper_block', 1, [
+      ['copper_ingot', 'copper_ingot', 'copper_ingot'],
+      ['copper_ingot', 'copper_ingot', 'copper_ingot'],
+      ['copper_ingot', 'copper_ingot', 'copper_ingot']
+    ]);
+    registerShapedRecipe('netherite_block', 1, [
+      ['netherite_ingot', 'netherite_ingot', 'netherite_ingot'],
+      ['netherite_ingot', 'netherite_ingot', 'netherite_ingot'],
+      ['netherite_ingot', 'netherite_ingot', 'netherite_ingot']
+    ]);
+    registerShapedRecipe('redstone_block', 1, [
+      ['redstone_dust', 'redstone_dust', 'redstone_dust'],
+      ['redstone_dust', 'redstone_dust', 'redstone_dust'],
+      ['redstone_dust', 'redstone_dust', 'redstone_dust']
+    ]);
+
+    // 19. Maden Blok Çözme (1 Blok -> 9 Külçe/Cevher)
+    registerShapelessRecipe('coal_item', 9, ['coal_block']);
+    registerShapelessRecipe('iron_ingot', 9, ['iron']);
+    registerShapelessRecipe('gold_ingot', 9, ['gold']);
+    registerShapelessRecipe('diamond_item', 9, ['diamond']);
+    registerShapelessRecipe('emerald_item', 9, ['emerald_block']);
+    registerShapelessRecipe('copper_ingot', 9, ['copper_block']);
+    registerShapelessRecipe('netherite_ingot', 9, ['netherite_block']);
+    registerShapelessRecipe('redstone_dust', 9, ['redstone_block']);
+
+    // 20. 2x2 Taş & Yapı Blokları (4 Malzeme -> 1 veya 4 Blok)
+    registerShapedRecipe('sandstone', 1, [['sand', 'sand'], ['sand', 'sand']]);
+    registerShapedRecipe('red_sandstone', 1, [['red_sand', 'red_sand'], ['red_sand', 'red_sand']]);
+    registerShapedRecipe('clay', 1, [['clay', 'clay'], ['clay', 'clay']]);
+    registerShapedRecipe('snow', 1, [['snow', 'snow'], ['snow', 'snow']]);
+    registerShapedRecipe('stone_bricks', 4, [['stone', 'stone'], ['stone', 'stone']]);
+    registerShapedRecipe('deepslate_bricks', 4, [['deepslate', 'deepslate'], ['deepslate', 'deepslate']]);
+    registerShapedRecipe('quartz_bricks', 4, [['quartz_block', 'quartz_block'], ['quartz_block', 'quartz_block']]);
+    registerShapedRecipe('prismarine_bricks', 4, [['prismarine', 'prismarine'], ['prismarine', 'prismarine']]);
+    registerShapedRecipe('polished_blackstone', 4, [['blackstone', 'blackstone'], ['blackstone', 'blackstone']]);
+    registerShapedRecipe('polished_granite', 4, [['granite', 'granite'], ['granite', 'granite']]);
+    registerShapedRecipe('polished_diorite', 4, [['diorite', 'diorite'], ['diorite', 'diorite']]);
+    registerShapedRecipe('polished_andesite', 4, [['andesite', 'andesite'], ['andesite', 'andesite']]);
+    registerShapedRecipe('purpur_pillar', 4, [['purpur', 'purpur'], ['purpur', 'purpur']]);
+    registerShapedRecipe('end_stone_bricks', 4, [['end_stone', 'end_stone'], ['end_stone', 'end_stone']]);
+    registerShapedRecipe('nether_bricks', 4, [['netherrack', 'netherrack'], ['netherrack', 'netherrack']]);
+
+    // 21. Yiyecekler
+    registerShapedRecipe('golden_apple', 1, [
+      ['gold_ingot', 'gold_ingot', 'gold_ingot'],
+      ['gold_ingot', 'apple', 'gold_ingot'],
+      ['gold_ingot', 'gold_ingot', 'gold_ingot']
+    ]);
+    registerShapedRecipe('bread', 1, [['leaves', 'leaves', 'leaves']]);
+    registerShapedRecipe('bread', 1, [['grass', 'grass', 'grass']]);
+
+    // GENEL TARİF EŞLEŞTİRME FONKSİYONU
+    function findMatchingRecipe(grid, gridW, gridH) {
+      let minR = 999, maxR = -1, minC = 999, maxC = -1;
+      const nonNullItems = [];
+
+      for (let r = 0; r < gridH; r++) {
+        for (let c = 0; c < gridW; c++) {
+          const item = grid[r * gridW + c];
+          if (item && item.type && item.count > 0) {
+            nonNullItems.push(item.type);
+            if (r < minR) minR = r;
+            if (r > maxR) maxR = r;
+            if (c < minC) minC = c;
+            if (c > maxC) maxC = c;
+          }
+        }
+      }
+
+      if (nonNullItems.length === 0) return null;
+
+      // Şekilsiz Tarif Kontrolü
+      const sortedItems = nonNullItems.slice().sort();
+      for (let i = 0; i < MC_RECIPES.length; i++) {
+        const rec = MC_RECIPES[i];
+        if (!rec.isShaped) {
+          if (rec.ingredients.length === sortedItems.length) {
+            let match = true;
+            for (let j = 0; j < sortedItems.length; j++) {
+              if (!cellMatches(rec.ingredients[j], sortedItems[j])) {
+                match = false;
+                break;
+              }
+            }
+            if (match) return rec.result;
+          }
+        }
+      }
+
+      // Şekilli Tarif Kontrolü
+      const bbH = maxR - minR + 1;
+      const bbW = maxC - minC + 1;
+      const subGrid = [];
+      for (let r = minR; r <= maxR; r++) {
+        const row = [];
+        for (let c = minC; c <= maxC; c++) {
+          const it = grid[r * gridW + c];
+          row.push((it && it.type && it.count > 0) ? it.type : null);
+        }
+        subGrid.push(row);
+      }
+
+      for (let i = 0; i < MC_RECIPES.length; i++) {
+        const rec = MC_RECIPES[i];
+        if (rec.isShaped) {
+          if (rec.w === bbW && rec.h === bbH) {
+            let match = true;
+            for (let r = 0; r < bbH; r++) {
+              for (let c = 0; c < bbW; c++) {
+                if (!cellMatches(rec.pattern[r][c], subGrid[r][c])) {
+                  match = false;
+                  break;
+                }
+              }
+              if (!match) break;
+            }
+            if (match) return rec.result;
+
+            if (rec.mirrors && bbW > 1) {
+              let mirrorMatch = true;
+              for (let r = 0; r < bbH; r++) {
+                for (let c = 0; c < bbW; c++) {
+                  if (!cellMatches(rec.pattern[r][bbW - 1 - c], subGrid[r][c])) {
+                    mirrorMatch = false;
+                    break;
+                  }
+                }
+                if (!mirrorMatch) break;
+              }
+              if (mirrorMatch) return rec.result;
+            }
+          }
+        }
+      }
+
+      return null;
+    }
+
+    // =========================================================================
+    // EVRENSEL SLOT TIKLAMA & SÜRÜKLEME / DAĞITMA MOTORU (DRAG & DROP)
+    // =========================================================================
+    function handleGenericSlotClick(options) {
+      const {
+        getSlot,
+        setSlot,
+        e,
+        isOutput = false,
+        craftGrid = null,
+        onCraftCompleted = null,
+        armorType = null,
+        isShield = false,
+        onRefresh = null,
+        shiftTarget = null
+      } = options;
+
+      const slot = getSlot();
+      const isRight = (e.button === 2);
+
+      // 1. ÇIKTI (OUTPUT / RESULT) SLOTUNA TIKLANDIYSA
+      if (isOutput) {
+        if (!slot || !slot.type || slot.count <= 0) return;
+        const resType = slot.type;
+        const resCount = slot.count;
+
+        // İmleç boşsa eşyayı al
+        if (!heldCursorItem) {
+          heldCursorItem = { type: resType, count: resCount };
+        } else if (heldCursorItem.type === resType && (heldCursorItem.count + resCount <= 64)) {
+          heldCursorItem.count += resCount;
+        } else {
+          // İmleçte farklı eşya varken alınamaz
+          return;
+        }
+
+        // Craft gridindeki tüm malzemelerden 1'er adet eksilt
+        if (craftGrid) {
+          for (let i = 0; i < craftGrid.length; i++) {
+            if (craftGrid[i] && craftGrid[i].type && craftGrid[i].count > 0) {
+              craftGrid[i].count -= 1;
+              if (craftGrid[i].count <= 0) craftGrid[i] = null;
+            }
+          }
+        }
+
+        updateFloatingCursorUI();
+        if (onCraftCompleted) onCraftCompleted();
+        if (onRefresh) onRefresh();
+        return;
+      }
+
+      // 2. SHIFT + TIKLAMA (HIZLI AKTARIM / QUICK TRANSFER)
+      if (e.shiftKey && e.button === 0 && slot && slot.type && slot.count > 0) {
+        if (typeof shiftTarget === 'function') {
+          shiftTarget(slot);
+          if (onRefresh) onRefresh();
+          return;
+        }
+      }
+
+      // ZIRH & KALKAN KISITLAMA KONTROLÜ
+      if (heldCursorItem && heldCursorItem.type) {
+        const bInfo = BLOCK_INFO[heldCursorItem.type];
+        if (armorType && (!bInfo || bInfo.slotType !== armorType)) return;
+        if (isShield && (!bInfo || bInfo.slotType !== 'shield')) return;
+      }
+
+      // 3. SAĞ TIKLAMA (RIGHT CLICK): YARISINI AL VEYA 1 ADET YERLEŞTİR
+      if (isRight) {
+        if (!heldCursorItem) {
+          // İmleç boş: Slotun yarısını imlece al
+          if (slot && slot.type && slot.count > 0) {
+            const half = Math.ceil(slot.count / 2);
+            heldCursorItem = { type: slot.type, count: half };
+            const rem = slot.count - half;
+            setSlot(rem > 0 ? { type: slot.type, count: rem } : null);
+          }
+        } else {
+          // İmleç dolu: Slota 1 adet bırak
+          if (!slot || !slot.type || slot.count <= 0) {
+            setSlot({ type: heldCursorItem.type, count: 1 });
+            heldCursorItem.count -= 1;
+            if (heldCursorItem.count <= 0) heldCursorItem = null;
+          } else if (slot.type === heldCursorItem.type && slot.count < 64) {
+            setSlot({ type: slot.type, count: slot.count + 1 });
+            heldCursorItem.count -= 1;
+            if (heldCursorItem.count <= 0) heldCursorItem = null;
+          }
+        }
+        updateFloatingCursorUI();
+        if (onRefresh) onRefresh();
+        return;
+      }
+
+      // 4. SOL TIKLAMA (LEFT CLICK): TAMAMINI AL, YERLEŞTİR VEYA DEĞİŞTİR (SWAP)
+      if (e.button === 0) {
+        if (!heldCursorItem) {
+          // İmleç boş: Slottaki eşyanın tamamını imlece al
+          if (slot && slot.type && slot.count > 0) {
+            heldCursorItem = { type: slot.type, count: slot.count };
+            setSlot(null);
+          }
+        } else {
+          // İmleç dolu
+          if (!slot || !slot.type || slot.count <= 0) {
+            // Boş slota tamamını bırak
+            setSlot({ type: heldCursorItem.type, count: heldCursorItem.count });
+            heldCursorItem = null;
+          } else if (slot.type === heldCursorItem.type) {
+            // Aynı eşya: Üstüne ekle (maksimum 64)
+            const space = 64 - slot.count;
+            const toAdd = Math.min(space, heldCursorItem.count);
+            if (toAdd > 0) {
+              setSlot({ type: slot.type, count: slot.count + toAdd });
+              heldCursorItem.count -= toAdd;
+              if (heldCursorItem.count <= 0) heldCursorItem = null;
+            }
+          } else {
+            // Farklı eşya: Takas et (Swap)
+            // Zırh slotu kontrolü
+            if (armorType || isShield) {
+              const curInfo = BLOCK_INFO[slot.type];
+              const heldInfo = BLOCK_INFO[heldCursorItem.type];
+              if (armorType && (!heldInfo || heldInfo.slotType !== armorType)) return;
+              if (isShield && (!heldInfo || heldInfo.slotType !== 'shield')) return;
+            }
+            const temp = { type: slot.type, count: slot.count };
+            setSlot({ type: heldCursorItem.type, count: heldCursorItem.count });
+            heldCursorItem = temp;
+          }
+        }
+        updateFloatingCursorUI();
+        if (onRefresh) onRefresh();
+      }
+    }
+
+    // SAĞ TIKLA SÜRÜKLEYEREK 1'ER ADET DAĞITMA FONKSİYONU
+    function handleSlotMouseEnterDrag(getSlot, setSlot, onRefresh, isOutput = false) {
+      if (isOutput) return;
+      if (!isRightMouseDown || !heldCursorItem || heldCursorItem.count <= 0) return;
+      const slot = getSlot();
+      if (!slot || !slot.type || slot.count <= 0) {
+        setSlot({ type: heldCursorItem.type, count: 1 });
+        heldCursorItem.count -= 1;
+        if (heldCursorItem.count <= 0) heldCursorItem = null;
+        updateFloatingCursorUI();
+        if (onRefresh) onRefresh();
+      } else if (slot.type === heldCursorItem.type && slot.count < 64) {
+        setSlot({ type: slot.type, count: slot.count + 1 });
+        heldCursorItem.count -= 1;
+        if (heldCursorItem.count <= 0) heldCursorItem = null;
+        updateFloatingCursorUI();
+        if (onRefresh) onRefresh();
+      }
+    }
 
     // 3D Canlı Karakter Önizleme Değişkenleri
     let invPreviewRenderer = null;
@@ -6428,10 +7410,6 @@
     let invPreviewCamera = null;
     let invPreviewRig = null;
     let invPreviewAnimId = null;
-    let invTargetYaw = 0;
-    let invTargetPitch = 0;
-    let invCurrentYaw = 0;
-    let invCurrentPitch = 0;
 
     function setupInventoryCharacterPreview() {
       const canvas = document.getElementById('invCharCanvas');
@@ -6465,13 +7443,11 @@
         invPreviewRig = null;
       }
 
-      // Oyuncunun OYUNDA KULLANDIĞI KENDİ ÖZEL KOSTÜMÜNÜ (myActiveChar) BİREBİR YÜKLE
       const activeCharData = myActiveChar || JSON.parse(safeStorage.getItem(CHAR_KEY) || JSON.stringify(DEFAULT_STEVE_DATA));
       invPreviewRig = createFullCharacterRig(activeCharData, false);
       invPreviewRig.group.position.set(0, 0, 0);
       invPreviewScene.add(invPreviewRig.group);
 
-      // Normal envanterde karakter hareket etmez; sabit, doğal Minecraft pozunda gösterilir
       if (invPreviewAnimId) {
         cancelAnimationFrame(invPreviewAnimId);
         invPreviewAnimId = null;
@@ -6507,7 +7483,6 @@
     }
 
     function buildFullInventoryUI() {
-      // OP durumu dinamik kontrol
       const hasOp = isCurrentPlayerOp();
       if (!hasOp && isCreativeMode) {
         isCreativeMode = false;
@@ -6532,7 +7507,6 @@
         };
       }
 
-      // Hangi envanter görünümünün açılacağını belirle
       if (isCreativeMode && currentInvView !== 'survival_override') {
         currentInvView = 'creative';
       } else if (!isCreativeMode) {
@@ -6560,19 +7534,24 @@
         if (creativeView) creativeView.style.display = 'none';
         renderSurvivalInventory();
       }
+      updateFloatingCursorUI();
     }
 
+    // =========================================================================
+    // SURVIVAL ENVANTERİ RENDERİ (2x2 CRAFTING, ZIRH, SÜRÜKLEME)
+    // =========================================================================
     function renderSurvivalInventory() {
       const mainGrid = document.getElementById('invMainGrid');
       const hotbarGrid = document.getElementById('invHotbarGrid');
 
-      // 1. ZIRH SLOTLARI
+      // 1. ZIRH SLOTLARI (0: Kask, 1: Göğüslük, 2: Pantolon, 3: Bot)
       const armorSlotsElements = [
         document.getElementById('armorSlot0'),
         document.getElementById('armorSlot1'),
         document.getElementById('armorSlot2'),
         document.getElementById('armorSlot3')
       ];
+      const armorTypes = ['helmet', 'chestplate', 'leggings', 'boots'];
       const armorIconsSvg = [
         '<svg class="armor-icon" viewBox="0 0 16 16" width="22" height="22"><path fill="#3a3a3a" d="M3 2h10v8h-2v2H9v-3H7v3H5v-2H3V2z"/></svg>',
         '<svg class="armor-icon" viewBox="0 0 16 16" width="22" height="22"><path fill="#3a3a3a" d="M2 3h4v2h4V3h4v5h-2v7H4V8H2V3z"/></svg>',
@@ -6588,12 +7567,24 @@
         } else {
           el.innerHTML = armorIconsSvg[idx];
         }
-        el.onclick = () => {
-          if (armorSlots[idx]) {
-            addItemToInventory(armorSlots[idx].type, armorSlots[idx].count || 1);
-            armorSlots[idx] = null;
-            buildFullInventoryUI();
-          }
+
+        el.oncontextmenu = (e) => e.preventDefault();
+        el.onmousedown = (e) => {
+          handleGenericSlotClick({
+            getSlot: () => armorSlots[idx],
+            setSlot: (val) => { armorSlots[idx] = val; },
+            e: e,
+            armorType: armorTypes[idx],
+            onRefresh: () => {
+              updateInventoryUI();
+              buildFullInventoryUI();
+            },
+            shiftTarget: (slot) => {
+              if (addItemToInventory(slot.type, slot.count)) {
+                armorSlots[idx] = null;
+              }
+            }
+          });
         };
       });
 
@@ -6606,12 +7597,23 @@
         } else {
           shieldSlotEl.innerHTML = '<svg class="armor-icon" viewBox="0 0 16 16" width="22" height="22"><path fill="#3a3a3a" d="M3 2h10v7c0 3-3 5-5 6-2-1-5-3-5-6V2z"/></svg>';
         }
-        shieldSlotEl.onclick = () => {
-          if (shieldSlotItem) {
-            addItemToInventory(shieldSlotItem.type, shieldSlotItem.count || 1);
-            shieldSlotItem = null;
-            buildFullInventoryUI();
-          }
+        shieldSlotEl.oncontextmenu = (e) => e.preventDefault();
+        shieldSlotEl.onmousedown = (e) => {
+          handleGenericSlotClick({
+            getSlot: () => shieldSlotItem,
+            setSlot: (val) => { shieldSlotItem = val; },
+            e: e,
+            isShield: true,
+            onRefresh: () => {
+              updateInventoryUI();
+              buildFullInventoryUI();
+            },
+            shiftTarget: (slot) => {
+              if (addItemToInventory(slot.type, slot.count)) {
+                shieldSlotItem = null;
+              }
+            }
+          });
         };
       }
 
@@ -6627,7 +7629,35 @@
             slot.title = `${BLOCK_INFO[item.type]?.name || item.type} (${item.count})`;
             slot.innerHTML = createSlotContent(item);
           }
-          slot.onclick = () => handleInventorySlotClick(i);
+          slot.oncontextmenu = (e) => e.preventDefault();
+          slot.onmousedown = (e) => {
+            handleGenericSlotClick({
+              getSlot: () => inventory[i],
+              setSlot: (val) => { inventory[i] = val || { type: null, count: 0 }; },
+              e: e,
+              onRefresh: () => {
+                updateInventoryUI();
+                buildFullInventoryUI();
+              },
+              shiftTarget: (s) => {
+                // Main'den Hotbar'a aktar
+                for (let h = 0; h < 9; h++) {
+                  if (!inventory[h] || !inventory[h].type || inventory[h].count === 0) {
+                    inventory[h] = { type: s.type, count: s.count };
+                    inventory[i] = { type: null, count: 0 };
+                    break;
+                  }
+                }
+              }
+            });
+          };
+          slot.onmouseenter = () => {
+            handleSlotMouseEnterDrag(
+              () => inventory[i],
+              (val) => { inventory[i] = val || { type: null, count: 0 }; },
+              () => { updateInventoryUI(); buildFullInventoryUI(); }
+            );
+          };
           mainGrid.appendChild(slot);
         }
       }
@@ -6645,57 +7675,367 @@
             slot.title = `${BLOCK_INFO[item.type]?.name || item.type} (${item.count})`;
             slot.innerHTML = createSlotContent(item);
           }
-          slot.onclick = () => {
-            selectedSlotIndex = i;
-            updateInventoryUI();
-            buildFullInventoryUI();
+          slot.oncontextmenu = (e) => e.preventDefault();
+          slot.onmousedown = (e) => {
+            handleGenericSlotClick({
+              getSlot: () => inventory[i],
+              setSlot: (val) => { inventory[i] = val || { type: null, count: 0 }; },
+              e: e,
+              onRefresh: () => {
+                selectedSlotIndex = i;
+                updateInventoryUI();
+                buildFullInventoryUI();
+              },
+              shiftTarget: (s) => {
+                // Hotbar'dan Main envantere aktar
+                for (let m = 9; m < 36; m++) {
+                  if (!inventory[m] || !inventory[m].type || inventory[m].count === 0) {
+                    inventory[m] = { type: s.type, count: s.count };
+                    inventory[i] = { type: null, count: 0 };
+                    break;
+                  }
+                }
+              }
+            });
+          };
+          slot.onmouseenter = () => {
+            handleSlotMouseEnterDrag(
+              () => inventory[i],
+              (val) => { inventory[i] = val || { type: null, count: 0 }; },
+              () => { updateInventoryUI(); buildFullInventoryUI(); }
+            );
           };
           hotbarGrid.appendChild(slot);
         }
       }
 
-      // 5. 3D Karakter Önizleme
       setupInventoryCharacterPreview();
-
-      // 6. 2x2 Crafting Alanı
       renderCraftGrid();
     }
 
+    // 2x2 ÜRETİM ALANI VE SONUÇ SLOTU
+    function renderCraftGrid() {
+      for (let i = 0; i < 4; i++) {
+        const slotEl = document.querySelector(`.craft-slot[data-craft="${i}"]`);
+        if (!slotEl) continue;
+        slotEl.innerHTML = '';
+        const item = craftSlots[i];
+        if (item && item.type && item.count > 0) {
+          slotEl.innerHTML = createSlotContent(item);
+        }
+        slotEl.oncontextmenu = (e) => e.preventDefault();
+        slotEl.onmousedown = (e) => {
+          handleGenericSlotClick({
+            getSlot: () => craftSlots[i],
+            setSlot: (val) => { craftSlots[i] = val; },
+            e: e,
+            onRefresh: () => {
+              renderCraftGrid();
+              checkCraftingRecipe();
+            },
+            shiftTarget: (slot) => {
+              if (addItemToInventory(slot.type, slot.count)) {
+                craftSlots[i] = null;
+              }
+            }
+          });
+        };
+        slotEl.onmouseenter = () => {
+          handleSlotMouseEnterDrag(
+            () => craftSlots[i],
+            (val) => { craftSlots[i] = val; },
+            () => { renderCraftGrid(); checkCraftingRecipe(); }
+          );
+        };
+      }
+      checkCraftingRecipe();
+    }
+
+    let currentCraftResult = null;
+    function checkCraftingRecipe() {
+      const resultEl = document.getElementById('craftResultSlot');
+      if (!resultEl) return;
+      resultEl.innerHTML = '';
+
+      const matched = findMatchingRecipe(craftSlots, 2, 2);
+      currentCraftResult = matched;
+
+      if (!matched) {
+        resultEl.onmousedown = null;
+        return;
+      }
+
+      resultEl.innerHTML = createSlotContent(matched);
+      resultEl.title = `Üretilecek: ${BLOCK_INFO[matched.type]?.name || matched.type} (${matched.count} adet)`;
+      resultEl.oncontextmenu = (e) => e.preventDefault();
+      resultEl.onmousedown = (e) => {
+        handleGenericSlotClick({
+          getSlot: () => currentCraftResult,
+          setSlot: () => {},
+          e: e,
+          isOutput: true,
+          craftGrid: craftSlots,
+          onCraftCompleted: () => {
+            renderCraftGrid();
+            checkCraftingRecipe();
+            buildFullInventoryUI();
+            updateInventoryUI();
+          }
+        });
+      };
+    }
+
+    // =========================================================================
+    // 3x3 ÇALIŞMA MASASI (CRAFTING TABLE) ARAYÜZÜ VE YÖNETİMİ
+    // =========================================================================
+    function openCraftingTableGUI() {
+      if (isInventoryOpen || isPauseOpen || isChatOpen) return;
+      isCraftingTableOpen = true;
+      if (typeof resetBreaking === 'function') resetBreaking();
+      const modal = document.getElementById('craftingTableModal');
+      if (modal) {
+        modal.style.display = 'grid';
+        modal.classList.add('active');
+      }
+      document.exitPointerLock?.();
+      renderCraftingTableUI();
+      updateFloatingCursorUI();
+    }
+
+    function closeCraftingTableGUI() {
+      if (!isCraftingTableOpen) return;
+      isCraftingTableOpen = false;
+      const modal = document.getElementById('craftingTableModal');
+      if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('active');
+      }
+
+      // Masa içindeki eşyaları güvenle oyuncunun envanterine iade et
+      for (let i = 0; i < 9; i++) {
+        if (craftTableSlots[i] && craftTableSlots[i].type && craftTableSlots[i].count > 0) {
+          addItemToInventory(craftTableSlots[i].type, craftTableSlots[i].count);
+          craftTableSlots[i] = null;
+        }
+      }
+
+      // İmleçte kalan eşyayı da envantere iade et
+      if (heldCursorItem && heldCursorItem.type && heldCursorItem.count > 0) {
+        addItemToInventory(heldCursorItem.type, heldCursorItem.count);
+        heldCursorItem = null;
+        updateFloatingCursorUI();
+      }
+
+      updateInventoryUI();
+      saveCurrentGameState();
+      try {
+        renderer.domElement.requestPointerLock?.();
+      } catch (err) {}
+    }
+
+    let currentCraftTableResult = null;
+    function renderCraftingTableUI() {
+      const grid3x3 = document.getElementById('craftTable3x3Grid');
+      const resultEl = document.getElementById('craftTableResultSlot');
+      const mainGrid = document.getElementById('craftTableMainGrid');
+      const hotbarGrid = document.getElementById('craftTableHotbarGrid');
+      const btnClose = document.getElementById('btnCraftTableClose');
+
+      if (btnClose) btnClose.onclick = closeCraftingTableGUI;
+
+      // 1. 3x3 CRAFTING GRID (9 Slot)
+      if (grid3x3) {
+        grid3x3.innerHTML = '';
+        for (let i = 0; i < 9; i++) {
+          const slot = document.createElement('div');
+          slot.className = 'craft-slot';
+          slot.dataset.craft3x3Index = i;
+          const item = craftTableSlots[i];
+          if (item && item.type && item.count > 0) {
+            slot.innerHTML = createSlotContent(item);
+            slot.title = `${BLOCK_INFO[item.type]?.name || item.type} (${item.count})`;
+          }
+          slot.oncontextmenu = (e) => e.preventDefault();
+          slot.onmousedown = (e) => {
+            handleGenericSlotClick({
+              getSlot: () => craftTableSlots[i],
+              setSlot: (val) => { craftTableSlots[i] = val; },
+              e: e,
+              onRefresh: () => {
+                renderCraftingTableUI();
+              },
+              shiftTarget: (s) => {
+                if (addItemToInventory(s.type, s.count)) {
+                  craftTableSlots[i] = null;
+                }
+              }
+            });
+          };
+          slot.onmouseenter = () => {
+            handleSlotMouseEnterDrag(
+              () => craftTableSlots[i],
+              (val) => { craftTableSlots[i] = val; },
+              () => { renderCraftingTableUI(); }
+            );
+          };
+          grid3x3.appendChild(slot);
+        }
+      }
+
+      // 2. SONUÇ SLOTU VE TARİF KONTROLÜ
+      checkCraftTableRecipe();
+
+      // 3. OYUNCU ANA ENVANTERİ (27 Slot: 9-35)
+      if (mainGrid) {
+        mainGrid.innerHTML = '';
+        for (let i = 9; i < 36; i++) {
+          const slot = document.createElement('div');
+          slot.className = 'inv-slot';
+          const item = inventory[i];
+          if (item && item.type && item.count > 0) {
+            slot.title = `${BLOCK_INFO[item.type]?.name || item.type} (${item.count})`;
+            slot.innerHTML = createSlotContent(item);
+          }
+          slot.oncontextmenu = (e) => e.preventDefault();
+          slot.onmousedown = (e) => {
+            handleGenericSlotClick({
+              getSlot: () => inventory[i],
+              setSlot: (val) => { inventory[i] = val || { type: null, count: 0 }; },
+              e: e,
+              onRefresh: () => {
+                updateInventoryUI();
+                renderCraftingTableUI();
+              },
+              shiftTarget: (s) => {
+                for (let h = 0; h < 9; h++) {
+                  if (!inventory[h] || !inventory[h].type || inventory[h].count === 0) {
+                    inventory[h] = { type: s.type, count: s.count };
+                    inventory[i] = { type: null, count: 0 };
+                    break;
+                  }
+                }
+              }
+            });
+          };
+          slot.onmouseenter = () => {
+            handleSlotMouseEnterDrag(
+              () => inventory[i],
+              (val) => { inventory[i] = val || { type: null, count: 0 }; },
+              () => { updateInventoryUI(); renderCraftingTableUI(); }
+            );
+          };
+          mainGrid.appendChild(slot);
+        }
+      }
+
+      // 4. HOTBAR (9 Slot: 0-8)
+      if (hotbarGrid) {
+        hotbarGrid.innerHTML = '';
+        for (let i = 0; i < 9; i++) {
+          const slot = document.createElement('div');
+          slot.className = 'inv-slot';
+          if (i === selectedSlotIndex) slot.classList.add('active-hotbar');
+          const item = inventory[i];
+          if (item && item.type && item.count > 0) {
+            slot.title = `${BLOCK_INFO[item.type]?.name || item.type} (${item.count})`;
+            slot.innerHTML = createSlotContent(item);
+          }
+          slot.oncontextmenu = (e) => e.preventDefault();
+          slot.onmousedown = (e) => {
+            handleGenericSlotClick({
+              getSlot: () => inventory[i],
+              setSlot: (val) => { inventory[i] = val || { type: null, count: 0 }; },
+              e: e,
+              onRefresh: () => {
+                selectedSlotIndex = i;
+                updateInventoryUI();
+                renderCraftingTableUI();
+              },
+              shiftTarget: (s) => {
+                for (let m = 9; m < 36; m++) {
+                  if (!inventory[m] || !inventory[m].type || inventory[m].count === 0) {
+                    inventory[m] = { type: s.type, count: s.count };
+                    inventory[i] = { type: null, count: 0 };
+                    break;
+                  }
+                }
+              }
+            });
+          };
+          slot.onmouseenter = () => {
+            handleSlotMouseEnterDrag(
+              () => inventory[i],
+              (val) => { inventory[i] = val || { type: null, count: 0 }; },
+              () => { updateInventoryUI(); renderCraftingTableUI(); }
+            );
+          };
+          hotbarGrid.appendChild(slot);
+        }
+      }
+
+      updateFloatingCursorUI();
+    }
+
+    function checkCraftTableRecipe() {
+      const resultEl = document.getElementById('craftTableResultSlot');
+      if (!resultEl) return;
+      resultEl.innerHTML = '';
+
+      const matched = findMatchingRecipe(craftTableSlots, 3, 3);
+      currentCraftTableResult = matched;
+
+      if (!matched) {
+        resultEl.onmousedown = null;
+        return;
+      }
+
+      resultEl.innerHTML = createSlotContent(matched);
+      resultEl.title = `Üretilecek: ${BLOCK_INFO[matched.type]?.name || matched.type} (${matched.count} adet)`;
+      resultEl.oncontextmenu = (e) => e.preventDefault();
+      resultEl.onmousedown = (e) => {
+        handleGenericSlotClick({
+          getSlot: () => currentCraftTableResult,
+          setSlot: () => {},
+          e: e,
+          isOutput: true,
+          craftGrid: craftTableSlots,
+          onCraftCompleted: () => {
+            renderCraftingTableUI();
+            updateInventoryUI();
+          }
+        });
+      };
+    }
+
+    // =========================================================================
+    // CREATIVE ENVANTERİ RENDERİ
+    // =========================================================================
     function renderCreativeInventory() {
       const titleEl = document.getElementById('creativeTabTitle');
       const searchInput = document.getElementById('creativeSearchInput');
-      const itemsGrid = document.getElementById('creativeItemsGrid');
       const hotbarGrid = document.getElementById('creativeHotbarGrid');
 
       if (titleEl) {
         titleEl.textContent = CREATIVE_TAB_NAMES[activeCreativeTab] || 'Yaratıcı Envanter';
       }
 
-      // Sekme butonlarını etkinleştir ve dinle
       document.querySelectorAll('.mc-cr-tab, .mc-cr-tab-bottom').forEach(tab => {
         const tabKey = tab.dataset.crtab;
-        if (tabKey === activeCreativeTab) {
-          tab.classList.add('active');
-        } else {
-          tab.classList.remove('active');
-        }
+        if (tabKey === activeCreativeTab) tab.classList.add('active');
+        else tab.classList.remove('active');
 
         tab.onclick = () => {
           if (tabKey === 'survival_chest') {
-            // Sandık sekmesine basınca Survival görünümüne geç
             currentInvView = 'survival_override';
             buildFullInventoryUI();
             return;
           }
           activeCreativeTab = tabKey;
-          if (tabKey === 'search' && searchInput) {
-            searchInput.focus();
-          }
+          if (tabKey === 'search' && searchInput) searchInput.focus();
           buildFullInventoryUI();
         };
       });
 
-      // Arama Girişi Dinleyicisi
       if (searchInput && !searchInput._hasSearchListener) {
         searchInput._hasSearchListener = true;
         searchInput.oninput = (e) => {
@@ -6727,10 +8067,18 @@
             slot.title = `${BLOCK_INFO[item.type]?.name || item.type}`;
             slot.innerHTML = createSlotContent(item);
           }
-          slot.onclick = () => {
-            selectedSlotIndex = i;
-            updateInventoryUI();
-            renderCreativeInventory();
+          slot.oncontextmenu = (e) => e.preventDefault();
+          slot.onmousedown = (e) => {
+            handleGenericSlotClick({
+              getSlot: () => inventory[i],
+              setSlot: (val) => { inventory[i] = val || { type: null, count: 0 }; },
+              e: e,
+              onRefresh: () => {
+                selectedSlotIndex = i;
+                updateInventoryUI();
+                renderCreativeInventory();
+              }
+            });
           };
           hotbarGrid.appendChild(slot);
         }
@@ -6763,166 +8111,36 @@
         slot.title = info.name;
         slot.innerHTML = createSlotContent({ type: blockKey, count: 64 });
 
-        slot.onclick = () => {
-          // Tıklanan eşyayı aktif hotbar slotuna 64 adet olarak yerleştir
-          inventory[selectedSlotIndex] = { type: blockKey, count: 64 };
-          updateInventoryUI();
-          renderCreativeInventory();
-          showToast(`${info.name} seçildi! (x64)`);
+        slot.oncontextmenu = (e) => e.preventDefault();
+        slot.onmousedown = (e) => {
+          if (e.button === 0) {
+            // Sol tıkla imlece 64 adet al
+            heldCursorItem = { type: blockKey, count: 64 };
+            updateFloatingCursorUI();
+            showToast(`${info.name} seçildi! (x64)`);
+          } else if (e.button === 2) {
+            // Sağ tıkla 1 adet al
+            heldCursorItem = { type: blockKey, count: 1 };
+            updateFloatingCursorUI();
+          }
         };
         itemsGrid.appendChild(slot);
       });
     }
 
-    function handleInventorySlotClick(slotIdx) {
-      const item = inventory[slotIdx];
-      if (!item || !item.type || item.count <= 0) return;
-
-      // Eğer zırh eşyasıysa uygun zırh slotuna donan
-      const bInfo = BLOCK_INFO[item.type];
-      if (bInfo && bInfo.slotType) {
-        let armorIdx = -1;
-        if (bInfo.slotType === 'helmet') armorIdx = 0;
-        else if (bInfo.slotType === 'chestplate') armorIdx = 1;
-        else if (bInfo.slotType === 'leggings') armorIdx = 2;
-        else if (bInfo.slotType === 'boots') armorIdx = 3;
-
-        if (armorIdx >= 0) {
-          const oldArmor = armorSlots[armorIdx];
-          armorSlots[armorIdx] = { type: item.type, count: 1 };
-          if (oldArmor && oldArmor.type) {
-            inventory[slotIdx] = oldArmor;
-          } else {
-            item.count--;
-            if (item.count <= 0) inventory[slotIdx] = { type: null, count: 0 };
-          }
-          showToast(`${bInfo.name} kuşanıldı!`);
-          updateInventoryUI();
-          buildFullInventoryUI();
-          return;
-        } else if (bInfo.slotType === 'shield') {
-          const oldShield = shieldSlotItem;
-          shieldSlotItem = { type: item.type, count: 1 };
-          if (oldShield && oldShield.type) {
-            inventory[slotIdx] = oldShield;
-          } else {
-            item.count--;
-            if (item.count <= 0) inventory[slotIdx] = { type: null, count: 0 };
-          }
-          showToast('Kalkan ikinci ele kuşanıldı!');
-          updateInventoryUI();
-          buildFullInventoryUI();
-          return;
-        }
-      }
-
-      // 2x2 Crafting alanına aktarma veya hotbar geçişi
-      let placedInCraft = false;
-      for (let c = 0; c < 4; c++) {
-        if (!craftSlots[c]) {
-          craftSlots[c] = { type: item.type, count: 1 };
-          item.count--;
-          if (item.count <= 0) inventory[slotIdx] = { type: null, count: 0 };
-          placedInCraft = true;
-          break;
-        }
-      }
-
-      if (!placedInCraft) {
-        if (slotIdx >= 9) {
-          for (let h = 0; h < 9; h++) {
-            if (!inventory[h] || !inventory[h].type || inventory[h].count === 0) {
-              inventory[h] = { type: item.type, count: item.count };
-              inventory[slotIdx] = { type: null, count: 0 };
-              break;
-            }
-          }
-        } else {
-          for (let m = 9; m < 36; m++) {
-            if (!inventory[m] || !inventory[m].type || inventory[m].count === 0) {
-              inventory[m] = { type: item.type, count: item.count };
-              inventory[slotIdx] = { type: null, count: 0 };
-              break;
-            }
-          }
-        }
-      }
-
-      renderCraftGrid();
-      updateInventoryUI();
-      buildFullInventoryUI();
-    }
-
-    function renderCraftGrid() {
-      if (isCreativeMode) return;
-      for (let i = 0; i < 4; i++) {
-        const slotEl = document.querySelector(`.craft-slot[data-craft="${i}"]`);
-        if (!slotEl) continue;
-        slotEl.innerHTML = '';
-        const item = craftSlots[i];
-        if (item && item.type) {
-          slotEl.innerHTML = createSlotContent(item);
-        }
-        slotEl.onclick = () => {
-          if (craftSlots[i]) {
-            addItemToInventory(craftSlots[i].type, craftSlots[i].count || 1);
-            craftSlots[i] = null;
-            renderCraftGrid();
-            buildFullInventoryUI();
-          }
-        };
-      }
-      checkCraftingRecipe();
-    }
-
-    function checkCraftingRecipe() {
-      const resultEl = document.getElementById('craftResultSlot');
-      if (!resultEl) return;
-      resultEl.innerHTML = '';
-
-      const itemsInCraft = craftSlots.filter(s => s && s.type);
-      if (itemsInCraft.length === 0) {
-        resultEl.onclick = null;
-        return;
-      }
-
-      let woodItems = craftSlots.filter(s => s && (s.type === 'wood' || s.type === 'leaves'));
-      let plankItems = craftSlots.filter(s => s && s.type === 'planks');
-
-      if (woodItems.length > 0 && itemsInCraft.length === woodItems.length) {
-        const count = woodItems.length * 4;
-        resultEl.innerHTML = createSlotContent({ type: 'planks', count: count });
-        resultEl.onclick = () => {
-          addItemToInventory('planks', count);
-          for (let i = 0; i < 4; i++) if (craftSlots[i] && (craftSlots[i].type === 'wood' || craftSlots[i].type === 'leaves')) craftSlots[i] = null;
-          renderCraftGrid();
-          buildFullInventoryUI();
-        };
-        return;
-      }
-
-      if (plankItems.length >= 2) {
-        const count = plankItems.length * 2;
-        resultEl.innerHTML = createSlotContent({ type: 'wood', count: count });
-        resultEl.onclick = () => {
-          addItemToInventory('wood', count);
-          for (let i = 0; i < 4; i++) if (craftSlots[i] && craftSlots[i].type === 'planks') craftSlots[i] = null;
-          renderCraftGrid();
-          buildFullInventoryUI();
-        };
-        return;
-      }
-
-      resultEl.onclick = null;
-    }
-
     function toggleInventory() {
-      // SADECE OYUN EKRANI AKTIFKEN CALISIR - Menude veya giris ekraninda ASLA acilmaz!
       const gameEl = document.getElementById('game');
       if (!gameEl || gameEl.style.display !== 'block') return;
       if (isPauseOpen || isChatOpen) return;
-      isInventoryOpen = !isInventoryOpen; if (typeof resetBreaking === 'function') resetBreaking();
+      if (isCraftingTableOpen) {
+        closeCraftingTableGUI();
+        return;
+      }
+
+      isInventoryOpen = !isInventoryOpen;
+      if (typeof resetBreaking === 'function') resetBreaking();
       const modal = document.getElementById('inventoryModal');
+
       if (isInventoryOpen) {
         modal.classList.add('active');
         document.exitPointerLock?.();
@@ -6930,6 +8148,22 @@
         renderCraftGrid();
       } else {
         modal.classList.remove('active');
+
+        // Kapanışta 2x2 grid içindeki eşyaları güvenle envantere iade et
+        for (let i = 0; i < 4; i++) {
+          if (craftSlots[i] && craftSlots[i].type && craftSlots[i].count > 0) {
+            addItemToInventory(craftSlots[i].type, craftSlots[i].count);
+            craftSlots[i] = null;
+          }
+        }
+
+        // Kapanışta imleçteki eşyayı envantere iade et
+        if (heldCursorItem && heldCursorItem.type && heldCursorItem.count > 0) {
+          addItemToInventory(heldCursorItem.type, heldCursorItem.count);
+          heldCursorItem = null;
+          updateFloatingCursorUI();
+        }
+
         renderer.domElement.requestPointerLock?.();
       }
     }
@@ -8410,44 +9644,294 @@
         });
       }
 
-      // 6. Eşya/Alet Çizici (Items, Swords, Pickaxes, Food)
+      
+      // =========================================================================
+      // KULLANICI GÖRSELİYLE BİREBİR FOTOĞRAF STİLİ ALET DOKU MOTORU (PHOTO TOY TOOL PACK)
+      // =========================================================================
+      // =========================================================================
+      // KULLANICI İSTEĞİ: ALET KÜPLERİ MATERYAL RENGİNDE & 2D KOYU TON ALET GÖRSELLİ
+      // =========================================================================
+      function getPhotoToolPalette(matKey) {
+        const palettes = {
+          diamond: {
+            bg: "#38bdf8",         // Elmas Mavisi zemin
+            bg_border: "#0284c7",  // Koyu mavi çerçeve
+            bg_light: "#7dd3fc",   // Açık mavi üst/sol vurgu
+            text: "#075985",       // Koyu mavi piksel yazı
+            black: "#082f49"
+          },
+          iron: {
+            bg: "#f8fafc",         // Demir Beyazı zemin
+            bg_border: "#cbd5e1",  // Gümüş/metalik açık gri çerçeve
+            bg_light: "#ffffff",   // Beyaz vurgu
+            text: "#334155",       // Koyu kurşuni çelik piksel yazı
+            black: "#1e293b"
+          },
+          golden: {
+            bg: "#ffd700",         // Altın Sarısı zemin
+            bg_border: "#ca8a04",  // Koyu sarı/kehribar çerçeve
+            bg_light: "#fef08a",   // Açık altın sarısı vurgu
+            text: "#854d0e",       // Koyu kehribar altın piksel yazı
+            black: "#451a03"
+          },
+          stone: {
+            bg: "#84878a",         // Taş Grisi zemin
+            bg_border: "#64748b",  // Koyu gri çerçeve
+            bg_light: "#94a3b8",   // Açık gri üst vurgu
+            text: "#334155",       // Koyu taş grisi piksel yazı
+            black: "#0f172a"
+          },
+          wooden: {
+            bg: "#8f683a",         // Tahta Kahverengisi zemin
+            bg_border: "#78350f",  // Koyu kahve çerçeve
+            bg_light: "#b45309",   // Açık tahta vurgusu
+            text: "#451a03",       // Koyu ceviz ahşap piksel yazı
+            black: "#1b0901"
+          },
+          netherite: {
+            bg: "#3d373a",         // Netherit Koyu Grisi zemin
+            bg_border: "#2b2629",  // Siyah/mor gri çerçeve
+            bg_light: "#4d454a",   // Açık netherit vurgusu
+            text: "#141113",       // Derin netherit siyahı piksel yazı
+            black: "#080608"
+          }
+        };
+        return palettes[matKey] || palettes.diamond;
+      }
+
+      function drawPhotoCubeBackground(c, matKey) {
+        if (matKey) {
+          const pal = getPhotoToolPalette(matKey);
+          fill(c, pal.bg);
+          for (let x = 0; x < 16; x++) {
+            px(c, x, 0, pal.bg_light);
+            px(c, x, 15, pal.bg_border);
+          }
+          for (let y = 0; y < 16; y++) {
+            px(c, 0, y, pal.bg_light);
+            px(c, 15, y, pal.bg_border);
+          }
+        } else {
+          fill(c, "#edf0f3");
+          for (let x = 0; x < 16; x++) { px(c, x, 0, "#c4c9d0"); px(c, x, 15, "#c4c9d0"); }
+          for (let y = 0; y < 16; y++) { px(c, 0, y, "#c4c9d0"); px(c, 15, y, "#c4c9d0"); }
+        }
+      }
+
+      function createToolAsset(drawFn, matKey) {
+        const cvsIcon = createBlockCanvas(c => {
+          c.clearRect(0, 0, 16, 16);
+          drawFn(c);
+        });
+        const cvsCube = createBlockCanvas(c => {
+          drawPhotoCubeBackground(c, matKey);
+          drawFn(c);
+        });
+        return { icon: cvsIcon, cube: cvsCube };
+      }
+
+      // KULLANICI İSTEĞİ: "yazıları küpün üstüne daha sade ve piksel piksel yaz, elmas yazmasın bide madenin adı yazmasın"
+      // 4x7 Otantik Minecraft Piksel Yazı Tipi Glifleri
+      const PIXEL_FONT_4x7 = {
+        B: ["1110", "1001", "1001", "1110", "1001", "1001", "1110"],
+        A: ["0110", "1001", "1001", "1111", "1001", "1001", "1001"],
+        L: ["1000", "1000", "1000", "1000", "1000", "1000", "1111"],
+        T: ["11111", "00100", "00100", "00100", "00100", "00100", "00100"],
+        K: ["1001", "1010", "1100", "1100", "1010", "1001", "1001"],
+        Z: ["1111", "0001", "0010", "0100", "0100", "1000", "1111"],
+        M: ["10001", "11011", "10101", "10101", "10001", "10001", "10001"],
+        U: ["1001", "1001", "1001", "1001", "1001", "1001", "0110"],
+        "Ü": ["1001", "0000", "1001", "1001", "1001", "1001", "0110"],
+        R: ["1110", "1001", "1001", "1110", "1100", "1010", "1001"],
+        E: ["1111", "1000", "1000", "1110", "1000", "1000", "1111"],
+        I: ["111", "010", "010", "010", "010", "010", "111"],
+        C: ["0111", "1000", "1000", "1000", "1000", "1000", "0111"],
+        "Ç": ["0111", "1000", "1000", "1000", "1000", "0111", "0010"]
+      };
+
+      // Sade, maden adı içermeyen, küp renginin koyu tonunda piksel piksel alet dokusu
+      function createPixelTextToolAsset(word, matKey) {
+        const cvs = document.createElement("canvas");
+        cvs.width = 32;
+        cvs.height = 32;
+        const ctx = cvs.getContext("2d");
+        ctx.imageSmoothingEnabled = false;
+
+        const pal = getPhotoToolPalette(matKey || "diamond");
+
+        // 1. Sade zemin dolgusu (Materyal rengi: Demir = Beyaz, Elmas = Mavi vb.)
+        ctx.fillStyle = pal.bg;
+        ctx.fillRect(0, 0, 32, 32);
+
+        // 2. 1 piksellik zarif 3D blok pahı (Bevel)
+        ctx.fillStyle = pal.bg_light;
+        ctx.fillRect(0, 0, 32, 1);
+        ctx.fillRect(0, 0, 1, 32);
+        ctx.fillStyle = pal.bg_border;
+        ctx.fillRect(0, 31, 32, 1);
+        ctx.fillRect(31, 0, 1, 32);
+
+        // 3. Piksel piksel alet adı çizimi (Küp renginin KOYU TONUNDA)
+        let totalW = 0;
+        for (let i = 0; i < word.length; i++) {
+          const ch = word[i];
+          const glyph = PIXEL_FONT_4x7[ch] || PIXEL_FONT_4x7["A"];
+          totalW += glyph[0].length + (i > 0 ? 1 : 0);
+        }
+
+        const startX = Math.floor((32 - totalW) / 2);
+        const startY = Math.floor((32 - 7) / 2);
+
+        ctx.fillStyle = pal.text || pal.black;
+        let curX = startX;
+        for (let i = 0; i < word.length; i++) {
+          const ch = word[i];
+          const glyph = PIXEL_FONT_4x7[ch] || PIXEL_FONT_4x7["A"];
+          const w = glyph[0].length;
+          for (let r = 0; r < glyph.length; r++) {
+            const row = glyph[r];
+            for (let c = 0; c < row.length; c++) {
+              if (row[c] === "1") {
+                ctx.fillRect(curX + c, startY + r, 1, 1);
+              }
+            }
+          }
+          curX += w + 1;
+        }
+
+        return { icon: cvs, cube: cvs };
+      }
+
+      function makePickaxeCanvas(matKey) {
+        return createPixelTextToolAsset("KAZMA", matKey);
+      }
+
+      function makeAxeCanvas(matKey) {
+        return createPixelTextToolAsset("BALTA", matKey);
+      }
+
+      function makeShovelCanvas(matKey) {
+        return createPixelTextToolAsset("KÜREK", matKey);
+      }
+
+      function makeSwordCanvas(matKey) {
+        return createPixelTextToolAsset("KILIÇ", matKey);
+      }
+
+      function makeStickCanvas() {
+        const pal = getPhotoToolPalette('wooden');
+        return createToolAsset(c => {
+          const woodDark = pal.black;
+          const woodMid = pal.main;
+          const woodLight = pal.light;
+          for (let i = 0; i <= 8; i++) {
+            const x = 3 + i, y = 12 - i;
+            px(c, x - 1, y, woodDark);
+            px(c, x, y, (i % 2 === 0) ? woodMid : woodLight);
+            px(c, x + 1, y, woodDark);
+            px(c, x, y + 1, woodDark);
+          }
+        });
+      }
+
+      // 6. YAY, OK, KALKAN & ZIRHLAR
+      function makeBowCanvas(isCrossbow = false) {
+        const pal = getPhotoToolPalette('wooden');
+        return createToolAsset(c => {
+          const wood = pal.main, woodDark = pal.black, stringCol = '#ffffff';
+          px(c, 12, 3, woodDark); px(c, 11, 4, wood); px(c, 10, 5, wood);
+          px(c, 9, 6, wood); px(c, 8, 7, wood); px(c, 7, 8, wood);
+          px(c, 6, 9, wood); px(c, 5, 10, wood); px(c, 4, 11, wood); px(c, 3, 12, woodDark);
+          for (let i = 4; i <= 11; i++) px(c, i, i, stringCol);
+        });
+      }
+
+      function makeArrowCanvas() {
+        return createToolAsset(c => {
+          px(c, 12, 3, '#ffffff'); px(c, 11, 4, '#888888');
+          for (let i = 0; i <= 6; i++) px(c, 10 - i, 5 + i, '#8f683a');
+          px(c, 3, 12, '#ffffff'); px(c, 4, 12, '#cccccc');
+        });
+      }
+
+      function makeShieldCanvas() {
+        return createToolAsset(c => {
+          for (let x = 4; x <= 11; x++) { px(c, x, 2, '#d8dbdf'); px(c, x, 3, '#888888'); }
+          for (let y = 3; y <= 9; y++) {
+            for (let x = 4; x <= 11; x++) {
+              px(c, x, y, ((x + y) % 2 === 0) ? '#8f683a' : '#a07d4a');
+            }
+          }
+          for (let i = 0; i < 3; i++) {
+            px(c, 4 + i, 10 + i, '#888888');
+            px(c, 11 - i, 10 + i, '#888888');
+          }
+        });
+      }
+
+      function makeArmorCanvas(matKey, piece) {
+        const pal = getPhotoToolPalette(matKey);
+        return createToolAsset(c => {
+          if (piece === 'helmet') {
+            for (let x = 4; x <= 11; x++) px(c, x, 3, pal.black);
+            for (let x = 3; x <= 12; x++) {
+              px(c, x, 4, pal.light);
+              px(c, x, 5, (x >= 8) ? pal.main : pal.light);
+            }
+            for (let y = 6; y <= 9; y++) {
+              px(c, 3, y, pal.black); px(c, 4, y, pal.main); px(c, 5, y, pal.black);
+              px(c, 10, y, pal.black); px(c, 11, y, pal.main); px(c, 12, y, pal.black);
+            }
+          } else if (piece === 'chestplate') {
+            for (let x = 3; x <= 5; x++) px(c, x, 2, pal.light);
+            for (let x = 10; x <= 12; x++) px(c, x, 2, pal.light);
+            for (let y = 4; y <= 11; y++) {
+              for (let x = 3; x <= 12; x++) {
+                if (x === 3 || x === 12 || y === 11) px(c, x, y, pal.black);
+                else if (x <= 6) px(c, x, y, pal.light);
+                else if (x <= 9) px(c, x, y, pal.main);
+                else px(c, x, y, pal.dark);
+              }
+            }
+          } else if (piece === 'leggings') {
+            for (let x = 4; x <= 11; x++) px(c, x, 2, pal.light);
+            for (let y = 3; y <= 11; y++) {
+              px(c, 4, y, pal.light); px(c, 5, y, pal.main);
+              px(c, 10, y, pal.main); px(c, 11, y, pal.dark);
+            }
+            for (let x = 4; x <= 6; x++) px(c, x, 12, pal.black);
+            for (let x = 9; x <= 11; x++) px(c, x, 12, pal.black);
+          } else if (piece === 'boots') {
+            for (let y = 7; y <= 12; y++) {
+              px(c, 4, y, pal.light); px(c, 5, y, pal.main);
+              px(c, 10, y, pal.main); px(c, 11, y, pal.dark);
+            }
+            for (let x = 3; x <= 6; x++) px(c, x, 12, pal.black);
+            for (let x = 9; x <= 12; x++) px(c, x, 12, pal.black);
+          }
+        });
+      }
+
       function makeItemCanvas(mainCol, handleCol = '#553311', type = 'tool') {
         return createBlockCanvas(c => {
           c.clearRect(0, 0, 16, 16);
-          if (type === 'sword') {
-            for (let i = 0; i < 9; i++) {
-              px(c, 4 + i, 11 - i, mainCol);
-              px(c, 3 + i, 11 - i, '#111111');
-              px(c, 5 + i, 11 - i, '#ffffff');
-            }
-            px(c, 3, 12, '#333'); px(c, 2, 13, handleCol); px(c, 1, 14, '#111');
-          } else if (type === 'pickaxe') {
-            for (let i = 0; i < 11; i++) px(c, 2 + i, 13 - i, handleCol);
-            rect(c, 9, 2, 5, 3, mainCol);
-            px(c, 8, 3, mainCol); px(c, 13, 6, mainCol);
-          } else if (type === 'apple') {
-            fill(c, '#ff2222');
+          if (type === 'apple') {
+            fill(c, mainCol);
             c.strokeStyle = '#990000'; c.strokeRect(2, 3, 11, 11);
             px(c, 7, 1, '#4a2e00'); px(c, 8, 2, '#4a2e00');
             px(c, 5, 5, '#ffffff'); px(c, 6, 5, '#ffffff');
           } else if (type === 'bread') {
-            fill(c, '#c48e48');
+            fill(c, mainCol);
             c.strokeStyle = '#7c4819'; c.strokeRect(1, 4, 14, 8);
             px(c, 4, 5, '#f5d198'); px(c, 7, 5, '#f5d198'); px(c, 10, 5, '#f5d198');
-          } else if (type === 'armor') {
-            fill(c, mainCol);
-            c.strokeStyle = '#222222'; c.strokeRect(1, 1, 14, 14);
           } else {
-            // Standart kristal/maden külçesi
             fill(c, mainCol);
             c.strokeStyle = '#111111'; c.strokeRect(2, 4, 12, 8);
             px(c, 4, 6, '#ffffff'); px(c, 5, 6, '#ffffff');
           }
         });
       }
-
-      // DOKU HARİTASI TANIMLARI
-      const customTextures = {
+const customTextures = {
         // Taş Tuğlalar
         stone_bricks: makeBrickCanvas('#616161', '#373737'),
         cracked_stone_bricks: makeBrickCanvas('#525252', '#2a2a2a', true, false),
@@ -8567,69 +10051,109 @@
         netherite_ingot: makeItemCanvas('#3d373a', '#111', 'item'),
         coal_item: makeItemCanvas('#262626', '#000', 'item'),
         amethyst_shard: makeItemCanvas('#855fb5', '#441166', 'item'),
+        stick: makeItemCanvas('#8f683a', '#4a270f', 'stick'),
 
-        // Silahlar, Aletler ve Zırhlar
-        netherite_sword: makeItemCanvas('#3d373a', '#222', 'sword'),
-        diamond_sword: makeItemCanvas('#29c6db', '#4a2e00', 'sword'),
-        iron_sword: makeItemCanvas('#d8dbdf', '#4a2e00', 'sword'),
-        golden_sword: makeItemCanvas('#ffd700', '#4a2e00', 'sword'),
-        stone_sword: makeItemCanvas('#84878a', '#4a2e00', 'sword'),
-        wooden_sword: makeItemCanvas('#8f683a', '#3a200a', 'sword'),
-        bow: makeItemCanvas('#8f683a', '#ddd', 'tool'),
-        crossbow: makeItemCanvas('#553311', '#888', 'tool'),
-        arrow: makeItemCanvas('#999999', '#4a2e00', 'tool'),
-        trident: makeItemCanvas('#29c6db', '#1565c0', 'sword'),
-        shield: makeItemCanvas('#8f683a', '#d8dbdf', 'armor'),
+        // --- YÜKSEK KALİTELİ VE OTANTİK SİLAHLAR, ALETLER & ZIRHLAR (HD TEXTURE PACK) ---
+        // Kılıçlar (Swords)
+        netherite_sword: makeSwordCanvas('netherite'),
+        diamond_sword: makeSwordCanvas('diamond'),
+        iron_sword: makeSwordCanvas('iron'),
+        golden_sword: makeSwordCanvas('golden'),
+        stone_sword: makeSwordCanvas('stone'),
+        wooden_sword: makeSwordCanvas('wooden'),
+        trident: makeSwordCanvas('diamond'),
 
-        netherite_pickaxe: makeItemCanvas('#3d373a', '#222', 'pickaxe'),
-        diamond_pickaxe: makeItemCanvas('#29c6db', '#4a2e00', 'pickaxe'),
-        iron_pickaxe: makeItemCanvas('#d8dbdf', '#4a2e00', 'pickaxe'),
-        golden_pickaxe: makeItemCanvas('#ffd700', '#4a2e00', 'pickaxe'),
-        stone_pickaxe: makeItemCanvas('#84878a', '#4a2e00', 'pickaxe'),
-        wooden_pickaxe: makeItemCanvas('#8f683a', '#3a200a', 'pickaxe'),
+        // Kazmalar (Pickaxes)
+        netherite_pickaxe: makePickaxeCanvas('netherite'),
+        diamond_pickaxe: makePickaxeCanvas('diamond'),
+        iron_pickaxe: makePickaxeCanvas('iron'),
+        golden_pickaxe: makePickaxeCanvas('golden'),
+        stone_pickaxe: makePickaxeCanvas('stone'),
+        wooden_pickaxe: makePickaxeCanvas('wooden'),
 
-        netherite_axe: makeItemCanvas('#3d373a', '#222', 'pickaxe'),
-        diamond_axe: makeItemCanvas('#29c6db', '#4a2e00', 'pickaxe'),
-        iron_axe: makeItemCanvas('#d8dbdf', '#4a2e00', 'pickaxe'),
-        golden_axe: makeItemCanvas('#ffd700', '#4a2e00', 'pickaxe'),
+        // Baltalar (Axes)
+        netherite_axe: makeAxeCanvas('netherite'),
+        diamond_axe: makeAxeCanvas('diamond'),
+        iron_axe: makeAxeCanvas('iron'),
+        golden_axe: makeAxeCanvas('golden'),
+        stone_axe: makeAxeCanvas('stone'),
+        wooden_axe: makeAxeCanvas('wooden'),
 
-        netherite_shovel: makeItemCanvas('#3d373a', '#222', 'tool'),
-        diamond_shovel: makeItemCanvas('#29c6db', '#4a2e00', 'tool'),
-        iron_shovel: makeItemCanvas('#d8dbdf', '#4a2e00', 'tool'),
+        // Kürekler (Shovels)
+        netherite_shovel: makeShovelCanvas('netherite'),
+        diamond_shovel: makeShovelCanvas('diamond'),
+        iron_shovel: makeShovelCanvas('iron'),
+        golden_shovel: makeShovelCanvas('golden'),
+        stone_shovel: makeShovelCanvas('stone'),
+        wooden_shovel: makeShovelCanvas('wooden'),
+
+        // Yay, Ok, Kalkan & Çubuk
+        bow: makeBowCanvas(false),
+        crossbow: makeBowCanvas(true),
+        arrow: makeArrowCanvas(),
+        shield: makeShieldCanvas(),
+        stick: makeStickCanvas(),
         flint_and_steel: makeItemCanvas('#bdc3c7', '#222', 'tool'),
         shears: makeItemCanvas('#d8dbdf', '#888', 'tool'),
         fishing_rod: makeItemCanvas('#8f683a', '#ddd', 'tool'),
         compass: makeItemCanvas('#e74c3c', '#222', 'item'),
         clock: makeItemCanvas('#f1c40f', '#222', 'item'),
 
-        netherite_helmet: makeItemCanvas('#3d373a', '#111', 'armor'),
-        netherite_chestplate: makeItemCanvas('#3d373a', '#111', 'armor'),
-        netherite_leggings: makeItemCanvas('#3d373a', '#111', 'armor'),
-        netherite_boots: makeItemCanvas('#3d373a', '#111', 'armor'),
-        diamond_helmet: makeItemCanvas('#29c6db', '#111', 'armor'),
-        diamond_chestplate: makeItemCanvas('#29c6db', '#111', 'armor'),
-        diamond_leggings: makeItemCanvas('#29c6db', '#111', 'armor'),
-        diamond_boots: makeItemCanvas('#29c6db', '#111', 'armor'),
-        iron_helmet: makeItemCanvas('#d8dbdf', '#333', 'armor'),
-        iron_chestplate: makeItemCanvas('#d8dbdf', '#333', 'armor'),
-        iron_leggings: makeItemCanvas('#d8dbdf', '#333', 'armor'),
-        iron_boots: makeItemCanvas('#d8dbdf', '#333', 'armor'),
-        golden_helmet: makeItemCanvas('#ffd700', '#886600', 'armor'),
-        golden_chestplate: makeItemCanvas('#ffd700', '#886600', 'armor'),
-        golden_leggings: makeItemCanvas('#ffd700', '#886600', 'armor'),
-        golden_boots: makeItemCanvas('#ffd700', '#886600', 'armor'),
-        leather_helmet: makeItemCanvas('#8d5524', '#3c2e28', 'armor'),
-        leather_chestplate: makeItemCanvas('#8d5524', '#3c2e28', 'armor'),
-        leather_leggings: makeItemCanvas('#8d5524', '#3c2e28', 'armor'),
-        leather_boots: makeItemCanvas('#8d5524', '#3c2e28', 'armor')
+        // Zırhlar (Armors)
+        netherite_helmet: makeArmorCanvas('netherite', 'helmet'),
+        netherite_chestplate: makeArmorCanvas('netherite', 'chestplate'),
+        netherite_leggings: makeArmorCanvas('netherite', 'leggings'),
+        netherite_boots: makeArmorCanvas('netherite', 'boots'),
+
+        diamond_helmet: makeArmorCanvas('diamond', 'helmet'),
+        diamond_chestplate: makeArmorCanvas('diamond', 'chestplate'),
+        diamond_leggings: makeArmorCanvas('diamond', 'leggings'),
+        diamond_boots: makeArmorCanvas('diamond', 'boots'),
+
+        iron_helmet: makeArmorCanvas('iron', 'helmet'),
+        iron_chestplate: makeArmorCanvas('iron', 'chestplate'),
+        iron_leggings: makeArmorCanvas('iron', 'leggings'),
+        iron_boots: makeArmorCanvas('iron', 'boots'),
+
+        golden_helmet: makeArmorCanvas('golden', 'helmet'),
+        golden_chestplate: makeArmorCanvas('golden', 'chestplate'),
+        golden_leggings: makeArmorCanvas('golden', 'leggings'),
+        golden_boots: makeArmorCanvas('golden', 'boots'),
+
+        leather_helmet: makeArmorCanvas('leather', 'helmet'),
+        leather_chestplate: makeArmorCanvas('leather', 'chestplate'),
+        leather_leggings: makeArmorCanvas('leather', 'leggings'),
+        leather_boots: makeArmorCanvas('leather', 'boots')
       };
+
+      const PHOTO_TOOL_TEXTURES = {};
+
+      
+      // KULLANICI FOTOĞRAFIYLA BİREBİR (1:1) ALET DOKULARI ENTEGRASYONU
+      Object.keys(PHOTO_TOOL_TEXTURES).forEach(key => {
+        const item = PHOTO_TOOL_TEXTURES[key];
+        const imgCube = new Image();
+        imgCube.src = item.cube;
+        const tex = new THREE.Texture(imgCube);
+        tex.magFilter = THREE.NearestFilter;
+        tex.minFilter = THREE.NearestFilter;
+        tex.generateMipmaps = false;
+        imgCube.onload = () => { tex.needsUpdate = true; };
+        materials[key] = createMat(tex);
+        blockIcons[key] = item.icon;
+      });
 
       // Tüm dokuları materyal ve ikon sözlüklerine kaydet
       Object.keys(customTextures).forEach(key => {
-        const cvs = customTextures[key];
-        const tex = texFromCanvas(cvs);
-        materials[key] = createMat(tex);
-        blockIcons[key] = cvs.toDataURL();
+        const item = customTextures[key];
+        if (item && item.cube && item.icon) {
+          materials[key] = createMat(texFromCanvas(item.cube));
+          blockIcons[key] = item.icon.toDataURL();
+        } else {
+          const cvs = item;
+          materials[key] = createMat(texFromCanvas(cvs));
+          blockIcons[key] = cvs.toDataURL();
+        }
       });
 
       // Herhangi bir blok eksik kalırsa güvenli yedekleme (ASLA çimene dönmez, taş dokusu alır)
@@ -9223,6 +10747,38 @@
       heldItemMesh.visible = false;
       rightArmGroup.add(heldItemMesh);
 
+      const stickGeo3rd = new THREE.BoxGeometry(0.038, 0.55, 0.038);
+      const stickMat3rd = new THREE.MeshLambertMaterial({ color: 0x8f683a });
+      const heldStickMesh3rd = new THREE.Mesh(stickGeo3rd, stickMat3rd);
+      heldStickMesh3rd.position.set(0, -0.50, 0.14);
+      heldStickMesh3rd.rotation.set(0.35, 0, 0);
+      heldStickMesh3rd.visible = false;
+      rightArmGroup.add(heldStickMesh3rd);
+
+      // 3. Şahıs 3D Aletler (Kazma, Kürek, Kılıç, Balta)
+      const thirdPersonTools = (typeof create3DToolKit === 'function') ? create3DToolKit(0.85) : null;
+      if (thirdPersonTools) {
+        thirdPersonTools.pickaxe.group.position.set(0, -0.48, 0.12);
+        thirdPersonTools.pickaxe.group.rotation.set(0.35, 0, 0);
+        thirdPersonTools.pickaxe.group.visible = false;
+        rightArmGroup.add(thirdPersonTools.pickaxe.group);
+
+        thirdPersonTools.shovel.group.position.set(0, -0.48, 0.12);
+        thirdPersonTools.shovel.group.rotation.set(0.35, 0, 0);
+        thirdPersonTools.shovel.group.visible = false;
+        rightArmGroup.add(thirdPersonTools.shovel.group);
+
+        thirdPersonTools.sword.group.position.set(0, -0.45, 0.14);
+        thirdPersonTools.sword.group.rotation.set(0.35, 0, 0);
+        thirdPersonTools.sword.group.visible = false;
+        rightArmGroup.add(thirdPersonTools.sword.group);
+
+        thirdPersonTools.axe.group.position.set(0, -0.48, 0.12);
+        thirdPersonTools.axe.group.rotation.set(0.35, 0, 0);
+        thirdPersonTools.axe.group.visible = false;
+        rightArmGroup.add(thirdPersonTools.axe.group);
+      }
+
       group.add(rightArmGroup);
 
       // 4. BACAKLAR (Kalça pivotları: y = 0.64)
@@ -9280,6 +10836,14 @@
         heldItemMesh,
         updateHeldItem: function(type, mats) {
           if (!heldItemMesh) return;
+          if (typeof heldStickMesh3rd !== 'undefined') heldStickMesh3rd.visible = false;
+          if (typeof thirdPersonTools !== 'undefined' && thirdPersonTools) {
+            thirdPersonTools.pickaxe.group.visible = false;
+            thirdPersonTools.shovel.group.visible = false;
+            thirdPersonTools.sword.group.visible = false;
+            thirdPersonTools.axe.group.visible = false;
+          }
+
           if (!type || type === 'water') {
             heldItemMesh.visible = false;
           } else {
@@ -10210,6 +11774,137 @@
     const heldBlockMesh = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.2), materials.stone);
     heldBlockMesh.position.set(0, -0.35, -0.15); heldBlockMesh.visible = false;
     armGroup.add(heldBlockMesh);
+
+    // 3D MINECRAFT ÇUBUK (STICK) MODELİ - 1. ŞAHIS ELDE TUTUŞ
+    const stickGeo = new THREE.BoxGeometry(0.042, 0.62, 0.042);
+    const stickMat = new THREE.MeshStandardMaterial({
+      color: 0x8f683a,
+      roughness: 0.85,
+      metalness: 0.05
+    });
+    const heldStickMesh = new THREE.Mesh(stickGeo, stickMat);
+    heldStickMesh.position.set(0.02, -0.28, -0.16);
+    heldStickMesh.rotation.set(-0.25, 0.08, -0.42);
+    heldStickMesh.visible = false;
+    armGroup.add(heldStickMesh);
+
+    // =========================================================================
+    // 3D DİK MİNECRAFT ALETLERİ (KAZMA, KÜREK, BALTA, KILIÇ, ÇUBUK) - 1. ŞAHIS
+    // =========================================================================
+    function getTool3DMatProps(type) {
+      if (!type) return { color: 0xd8dbdf, roughness: 0.35, metalness: 0.5 };
+      if (type.includes('netherite')) return { color: 0x3d373a, roughness: 0.25, metalness: 0.85 };
+      if (type.includes('diamond'))   return { color: 0x29c6db, roughness: 0.15, metalness: 0.6 };
+      if (type.includes('golden') || type.includes('gold')) return { color: 0xffd700, roughness: 0.25, metalness: 0.8 };
+      if (type.includes('iron'))     return { color: 0xd8dbdf, roughness: 0.3, metalness: 0.7 };
+      if (type.includes('stone'))    return { color: 0x84878a, roughness: 0.85, metalness: 0.1 };
+      if (type.includes('wooden') || type.includes('wood')) return { color: 0x8f683a, roughness: 0.9, metalness: 0.05 };
+      return { color: 0xd8dbdf, roughness: 0.35, metalness: 0.5 };
+    }
+
+    const stickWoodMat = new THREE.MeshStandardMaterial({ color: 0x8f683a, roughness: 0.85 });
+    const pickHeadMat = new THREE.MeshStandardMaterial({ color: 0x29c6db, roughness: 0.2, metalness: 0.5 });
+    const shovBladeMat = new THREE.MeshStandardMaterial({ color: 0x29c6db, roughness: 0.2, metalness: 0.5 });
+    const swBladeMat = new THREE.MeshStandardMaterial({ color: 0x29c6db, roughness: 0.15, metalness: 0.6 });
+    const swGuardMat = new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.4, metalness: 0.6 });
+    const axHeadMat = new THREE.MeshStandardMaterial({ color: 0x29c6db, roughness: 0.2, metalness: 0.5 });
+
+    // DİK MİNECRAFT ALET KONTEYNERI (Kameraya bağlı, sağ altta dimdik duran duruş)
+    const toolContainer = new THREE.Group();
+    // Fotoğraftaki gibi sağ alt köşeden ekran merkezine doğru dimdik/açılı duruş
+    toolContainer.position.set(0.34, -0.42, -0.46);
+    toolContainer.rotation.set(-0.10, -0.30, 0.35);
+    toolContainer.visible = false;
+    armContainer.add(toolContainer);
+
+    // Sapı tutan oyuncu sağ eli / manşeti
+    const toolHandMesh = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.26, 0.18), playerArmMat);
+    toolHandMesh.position.set(0.01, -0.06, 0.02);
+    toolContainer.add(toolHandMesh);
+
+    // 1. Kazma (Pickaxe) - Ucu sola bakan kavisli kafa
+    const pGroup = new THREE.Group();
+    const pHandle = new THREE.Mesh(new THREE.BoxGeometry(0.042, 0.70, 0.042), stickWoodMat);
+    pHandle.position.set(0, 0.35, 0);
+    pGroup.add(pHandle);
+
+    const pHeadBar = new THREE.Mesh(new THREE.BoxGeometry(0.40, 0.075, 0.065), pickHeadMat);
+    pHeadBar.position.set(0, 0.64, 0);
+    pGroup.add(pHeadBar);
+
+    // Kavisli sol uç (Ekran merkezine / hedefe doğru sivrilir)
+    const pTipL = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.085, 0.06), pickHeadMat);
+    pTipL.position.set(-0.21, 0.60, 0); pTipL.rotation.z = 0.55;
+    pGroup.add(pTipL);
+
+    // Kavisli sağ uç
+    const pTipR = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.085, 0.06), pickHeadMat);
+    pTipR.position.set(0.21, 0.60, 0); pTipR.rotation.z = -0.55;
+    pGroup.add(pTipR);
+    pGroup.visible = false;
+    toolContainer.add(pGroup);
+
+    // 2. Kürek (Shovel) - Dik metalik pala
+    const sGroup = new THREE.Group();
+    const sHandle = new THREE.Mesh(new THREE.BoxGeometry(0.042, 0.70, 0.042), stickWoodMat);
+    sHandle.position.set(0, 0.35, 0);
+    sGroup.add(sHandle);
+
+    const sBlade = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.26, 0.045), shovBladeMat);
+    sBlade.position.set(0, 0.68, 0);
+    sGroup.add(sBlade);
+    sGroup.visible = false;
+    toolContainer.add(sGroup);
+
+    // 3. Kılıç (Sword) - Dik çift ağızlı namlu
+    const swGroup = new THREE.Group();
+    const swGripMat = new THREE.MeshStandardMaterial({ color: 0x3d1f08, roughness: 0.8 });
+    const swGrip = new THREE.Mesh(new THREE.BoxGeometry(0.038, 0.18, 0.038), swGripMat);
+    swGrip.position.set(0, 0.08, 0);
+    swGroup.add(swGrip);
+
+    const swGuard = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.045, 0.055), swGuardMat);
+    swGuard.position.set(0, 0.18, 0);
+    swGroup.add(swGuard);
+
+    const swBlade = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.65, 0.03), swBladeMat);
+    swBlade.position.set(0, 0.52, 0);
+    swGroup.add(swBlade);
+    swGroup.visible = false;
+    toolContainer.add(swGroup);
+
+    // 4. Balta (Axe) - Dik ağır kafa
+    const axGroup = new THREE.Group();
+    const aHandle = new THREE.Mesh(new THREE.BoxGeometry(0.042, 0.70, 0.042), stickWoodMat);
+    aHandle.position.set(0, 0.35, 0);
+    axGroup.add(aHandle);
+
+    const aHead = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.22, 0.065), axHeadMat);
+    aHead.position.set(-0.09, 0.60, 0);
+    axGroup.add(aHead);
+    axGroup.visible = false;
+    toolContainer.add(axGroup);
+
+    // 5. Çubuk (Stick) - Dik ahşap çubuk
+    const stGroup = new THREE.Group();
+    const stShaft = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.68, 0.045), stickWoodMat);
+    stShaft.position.set(0, 0.34, 0);
+    stGroup.add(stShaft);
+    stGroup.visible = false;
+    toolContainer.add(stGroup);
+
+    const tools3D = {
+      pickaxe: pGroup,
+      shovel: sGroup,
+      sword: swGroup,
+      axe: axGroup,
+      stick: stGroup,
+      pickMat: pickHeadMat,
+      shovMat: shovBladeMat,
+      swordMat: swBladeMat,
+      axeMat: axHeadMat
+    };
+
     armGroup.position.set(0.38, -0.30, -0.52); armGroup.rotation.set(1.57, 0, 0.4);
     armContainer.add(armGroup);
 
@@ -10242,12 +11937,18 @@
     let isSwinging = false, swingProgress = 0;
     function triggerArmPunch() { isSwinging = true; swingProgress = 0; }
     function updateHeldBlockMaterial(type) {
+      // Elde tutulan alet ve bloklar KARE KÜP olarak tutulur (üstünde birebir fotoğraf alet logosu ile)
+      armGroup.visible = true;
+      if (typeof toolContainer !== 'undefined') toolContainer.visible = false;
+      if (typeof heldStickMesh !== 'undefined') heldStickMesh.visible = false;
+
       if (!type || type === 'water') {
         heldBlockMesh.visible = false;
       } else {
         heldBlockMesh.visible = true;
         heldBlockMesh.material = materials[type] || materials.stone;
       }
+
       if (localPlayerRig && localPlayerRig.updateHeldItem) {
         localPlayerRig.updateHeldItem(type, materials);
       }
@@ -10557,11 +12258,29 @@
 
 
     function placeBlock() {
-      if (isInventoryOpen || isPauseOpen || isChatOpen) return;
+      if (isInventoryOpen || isPauseOpen || isChatOpen || (typeof isCraftingTableOpen !== 'undefined' && isCraftingTableOpen)) return;
       triggerArmPunch();
+
+      // Çalışma Masası sağ tık etkileşimi: 3x3 Çalışma Masası GUI'sini açar
+      const targetHit = getTargetBlock();
+      if (targetHit && targetHit.object && targetHit.object.userData) {
+        if (targetHit.object.userData.type === 'crafting') {
+          if (typeof openCraftingTableGUI === 'function') {
+            openCraftingTableGUI();
+            return;
+          }
+        }
+      }
+
       const selectedType = getSelectedBlockType();
       if (!selectedType) { showToast('Envanterinde blok yok!'); return; }
-      const hit = getTargetBlock();
+
+      // Çubuk ve aletler/zırhlar blok olarak dünyaya yerleştirilemez!
+      if (typeof NON_PLACEABLE_ITEMS !== 'undefined' && NON_PLACEABLE_ITEMS.has(selectedType)) {
+        return;
+      }
+
+      const hit = targetHit;
       if (hit && hit.face) {
         const pos = hit.object.position.clone().add(hit.face.normal);
         const x = Math.round(pos.x), y = Math.round(pos.y), z = Math.round(pos.z);
@@ -10684,6 +12403,8 @@
         e.preventDefault();
         if (isChatOpen) {
           closeChat();
+        } else if (typeof isCraftingTableOpen !== 'undefined' && isCraftingTableOpen) {
+          closeCraftingTableGUI();
         } else if (isInventoryOpen) {
           toggleInventory();
         } else if (isPauseOpen) {
@@ -10698,7 +12419,11 @@
       if (e.code === 'KeyE') {
         if (!isChatOpen && !isPauseOpen) {
           e.preventDefault();
-          toggleInventory();
+          if (typeof isCraftingTableOpen !== 'undefined' && isCraftingTableOpen) {
+            closeCraftingTableGUI();
+          } else {
+            toggleInventory();
+          }
           return;
         }
       }
@@ -11438,6 +13163,16 @@
           swingProgress += dt * 9.5;
           const p = Math.sin(swingProgress * Math.PI);
           armGroup.rotation.x = 1.57 - p * 0.4;
+
+          // 1. Şahıs dik alet vuruş (Mine / Swing) animasyonu (Daha aşağıda tutuş)
+          if (typeof toolContainer !== 'undefined') {
+            toolContainer.rotation.x = -0.10 - p * 0.85;
+            toolContainer.rotation.z = 0.35 + p * 0.25;
+            toolContainer.rotation.y = -0.30 - p * 0.20;
+            toolContainer.position.y = -0.42 - p * 0.08;
+            toolContainer.position.z = -0.46 - p * 0.12;
+          }
+
           // 3. Şahıs sağ kol vuruş/kırma animasyonu
           localPlayerRig.rightArmGroup.rotation.x = -p * 1.2;
           localPlayerRig.rightArmGroup.rotation.y = p * 0.35;
@@ -11449,6 +13184,12 @@
           }
         } else {
           armGroup.rotation.set(1.57, 0, 0.4);
+          if (typeof toolContainer !== 'undefined') {
+            const bobY = isMoving ? Math.abs(Math.sin(walkCycle * 2)) * 0.015 : 0;
+            const bobX = isMoving ? Math.sin(walkCycle) * 0.01 : 0;
+            toolContainer.rotation.set(-0.10, -0.30, 0.35);
+            toolContainer.position.set(0.34 + bobX, -0.42 + bobY, -0.46);
+          }
           if (!isMoving) {
             localPlayerRig.rightArmGroup.rotation.set(0, 0, 0);
           }
