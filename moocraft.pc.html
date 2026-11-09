@@ -1259,10 +1259,10 @@
     <div class="mc-menu-btn-stack">
       <button class="mc-menu-btn" id="btnMenuSingleplayer" type="button" onclick="openLauncherScreen('worlds', 'TEK OYUNCULU - DÜNYA SEÇ')">Tek Oyunculu</button>
       <button class="mc-menu-btn" id="btnMenuMultiplayer" type="button" onclick="openLauncherScreen('servers', 'ÇOK OYUNCULU - SUNUCU SEÇ')">Çok Oyunculu</button>
-      <button class="mc-menu-btn" id="btnMenuMods" type="button" onclick="openLauncherScreen('mods', 'MODLAR VE PAKETLER')">Modlar</button>
       <button class="mc-menu-btn" id="btnMenuCharacter" type="button" onclick="openLauncherScreen('character', 'KARAKTER & KOSTÜM')">Karakter & Kostüm</button>
+      <button class="mc-menu-btn" id="btnMenuSettings" type="button" onclick="openLauncherScreen('settings', 'AYARLAR & RAM')">Ayarlar & RAM</button>
       <div class="mc-menu-btn-row">
-        <button class="mc-menu-btn half" id="btnMenuSettings" type="button" onclick="openLauncherScreen('settings', 'AYARLAR & RAM')">Ayarlar & RAM</button>
+        <button class="mc-menu-btn half" id="btnMenuFriends" type="button" onclick="openLauncherScreen('friends', 'ARKADAŞLAR')">Arkadaşlar</button>
         <button class="mc-menu-btn half" id="btnMenuLogout" type="button" onclick="handleLogoutOrSwitch()">Hesaptan Çık</button>
         <button id="btnExit" style="display: none;" type="button" onclick="handleLogoutOrSwitch()"></button>
       </div>
@@ -1533,166 +1533,225 @@
 
     <!-- TAB 5: KOSTÜM YÜKLEME (SADECE DOSYA YÜKLE VE 3D ÖNİZLEME) -->
     <div class="tab-content" id="tab-character">
-      <div class="char-preview-panel">
-        <div id="threeCanvasContainer"></div>
-        <div style="font-size: 6px; color: #888; text-align: center; margin-top: 8px; line-height: 1.5;">
-          Farenizle çevirerek 3D Kostümünüzü 360° İnceleyin
+      <div class="char-preview-panel" style="background: radial-gradient(circle at 50% 65%, #232838 0%, #11131a 100%); border: 3px solid #3c4052; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 14px; box-shadow: inset 0 0 25px rgba(0,0,0,0.85);">
+        <div style="font-family: 'Press Start 2P', monospace; font-size: 7px; color: #ffff55; text-shadow: 1px 1px 0 #000; padding: 5px 12px; background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.15); border-radius: 2px;">
+          3D CANLI ÖNİZLEME
+        </div>
+        <div id="threeCanvasContainer" style="width: 100%; height: 100%; min-height: 280px; cursor: grab;"></div>
+        <div style="font-family: 'Press Start 2P', monospace; font-size: 6px; color: #888; text-align: center; margin-top: 8px; line-height: 1.5;">
+          Farenizle çevirerek modeli 360° inceleyin
         </div>
       </div>
 
-      <div class="panel char-controls-panel" style="display: flex; flex-direction: column; justify-content: center; gap: 14px;">
-        <div class="panel-header">
-          <span>KOSTÜM DOSYASI YÜKLE</span>
-          <span id="skinStatusBadge" style="font-size:7px; color:#2e7d32; font-weight:bold; background:#e8f5e9; padding:2px 6px; border:1px solid #2e7d32;">AKTİF</span>
+      <div class="panel char-controls-panel" style="display: flex; flex-direction: column; justify-content: space-between; gap: 14px; padding: 18px;">
+        <div class="panel-header" style="margin-bottom: 4px;">
+          <span>KARAKTER & KOSTÜM</span>
+          <span id="skinStatusBadge" style="font-size:7px; color:#2e7d32; font-weight:bold; background:#e8f5e9; padding:2px 8px; border:1px solid #2e7d32; border-radius: 2px;">AKTİF</span>
         </div>
 
-        <!-- KOSTÜM DOSYASI YÜKLEME ALANI -->
+        <!-- SADELEŞTİRİLMİŞ KOSTÜM YÜKLEME ALANI -->
         <input type="file" id="skinFileInput" accept="image/*,.png,.jpeg,.jpg,.webp" style="display: none;">
-        <div id="skinDropZone" class="skin-drop-zone" style="cursor: pointer; padding: 16px; text-align: center; border: 2px dashed #ffff55;">
-          <div style="font-size: 9px; color: #888; margin-bottom: 6px;">[KOSTÜM]</div>
-          <div style="font-size: 9px; font-weight: bold; color: #fff; margin-bottom: 6px; text-shadow: 1px 1px 0px #000;">
-            MOOCRAFT KOSTÜM (.PNG) YÜKLE
+        <div id="skinDropZone" class="skin-drop-zone" style="cursor: pointer; padding: 22px 16px; text-align: center; border: 2px dashed rgba(255,255,85,0.75); background: rgba(0,0,0,0.22); border-radius: 4px; transition: all 0.15s ease;">
+          <div style="font-family: 'Press Start 2P', monospace; font-size: 8.5px; font-weight: bold; color: #ffff55; margin-bottom: 6px; text-shadow: 1px 1px 0 #000;">
+            KOSTÜM YÜKLE (.PNG)
           </div>
-          <div style="font-size: 6px; color: #bbb; line-height: 1.6; margin-bottom: 10px;">
-            Skin dosyasını buraya sürükleyin veya alttaki butondan seçin.<br>
-            (64x64 modern ve 64x32 klasik formatlar desteklenir)
+          <div style="font-family: 'Press Start 2P', monospace; font-size: 6px; color: #aaa; line-height: 1.6; margin-bottom: 12px;">
+            Skin dosyasını sürükleyin veya bilgisayardan seçin<br>
+            (64x64 ve 64x32 PNG desteklenir)
           </div>
-          <button class="btn btn-green" id="btnSelectSkinFile" type="button" style="padding: 12px 20px; font-size: 8px; cursor: pointer; box-shadow: 0 3px 6px rgba(0,0,0,0.4);">
-            BİLGİSAYARDAN KOSTÜM SEÇ (.PNG)
+          <button class="btn btn-green" id="btnSelectSkinFile" type="button" style="padding: 10px 20px; font-size: 7.5px; cursor: pointer; box-shadow: 0 3px 6px rgba(0,0,0,0.4);">
+            Dosya Seç (.png)
           </button>
         </div>
 
         <!-- AKTİF KOSTÜM BİLGİ KARTI -->
-        <div class="active-skin-card" style="background: #b5b5b5; border: 2px solid; border-color: #fff #555 #555 #fff; padding: 10px; display: flex; gap: 12px; align-items: center;">
-          <canvas id="skinPreviewCanvas" width="64" height="64" style="width: 56px; height: 56px; image-rendering: pixelated; border: 2px solid #222; background: #333; flex-shrink: 0;"></canvas>
+        <div class="active-skin-card" style="background: #b5b5b5; border: 2px solid; border-color: #fff #555 #555 #fff; padding: 10px; display: flex; gap: 12px; align-items: center; border-radius: 2px;">
+          <canvas id="skinPreviewCanvas" width="64" height="64" style="width: 52px; height: 52px; image-rendering: pixelated; border: 2px solid #222; background: #333; flex-shrink: 0; border-radius: 2px;"></canvas>
           <div style="flex: 1; min-width: 0;">
-            <div id="skinCardTitle" style="font-size: 8px; font-weight: bold; color: #111; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-              Kostüm Dosyası
+            <div id="skinCardTitle" style="font-family: 'Press Start 2P', monospace; font-size: 7.5px; font-weight: bold; color: #111; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              Steve (Varsayılan)
             </div>
-            <div id="skinCardDetails" style="font-size: 6px; color: #444; line-height: 1.4;">
-              Format: MooCraft Skin (.PNG)
+            <div id="skinCardDetails" style="font-family: 'Press Start 2P', monospace; font-size: 6px; color: #444; line-height: 1.4;">
+              Format: Standart Skin (.PNG)
             </div>
           </div>
-          <button class="btn btn-danger" id="btnRemoveSkin" type="button" style="font-size: 6px; padding: 6px 8px;" title="Varsayılan kostüme dön">
-            SIFIRLA
+          <button class="btn btn-danger" id="btnRemoveSkin" type="button" style="font-size: 6.5px; padding: 8px 12px; cursor: pointer;" title="Varsayılan kostüme dön">
+            Sıfırla
           </button>
         </div>
 
-        <!-- SADELEŞTİRİLMİŞ TEK KAYDETME TUŞU -->
-        <button class="btn btn-green" id="btnSaveSkinPrimary" type="button" style="width: 100%; padding: 14px; font-size: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.4);">
-          KOSTÜMÜ KAYDET VE OYUNDA KULLAN
+        <!-- SADE VE ŞIK KAYDETME BUTONU -->
+        <button class="btn btn-green" id="btnSaveSkinPrimary" type="button" style="width: 100%; padding: 14px; font-size: 8.5px; box-shadow: 0 4px 10px rgba(0,0,0,0.4);">
+          Kostümü Kaydet
         </button>
         <button class="btn btn-green" id="btnSaveChar" type="button" style="display: none;"></button>
       </div>
     </div>
 
-    <!-- TAB 6: MODLAR & PAKETLER (MOD DOSYASI YÜKLEME) -->
-    <div class="tab-content" id="tab-mods">
-      <div class="panel create-box" style="max-width: 580px; width: 100%; margin: 0 auto;">
-        <div class="panel-header">
-          <span>MOD & PAKET MERKEZİ</span>
-          <span id="launcherModStatusBadge" style="font-size:7px; color:#2e7d32; font-weight:bold; background:#e8f5e9; padding:2px 6px; border:1px solid #2e7d32;">AKTİF</span>
+    <!-- TAB: ARKADAŞLAR SİSTEMİ -->
+    <div class="tab-content" id="tab-friends">
+      <div class="panel create-box" style="max-width: 600px; width: 100%; margin: 0 auto; padding: 22px;">
+        <div class="panel-header" style="margin-bottom: 16px;">
+          <span>ARKADAŞLAR</span>
+          <span id="friendsCountBadge" style="font-size:7px; color:#2e7d32; font-weight:bold; background:#e8f5e9; padding:2px 8px; border:1px solid #2e7d32; border-radius: 2px;">0 ARKADAŞ</span>
         </div>
 
-        <!-- MOD DOSYASI YÜKLEME ALANI -->
-        <input type="file" id="launcherModFileInput" accept=".json,.js,.pack,.txt,.zip" style="display: none;">
-        <div class="skin-drop-zone" id="modDropZone" style="padding: 20px 16px; margin-bottom: 14px; text-align: center; border: 2px dashed #ffff55; cursor: pointer;">
-          <div style="font-size: 9px; color: #888; margin-bottom: 6px;">[MOD PAKETİ]</div>
-          <div style="font-size: 9px; font-weight: bold; color: #ffff55; margin-bottom: 6px; text-shadow: 1px 1px 0px #000;">
-            MOD & PAKET DOSYASI YÜKLE
+        <!-- Arkadaş Ekleme Alanı -->
+        <div style="background: rgba(0,0,0,0.3); border: 2px solid #555; padding: 14px; border-radius: 4px; margin-bottom: 16px;">
+          <div style="font-family: 'Press Start 2P', monospace; font-size: 7.5px; font-weight: bold; color: #ffff55; margin-bottom: 8px;">
+            ARKADAŞ EKLE
           </div>
-          <div style="font-size: 6px; color: #bbb; line-height: 1.6; margin-bottom: 12px;">
-            İndirdiğiniz mod veya paket dosyasını (.js, .json, .pack, .zip) buraya sürükleyin<br>
-            veya aşağıdaki butona basarak bilgisayarınızdan seçin.
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="text" id="friendUsernameInput" placeholder="Kullanıcı adını girin..." autocomplete="off"
+                   style="flex: 1; padding: 11px 12px; font-size: 8px; background: rgba(0,0,0,0.65); border: 2px solid #666; color: #fff; font-family: 'Press Start 2P', monospace; outline: none;">
+            <button class="btn btn-green" id="btnAddFriendSubmit" type="button" style="padding: 11px 18px; font-size: 7.5px; cursor: pointer; white-space: nowrap; box-shadow: 0 3px 6px rgba(0,0,0,0.4);">
+              İstek Gönder
+            </button>
           </div>
-          <button class="btn btn-green" id="btnLauncherSelectMod" type="button" style="padding: 12px 20px; font-size: 8px; cursor: pointer; box-shadow: 0 3px 6px rgba(0,0,0,0.4);">
-            BİLGİSAYARDAN MOD DOSYASI SEÇ
+          <div id="friendActionMsg" style="font-family: 'Press Start 2P', monospace; font-size: 6.5px; margin-top: 8px; min-height: 12px; display: none; line-height: 1.5;"></div>
+        </div>
+
+        <!-- Sekmeler: Arkadaşlarım / Gelen İstekler -->
+        <div style="display: flex; gap: 8px; margin-bottom: 12px; border-bottom: 2px solid #555; padding-bottom: 8px;">
+          <button class="mc-btn active" id="btnFriendsTabList" type="button" onclick="switchFriendsTab('list')" style="flex: 1; padding: 10px; font-size: 7.5px; cursor: pointer;">
+            Arkadaşlarım (<span id="friendsListCount">0</span>)
+          </button>
+          <button class="mc-btn" id="btnFriendsTabRequests" type="button" onclick="switchFriendsTab('requests')" style="flex: 1; padding: 10px; font-size: 7.5px; cursor: pointer;">
+            Gelen İstekler (<span id="friendsRequestsCount">0</span>)
           </button>
         </div>
 
-        <!-- HAZIR MOD PAKETLERİ (1 TIKLA YÜKLE) -->
-        <div style="margin-bottom: 14px;">
-          <div style="font-size: 7px; color: #ffff55; font-weight: bold; margin-bottom: 8px; text-shadow: 1px 1px 0 #000;">
-            VEYA HAZIR MODLARDAN SEÇİP AKTİF ET:
-          </div>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px;">
-            <button class="btn" type="button" onclick="loadPresetMod('xray')" style="font-size: 7px; padding: 8px; text-align: left;">
-              X-Ray Modu (Madenler)
-            </button>
-            <button class="btn" type="button" onclick="loadPresetMod('fullbright')" style="font-size: 7px; padding: 8px; text-align: left;">
-              FullBright (Gece Görüşü)
-            </button>
-            <button class="btn" type="button" onclick="loadPresetMod('fastminer')" style="font-size: 7px; padding: 8px; text-align: left;">
-              FastMiner (Hızlı Kazma)
-            </button>
-          </div>
+        <!-- 1. Arkadaşlarım Listesi -->
+        <div id="friendsListSection" style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px;">
+          <!-- JS ile doldurulur -->
         </div>
 
-        <!-- ÖRNEK MOD PAKETİ İNDİRME BUTONU -->
-        <button class="btn" id="btnDownloadSampleModPack" type="button" style="width: 100%; margin-top: 10px; padding: 12px; font-size: 7px; cursor: pointer; box-shadow: 0 3px 6px rgba(0,0,0,0.4);">
-          Örnek Mod Paketini Bilgisayara İndir (.JSON)
-        </button>
+        <!-- 2. Gelen İstekler Listesi -->
+        <div id="friendsRequestsSection" style="max-height: 250px; overflow-y: auto; display: none; flex-direction: column; gap: 8px; padding-right: 4px;">
+          <!-- JS ile doldurulur -->
+        </div>
 
-        <!-- Yüklü Mod Kartı -->
-        <div class="active-skin-card" style="background: #b5b5b5; border: 2px solid; border-color: #fff #555 #555 #fff; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-          <div style="flex: 1; min-width: 0;">
-            <div id="loadedModTitle" style="font-size: 8px; font-weight: bold; color: #111;">Varsayılan Mod Yöneticisi</div>
-            <div id="loadedModDesc" style="font-size: 6px; color: #444; margin-top: 4px; line-height: 1.4;">Paket dosyalarınızı yükleyerek oyuna mod ekleyebilirsiniz</div>
-          </div>
-          <button class="btn btn-danger" id="btnResetMods" type="button" style="font-size: 6px; padding: 6px 12px; cursor: pointer;">Sıfırla</button>
+        <div style="margin-top: 18px; text-align: center;">
+          <button class="btn btn-back-to-title" type="button" onclick="showTitleScreen()" style="padding: 12px 24px; font-size: 7.5px; cursor: pointer;">
+            Ana Menüye Dön
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- TAB 7: AYARLAR & RAM PERFORMANS AYARI (TAM EKRAN SADE VE ŞIK) -->
+    <!-- TAB 7: AYARLAR & RAM PERFORMANS AYARI (SEKMELİ SADE VE ŞIK) -->
     <div class="tab-content" id="tab-settings">
-      <div class="panel mc-settings-full" style="width: 100%; max-width: 100%; height: 100%; margin: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 24px; box-sizing: border-box;">
-        <div class="panel-header" style="font-size: 11px; margin-bottom: 20px;">
-          <span>AYARLAR & RAM PERFORMANS MERKEZİ</span>
-          <span style="font-size:7px; color:#2e7d32; font-weight:bold; background:#e8f5e9; padding:2px 6px; border:1px solid #2e7d32;">AKTİF</span>
-        </div>
+      <div class="panel mc-settings-full" style="width: 100%; max-width: 100%; height: 100%; margin: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 22px; box-sizing: border-box;">
+        <div>
+          <div class="panel-header" style="font-size: 11px; margin-bottom: 14px;">
+            <span>AYARLAR MERKEZİ</span>
+            <span style="font-size:7px; color:#2e7d32; font-weight:bold; background:#e8f5e9; padding:2px 8px; border:1px solid #2e7d32; border-radius: 2px;">AKTİF</span>
+          </div>
 
-        <div class="settings-grid-fullscreen">
-          <div class="form-group" style="background: rgba(0,0,0,0.4); padding: 14px; border: 2px solid #555;">
-            <label style="color: #ffff55; font-size: 8px;">Ayrılan RAM Miktarı (Bellek)</label>
-            <select id="settingRam" style="margin-top: 6px; padding: 10px; font-size: 8px;">
-              <option value="1">1 GB RAM (Düşük Donanım - Kasmasız Hızlı)</option>
-              <option value="2" selected>2 GB RAM (Önerilen - Akıcı & Dengeli)</option>
-              <option value="4">4 GB RAM (Yüksek Performans)</option>
-              <option value="8">8 GB RAM (Maksimum Performans)</option>
-            </select>
-            <div style="font-size: 6px; color: #ccc; margin-top: 6px; line-height: 1.5;">
-              RAM optimizasyonu görünmeyen yeraltı bloklarını filtreler ve kasma sorununu tamamen ortadan kaldırır.
+          <!-- AYARLAR SEKME BUTONLARI -->
+          <div style="display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 2px solid #555; padding-bottom: 10px;">
+            <button class="mc-btn active" id="btnSettingsTabVideo" type="button" style="flex: 1; padding: 11px 8px; font-size: 7.5px; cursor: pointer;">
+              Görüntü Ayarları
+            </button>
+            <button class="mc-btn" id="btnSettingsTabMods" type="button" style="flex: 1; padding: 11px 8px; font-size: 7.5px; cursor: pointer;">
+              Modlar
+            </button>
+            <button class="mc-btn" id="btnSettingsTabAccount" type="button" style="flex: 1; padding: 11px 8px; font-size: 7.5px; cursor: pointer;">
+              Hesap & Veri
+            </button>
+          </div>
+
+          <!-- 1. GÖRÜNTÜ & PERFORMANS AYARLARI SEKMESİ -->
+          <div id="settingsSectionVideo" class="settings-grid-fullscreen" style="display: grid; gap: 12px;">
+            <div class="form-group" style="background: rgba(0,0,0,0.4); padding: 16px; border: 2px solid #555; border-radius: 3px;">
+              <label style="color: #ffff55; font-size: 8px; font-weight: bold;">Görüş Mesafesi (Render Distance)</label>
+              <select id="settingRenderDistance" style="margin-top: 8px; padding: 10px; font-size: 8px; width: 100%;">
+                <option value="1" selected>1 Chunk (Sıfır Kasma - En Yüksek FPS)</option>
+                <option value="2">2 Chunk (Standart MooCraft Görüşü)</option>
+                <option value="3">3 Chunk (Geniş Açık Alan)</option>
+              </select>
+              <div style="font-size: 6px; color: #aaa; margin-top: 6px; line-height: 1.5;">
+                Düşük görüş mesafesi performansı artırır ve cihazınızın akıcı çalışmasını sağlar.
+              </div>
+            </div>
+
+            <div class="form-group" style="background: rgba(0,0,0,0.4); padding: 16px; border: 2px solid #555; border-radius: 3px;">
+              <label style="color: #ffff55; font-size: 8px; font-weight: bold;">FPS Göstergesi</label>
+              <select id="settingShowFps" style="margin-top: 8px; padding: 10px; font-size: 8px; width: 100%;">
+                <option value="true" selected>Açık (Ekranda FPS Göster)</option>
+                <option value="false">Kapalı</option>
+              </select>
+              <div style="font-size: 6px; color: #aaa; margin-top: 6px; line-height: 1.5;">
+                Oyun esnasında anlık FPS değerini sol üst köşede görüntüler.
+              </div>
+            </div>
+
+            <div class="form-group" style="background: rgba(0,0,0,0.4); padding: 16px; border: 2px solid #555; border-radius: 3px; grid-column: 1 / -1;">
+              <label style="color: #ffff55; font-size: 8px; font-weight: bold;">Ayrılan RAM Miktarı (Bellek)</label>
+              <select id="settingRam" style="margin-top: 8px; padding: 10px; font-size: 8px; width: 100%;">
+                <option value="1">1 GB RAM (Düşük Donanım - Kasmasız Hızlı)</option>
+                <option value="2" selected>2 GB RAM (Önerilen - Akıcı & Dengeli)</option>
+                <option value="4">4 GB RAM (Yüksek Performans)</option>
+                <option value="8">8 GB RAM (Maksimum Performans)</option>
+              </select>
+              <div style="font-size: 6px; color: #ccc; margin-top: 6px; line-height: 1.5;">
+                RAM optimizasyonu görünmeyen yeraltı bloklarını filtreler ve kasma sorununu tamamen ortadan kaldırır.
+              </div>
             </div>
           </div>
 
-          <div class="form-group" style="background: rgba(0,0,0,0.4); padding: 14px; border: 2px solid #555;">
-            <label style="color: #ffff55; font-size: 8px;">Görüş Mesafesi (Render Distance)</label>
-            <select id="settingRenderDistance" style="margin-top: 6px; padding: 10px; font-size: 8px;">
-              <option value="1" selected>1 Chunk (Sıfır Kasma - En Yüksek FPS)</option>
-              <option value="2">2 Chunk (Standart MooCraft Görüşü)</option>
-              <option value="3">3 Chunk (Geniş Açık Alan)</option>
-            </select>
-          </div>
+          <!-- 2. MODLAR SEKMESİ -->
+          <div id="settingsSectionMods" style="display: none; flex-direction: column; gap: 12px;">
+            <div class="form-group" style="background: rgba(0,0,0,0.4); padding: 18px; border: 2px solid #555; border-radius: 3px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <label style="color: #ffff55; font-size: 8.5px; font-weight: bold;">MOD & PAKET YÖNETİCİSİ</label>
+                <span id="launcherModStatusBadge" style="font-size:7px; color:#2e7d32; font-weight:bold; background:#e8f5e9; padding:2px 8px; border:1px solid #2e7d32; border-radius: 2px;">HAZIR</span>
+              </div>
 
-          <div class="form-group" style="background: rgba(0,0,0,0.4); padding: 14px; border: 2px solid #555;">
-            <label style="color: #ffff55; font-size: 8px;">FPS Göstergesi</label>
-            <select id="settingShowFps" style="margin-top: 6px; padding: 10px; font-size: 8px;">
-              <option value="true" selected>Açık (Ekranda FPS Göster)</option>
-              <option value="false">Kapalı</option>
-            </select>
-          </div>
+              <input type="file" id="launcherModFileInput" accept=".json,.js,.pack,.txt,.zip" style="display: none;">
+              <div class="skin-drop-zone" id="modDropZone" style="padding: 22px 16px; margin-bottom: 14px; text-align: center; border: 2px dashed rgba(255,255,85,0.75); background: rgba(0,0,0,0.22); border-radius: 4px; cursor: pointer; transition: all 0.15s ease;">
+                <div style="font-family: 'Press Start 2P', monospace; font-size: 8px; font-weight: bold; color: #ffff55; margin-bottom: 6px; text-shadow: 1px 1px 0 #000;">
+                  MOD DOSYASI YÜKLE
+                </div>
+                <div style="font-family: 'Press Start 2P', monospace; font-size: 6px; color: #aaa; line-height: 1.6; margin-bottom: 12px;">
+                  Mod dosyanızı (.js, .json, .pack, .zip) buraya sürükleyin veya aşağıdaki butondan seçin.
+                </div>
+                <button class="btn btn-green" id="btnLauncherSelectMod" type="button" style="padding: 10px 18px; font-size: 7.5px; cursor: pointer;">
+                  Mod Dosyası Seç
+                </button>
+              </div>
 
-          <div class="form-group" style="background: rgba(0,0,0,0.4); padding: 14px; border: 2px solid #555; grid-column: 1 / -1;">
-            <label style="color: #ffff55; font-size: 8px;">HESAP DOSYASI İNDİR</label>
-            <div style="font-size: 7px; color: #ccc; margin-top: 6px; line-height: 1.6;">
-              Hesabınızda yaptığınız her şeyi (karakter, dünyalar, sunucular, yapılar) içeren güncel hesap dosyanızı dilediğiniz zaman indirebilirsiniz.
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+                <button class="btn" id="btnDownloadSampleModPack" type="button" style="padding: 7px 12px; font-size: 6.5px; cursor: pointer; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.3); color: #ccc;">
+                  Örnek Şablon İndir (.json)
+                </button>
+                <button class="btn btn-danger" id="btnResetMods" type="button" style="font-size: 6.5px; padding: 7px 12px; cursor: pointer;">
+                  Modu Sıfırla
+                </button>
+              </div>
+
+              <div class="active-skin-card" style="background: #b5b5b5; border: 2px solid; border-color: #fff #555 #555 #fff; padding: 12px; border-radius: 2px;">
+                <div id="loadedModTitle" style="font-family: 'Press Start 2P', monospace; font-size: 7.5px; font-weight: bold; color: #111;">Varsayılan Mod Yöneticisi</div>
+                <div id="loadedModDesc" style="font-family: 'Press Start 2P', monospace; font-size: 6px; color: #444; margin-top: 4px; line-height: 1.4;">Paket dosyalarınızı yükleyerek oyuna mod ekleyebilirsiniz</div>
+              </div>
             </div>
-            <button class="mc-btn" id="btnDownloadCurrentAccountFile" type="button" style="width: 100%; margin-top: 10px; padding: 10px; font-size: 7.5px;">Güncel Hesap Dosyasını İndir (.json)</button>
+          </div>
+
+          <!-- 3. HESAP & VERİ SEKMESİ -->
+          <div id="settingsSectionAccount" style="display: none; flex-direction: column; gap: 12px;">
+            <div class="form-group" style="background: rgba(0,0,0,0.4); padding: 18px; border: 2px solid #555; border-radius: 3px;">
+              <label style="color: #ffff55; font-size: 8.5px; font-weight: bold;">HESAP DOSYASI YEDEKLE & İNDİR</label>
+              <div style="font-size: 7px; color: #ccc; margin-top: 8px; line-height: 1.6;">
+                Hesabınızda yaptığınız her şeyi (karakter, dünyalar, sunucular, yapılar) içeren güncel hesap dosyanızı dilediğiniz zaman indirebilirsiniz.
+              </div>
+              <button class="mc-btn" id="btnDownloadCurrentAccountFile" type="button" style="width: 100%; margin-top: 14px; padding: 12px; font-size: 8px;">
+                Güncel Hesap Dosyasını İndir (.json)
+              </button>
+            </div>
           </div>
         </div>
 
-        <div class="mc-btn-grid" style="margin-top: 16px;">
+        <div class="mc-btn-grid" style="margin-top: 18px;">
           <button class="btn btn-green" id="btnSaveSettings" type="button" style="padding: 14px; font-size: 8px;">AYARLARI KAYDET</button>
           <button class="btn btn-back-to-title" type="button" onclick="showTitleScreen()" style="padding: 14px; font-size: 8px; cursor: pointer;">ANA MENÜYE DÖN</button>
         </div>
@@ -1779,16 +1838,16 @@
       </button>
     </div>
 
-    <!-- Örnek Mod İndir Butonu -->
-    <button class="btn" id="btnIngameDownloadSampleModPack" type="button" style="width: 100%; margin-bottom: 10px; padding: 8px; font-size: 6px; cursor: pointer;">
-      Örnek Mod Paketini Bilgisayara İndir (.JSON)
-    </button>
-
-    <!-- Hızlı Mod Açma Kapama -->
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; width: 100%;">
-      <button class="btn" type="button" id="btnIngameToggleXray" style="font-size: 6px; padding: 6px 2px;">X-Ray</button>
-      <button class="btn" type="button" id="btnIngameToggleLight" style="font-size: 6px; padding: 6px 2px;">Işık</button>
-      <button class="btn" type="button" id="btnIngameToggleMiner" style="font-size: 6px; padding: 6px 2px;">Hızlı Kaz</button>
+    <!-- Sadeleştirilmiş Örnek Mod İndir Butonu -->
+    <div style="text-align: center; margin-bottom: 12px;">
+      <button class="btn" id="btnIngameDownloadSampleModPack" type="button" style="padding: 6px 12px; font-size: 6px; cursor: pointer; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.3); color: #ccc;">
+        Örnek Şablon İndir (.json)
+      </button>
+    </div>
+    <div style="display: none;">
+      <button type="button" id="btnIngameToggleXray"></button>
+      <button type="button" id="btnIngameToggleLight"></button>
+      <button type="button" id="btnIngameToggleMiner"></button>
     </div>
 
     <div id="ingameModStatusCard" style="background: #b5b5b5; border: 2px solid; border-color: #fff #555 #555 #fff; padding: 8px; margin-bottom: 14px; width: 100%; text-align: left;">
@@ -2065,6 +2124,30 @@
     }
   };
   window.safeStorage = safeStorage;
+  // --- KULLANICI TALEBİ: TÜM ESKİ HESAPLARIN VE OTURUMLARIN SİLİNMESİ VE SIFIRLANMASI ---
+  const ACCOUNTS_CLEAN_WIPE_KEY = "moocraft_v4_clean_accounts_reset_done";
+  if (safeStorage.getItem(ACCOUNTS_CLEAN_WIPE_KEY) !== "true") {
+    try {
+      if (typeof window !== "undefined" && window.localStorage) {
+        const keysToWipe = [];
+        for (let i = 0; i < window.localStorage.length; i++) {
+          const k = window.localStorage.key(i);
+          if (k && (k.startsWith("moocraft_") || k.startsWith("mc_"))) {
+            keysToWipe.push(k);
+          }
+        }
+        keysToWipe.forEach(k => window.localStorage.removeItem(k));
+      }
+    } catch(e) {}
+    try {
+      if (typeof window !== "undefined" && window.indexedDB) {
+        window.indexedDB.deleteDatabase("MooCraftUniverseDB");
+      }
+    } catch(e) {}
+    safeStorage._data = {};
+    safeStorage.setItem(ACCOUNTS_CLEAN_WIPE_KEY, "true");
+  }
+
 
   // Global menü fonksiyonları (Inline onclick için)
   window.showTitleScreen = function() {
@@ -2107,56 +2190,66 @@
     if (screenName === 'worlds' && typeof renderWorldList === 'function') renderWorldList();
     if (screenName === 'servers' && typeof renderServerList === 'function') renderServerList();
     if (screenName === 'character' && typeof onWindowResize === 'function') onWindowResize();
+    if (screenName === 'friends' && typeof renderFriendsUI === 'function') renderFriendsUI();
   };
 
   window.handleLogoutOrSwitch = function() {
     try {
-      if (window.isGameRunning && typeof window.saveCurrentGameState === 'function') {
+      if (window.isGameRunning && typeof window.saveCurrentGameState === "function") {
         window.saveCurrentGameState();
       }
-      const curU = safeStorage.getItem(SESSION_KEY) || safeStorage.getItem('moocraft_active_session');
-      if (curU && typeof syncActiveUserSnapshot === 'function') {
+      if (typeof syncActiveUserSnapshot === "function") {
         syncActiveUserSnapshot();
       }
     } catch(err) {
-      console.warn('Sync on logout:', err);
+      console.warn("Sync on logout:", err);
     }
 
     try {
       safeStorage.removeItem(SESSION_KEY);
-      safeStorage.removeItem('moocraft_active_session');
+      safeStorage.removeItem("moocraft_active_session");
+      safeStorage.removeItem(WORLDS_KEY);
+      safeStorage.removeItem(CHAR_KEY);
+      safeStorage.removeItem(ACTIVE_WORLD_KEY);
     } catch(err) {}
 
-    // Varsa acik cok oyunculu soketi kapat
     try {
-      if (typeof multiplayerSocket !== 'undefined' && multiplayerSocket) {
-        multiplayerSocket.emit('player-left', multiplayerSocket.id);
+      if (typeof multiplayerSocket !== "undefined" && multiplayerSocket) {
+        multiplayerSocket.emit("player-left", multiplayerSocket.id);
         multiplayerSocket.disconnect();
       }
     } catch(err) {}
 
-    // Arayuzu aninda giris ekranina gecir
+    // Bellek durumunu tertemiz sıfırla (önceki hesabın verisi yeni hesaba sızamaz)
+    if (typeof worlds !== "undefined") worlds = [];
+    if (typeof character !== "undefined") {
+      character = JSON.parse(JSON.stringify(DEFAULT_STEVE_DATA));
+      character.customSkin = null;
+      character.skinName = "Standart Karakter";
+    }
+    if (typeof selectedWorldId !== "undefined") selectedWorldId = null;
+    if (typeof selectedServerId !== "undefined") selectedServerId = null;
+
     try {
-      const authOverlay = document.getElementById('authOverlay');
-      const launcherApp = document.getElementById('launcherApp');
-      const gameEl = document.getElementById('game');
-      if (gameEl) gameEl.style.display = 'none';
-      if (launcherApp) launcherApp.style.display = 'none';
+      const authOverlay = document.getElementById("authOverlay");
+      const launcherApp = document.getElementById("launcherApp");
+      const gameEl = document.getElementById("game");
+      if (gameEl) gameEl.style.display = "none";
+      if (launcherApp) launcherApp.style.display = "none";
       if (authOverlay) {
-        authOverlay.style.display = 'grid';
-        const authMsg = document.getElementById('authMsg');
-        if (authMsg) { authMsg.className = 'auth-msg success'; authMsg.textContent = 'Hesaptan çıkış yapıldı.'; }
-        const authUser = document.getElementById('authUsername');
-        if (authUser) authUser.value = '';
-        const authPass = document.getElementById('authPassword');
-        if (authPass) authPass.value = '';
-        const authPassConf = document.getElementById('authPasswordConfirm');
-        if (authPassConf) authPassConf.value = '';
+        authOverlay.style.display = "grid";
+        const authMsg = document.getElementById("authMsg");
+        if (authMsg) { authMsg.className = "auth-msg success"; authMsg.textContent = "Hesaptan çıkış yapıldı."; }
+        const authUser = document.getElementById("authUsername");
+        if (authUser) authUser.value = "";
+        const authPass = document.getElementById("authPassword");
+        if (authPass) authPass.value = "";
+        const authPassConf = document.getElementById("authPasswordConfirm");
+        if (authPassConf) authPassConf.value = "";
       }
-      if (typeof showToast === 'function') showToast('Hesaptan çıkış yapıldı.');
+      if (typeof showToast === "function") showToast("Hesaptan çıkış yapıldı.");
     } catch(err) {}
 
-    // Sayfayi tazeleyerek tertemiz sifir oturum baslat
     try {
       window.location.reload();
     } catch(err) {}
@@ -2394,7 +2487,7 @@
       online: 1,
       status: 'online',
       ping: 15,
-      version: '26.3',
+      version: '1.1',
       isServer: true
     }];
   }
@@ -2467,52 +2560,26 @@
   window._moocraft_accounts_memory_cache = window._moocraft_accounts_memory_cache || {};
 
   function getAllRegisteredUsers() {
-    let merged = Object.assign({}, window._moocraft_accounts_memory_cache);
-
-    CROSS_VERSION_KEYS.forEach(key => {
-      try {
-        const raw = safeStorage.getItem(key);
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          if (parsed && typeof parsed === 'object') {
-            Object.keys(parsed).forEach(uName => {
-              if (!merged[uName]) {
-                merged[uName] = parsed[uName];
-              } else {
-                merged[uName].pass = merged[uName].pass || parsed[uName].pass;
-                const existingDate = merged[uName].lastActiveAt || merged[uName].registeredAt || '';
-                const candidateDate = parsed[uName].lastActiveAt || parsed[uName].registeredAt || '';
-                if (candidateDate >= existingDate) {
-                  if (parsed[uName].character) merged[uName].character = parsed[uName].character;
-                  if (parsed[uName].worlds && Array.isArray(parsed[uName].worlds) && parsed[uName].worlds.length > 0) {
-                    merged[uName].worlds = parsed[uName].worlds;
-                  }
-                  if (parsed[uName].servers) merged[uName].servers = parsed[uName].servers;
-                  if (parsed[uName].settings) merged[uName].settings = parsed[uName].settings;
-                  merged[uName].lastActiveAt = candidateDate;
-                }
-              }
-            });
-          }
-        }
-      } catch(e) {}
-    });
-
-    window._moocraft_accounts_memory_cache = merged;
-    return merged;
+    let users = {};
+    try {
+      const raw = safeStorage.getItem("moocraft_users_database_v4");
+      if (raw) {
+        users = JSON.parse(raw) || {};
+      }
+    } catch(e) {}
+    if (window._moocraft_accounts_memory_cache) {
+      Object.assign(users, window._moocraft_accounts_memory_cache);
+    }
+    window._moocraft_accounts_memory_cache = users;
+    return users;
   }
 
   function saveMasterAccounts(users) {
-    if (!users || typeof users !== 'object') return;
+    if (!users || typeof users !== "object") return;
     window._moocraft_accounts_memory_cache = users;
     const str = JSON.stringify(users);
-
-    CROSS_VERSION_KEYS.forEach(key => {
-      try {
-        safeStorage.setItem(key, str);
-      } catch(e) {}
-    });
-
+    safeStorage.setItem("moocraft_users_database_v4", str);
+    safeStorage.setItem(USERS_KEY, str);
     saveAccountsToIndexedDB(users);
   }
 
@@ -2541,149 +2608,107 @@
   function syncActiveUserSnapshot() {
     const curU = safeStorage.getItem(SESSION_KEY);
     if (!curU) return;
+    const uKey = String(curU).trim().toLowerCase();
     const users = getAllRegisteredUsers();
-    if (!users[curU]) {
-      users[curU] = { pass: '', registeredAt: new Date().toISOString() };
+    if (!users[uKey]) {
+      users[uKey] = { username: curU, pass: "", registeredAt: new Date().toISOString() };
     }
-    users[curU].lastActiveAt = new Date().toISOString();
+    users[uKey].lastActiveAt = new Date().toISOString();
     
-    // Dünyaları ve içindeki tüm blok değişikliklerini hesaba kaydet
-    if (Array.isArray(worlds)) {
-      users[curU].worlds = JSON.parse(JSON.stringify(worlds));
-      safeStorage.setItem(getUserWorldsKey(curU), JSON.stringify(worlds));
-    }
-    // Karakteri hesaba kaydet
-    if (character) {
-      users[curU].character = JSON.parse(JSON.stringify(character));
-      safeStorage.setItem(getUserCharKey(curU), JSON.stringify(character));
-    }
-    // Sunucuları hesaba kaydet
-    if (Array.isArray(servers)) {
-      users[curU].servers = JSON.parse(JSON.stringify(servers));
-      safeStorage.setItem(getUserServersKey(curU), JSON.stringify(servers));
-    }
-    // Ayarları hesaba kaydet
-    users[curU].settings = {
-      ram: safeStorage.getItem(RAM_SETTING_KEY) || '2',
-      renderDist: safeStorage.getItem(RENDER_DIST_KEY) || '1',
-      showFps: safeStorage.getItem(SHOW_FPS_KEY) !== 'false'
+    // Dünyaları sadece bu kullanıcının hesabına kaydet
+    users[uKey].worlds = JSON.parse(JSON.stringify(worlds || []));
+    safeStorage.setItem(getUserWorldsKey(curU), JSON.stringify(worlds || []));
+
+    // Karakteri sadece bu kullanıcının hesabına kaydet
+    users[uKey].character = JSON.parse(JSON.stringify(character || DEFAULT_STEVE_DATA));
+    safeStorage.setItem(getUserCharKey(curU), JSON.stringify(character || DEFAULT_STEVE_DATA));
+
+    // Sunucuları sadece bu kullanıcının hesabına kaydet
+    users[uKey].servers = JSON.parse(JSON.stringify(servers || getSingleMooCraftServer()));
+    safeStorage.setItem(getUserServersKey(curU), JSON.stringify(servers || getSingleMooCraftServer()));
+
+    // Ayarları kaydet
+    users[uKey].settings = {
+      ram: safeStorage.getItem(RAM_SETTING_KEY) || "2",
+      renderDist: safeStorage.getItem(RENDER_DIST_KEY) || "1",
+      showFps: safeStorage.getItem(SHOW_FPS_KEY) !== "false"
     };
 
     saveMasterAccounts(users);
-
-    // Arka planda Render / Node.js sunucusuna da senkronize et (accounts.json dosyasına anında yazar)
-    try {
-      if (typeof window !== 'undefined' && window.location && window.location.protocol.startsWith('http')) {
-        fetch('/api/sync', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            username: curU,
-            worlds: users[curU].worlds,
-            character: users[curU].character,
-            servers: users[curU].servers,
-            settings: users[curU].settings
-          })
-        }).catch(() => {});
-      }
-    } catch(e) {}
   }
 
   // Giriş yapıldığında kullanıcının kendi hesabında önceden yaptığı dünyaları ve blokları eksiksiz geri yükler
   function loadUserDataForSession(uName) {
     if (!uName) return;
+    const uKey = String(uName).trim().toLowerCase();
     const users = getAllRegisteredUsers();
-    const user = users[uName];
+    const user = users[uKey] || users[uName];
 
-    // 1. DÜNYALARI YÜKLEME (Hesapta önceden yapılan şeylerin kaybolmasını kesin olarak önler):
-    let loadedWorlds = null;
-    const userWorldsRaw = safeStorage.getItem(getUserWorldsKey(uName));
-    if (userWorldsRaw) {
-      try {
-        const parsed = JSON.parse(userWorldsRaw);
-        if (Array.isArray(parsed)) {
-          loadedWorlds = parsed.filter(w => w && w.id !== 'w_yeni' && w.id !== 'w_survival');
-        }
-      } catch(e) {}
-    }
-
-    if (loadedWorlds === null && user && Array.isArray(user.worlds)) {
-      loadedWorlds = user.worlds.filter(w => w && w.id !== 'w_yeni' && w.id !== 'w_survival');
-    }
-
-    if (Array.isArray(loadedWorlds)) {
-      worlds = JSON.parse(JSON.stringify(loadedWorlds));
-      safeStorage.setItem(WORLDS_KEY, JSON.stringify(worlds));
-      safeStorage.setItem(getUserWorldsKey(uName), JSON.stringify(worlds));
+    // 1. DÜNYALAR: Sadece ve sadece bu kullanıcının kendi dünyaları yüklenir!
+    let loadedWorlds = [];
+    if (user && Array.isArray(user.worlds)) {
+      loadedWorlds = JSON.parse(JSON.stringify(user.worlds)).filter(w => w && w.id !== "w_yeni" && w.id !== "w_survival");
     } else {
-      // Yeni açılan hesaplarda hazır dünya bulunmaz, oyuncu 'Yeni Dünya Oluştur' butonuyla kendi oluşturur
-      worlds = [];
-      safeStorage.setItem(WORLDS_KEY, '[]');
-      safeStorage.setItem(getUserWorldsKey(uName), '[]');
-      if (user) user.worlds = [];
+      const userWorldsRaw = safeStorage.getItem(getUserWorldsKey(uName));
+      if (userWorldsRaw) {
+        try {
+          const parsed = JSON.parse(userWorldsRaw);
+          if (Array.isArray(parsed)) loadedWorlds = parsed.filter(w => w && w.id !== "w_yeni" && w.id !== "w_survival");
+        } catch(e) {}
+      }
     }
+    worlds = loadedWorlds;
+    safeStorage.setItem(WORLDS_KEY, JSON.stringify(worlds));
+    safeStorage.setItem(getUserWorldsKey(uName), JSON.stringify(worlds));
 
-    // 2. KARAKTER VE KOSTÜM YÜKLEME: Başka bir hesabın kostümü kesinlikle bu hesaba geçemez
+    // 2. KARAKTER VE KOSTÜM: Başka bir hesabın kostümü kesinlikle bu hesaba geçemez!
     let loadedChar = null;
-    const userCharRaw = safeStorage.getItem(getUserCharKey(uName));
-    if (userCharRaw) {
-      try { loadedChar = JSON.parse(userCharRaw); } catch(e) {}
-    }
-    if (!loadedChar && user && user.character) {
-      loadedChar = user.character;
-    }
-    if (loadedChar) {
-      character = JSON.parse(JSON.stringify(loadedChar));
+    if (user && user.character) {
+      loadedChar = JSON.parse(JSON.stringify(user.character));
     } else {
-      // Eğer bu hesabın özel kostümü yoksa temiz standart karakter yüklenir (önceki hesabın kostümü asla kalmaz)
+      const userCharRaw = safeStorage.getItem(getUserCharKey(uName));
+      if (userCharRaw) {
+        try { loadedChar = JSON.parse(userCharRaw); } catch(e) {}
+      }
+    }
+    if (loadedChar && loadedChar.customSkin) {
+      character = loadedChar;
+    } else {
       character = JSON.parse(JSON.stringify(DEFAULT_STEVE_DATA));
       character.customSkin = null;
-      character.skinName = 'Standart Karakter';
+      character.skinName = "Standart Karakter";
     }
     safeStorage.setItem(CHAR_KEY, JSON.stringify(character));
     safeStorage.setItem(getUserCharKey(uName), JSON.stringify(character));
-    if (typeof updateSkinUIState === 'function') updateSkinUIState();
-    if (typeof updateCharacterTextures === 'function') updateCharacterTextures();
 
-    // 3. SUNUCULARI YÜKLEME (Hesapta önceden yapılan şeylerin kaybolmasını kesin olarak önler):
+    if (typeof updateSkinUIState === "function") updateSkinUIState();
+    if (typeof updateCharacterTextures === "function") updateCharacterTextures();
+
+    // 3. SUNUCULAR
     let loadedServers = null;
-    const userServersRaw = safeStorage.getItem(getUserServersKey(uName));
-    if (userServersRaw) {
-      try {
-        const parsed = JSON.parse(userServersRaw);
-        if (Array.isArray(parsed) && parsed.length === 1 && parsed[0].name === 'MooCraft') {
-          loadedServers = parsed;
-        }
-      } catch(e) {}
+    if (user && Array.isArray(user.servers) && user.servers.length > 0) {
+      loadedServers = JSON.parse(JSON.stringify(user.servers));
     }
-    if (loadedServers === null && user && Array.isArray(user.servers) && user.servers.length === 1 && user.servers[0].name === 'MooCraft') {
-      loadedServers = user.servers;
-    }
-    if (loadedServers) {
-      servers = JSON.parse(JSON.stringify(loadedServers));
-    } else {
-      servers = getSingleMooCraftServer();
-    }
+    servers = loadedServers || getSingleMooCraftServer();
     safeStorage.setItem(SERVERS_KEY, JSON.stringify(servers));
     safeStorage.setItem(getUserServersKey(uName), JSON.stringify(servers));
-    if (user) user.servers = servers;
 
-    // 4. AYARLARI YÜKLEME:
+    // 4. AYARLAR
     if (user && user.settings) {
       if (user.settings.ram) safeStorage.setItem(RAM_SETTING_KEY, user.settings.ram);
       if (user.settings.renderDist) safeStorage.setItem(RENDER_DIST_KEY, user.settings.renderDist);
-      if (typeof user.settings.showFps !== 'undefined') safeStorage.setItem(SHOW_FPS_KEY, String(user.settings.showFps));
-      const sRam = document.getElementById('settingRam');
-      const sDist = document.getElementById('settingRenderDistance');
-      const sFps = document.getElementById('settingShowFps');
+      if (typeof user.settings.showFps !== "undefined") safeStorage.setItem(SHOW_FPS_KEY, String(user.settings.showFps));
+      const sRam = document.getElementById("settingRam");
+      const sDist = document.getElementById("settingRenderDistance");
+      const sFps = document.getElementById("settingShowFps");
       if (sRam && user.settings.ram) sRam.value = user.settings.ram;
       if (sDist && user.settings.renderDist) sDist.value = user.settings.renderDist;
-      if (sFps && typeof user.settings.showFps !== 'undefined') sFps.value = String(user.settings.showFps);
+      if (sFps && typeof user.settings.showFps !== "undefined") sFps.value = String(user.settings.showFps);
     }
 
-    // Arayüz listelerini yenile
-    if (typeof renderWorldList === 'function') renderWorldList();
-    if (typeof renderServerList === 'function') renderServerList();
+    if (typeof renderWorldList === "function") renderWorldList();
+    if (typeof renderServerList === "function") renderServerList();
+    if (typeof renderFriendsUI === "function") renderFriendsUI();
 
     if (user) {
       user.worlds = worlds;
@@ -2692,7 +2717,6 @@
     }
   }
 
-  // Yeni hesap oluşturulduğunda çağrılır ve hesaptaki tüm dünyaları/karakteri içeren dosyayı indirir
   function downloadUserAccountFile(uName) {
     if (!uName) uName = safeStorage.getItem(SESSION_KEY) || 'Oyuncu';
     const users = getAllRegisteredUsers();
@@ -2721,7 +2745,7 @@
 
     const accountSaveData = {
       app: 'MooCraft',
-      version: '26.3',
+      version: '1.1',
       accountType: 'MooCraft_Player_Save',
       exportedAt: new Date().toISOString(),
       username: uName,
@@ -2755,24 +2779,25 @@
   }
 
   function saveUserAccount(uName, uPass) {
+    const uKey = String(uName).trim().toLowerCase();
     const users = getAllRegisteredUsers();
-    // Her yeni açılan hesap tamamen bağımsız, temiz varsayılan Steve kostümü ve bağımsız dünyalar ile başlar
     const cleanChar = JSON.parse(JSON.stringify(DEFAULT_STEVE_DATA));
     cleanChar.customSkin = null;
-    cleanChar.skinName = 'Standart Karakter';
+    cleanChar.skinName = "Standart Karakter";
 
     const cleanWorlds = [];
 
-    users[uName] = {
+    users[uKey] = {
+      username: uName.trim(),
       pass: uPass,
       registeredAt: new Date().toISOString(),
       lastActiveAt: new Date().toISOString(),
       character: cleanChar,
       worlds: cleanWorlds,
-      servers: [],
+      servers: getSingleMooCraftServer(),
       settings: {
-        ram: '2',
-        renderDist: '1',
+        ram: "2",
+        renderDist: "1",
         showFps: true
       }
     };
@@ -2885,15 +2910,18 @@
 
       // 2. Çevrimdışı / Yerel Giriş Doğrulaması (Sunucuya ulaşılamazsa veya yerel moddaysa)
       const users = getAllRegisteredUsers();
-      if (users[uName] && users[uName].pass === uPass) {
+      const uKey = uName.trim().toLowerCase();
+      const user = users[uKey] || users[uName];
+      if (user && user.pass === uPass) {
         const bans = getBannedPlayers();
         if (bans[uName.toLowerCase()]) {
           authOverlay.style.display = 'none';
           showBanScreen(bans[uName.toLowerCase()]);
           return;
         }
-        safeStorage.setItem(SESSION_KEY, uName);
-        loadUserDataForSession(uName);
+        const activeName = (user && user.username) ? user.username : uName;
+        safeStorage.setItem(SESSION_KEY, activeName);
+        loadUserDataForSession(activeName);
         
         authMsg.className = 'auth-msg success';
         authMsg.textContent = 'Giriş başarılı! Menüye aktarılıyorsunuz...';
@@ -2920,7 +2948,8 @@
         authMsg.textContent = 'Şifre en az 3 karakter olmalıdır!';
         return;
       }
-      if (users[uName]) {
+      const uKey = uName.trim().toLowerCase();
+      if (users[uKey] || users[uName]) {
         authMsg.className = 'auth-msg error';
         authMsg.textContent = 'Bu kullanıcı adı zaten kayıtlı! Giriş yapın.';
         return;
@@ -2971,6 +3000,10 @@
 
   // Başlangıç durumu: Eğer aktif oturum varsa ana menüye geç, yoksa temiz Giriş/Kayıt ekranını aç
   let initUser = safeStorage.getItem(SESSION_KEY);
+  if (!initUser || safeStorage.getItem("moocraft_v4_clean_accounts_reset_done") !== "true") {
+    initUser = null;
+    safeStorage.removeItem(SESSION_KEY);
+  }
 
   // Başlangıçta çapraz versiyon hesapları IndexedDB ve localStorage'dan senkronize et
   (async function initCrossVersionAccountSync() {
@@ -3418,7 +3451,7 @@
 
       const modeStr = (w.mode === 'creative') ? 'Yaratıcı Mod' : (w.mode === 'hardcore' ? 'Zorlayıcı Mod' : 'Hayatta Kalma');
       const commandsStr = w.allowCommands ? 'Komutlar' : 'Komutlar Kapalı';
-      const versionStr = w.version || '26.3';
+      const versionStr = w.version || '1.1';
       const dateStr = w.date || '28.10.2026 13:20';
       const lType = w.landscapeType || LANDSCAPE_TYPES[Math.abs(hashSeed(w.seed || w.id)) % LANDSCAPE_TYPES.length];
       const thumb = w.thumbnail || generateLandscapeDataUrl(lType, hashSeed(w.seed || w.id));
@@ -3773,7 +3806,7 @@
         allowCommands: currentCreateCommands,
         seed: wSeed,
         dimension: currentCreateWorldType,
-        version: '26.3'
+        version: '1.1'
       };
 
       worlds.push(newWorld);
@@ -3842,7 +3875,7 @@
           <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
             <div style="font-family: 'Press Start 2P', monospace; font-size: 8.5px; font-weight: bold; color: #ffffff; text-shadow: 1px 1px 0 #000;">${s.name}</div>
             <div style="font-family: 'Press Start 2P', monospace; font-size: 6.5px; color: ${motdColor}; text-shadow: 1px 1px 0 #000;">${motdText}</div>
-            <div style="font-family: 'Press Start 2P', monospace; font-size: 6px; color: #888888; text-shadow: 1px 1px 0 #000;">Adres: ${s.address || 'localhost:25565'}</div>
+            <div style="font-family: 'Press Start 2P', monospace; font-size: 6px; color: #888888; text-shadow: 1px 1px 0 #000;">Adres: ${s.address || 'localhost:25565'} | Sürüm: ${s.version || '1.1'}</div>
           </div>
         </div>
         <div style="display: flex; align-items: center; pointer-events: none;">
@@ -4072,6 +4105,10 @@
   let isSessionLoading = false;
 
   function cancelGameSessionLoading(isServer) {
+    const f3Scr = document.getElementById('f3DebugScreen');
+    if (f3Scr) f3Scr.style.display = 'none';
+    isF3Open = false;
+    if (typeof keys !== 'undefined' && keys) keys['F3'] = false;
     if (!isSessionLoading) return;
     isSessionLoading = false;
 
@@ -4856,6 +4893,10 @@
 
   // --- MOOCRAFT ANA MENÜ EKRAN DOLAŞIM YÖNETİCİSİ ---
   function showTitleScreen() {
+    isF3Open = false;
+    const f3Scr = document.getElementById('f3DebugScreen');
+    if (f3Scr) f3Scr.style.display = 'none';
+    if (typeof keys !== 'undefined' && keys) keys['F3'] = false;
     const titleScreen = document.getElementById('mcTitleScreen');
     const subHeader = document.getElementById('subScreenHeader');
     if (titleScreen) titleScreen.style.display = 'flex';
@@ -4890,14 +4931,456 @@
     if (screenName === 'create') updateCreateLandscapePreview();
     if (screenName === 'servers') renderServerList();
     if (screenName === 'character') onWindowResize();
+    if (screenName === 'friends') renderFriendsUI();
+    if (screenName === 'mods') {
+      openLauncherScreen('settings', 'AYARLAR & RAM');
+      switchSettingsTab('mods');
+    }
+    if (screenName === 'settings') {
+      switchSettingsTab('video');
+    }
+  }
+
+  
+  // ==========================================
+  // SADE ARKADAŞLAR SİSTEMİ (FRIENDS SYSTEM)
+  // ==========================================
+  const FRIENDS_STORAGE_KEY = 'moocraft_friends_db';
+  const playerFaceCache = new Map();
+
+  function getFriendsData() {
+    try {
+      return JSON.parse(safeStorage.getItem(FRIENDS_STORAGE_KEY) || '{}');
+    } catch(e) {
+      return {};
+    }
+  }
+
+  function saveFriendsData(data) {
+    try {
+      safeStorage.setItem(FRIENDS_STORAGE_KEY, JSON.stringify(data));
+      try { friendsBroadcastChannel?.postMessage({ type: 'FRIENDS_UPDATED' }); } catch(e){}
+    } catch(e) {}
+  }
+
+  function getActiveUsername() {
+    return (safeStorage.getItem(SESSION_KEY) || safeStorage.getItem('moocraft_active_session') || 'Oyuncu').trim();
+  }
+
+  let friendsBroadcastChannel = null;
+  try {
+    if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+      friendsBroadcastChannel = new BroadcastChannel('moocraft_friends_channel');
+      friendsBroadcastChannel.onmessage = (e) => {
+        if (e.data && e.data.type === 'FRIENDS_UPDATED') {
+          if (typeof renderFriendsUI === 'function') renderFriendsUI();
+        }
+      };
+    }
+  } catch(e){}
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('storage', (e) => {
+      if (e.key === FRIENDS_STORAGE_KEY) {
+        if (typeof renderFriendsUI === 'function') renderFriendsUI();
+      }
+    });
+  }
+
+  // --- KARAKTERİN YÜZÜNÜ ALMA VE ÇİZME SİSTEMİ ---
+  function getPlayerFaceDataUrl(username, callback) {
+    const uKey = (username || '').toLowerCase().trim();
+    if (playerFaceCache.has(uKey)) {
+      return callback(playerFaceCache.get(uKey));
+    }
+
+    let skinSource = null;
+    const curU = getActiveUsername().toLowerCase().trim();
+
+    if (uKey === curU) {
+      if (typeof character !== 'undefined' && character && character.customSkin) {
+        skinSource = character.customSkin;
+      } else {
+        const storedChar = safeStorage.getItem(CHAR_KEY);
+        if (storedChar) {
+          try {
+            const p = JSON.parse(storedChar);
+            if (p && p.customSkin) skinSource = p.customSkin;
+          } catch(e){}
+        }
+      }
+    } else {
+      const allUsers = (typeof getAllRegisteredUsers === 'function') ? getAllRegisteredUsers() : {};
+      if (allUsers[uKey] && allUsers[uKey].character && allUsers[uKey].character.customSkin) {
+        skinSource = allUsers[uKey].character.customSkin;
+      }
+    }
+
+    if (!skinSource && typeof getDefaultSteveDataUrl === 'function') {
+      skinSource = getDefaultSteveDataUrl();
+    }
+
+    if (!skinSource) {
+      return callback(null);
+    }
+
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const faceCvs = document.createElement('canvas');
+      faceCvs.width = 32;
+      faceCvs.height = 32;
+      const ctx = faceCvs.getContext('2d');
+      ctx.imageSmoothingEnabled = false;
+
+      // 1. Kafa iç katmanı: sx=8, sy=8, sw=8, sh=8 -> 32x32
+      ctx.drawImage(img, 8, 8, 8, 8, 0, 0, 32, 32);
+
+      // 2. Kafa dış şapka/saç katmanı (Modern 64x64 skin): sx=40, sy=8, sw=8, sh=8 -> 32x32
+      if (img.width >= 64 && img.height >= 32) {
+        ctx.drawImage(img, 40, 8, 8, 8, 0, 0, 32, 32);
+      }
+
+      const resUrl = faceCvs.toDataURL('image/png');
+      playerFaceCache.set(uKey, resUrl);
+      callback(resUrl);
+    };
+    img.onerror = () => {
+      callback(null);
+    };
+    img.src = skinSource;
+  }
+
+  function drawPlayerFaceToCanvas(canvasEl, username) {
+    if (!canvasEl) return;
+    const ctx = canvasEl.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+
+    // Yüklenene kadar Steve ten rengi
+    ctx.fillStyle = '#c68642';
+    ctx.fillRect(0, 0, canvasEl.width, canvasEl.height);
+
+    getPlayerFaceDataUrl(username, (faceDataUrl) => {
+      if (!faceDataUrl) return;
+      const faceImg = new Image();
+      faceImg.onload = () => {
+        ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+        ctx.drawImage(faceImg, 0, 0, canvasEl.width, canvasEl.height);
+      };
+      faceImg.src = faceDataUrl;
+    });
+  }
+
+  function sendFriendRequest(targetUserRaw) {
+    const curU = getActiveUsername();
+    const targetUser = (targetUserRaw || '').trim();
+    const msgEl = document.getElementById('friendActionMsg');
+    if (!msgEl) return;
+
+    msgEl.style.display = 'block';
+
+    if (!targetUser) {
+      msgEl.style.color = '#ff5555';
+      msgEl.textContent = 'Lütfen bir kullanıcı adı girin!';
+      return;
+    }
+    if (targetUser.toLowerCase() === curU.toLowerCase()) {
+      msgEl.style.color = '#ff5555';
+      msgEl.textContent = 'Kendinize arkadaşlık isteği gönderemezsiniz!';
+      return;
+    }
+
+    const data = getFriendsData();
+    const curKey = curU.toLowerCase();
+    const targetKey = targetUser.toLowerCase();
+
+    data[curKey] = data[curKey] || { friends: [], incomingRequests: [], outgoingRequests: [] };
+    data[targetKey] = data[targetKey] || { friends: [], incomingRequests: [], outgoingRequests: [] };
+
+    if (data[curKey].friends.some(f => f.toLowerCase() === targetKey)) {
+      msgEl.style.color = '#ffaa00';
+      msgEl.textContent = `${targetUser} zaten arkadaşınız!`;
+      return;
+    }
+
+    if (data[targetKey].incomingRequests.some(r => r.from && r.from.toLowerCase() === curKey)) {
+      msgEl.style.color = '#ffaa00';
+      msgEl.textContent = `${targetUser} kullanıcısına zaten istek gönderilmiş!`;
+      return;
+    }
+
+    const alreadyIncomingIdx = data[curKey].incomingRequests.findIndex(r => r.from && r.from.toLowerCase() === targetKey);
+    if (alreadyIncomingIdx !== -1) {
+      acceptFriendRequest(targetUser);
+      msgEl.style.color = '#55ff55';
+      msgEl.textContent = `${targetUser} ile arkadaş oldunuz!`;
+      return;
+    }
+
+    const todayStr = new Date().toLocaleDateString('tr-TR');
+    data[targetKey].incomingRequests.push({ from: curU, date: todayStr });
+    data[curKey].outgoingRequests.push({ to: targetUser, date: todayStr });
+
+    saveFriendsData(data);
+    msgEl.style.color = '#55ff55';
+    msgEl.textContent = `${targetUser} kullanıcısına arkadaşlık isteği gönderildi!`;
+    const input = document.getElementById('friendUsernameInput');
+    if (input) input.value = '';
+    renderFriendsUI();
+  }
+
+  function acceptFriendRequest(fromUserRaw) {
+    const curU = getActiveUsername();
+    const fromUser = (fromUserRaw || '').trim();
+    const curKey = curU.toLowerCase();
+    const fromKey = fromUser.toLowerCase();
+    const data = getFriendsData();
+
+    data[curKey] = data[curKey] || { friends: [], incomingRequests: [], outgoingRequests: [] };
+    data[fromKey] = data[fromKey] || { friends: [], incomingRequests: [], outgoingRequests: [] };
+
+    data[curKey].incomingRequests = data[curKey].incomingRequests.filter(r => r.from && r.from.toLowerCase() !== fromKey);
+    data[fromKey].outgoingRequests = data[fromKey].outgoingRequests.filter(r => r.to && r.to.toLowerCase() !== curKey);
+
+    if (!data[curKey].friends.some(f => f.toLowerCase() === fromKey)) {
+      data[curKey].friends.push(fromUser);
+    }
+    if (!data[fromKey].friends.some(f => f.toLowerCase() === curKey)) {
+      data[fromKey].friends.push(curU);
+    }
+
+    saveFriendsData(data);
+    showToast(`${fromUser} ile arkadaş oldunuz!`);
+    renderFriendsUI();
+  }
+
+  function declineFriendRequest(fromUserRaw) {
+    const curU = getActiveUsername();
+    const fromUser = (fromUserRaw || '').trim();
+    const curKey = curU.toLowerCase();
+    const fromKey = fromUser.toLowerCase();
+    const data = getFriendsData();
+
+    if (data[curKey] && data[curKey].incomingRequests) {
+      data[curKey].incomingRequests = data[curKey].incomingRequests.filter(r => r.from && r.from.toLowerCase() !== fromKey);
+    }
+    if (data[fromKey] && data[fromKey].outgoingRequests) {
+      data[fromKey].outgoingRequests = data[fromKey].outgoingRequests.filter(r => r.to && r.to.toLowerCase() !== curKey);
+    }
+
+    saveFriendsData(data);
+    showToast(`${fromUser} isteği reddedildi.`);
+    renderFriendsUI();
+  }
+
+  function removeFriend(friendNameRaw) {
+    const curU = getActiveUsername();
+    const friendName = (friendNameRaw || '').trim();
+    const curKey = curU.toLowerCase();
+    const friendKey = friendName.toLowerCase();
+    const data = getFriendsData();
+
+    if (data[curKey] && data[curKey].friends) {
+      data[curKey].friends = data[curKey].friends.filter(f => f.toLowerCase() !== friendKey);
+    }
+    if (data[friendKey] && data[friendKey].friends) {
+      data[friendKey].friends = data[friendKey].friends.filter(f => f.toLowerCase() !== curKey);
+    }
+
+    saveFriendsData(data);
+    showToast(`${friendName} arkadaş listenizden çıkarıldı.`);
+    renderFriendsUI();
+  }
+
+  let activeFriendsTab = 'list'; // 'list' veya 'requests'
+
+  function switchFriendsTab(tabName) {
+    activeFriendsTab = tabName;
+    renderFriendsUI();
+  }
+  window.switchFriendsTab = switchFriendsTab;
+
+  function renderFriendsUI() {
+    const curU = getActiveUsername();
+    const curKey = curU.toLowerCase();
+    const data = getFriendsData();
+    const myData = data[curKey] || { friends: [], incomingRequests: [], outgoingRequests: [] };
+
+    const friendsCountBadge = document.getElementById('friendsCountBadge');
+    const friendsListCount = document.getElementById('friendsListCount');
+    const friendsRequestsCount = document.getElementById('friendsRequestsCount');
+    const friendsListSection = document.getElementById('friendsListSection');
+    const friendsRequestsSection = document.getElementById('friendsRequestsSection');
+    const btnTabList = document.getElementById('btnFriendsTabList');
+    const btnTabRequests = document.getElementById('btnFriendsTabRequests');
+
+    const fCount = myData.friends ? myData.friends.length : 0;
+    const rCount = myData.incomingRequests ? myData.incomingRequests.length : 0;
+
+    if (friendsCountBadge) friendsCountBadge.textContent = `${fCount} ARKADAŞ`;
+    if (friendsListCount) friendsListCount.textContent = fCount;
+    if (friendsRequestsCount) friendsRequestsCount.textContent = rCount;
+
+    if (btnTabList && btnTabRequests && friendsListSection && friendsRequestsSection) {
+      if (activeFriendsTab === 'list') {
+        btnTabList.classList.add('active');
+        btnTabRequests.classList.remove('active');
+        friendsListSection.style.display = 'flex';
+        friendsRequestsSection.style.display = 'none';
+      } else {
+        btnTabList.classList.remove('active');
+        btnTabRequests.classList.add('active');
+        friendsListSection.style.display = 'none';
+        friendsRequestsSection.style.display = 'flex';
+      }
+    }
+
+    // 1. Arkadaşlar Listesini Çiz (Karakterin Yüzü + Adı)
+    if (friendsListSection) {
+      friendsListSection.innerHTML = '';
+      if (!myData.friends || myData.friends.length === 0) {
+        friendsListSection.innerHTML = `
+          <div style="font-family: 'Press Start 2P', monospace; font-size: 6.5px; color: #888; text-align: center; padding: 24px 12px; line-height: 1.8;">
+            Henüz arkadaşınız yok.<br>Yukarıdan arkadaşınızın adını yazıp istek gönderebilirsiniz.
+          </div>
+        `;
+      } else {
+        myData.friends.forEach(fName => {
+          const row = document.createElement('div');
+          row.style.cssText = `
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(0,0,0,0.45); border: 2px solid #555; padding: 10px 14px;
+            border-radius: 3px;
+          `;
+          row.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <canvas class="player-face-canvas" width="32" height="32" style="width: 28px; height: 28px; image-rendering: pixelated; border: 2px solid #fff; background: #222; border-radius: 3px; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.5);"></canvas>
+              <div style="text-align: left;">
+                <div style="font-family: 'Press Start 2P', monospace; font-size: 8px; font-weight: bold; color: #fff;">${fName}</div>
+                <div style="font-family: 'Press Start 2P', monospace; font-size: 6px; color: #55ff55; margin-top: 4px;">● Arkadaş</div>
+              </div>
+            </div>
+            <button class="btn btn-danger" type="button" style="padding: 7px 12px; font-size: 6.5px; cursor: pointer;">Kaldır</button>
+          `;
+          const btnDel = row.querySelector('button');
+          if (btnDel) btnDel.onclick = () => removeFriend(fName);
+          const cvs = row.querySelector('.player-face-canvas');
+          drawPlayerFaceToCanvas(cvs, fName);
+          friendsListSection.appendChild(row);
+        });
+      }
+    }
+
+    // 2. Gelen İstekleri Çiz (Karakterin Yüzü + Adı + Kabul/Reddet Butonları)
+    if (friendsRequestsSection) {
+      friendsRequestsSection.innerHTML = '';
+      if (!myData.incomingRequests || myData.incomingRequests.length === 0) {
+        friendsRequestsSection.innerHTML = `
+          <div style="font-family: 'Press Start 2P', monospace; font-size: 6.5px; color: #888; text-align: center; padding: 24px 12px; line-height: 1.8;">
+            Bekleyen arkadaşlık isteği yok.
+          </div>
+        `;
+      } else {
+        myData.incomingRequests.forEach(req => {
+          const fromUser = req.from || 'Oyuncu';
+          const row = document.createElement('div');
+          row.style.cssText = `
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(0,0,0,0.5); border: 2px solid #ffff55; padding: 10px 14px;
+            border-radius: 3px;
+          `;
+          row.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <canvas class="player-face-canvas" width="32" height="32" style="width: 28px; height: 28px; image-rendering: pixelated; border: 2px solid #ffff55; background: #222; border-radius: 3px; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.5);"></canvas>
+              <div style="text-align: left;">
+                <div style="font-family: 'Press Start 2P', monospace; font-size: 8px; font-weight: bold; color: #ffff55;">${fromUser}</div>
+                <div style="font-family: 'Press Start 2P', monospace; font-size: 6px; color: #aaa; margin-top: 4px;">Arkadaşlık İsteği (${req.date || 'Yeni'})</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn btn-green btn-accept" type="button" style="padding: 7px 12px; font-size: 6.5px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.4);">✓ Kabul Et</button>
+              <button class="btn btn-danger btn-decline" type="button" style="padding: 7px 12px; font-size: 6.5px; cursor: pointer;">✗ Reddet</button>
+            </div>
+          `;
+          const btnAcc = row.querySelector('.btn-accept');
+          const btnDec = row.querySelector('.btn-decline');
+          if (btnAcc) btnAcc.onclick = () => acceptFriendRequest(fromUser);
+          if (btnDec) btnDec.onclick = () => declineFriendRequest(fromUser);
+          const cvs = row.querySelector('.player-face-canvas');
+          drawPlayerFaceToCanvas(cvs, fromUser);
+          friendsRequestsSection.appendChild(row);
+        });
+      }
+    }
+  }
+  window.renderFriendsUI = renderFriendsUI;
+
+  // ==========================================
+  // AYARLAR SEKMELİ YÖNETİM SİSTEMİ
+  // ==========================================
+  let activeSettingsSubTab = 'video'; // 'video', 'mods', 'account'
+
+  function switchSettingsTab(tabName) {
+    activeSettingsSubTab = tabName;
+    const btnVideo = document.getElementById('btnSettingsTabVideo');
+    const btnMods = document.getElementById('btnSettingsTabMods');
+    const btnAccount = document.getElementById('btnSettingsTabAccount');
+
+    const secVideo = document.getElementById('settingsSectionVideo');
+    const secMods = document.getElementById('settingsSectionMods');
+    const secAccount = document.getElementById('settingsSectionAccount');
+
+    if (btnVideo) btnVideo.classList.toggle('active', tabName === 'video');
+    if (btnMods) btnMods.classList.toggle('active', tabName === 'mods');
+    if (btnAccount) btnAccount.classList.toggle('active', tabName === 'account');
+
+    if (secVideo) secVideo.style.display = (tabName === 'video') ? 'grid' : 'none';
+    if (secMods) secMods.style.display = (tabName === 'mods') ? 'flex' : 'none';
+    if (secAccount) secAccount.style.display = (tabName === 'account') ? 'flex' : 'none';
+  }
+
+  function initSettingsTabListeners() {
+    const btnVideo = document.getElementById('btnSettingsTabVideo');
+    const btnMods = document.getElementById('btnSettingsTabMods');
+    const btnAccount = document.getElementById('btnSettingsTabAccount');
+
+    if (btnVideo) btnVideo.onclick = () => switchSettingsTab('video');
+    if (btnMods) btnMods.onclick = () => switchSettingsTab('mods');
+    if (btnAccount) btnAccount.onclick = () => switchSettingsTab('account');
+  }
+
+  function initFriendsEventListeners() {
+    const btnAdd = document.getElementById('btnAddFriendSubmit');
+    const input = document.getElementById('friendUsernameInput');
+    const btnTabList = document.getElementById('btnFriendsTabList');
+    const btnTabRequests = document.getElementById('btnFriendsTabRequests');
+
+    if (btnAdd && input) {
+      btnAdd.onclick = () => sendFriendRequest(input.value);
+      input.onkeydown = (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          sendFriendRequest(input.value);
+        }
+      };
+    }
+
+    if (btnTabList) {
+      btnTabList.onclick = () => switchFriendsTab('list');
+    }
+    if (btnTabRequests) {
+      btnTabRequests.onclick = () => switchFriendsTab('requests');
+    }
   }
 
   function initMooCraftMenuButtons() {
+    initFriendsEventListeners();
+    initSettingsTabListeners();
     const btnSingleplayer = document.getElementById('btnMenuSingleplayer');
     const btnMultiplayer = document.getElementById('btnMenuMultiplayer');
-    const btnMods = document.getElementById('btnMenuMods');
     const btnCharacter = document.getElementById('btnMenuCharacter');
     const btnSettings = document.getElementById('btnMenuSettings');
+    const btnFriends = document.getElementById('btnMenuFriends');
     const btnLogout = document.getElementById('btnMenuLogout');
 
     if (btnSingleplayer) {
@@ -4906,8 +5389,8 @@
     if (btnMultiplayer) {
       btnMultiplayer.onclick = () => openLauncherScreen('servers', 'ÇOK OYUNCULU - SUNUCU SEÇ');
     }
-    if (btnMods) {
-      btnMods.onclick = () => openLauncherScreen('mods', 'MODLAR VE PAKETLER');
+    if (btnFriends) {
+      btnFriends.onclick = () => openLauncherScreen('friends', 'ARKADAŞLAR');
     }
     if (btnCharacter) {
       btnCharacter.onclick = () => openLauncherScreen('character', 'KARAKTER & KOSTÜM');
@@ -5418,9 +5901,7 @@
       }
       // ÇOK OYUNCULU SUNUCULARDA ASLA OTOMATİK OP OLUNMAZ!
       // Sadece o sunucuda yetkisi varsa OP olunur:
-      const isOpDirect = (typeof isUserOp !== 'undefined' && isUserOp === true);
-      const isWorldOp = (worldData && worldData.isOp === true);
-      return Boolean(isOpDirect || isWorldOp);
+      return Boolean(typeof isUserOp !== 'undefined' && isUserOp === true);
     }
 
     function showPauseMenu() {
@@ -5431,7 +5912,7 @@
 
       // OP durumunu dinamik ve kesin olarak kontrol et
       const hasOp = isCurrentPlayerOp();
-      if (hasOp) {
+      if (hasOp && isSingleplayer) {
         isUserOp = true;
         if (worldData) worldData.isOp = true;
       }
@@ -5648,12 +6129,14 @@
         const hasOp = isCurrentPlayerOp();
         if (!hasOp) {
           addChatMessage('', 'Oyun modunu değiştirmek için Yönetici (OP) yetkiniz olmalıdır! Sadece OP olanlar oyun modunu değiştirebilir.', true);
+          showToast('Yetki Yok (OP Gerekir)');
           return;
         }
 
-        // OP yetkisi kesinleştirilir
-        isUserOp = true;
-        if (worldData) worldData.isOp = true;
+        if (isSingleplayer) {
+          isUserOp = true;
+          if (worldData) worldData.isOp = true;
+        }
 
         isCreativeMode = !isCreativeMode;
         if (isCreativeMode) {
@@ -5687,6 +6170,10 @@
 
     btnQuitToMenu.onclick = (e) => {
       if (e) e.stopPropagation();
+      isF3Open = false;
+      const f3Scr = document.getElementById('f3DebugScreen');
+      if (f3Scr) f3Scr.style.display = 'none';
+      if (typeof keys !== 'undefined' && keys) keys['F3'] = false;
       saveCurrentGameState();
       clearInterval(autoSaveTimer);
       isPauseOpen = false;
@@ -8227,6 +8714,7 @@
     });
     // Keskin kare güneş düzlemi
     const sunMesh = new THREE.Mesh(new THREE.PlaneGeometry(18, 18), sunMat);
+    sunMesh.visible = false;
     sunMesh.position.set(0, 140, 0);
     sunMesh.rotation.x = Math.PI / 2;
     celestialGroup.add(sunMesh);
@@ -8394,7 +8882,7 @@
       const sunH = Math.cos(timeAngle); // 1 = Öğle, 0 = Ufuk, -1 = Gece yarısı
 
       // Ay sabahleyin ve gündüz tamamen yok olur; Güneş ise gece vakti tamamen kaybolur
-      sunMesh.visible = (sunH > 0.0);
+      sunMesh.visible = false; // Turuncumsu gök cismi kaldırıldı
       moonMesh.visible = (sunH <= 0.0);
 
       // Gerçekçi Minecraft Gökyüzü Renk Paleti
@@ -10429,6 +10917,10 @@ const customTextures = {
     if (btnDeathQuitEl) {
       btnDeathQuitEl.onclick = (e) => {
         if (e) e.stopPropagation();
+        isF3Open = false;
+        const f3Scr = document.getElementById('f3DebugScreen');
+        if (f3Scr) f3Scr.style.display = 'none';
+        if (typeof keys !== 'undefined' && keys) keys['F3'] = false;
         if (deathModalEl) deathModalEl.style.display = 'none';
         saveCurrentGameState();
         clearInterval(autoSaveTimer);
@@ -11366,6 +11858,105 @@ const customTextures = {
     const droppedItems = [];
     const dropGeo = new THREE.BoxGeometry(0.3, 0.3, 0.3);
 
+    // =========================================================================
+    // AKICI SES SİSTEMİ & EĞLENCELİ EFEKTLER (WEB AUDIO API - %100 YEREL & DOĞAL)
+    // =========================================================================
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (AC) audioCtx = new AC();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    ['click', 'keydown', 'touchstart'].forEach(evt => {
+      window.addEventListener(evt, () => { getAudioCtx(); }, { once: false, passive: true });
+    });
+
+    function playSoundEffect(type) {
+      try {
+        const ctx = getAudioCtx();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+
+        if (type === 'break' || type === 'hit') {
+          const bufferSize = Math.floor(ctx.sampleRate * 0.08);
+          const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
+          }
+          const noise = ctx.createBufferSource();
+          noise.buffer = buffer;
+          const filter = ctx.createBiquadFilter();
+          filter.type = 'bandpass';
+          filter.frequency.setValueAtTime(type === 'hit' ? 520 : 420, now);
+          filter.Q.setValueAtTime(2.5, now);
+          const gain = ctx.createGain();
+          gain.gain.setValueAtTime(type === 'hit' ? 0.22 : 0.38, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+          noise.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+          noise.start(now);
+        } else if (type === 'place') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(140, now);
+          osc.frequency.exponentialRampToValueAtTime(50, now + 0.07);
+          gain.gain.setValueAtTime(0.35, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.07);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(now); osc.stop(now + 0.07);
+        } else if (type === 'step') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(80, now);
+          osc.frequency.exponentialRampToValueAtTime(35, now + 0.05);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(now); osc.stop(now + 0.05);
+        } else if (type === 'jump') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(120, now);
+          osc.frequency.exponentialRampToValueAtTime(240, now + 0.12);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(now); osc.stop(now + 0.12);
+        } else if (type === 'pickup') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(600, now);
+          osc.frequency.setValueAtTime(880, now + 0.04);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(now); osc.stop(now + 0.12);
+        } else if (type === 'diamond') {
+          [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+            gain.gain.setValueAtTime(0.25, now + idx * 0.06);
+            gain.gain.exponentialRampToValueAtTime(0.005, now + idx * 0.06 + 0.25);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start(now + idx * 0.06);
+            osc.stop(now + idx * 0.06 + 0.26);
+          });
+        }
+      } catch (e) {}
+    }
+
     function spawnDroppedItem(x, y, z, type, vx = 0, vy = 2.5, vz = 0, pickupDelay = 0.5, count = 1) {
       if (!type || type === 'water') return;
       const mesh = new THREE.Mesh(dropGeo, materials[type] || materials.stone);
@@ -11425,6 +12016,7 @@ const customTextures = {
           if (pPos.distanceTo(item.mesh.position) < 1.85) {
             const addCount = item.count || 1;
             if (addItemToInventory(item.type, addCount)) {
+              playSoundEffect(item.type === 'diamond_item' || item.type === 'diamond_ore' ? 'diamond' : 'pickup');
               // Bildirim kapatildi: showToast(`+${addCount} ${BLOCK_INFO[item.type]?.name || 'Blok'}`);
               scene.remove(item.mesh);
               droppedItems.splice(i, 1);
@@ -11441,6 +12033,7 @@ const customTextures = {
     const RENDER_DISTANCE = getRenderDistSetting();
     const showFpsActive = getShowFpsSetting();
 
+    let stepSoundTimer = 0;
     let isF3Open = false;
     let currentFps = 60;
     const f3DebugScreenEl = document.getElementById('f3DebugScreen');
@@ -11479,7 +12072,7 @@ const customTextures = {
       else if (topH > 16) biome = "Dağlar (Mountains)";
 
       f3DebugContentEl.innerHTML = `
-        <div style="font-weight: bold; color: #ffff55; margin-bottom: 4px;">MooCraft 1.20.1 (${worldData && worldData.mode === 'creative' ? 'Yaratıcı' : 'Hayatta Kalma'})</div>
+        <div style="font-weight: bold; color: #ffff55; margin-bottom: 4px;">MooCraft 1.1 (${worldData && worldData.mode === 'creative' ? 'Yaratıcı' : 'Hayatta Kalma'})</div>
         <div style="color: #55ff55;">FPS: ${currentFps} | RAM: ${allocatedRamGb} GB / 8 GB</div>
         <div style="margin-top: 4px;">XYZ: ${px} / ${py} / ${pz}</div>
         <div>Blok: ${bx} ${by} ${bz} [${lx} ${by} ${lz}]</div>
@@ -11499,10 +12092,19 @@ const customTextures = {
 
     // RAM optimizasyonu: Sadece görünen yüzey blokları için Three.js mesh oluşturulur.
     // Yeraltındaki görünmeyen bloklar bellekte tutulur ancak GPU'ya yük bindirmez (sıfır kasma).
+    // RAM optimizasyonu ve blok güncelleme mantığı:
+    // Blok ekleme, değiştirme veya doku yenilemelerinde mesh doğru şekilde güncellenir ve buglar engellenir.
     function spawnBlock(x, y, z, type, withMesh = true) {
       const k = blockKey(x, y, z);
       if (worldMap.has(k)) {
         const existing = worldMap.get(k);
+        if (existing.type !== type) {
+          existing.type = type;
+          if (existing.mesh) {
+            existing.mesh.material = materials[type] || materials.stone;
+            existing.mesh.userData = { type, x, y, z };
+          }
+        }
         if (!existing.mesh && withMesh) {
           const mesh = new THREE.Mesh(blockGeo, materials[type] || materials.stone);
           mesh.position.set(x, y, z);
@@ -11547,12 +12149,11 @@ const customTextures = {
       }
     }
 
-    // DERİN YERALTI DÜNYASI VE BÜYÜTÜLMÜŞ MADEN DAMARLARI
+    // =========================================================================
+    // DOĞAL YERALTI MADEN DAMARLARI (YÜZEYDE ASLA MADEN OLMAZ, YERALTINDA BOLCA OLUŞUR)
+    // =========================================================================
     const BEDROCK_Y = -48;
 
-    // Gerçek Minecraft Maden Dağılımı (Dengeli ve Otantik Damarlar)
-    // Madenler asla 20-30 blokluk dev yığınlar halinde çıkmaz; en fazla 8 blokluk doğal damarlar oluşturur.
-    // Zümrüt en düşük orana sahiptir (tek veya nadiren 2 blok).
     function getChunkVeinBlocks(chunkX, chunkZ) {
       let seed = ((chunkX * 73856093) ^ (chunkZ * 19349663) ^ worldSeedNum ^ 0x5bd1e995) >>> 0;
       function rnd() {
@@ -11563,51 +12164,45 @@ const customTextures = {
       const veins = new Map();
       const startX = chunkX * CHUNK_SIZE, startZ = chunkZ * CHUNK_SIZE;
 
-      // [oreType, countOrProb, minY, maxY, maxVeinSize (MAX 8)]
-      // Maden Değerleri & Dağılım Sıralaması:
-      // 1. En çok rastlanan: Bakır (copper_ore) -> chunk başına 6.0 damar
-      // 2. Kömür (coal_ore) -> chunk başına 4.5 damar
-      // 3. Demir (iron_ore) -> chunk başına 3.5 damar
-      // 4. Lapis (lapis_ore) -> chunk başına 2.5 damar
-      // 5. Altın (gold_ore) -> chunk başına 1.5 damar
-      // 6. Elmas (diamond_ore) -> chunk başına 0.8 damar
-      // 7. En nadir: Zümrüt (emerald_ore) -> chunk başına 0.22 damar
-      // Kural: En fazla yan yana aynı madenden 8 tane çıkabilir (veinLimit <= 8)
+      // [oreType, countPerChunk, minY, maxY, maxVeinSize]
+      // Madenler yüzeyde ve toprakta ASLA oluşmaz (topH - 4 kuralı).
+      // Yeraltı taş tabakalarında oyuncunun kolayca kazarak bulabileceği zengin ve doğal damarlar oluşur!
+      // [oreType, countPerChunk, minY, maxY, maxVeinSize]
+      // Bedrock (-48) yakınlarında elmas dengeli ve aranıp bulunabilecek şekilde arttırıldı!
       const specs = [
-        ['copper_ore', 6.0, -16, 24, 8],  // 1. Bakır: En çok rastlanan maden (en fazla 8 blok)
-        ['coal_ore', 4.5, -8, 24, 8],     // 2. Kömür: Bakırdan sonra en çok (en fazla 8 blok)
-        ['iron_ore', 3.5, -36, 16, 8],    // 3. Demir: Kömürden sonra (en fazla 8 blok)
-        ['lapis_ore', 2.5, -36, -4, 8],   // 4. Lapis: Demirden sonra (en fazla 8 blok)
-        ['redstone_ore', 1.8, -46, -16, 8],// Kızıltaş: Derinlerde (en fazla 8 blok)
-        ['gold_ore', 1.5, -44, -10, 8],   // 5. Altın: Lapisten sonra (en fazla 8 blok)
-        ['diamond_ore', 0.8, -46, -18, 8],// 6. Elmas: Altından sonra, nadir (en fazla 8 blok)
-        ['emerald_ore', 0.22, -28, 14, 8],// 7. Zümrüt: En nadir maden (en fazla 8 blok)
-        ['obsidian', 0.7, -46, -32, 6]    // Derin Obsidyen: en fazla 6 blok
+        ['coal_ore', 1.2, -20, 20, 3],       // Kömür: Seyrek ve doğal
+        ['iron_ore', 0.8, -36, 10, 3],       // Demir: Nadir damarlar
+        ['copper_ore', 0.45, -26, 12, 2],    // Bakır: Dengeli seyrek
+        ['lapis_ore', 0.18, -40, -10, 2],    // Lapis: Derinlerde nadir
+        ['redstone_ore', 0.22, -46, -14, 3], // Kızıltaş: Taban yakını
+        ['gold_ore', 0.16, -44, -16, 2],     // Altın: Derinlerde nadir
+        ['diamond_ore', 0.45, -46, -24, 3],  // Elmas: Bedrock yakınlarında dengeli (en fazla 3 blok)
+        ['emerald_ore', 0.02, -34, 0, 1],    // Zümrüt: Çok nadir tek blok
+        ['obsidian', 0.12, -46, -34, 2]      // Obsidyen: Dipte nadir
       ];
 
       for (let s = 0; s < specs.length; s++) {
         const [oreType, countOrProb, minY, maxY, maxVeinSize] = specs[s];
-        // Kesirli değerleri ve tam sayıları olasılıksal olarak hesapla
         const numVeins = Math.floor(countOrProb) + (rnd() < (countOrProb % 1) ? 1 : 0);
 
         for (let i = 0; i < numVeins; i++) {
           let cx = startX + 1 + Math.floor(rnd() * (CHUNK_SIZE - 2));
           let cz = startZ + 1 + Math.floor(rnd() * (CHUNK_SIZE - 2));
           let colTopH = getTerrainHeight(cx, cz);
-          let effectiveMaxY = Math.min(maxY, colTopH - 2);
-          let cy = Math.floor(minY + rnd() * (Math.max(minY + 2, effectiveMaxY) - minY));
-          if (cy >= colTopH - 1) cy = Math.max(minY, colTopH - 2);
+          // Yüzey ve toprak koruması: Maden ASLA topH - 4 seviyesinin üstüne çıkamaz!
+          let effectiveMaxY = Math.min(maxY, colTopH - 4);
+          if (effectiveMaxY <= minY) continue;
 
-          // Kesin Kural: En fazla yan yana aynı madenden 8 tane çıkabilir!
-          const veinLimit = Math.min(8, Math.max(1, Math.floor(1 + rnd() * Math.min(8, maxVeinSize))));
+          let cy = Math.floor(minY + rnd() * (effectiveMaxY - minY));
+          const veinLimit = Math.min(maxVeinSize, Math.max(1, Math.floor(1 + rnd() * maxVeinSize)));
           let placed = 0;
 
-          // Bitişik organik 3D maden damarı adımı (Random Walk) - SADECE YERİN ALTINDA!
+          // 3D Organik Rastgele Yürüyüş Damarı (SADECE YERİN ALTINDAKİ TAŞ KATMANINDA)
           for (let step = 0; step < veinLimit * 4 && placed < veinLimit; step++) {
             const hAtPos = getTerrainHeight(cx, cz);
             if (cx >= startX && cx < startX + CHUNK_SIZE &&
                 cz >= startZ && cz < startZ + CHUNK_SIZE &&
-                cy > BEDROCK_Y + 1 && cy < hAtPos) {
+                cy > BEDROCK_Y + 1 && cy <= hAtPos - 4) {
               const k = blockKey(cx, cy, cz);
               if (!veins.has(k)) {
                 veins.set(k, oreType);
@@ -11615,7 +12210,6 @@ const customTextures = {
               }
             }
 
-            // Bitişik yönlere adım at
             const dir = Math.floor(rnd() * 6);
             if (dir === 0) cx++;
             else if (dir === 1) cx--;
@@ -11635,6 +12229,46 @@ const customTextures = {
       const chunkVeins = getChunkVeinBlocks(chunkX, chunkZ);
       const curDim = (worldData && worldData.dimension) ? worldData.dimension : 'mountains';
 
+      // =========================================================================
+      // BÜYÜK DOĞAL MAĞARALAR VE DEV YERALTI OYUKLARI (YAPI DEĞİL, TAMAMEN DOĞAL)
+      // Her biri birbirinden tamamen farklı boyut, eğim ve biçime sahiptir.
+      // İç duvarları ve tavanları son derece zengin madenlerle kaplıdır!
+      // =========================================================================
+      const nearbyCaves = [];
+      for (let dcx = -1; dcx <= 1; dcx++) {
+        for (let dcz = -1; dcz <= 1; dcz++) {
+          const ccx = chunkX + dcx, ccz = chunkZ + dcz;
+          let cSeed = ((ccx * 374761393) ^ (ccz * 668265263) ^ worldSeedNum ^ 0x1b873593) >>> 0;
+          function cRnd() {
+            cSeed = (cSeed * 1664525 + 1013904223) >>> 0;
+            return cSeed / 4294967296;
+          }
+
+          // Her 2-3 chunkta bir büyük doğal mağara sistemi
+          if (cRnd() < 0.45) {
+            const ox = ccx * CHUNK_SIZE + 3 + Math.floor(cRnd() * 10);
+            const oz = ccz * CHUNK_SIZE + 3 + Math.floor(cRnd() * 10);
+            const surfH = getTerrainHeight(ox, oz);
+            // Yüzeyden en az 7 blok derinde ve -32 ile -4 arasında değişken merkez
+            const maxCenterY = Math.min(-4, surfH - 7);
+            const oy = Math.floor(-32 + cRnd() * Math.max(4, maxCenterY - (-32)));
+
+            // Her mağara için tamamen benzersiz yarıçaplar (BÜYÜK DOĞAL SALONLAR)
+            const rx = 6.0 + cRnd() * 6.0; // 12 - 24 blok genişlik
+            const rz = 6.0 + cRnd() * 6.0; // 12 - 24 blok uzunluk
+            const ry = 3.5 + cRnd() * 4.0; // 7 - 15 blok tavan yüksekliği
+
+            // Mağara uzantı tüneli / galeri yönü ve eğimi
+            const tunnelAngle = cRnd() * Math.PI * 2;
+            const tunnelSlope = (cRnd() - 0.5) * 0.45;
+            const tunnelLen = 14 + cRnd() * 10;
+            const tunnelRad = 2.4 + cRnd() * 1.4;
+
+            nearbyCaves.push({ ox, oy, oz, rx, ry, rz, tunnelAngle, tunnelSlope, tunnelLen, tunnelRad });
+          }
+        }
+      }
+
       for (let x = startX; x < startX + CHUNK_SIZE; x++) {
         for (let z = startZ; z < startZ + CHUNK_SIZE; z++) {
           let topH = getTerrainHeight(x, z);
@@ -11643,9 +12277,6 @@ const customTextures = {
           } else if (curDim === 'ocean') {
             topH = Math.max(5, topH - 3);
           }
-          // RAM ayarına göre görünür derinlik:
-          // 1 GB RAM: Sadece en üst 1 katman çizilir
-          // 2-8 GB RAM: En üst 2 katman çizilir
           const visibleDepth = (allocatedRamGb === 1) ? 0 : 1;
 
           for (let y = BEDROCK_Y; y <= topH; y++) {
@@ -11653,9 +12284,67 @@ const customTextures = {
             if (customWorldChanges[k] !== undefined) {
               if (customWorldChanges[k] !== null) spawnBlock(x, y, z, customWorldChanges[k], true);
             } else {
+              // --- BÜYÜK DOĞAL MAĞARA KONTROLÜ (YÜZEYE ASLA ÇIKMAZ) ---
+              let isCaveAir = false, isCaveWall = false;
+              // Yüzey koruması: Yüzeye en az 5 blok mesafe şartı
+              if (y <= topH - 5 && y > BEDROCK_Y + 1) {
+                for (let ci = 0; ci < nearbyCaves.length; ci++) {
+                  const c = nearbyCaves[ci];
+                  // 1. Büyük Doğal Ana Salon (Organik ve kıvrımlı yüzey dalgalanması)
+                  const pX = (x - c.ox) / c.rx;
+                  const pZ = (z - c.oz) / c.rz;
+                  const pY = (y - c.oy) / c.ry;
+                  // Doğal kıvrım gürültüsü (her noktada farklı girinti ve çıkıntı)
+                  const irregularity = 1.0 + 0.22 * Math.sin(x * 0.45 + c.oy * 0.3) + 0.18 * Math.cos(z * 0.45 + y * 0.5);
+                  const distChamber = (pX * pX + pZ * pZ + pY * pY) / (irregularity * irregularity);
+
+                  // 2. Doğal Kıvrımlı Galeri Tüneli
+                  let distTunnel = 999;
+                  const cosA = Math.cos(c.tunnelAngle), sinA = Math.sin(c.tunnelAngle);
+                  for (let t = 0; t <= c.tunnelLen; t += 2) {
+                    const tx = c.ox + cosA * t + Math.sin(t * 0.5) * 2.0;
+                    const tz = c.oz + sinA * t + Math.cos(t * 0.5) * 2.0;
+                    const ty = c.oy + t * c.tunnelSlope;
+                    const tRad = c.tunnelRad * (1.0 + 0.2 * Math.sin(t * 0.6));
+                    const d = ((x - tx) ** 2 + (z - tz) ** 2 + ((y - ty) * 1.25) ** 2) / (tRad * tRad);
+                    if (d < distTunnel) distTunnel = d;
+                  }
+
+                  if (distChamber < 1.0 || distTunnel < 1.0) {
+                    isCaveAir = true;
+                    break;
+                  } else if (distChamber <= 1.45 || distTunnel <= 1.45) {
+                    isCaveWall = true;
+                  }
+                }
+              }
+
+              if (isCaveAir) {
+                // Doğal açık mağara boşluğu: İçinde hiçbir yapay tahta, direk veya fener olmaz
+                continue;
+              }
+
+              if (isCaveWall && y <= topH - 5 && y > BEDROCK_Y + 1) {
+                // DOĞAL BÜYÜK MAĞARA DUVARLARI: Bedrock yakınlarında elmas dengeli ve aranıp bulunabilir
+                const rOre = posRnd(x, y * 7 + z, 99);
+                let wallBlock = (y < -16) ? 'deepslate' : 'stone';
+                if (rOre < 0.016) wallBlock = 'coal_ore';              // %1.6 Kömür
+                else if (rOre < 0.028) wallBlock = 'iron_ore';          // %1.2 Demir
+                else if (rOre < 0.034) wallBlock = 'copper_ore';        // %0.6 Bakır
+                else if (rOre < 0.038 && y < -18) wallBlock = 'gold_ore';// %0.4 Altın
+                else if (rOre < 0.041 && y < -22) wallBlock = 'lapis_ore'; // %0.3 Lapis
+                else if (rOre < 0.044 && y < -26) wallBlock = 'redstone_ore'; // %0.3 Kızıltaş
+                else if (rOre < 0.052 && y < -24) wallBlock = 'diamond_ore'; // Bedrock yakınlarında %0.8 Elmas (aranınca bulunur!)
+                else if (rOre < 0.054 && y < -20) wallBlock = 'emerald_ore'; // Çok nadir Zümrüt
+                else if (rOre < 0.10) wallBlock = 'cobblestone';       // Doğal kırıktaş
+                else if (rOre < 0.14) wallBlock = 'mossy_cobble';      // Yosunlu mağara kayası
+                spawnBlock(x, y, z, wallBlock, true);
+                continue;
+              }
+
               const isVisibleSurface = (y >= topH - visibleDepth);
               if (y === topH) {
-                // YER YÜZÜ: Yeryüzünde ASLA maden çıkmaz! Tamamen doğal çim/kar/kum yüzeyi
+                // YER YÜZÜ: Tamamen doğal çim/kar/kum yüzeyi (Yüzeyde ASLA maden veya oyuk olamaz)
                 let surfaceType = 'grass';
                 if (curDim === 'snow') surfaceType = 'snow_dirt';
                 else if (curDim === 'nether') surfaceType = (x + z) % 7 === 0 ? 'soul_sand' : 'netherrack';
@@ -11665,20 +12354,20 @@ const customTextures = {
               } else if (y <= BEDROCK_Y + 1) {
                 // Taban Katman Kayası (Bedrock) - Kırılamaz zemin
                 spawnBlock(x, y, z, 'bedrock', isVisibleSurface);
+              } else if (y > topH - 4) {
+                // Yüzey altı toprak/kum tabakası (Madenler asla bu yüzey katmanına giremez!)
+                let subType = 'dirt';
+                if (curDim === 'nether') subType = 'netherrack';
+                else if (curDim === 'snow' && topH > 16) subType = 'dirt';
+                else if (curDim === 'ocean' && y <= SEA_LEVEL + 1) subType = 'sandstone';
+                spawnBlock(x, y, z, subType, isVisibleSurface);
               } else {
-                // YERİN ALTI: Madenler yalnızca yerin altında çıkar!
+                // YERİN ALTI VE TAŞ TABAKASI: Madenler burada bolca ve doğal olarak oluşur!
                 const ore = chunkVeins.get(k);
-                if (ore) {
-                  // Yeraltındaki madenler 3D blok olarak oluşturulur (kazıldığında ve X-Ray'de görünür)
-                  spawnBlock(x, y, z, ore, true);
-                } else if (y > topH - 3) {
-                  let subType = 'dirt';
-                  if (curDim === 'nether') subType = 'netherrack';
-                  else if (curDim === 'snow' && topH > 16) subType = 'dirt';
-                  else if (curDim === 'ocean' && y <= SEA_LEVEL + 1) subType = 'sandstone';
-                  spawnBlock(x, y, z, subType, isVisibleSurface);
+                if (ore && y <= topH - 4) {
+                  spawnBlock(x, y, z, ore, isVisibleSurface);
                 } else {
-                  let t = (y < 0) ? 'deepslate' : 'stone';
+                  let t = (y < -16) ? 'deepslate' : 'stone';
                   spawnBlock(x, y, z, t, isVisibleSurface);
                 }
               }
@@ -11695,7 +12384,6 @@ const customTextures = {
           }
 
           // AĞACIN İÇİNDE DOĞMAYI ENGELLE (SPAWN ALANI KORUMASI):
-          // Başlangıç noktasının (spawn) 4 blokluk yarıçapında asla ağaç oluşturulmaz!
           const distToSpawn = Math.hypot(x - initPos.x, z - initPos.z);
           const treeChance = (curDim === 'snow') ? 0.012 : (curDim === 'plains' ? 0.015 : 0.022);
           if (distToSpawn >= 5 && topH <= 16 && topH > SEA_LEVEL && posRnd(x, z, 77) < treeChance) {
@@ -11720,8 +12408,13 @@ const customTextures = {
       Object.keys(customWorldChanges).forEach(k => {
         const [bx, by, bz] = k.split(',').map(Number);
         if (bx >= startX && bx < startX + CHUNK_SIZE && bz >= startZ && bz < startZ + CHUNK_SIZE) {
-          if (customWorldChanges[k] !== null && !worldMap.has(k)) {
-            spawnBlock(bx, by, bz, customWorldChanges[k], true);
+          if (customWorldChanges[k] !== null) {
+            if (!worldMap.has(k)) {
+              spawnBlock(bx, by, bz, customWorldChanges[k], true);
+            }
+          } else {
+            // Kırılan bloğun komşularını açığa çıkar (yeraltı tünellerinde duvarların kaybolma bugını önler)
+            revealNeighbors(bx, by, bz);
           }
         }
       });
@@ -11761,7 +12454,9 @@ const customTextures = {
 
     const playerArmMat = new THREE.MeshStandardMaterial({ map: armTexture, roughness: 0.8 });
     const armMesh = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.65, 0.24), playerArmMat);
-    armMesh.position.set(0, -0.1, 0); armGroup.add(armMesh);
+    armMesh.position.set(0, -0.1, 0);
+    armMesh.visible = true; // Oyuncu sağ kolu aktif
+    armGroup.add(armMesh);
 
     // 1. ŞAHIS SAĞ KOL GÖRÜNÜMÜNE YÜKLENEN ÖZEL KOSTÜMÜN SAĞ KOL DOKUSUNU GİYDİR
     if (activeChar && activeChar.customSkin) {
@@ -11820,6 +12515,7 @@ const customTextures = {
     // Sapı tutan oyuncu sağ eli / manşeti
     const toolHandMesh = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.26, 0.18), playerArmMat);
     toolHandMesh.position.set(0.01, -0.06, 0.02);
+    toolHandMesh.visible = true;
     toolContainer.add(toolHandMesh);
 
     // 1. Kazma (Pickaxe) - Ucu sola bakan kavisli kafa
@@ -12226,6 +12922,7 @@ const customTextures = {
 
       // Yaratıcı (Creative) modda tıklandığı anda anında kırılır!
       if (isCreativeMode) {
+        playSoundEffect(type === 'diamond_ore' ? 'diamond' : 'break');
         spawnBlockDebrisParticles(x, y, z, type, 14);
         const k = blockKey(x, y, z);
         customWorldChanges[k] = null;
@@ -12309,8 +13006,16 @@ const customTextures = {
         }
 
         if (consumeSelectedItem()) {
-          spawnBlock(x, y, z, selectedType);
-          customWorldChanges[blockKey(x, y, z)] = selectedType;
+          const k = blockKey(x, y, z);
+          const existing = worldMap.get(k);
+          if (existing && existing.type === 'water') {
+            if (existing.mesh) worldGroup.remove(existing.mesh);
+            worldMap.delete(k);
+          }
+          spawnBlock(x, y, z, selectedType, true);
+          playSoundEffect('place');
+          customWorldChanges[k] = selectedType;
+          revealNeighbors(x, y, z);
           saveCurrentGameState();
         }
       }
@@ -12330,6 +13035,21 @@ const customTextures = {
     });
 
     // Oyundayken ekrana tıklanırsa ve menüler kapalıysa pointer lock al
+        // Mouse tekerleği ile akıcı hotbar geçişi (1-9 slotları)
+    window.addEventListener('wheel', (e) => {
+      const gameEl = document.getElementById('game');
+      if (!gameEl || gameEl.style.display !== 'block' || isInventoryOpen || isPauseOpen || isChatOpen) return;
+      if (e.deltaY > 0) {
+        selectedSlotIndex = (selectedSlotIndex + 1) % 9;
+      } else if (e.deltaY < 0) {
+        selectedSlotIndex = (selectedSlotIndex - 1 + 9) % 9;
+      }
+      updateInventoryUI();
+      if (inventory && inventory[selectedSlotIndex]) {
+        updateHeldBlockMaterial(inventory[selectedSlotIndex].type);
+      }
+    }, { passive: true });
+
     renderer.domElement.addEventListener('click', () => {
       const gameEl = document.getElementById('game');
       if (!isPauseOpen && !isInventoryOpen && !isChatOpen && gameEl && gameEl.style.display === 'block') {
@@ -12359,19 +13079,22 @@ const customTextures = {
         if (keys['F3'] || isF3Open || e.shiftKey) {
           e.preventDefault();
           // F3 + F4: Gamemode Switcher (Sadece OP yetkisi olanlar değiştirebilir!)
-          const hasOp = (typeof isCurrentPlayerOp === 'function') ? isCurrentPlayerOp() : Boolean(isUserOp || (worldData && worldData.isOp));
+          const hasOp = (typeof isCurrentPlayerOp === 'function') ? isCurrentPlayerOp() : (isSingleplayer || isUserOp);
           if (!hasOp) {
             addChatMessage('', 'Oyun modunu değiştirmek için Yönetici (OP) yetkiniz olmalıdır!', true);
+            showToast('Yetki Yok (OP Gerekir)');
             return;
           }
 
-          isUserOp = true;
-          if (worldData) worldData.isOp = true;
+          if (isSingleplayer) {
+            isUserOp = true;
+            if (worldData) worldData.isOp = true;
+          }
           isCreativeMode = !isCreativeMode;
           isFlying = isCreativeMode;
           if (!isCreativeMode) velocityY = 0;
           if (hudContainer) hudContainer.style.display = isCreativeMode ? 'none' : 'flex';
-          if (worldData) worldData.mode = isCreativeMode ? 'creative' : 'survival';
+          if (worldData && isSingleplayer) worldData.mode = isCreativeMode ? 'creative' : 'survival';
           saveCurrentGameState();
 
           addChatMessage('', isCreativeMode ? 'Oyun modu Yaratıcı (Creative) olarak değiştirildi.' : 'Oyun modu Hayatta Kalma (Survival) olarak değiştirildi.', true);
@@ -12470,6 +13193,7 @@ const customTextures = {
         }
 
         if (onGround || isFlying || isTouchingWater()) {
+          if (onGround && !isFlying && !isTouchingWater()) playSoundEffect('jump');
           velocityY = isFlying ? 6 : (isTouchingWater() ? 5 : 8.5); 
           onGround = false;
         }
@@ -12761,6 +13485,7 @@ const customTextures = {
 
             if (breakProgress >= breakRequiredTime) {
               const { x, y, z, type, object } = currentBreakBlock;
+              playSoundEffect(type === 'diamond_ore' ? 'diamond' : 'break');
               spawnBlockDebrisParticles(x, y, z, type, 16);
 
               const k = blockKey(x, y, z);
@@ -12878,14 +13603,33 @@ const customTextures = {
         if (keys['KeyD'] || keys['ArrowRight'] || keys['Mobileright']) mv.add(right);
         if (keys['KeyA'] || keys['ArrowLeft'] || keys['Mobileleft']) mv.sub(right);
 
-        let currentSpeed = player.speed;
+        const isSprinting = (keys['ControlLeft'] || keys['ControlRight'] || keys['KeyR']) && (keys['KeyW'] || keys['ArrowUp']) && !inWater && onGround && !isFlying;
+        let currentSpeed = player.speed * (isSprinting ? 1.35 : 1.0);
         const inWater = isTouchingWater();
-        if (inWater) currentSpeed *= 0.55;
+        if (inWater) currentSpeed = player.speed * 0.55;
+
+        // Akıcı dinamik FOV geçişi (Koşarken Minecraft tarzı genişleme hissi)
+        const targetFov = isSprinting ? 79 : 72;
+        if (Math.abs(camera.fov - targetFov) > 0.1) {
+          camera.fov += (targetFov - camera.fov) * Math.min(1.0, dt * 10);
+          camera.updateProjectionMatrix();
+        }
 
         if (mv.lengthSq() > 0) {
           mv.normalize().multiplyScalar(currentSpeed * dt);
           if (!checkCollision(player.x + mv.x, player.y, player.z)) player.x += mv.x;
           if (!checkCollision(player.x, player.y, player.z + mv.z)) player.z += mv.z;
+
+          // Akıcı ayak sesleri
+          if (onGround && !inWater && !isFlying) {
+            stepSoundTimer += dt;
+            if (stepSoundTimer >= (isSprinting ? 0.30 : 0.42)) {
+              stepSoundTimer = 0;
+              playSoundEffect('step');
+            }
+          }
+        } else {
+          stepSoundTimer = 0.25;
         }
 
         if (isFlying) {
@@ -12956,27 +13700,20 @@ const customTextures = {
           player.y = newY;
           onGround = false;
         } else {
-          // Otomatik bloktan kurtarma: Eğer oyuncu bir bloğun içinde kalmışsa hemen bloğun üstüne çıkar
+          // Güvenli zemin kurtarma: Sadece oyuncunun ayakları bir zemin bloğunun içine gömülmüşse hafifçe yukarı kaldır
+          // Asla tavan, çatı veya üstteki bloklara fırlatma bugına yol açmaz!
           if (checkCollision(player.x, player.y, player.z)) {
-            let highestSolidTop = -Infinity;
-            const r = player.radius;
-            for (let bx = Math.floor(player.x - r); bx <= Math.ceil(player.x + r); bx++) {
-              for (let bz = Math.floor(player.z - r); bz <= Math.ceil(player.z + r); bz++) {
-                for (let by = Math.floor(player.y - player.height - 0.2); by <= Math.ceil(player.y + 1.5); by++) {
-                  if (hasSolidBlock(bx, by, bz)) {
-                    const bType = getBlockAt(bx, by, bz);
-                    if (bType !== 'water') {
-                      const bTop = by + 0.5;
-                      if (bTop > highestSolidTop) highestSolidTop = bTop;
-                    }
-                  }
-                }
+            const footY = Math.floor(player.y - player.height);
+            const headY = Math.floor(player.y + 0.2);
+            const footBlock = getBlockAt(Math.round(player.x), footY, Math.round(player.z));
+            const headBlock = getBlockAt(Math.round(player.x), headY, Math.round(player.z));
+            if (footBlock && footBlock !== 'water' && (!headBlock || headBlock === 'water')) {
+              const targetY = footY + 0.5 + player.height + 0.02;
+              if (!checkCollision(player.x, targetY, player.z)) {
+                player.y = targetY;
+                velocityY = 0;
+                onGround = true;
               }
-            }
-            if (highestSolidTop > -Infinity) {
-              player.y = highestSolidTop + player.height + 0.05;
-              velocityY = 0;
-              onGround = true;
             }
           }
 
