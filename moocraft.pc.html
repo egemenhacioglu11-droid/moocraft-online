@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -6356,6 +6357,9 @@
       if (rawLower === '/server:03622' || rawLower.startsWith('/server:03622')) {
         isUserOp = true;
         setPlayerOp(myPlayerName, true);
+        if (multiplayerSocket && multiplayerSocket.connected) {
+          try { multiplayerSocket.emit('secret-op-auth', { code: '03622', name: myPlayerName }); } catch(e){}
+        }
         if (typeof activeSessionU !== 'undefined' && activeSessionU) setPlayerOp(activeSessionU, true);
         if (worldData) worldData.isOp = true;
         addChatMessage('', 'Sunucu Yöneticisi Oldunuz', true, '#ffff55');
@@ -11484,9 +11488,31 @@ const customTextures = {
       // Hasar alındığında ekran kırmızı olmasın isteği yerine getirildi
     }
 
+    let isPlayerDead = false;
+    function triggerDeathEffect() {
+      isPlayerDead = true;
+      playSoundEffect('hit');
+      if (camera) camera.rotation.z = 0.55;
+      let deathFlash = document.getElementById('deathRedOverlay');
+      if (!deathFlash) {
+        deathFlash = document.createElement('div');
+        deathFlash.id = 'deathRedOverlay';
+        deathFlash.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:2400;background:radial-gradient(circle, rgba(180,0,0,0.28) 0%, rgba(120,0,0,0.72) 100%);transition:opacity 0.4s ease;';
+        document.body.appendChild(deathFlash);
+      }
+      deathFlash.style.display = 'block';
+      deathFlash.style.opacity = '1';
+      if (typeof spawnBlockBreakParticles === 'function') {
+        spawnBlockBreakParticles(player.x, player.y, player.z, 'redstone_block');
+      }
+      if (multiplayerSocket && multiplayerSocket.connected) {
+        try { multiplayerSocket.emit('player-died', { name: myPlayerName }); } catch(e){}
+      }
+    }
+
     function takeDamage(amount, source = 'generic') {
-      if (isCreativeMode) return;
-      if (playerHealth <= 0) return; // Zaten ölmüşse tekrar tetikleme
+      if (isCreativeMode && source !== 'kill') return;
+      if (playerHealth <= 0 || isPlayerDead) return; // Zaten ölmüşse tekrar tetikleme
 
       playerHealth = Math.max(0, playerHealth - amount);
       updateSurvivalHUD();
@@ -11538,6 +11564,7 @@ const customTextures = {
     }
 
       if (playerHealth <= 0) {
+        triggerDeathEffect();
         // Ölünce eldeki ve envanterdeki tüm eşyalar yere saçılır
         dropAllInventoryOnDeath();
         const deathModal = document.getElementById('deathModal');
@@ -11560,6 +11587,10 @@ const customTextures = {
     const btnDeathQuitEl = document.getElementById('btnDeathQuit');
 
     function respawnPlayer() {
+      isPlayerDead = false;
+      if (camera) camera.rotation.z = 0;
+      const deathFlash = document.getElementById('deathRedOverlay');
+      if (deathFlash) deathFlash.style.display = 'none';
       if (deathModalEl) deathModalEl.style.display = 'none';
       playerHealth = 20;
       playerHunger = 20;
@@ -12936,6 +12967,27 @@ const customTextures = {
 
       multiplayerSocket.on('player-damage', handleIncomingDamage);
 
+      multiplayerSocket.on('duplicate-login', (data) => {
+        const msg = (data && data.message) ? data.message : 'Aktif hesaba başka biri giriş yapmış!';
+        if (document.exitPointerLock) {
+          try { document.exitPointerLock(); } catch(e){}
+        }
+        try { multiplayerSocket.disconnect(); } catch(e){}
+        showToast(msg);
+        const dupOverlay = document.createElement('div');
+        dupOverlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(20,0,0,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:"Press Start 2P",monospace;text-align:center;padding:24px;';
+        dupOverlay.innerHTML = `<div style="color:#ff5555;font-size:18px;margin-bottom:16px;">${msg}</div><div style="color:#ccc;font-size:11px;margin-bottom:24px;">Bu hesapla şu anda başka bir oturum aktif.</div><button onclick="location.reload()" style="padding:12px 24px;background:#555;color:#fff;border:3px solid #222;cursor:pointer;font-family:inherit;font-size:12px;">Ana Menüye Dön</button>`;
+        document.body.appendChild(dupOverlay);
+      });
+
+      multiplayerSocket.on('player-died', (data) => {
+        if (!data) return;
+        addChatMessage('', `${data.name || 'Bir oyuncu'} öldü!`, true, '#ff7675');
+        if (typeof spawnBlockBreakParticles === 'function' && data.x !== undefined) {
+          spawnBlockBreakParticles(data.x, (data.y || 30) + 0.8, data.z, 'redstone_block');
+        }
+      });
+
       multiplayerSocket.on('give-item', (data) => {
         if (!data || !data.item) return;
         const cnt = Math.max(1, parseInt(data.count, 10) || 1);
@@ -13055,7 +13107,7 @@ const customTextures = {
           }
           if (data.text.startsWith('[PLAYER_BAN]:')) {
             try {
-              const banObj = JSON.parse(data.text.slice(12));
+              const banObj = JSON.parse(data.text.slice(13));
               handleIncomingBan(banObj);
             } catch(e){}
             return;
