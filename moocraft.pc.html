@@ -1211,7 +1211,7 @@
 
 
 <!-- OTURUM ACMA EKRANI (OYUN ICI HESAP ACMA KALDIRILDI - BASLATICIDAN OTOMATIK GIRIS) -->
-<div id="authOverlay" style="display: none;">
+<div id="authOverlay" style="display: none !important;">
   <div class="auth-card">
     <div class="auth-logo">MOO<span>CRAFT</span></div>
     
@@ -2274,9 +2274,9 @@
       const launcherApp = document.getElementById("launcherApp");
       const gameEl = document.getElementById("game");
       if (gameEl) gameEl.style.display = "none";
-      if (launcherApp) launcherApp.style.display = "none";
+      if (launcherApp) launcherApp.style.display = "flex";
       if (authOverlay) {
-        authOverlay.style.display = "grid";
+        authOverlay.style.display = "none";
         const authMsg = document.getElementById("authMsg");
         if (authMsg) { authMsg.className = "auth-msg success"; authMsg.textContent = "Hesaptan çıkış yapıldı."; }
         const authUser = document.getElementById("authUsername");
@@ -2969,13 +2969,22 @@
   // Başlatıcıdan (#mc_auth=...) gelen MooCraft hesap kimliğini okuyup doğrudan hesaba giriş yap
   function tryAutoLoginFromLauncherHash() {
     try {
+      let payload = null;
       const hashStr = (typeof window !== 'undefined' && window.location && window.location.hash) ? window.location.hash : '';
       const mcAuthMatch = hashStr.match(/[#&]mc_auth=([^&]+)/);
-      if (!mcAuthMatch || !mcAuthMatch[1]) return null;
-
-      const rawParam = decodeURIComponent(mcAuthMatch[1]);
-      const jsonStr = decodeURIComponent(escape(atob(rawParam)));
-      const payload = JSON.parse(jsonStr);
+      if (mcAuthMatch && mcAuthMatch[1]) {
+        const rawParam = decodeURIComponent(mcAuthMatch[1]);
+        const jsonStr = decodeURIComponent(escape(atob(rawParam)));
+        payload = JSON.parse(jsonStr);
+      } else {
+        try {
+          const sameOriginAcc = safeStorage.getItem('moocraft_account');
+          if (sameOriginAcc) {
+            const parsedAcc = JSON.parse(sameOriginAcc);
+            if (parsedAcc && parsedAcc.name) payload = parsedAcc;
+          }
+        } catch(e) {}
+      }
       if (!payload || !payload.name) return null;
 
       const uName = String(payload.name).trim();
@@ -3040,13 +3049,33 @@
   // Çıkış yaparken mevcut hesap verisini kaybetmeden güvenle kaydet ve sayfayı sıfırla
   // (Tanım global window.handleLogoutOrSwitch olarak çalışır)
 
-  // Başlangıç durumu: Önce başlatıcıdan (#mc_auth) gelen kimliği kontrol et, varsa direkt MooCraft hesabına gir
+  // Başlangıç durumu: Hesap giriş ekranını hiç gösterme, doğrudan MooCraft hesabına bağla
   const launcherAutoUser = tryAutoLoginFromLauncherHash();
-  let initUser = launcherAutoUser || safeStorage.getItem(SESSION_KEY);
-  if (!launcherAutoUser && (!initUser || safeStorage.getItem("moocraft_v4_clean_accounts_reset_done") !== "true")) {
-    initUser = null;
-    safeStorage.removeItem(SESSION_KEY);
+  let initUser = launcherAutoUser || safeStorage.getItem(SESSION_KEY) || safeStorage.getItem('moocraft_active_session');
+  if (!initUser) {
+    try {
+      const existingUsers = getAllRegisteredUsers();
+      const userKeys = Object.keys(existingUsers || {});
+      if (userKeys.length > 0) {
+        userKeys.sort((a, b) => {
+          const ta = Date.parse((existingUsers[a] && existingUsers[a].lastActiveAt) || '') || 0;
+          const tb = Date.parse((existingUsers[b] && existingUsers[b].lastActiveAt) || '') || 0;
+          return tb - ta;
+        });
+        const picked = existingUsers[userKeys[0]];
+        initUser = (picked && picked.username) ? picked.username : userKeys[0];
+      }
+    } catch(e) {}
   }
+  if (!initUser) {
+    initUser = 'Oyuncu';
+    try {
+      saveUserAccount(initUser, 'moocraft_auto');
+    } catch(e) {}
+  }
+  safeStorage.setItem(ACCOUNTS_CLEAN_WIPE_KEY, 'true');
+  safeStorage.setItem(SESSION_KEY, initUser);
+  safeStorage.setItem('moocraft_active_session', initUser);
 
   window.addEventListener('hashchange', () => {
     const u = tryAutoLoginFromLauncherHash();
@@ -3104,8 +3133,8 @@
       loadUserDataForSession(initUser);
     }
   } else {
-    authOverlay.style.display = 'grid';
-    launcherApp.style.display = 'none';
+    authOverlay.style.display = 'none';
+    launcherApp.style.display = 'flex';
   }
 
   // --- LAUNCHER PALETLERİ VE ARAYÜZ YÖNETİMİ ---
