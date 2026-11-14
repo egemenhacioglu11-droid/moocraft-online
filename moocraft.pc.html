@@ -1210,14 +1210,13 @@
 </div>
 
 
-<!-- OTURUM ACMA VE KAYIT EKRANI (SADE VE EMOJISIZ) -->
+<!-- OTURUM ACMA EKRANI (OYUN ICI HESAP ACMA KALDIRILDI - BASLATICIDAN OTOMATIK GIRIS) -->
 <div id="authOverlay" style="display: none;">
   <div class="auth-card">
     <div class="auth-logo">MOO<span>CRAFT</span></div>
     
     <div class="auth-tabs">
       <button class="auth-tab active" id="tabLoginBtn" type="button">GİRİŞ YAP</button>
-      <button class="auth-tab" id="tabRegisterBtn" type="button">KAYIT OL</button>
     </div>
 
     <div class="auth-msg" id="authMsg"></div>
@@ -1236,12 +1235,10 @@
       <input type="password" id="authPassword" placeholder="Şifrenizi girin" autocomplete="current-password">
     </div>
 
-    <div class="form-group" id="confirmPasswordGroup" style="display: none;">
-      <label id="lblConfirmPassword">Şifre Tekrar</label>
-      <input type="password" id="authPasswordConfirm" placeholder="Şifrenizi tekrar girin" autocomplete="new-password">
+    <button class="btn btn-green" id="btnAuthSubmit" type="button" style="width: 100%; margin-top: 10px;">GİRİŞ YAP</button>
+    <div style="margin-top: 10px; font-size: 11px; color: #94a3b8; text-align: center;">
+      Hesap oluşturmak için MooCraft Başlatıcı üzerinden oyuna giriş yapın.
     </div>
-
-<button class="btn btn-green" id="btnAuthSubmit" type="button" style="width: 100%; margin-top: 10px;">GİRİŞ YAP</button>
     
   </div>
 </div>
@@ -2861,15 +2858,12 @@
   const authOverlay = document.getElementById('authOverlay');
   const launcherApp = document.getElementById('launcherApp');
   const tabLoginBtn = document.getElementById('tabLoginBtn');
-  const tabRegisterBtn = document.getElementById('tabRegisterBtn');
   const emailGroup = document.getElementById('emailGroup');
-  const confirmPasswordGroup = document.getElementById('confirmPasswordGroup');
   const btnAuthSubmit = document.getElementById('btnAuthSubmit');
   const authMsg = document.getElementById('authMsg');
   const authUsername = document.getElementById('authUsername');
   const authEmail = document.getElementById('authEmail');
   const authPassword = document.getElementById('authPassword');
-  const authPasswordConfirm = document.getElementById('authPasswordConfirm');
 
   const btnDownloadCurrentAccountFile = document.getElementById('btnDownloadCurrentAccountFile');
   if (btnDownloadCurrentAccountFile) {
@@ -2884,29 +2878,17 @@
     };
   }
 
-  let isLoginMode = true;
-
-  tabLoginBtn.addEventListener('click', () => {
-    isLoginMode = true;
-    tabLoginBtn.classList.add('active');
-    tabRegisterBtn.classList.remove('active');
-    if (emailGroup) emailGroup.style.display = 'none';
-    if (confirmPasswordGroup) confirmPasswordGroup.style.display = 'none';
-    btnAuthSubmit.textContent = 'GİRİŞ YAP';
-    authMsg.className = 'auth-msg';
-    authMsg.textContent = '';
-  });
-
-  tabRegisterBtn.addEventListener('click', () => {
-    isLoginMode = false;
-    tabRegisterBtn.classList.add('active');
-    tabLoginBtn.classList.remove('active');
-    if (emailGroup) emailGroup.style.display = 'none';
-    if (confirmPasswordGroup) confirmPasswordGroup.style.display = 'block';
-    btnAuthSubmit.textContent = 'KAYIT OL';
-    authMsg.className = 'auth-msg';
-    authMsg.textContent = '';
-  });
+  if (tabLoginBtn) {
+    tabLoginBtn.addEventListener('click', () => {
+      tabLoginBtn.classList.add('active');
+      if (emailGroup) emailGroup.style.display = 'none';
+      if (btnAuthSubmit) btnAuthSubmit.textContent = 'GİRİŞ YAP';
+      if (authMsg) {
+        authMsg.className = 'auth-msg';
+        authMsg.textContent = '';
+      }
+    });
+  }
 
   btnAuthSubmit.addEventListener('click', async () => {
     const uName = authUsername.value.trim();
@@ -2918,140 +2900,170 @@
       return;
     }
 
+    // 1. Önce Render / Node.js sunucusundan accounts.json kontrolü yap (varsa)
+    try {
+      if (typeof window !== 'undefined' && window.location && window.location.protocol.startsWith('http')) {
+        const resp = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: uName, password: uPass })
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data && data.success && data.user) {
+            const users = getAllRegisteredUsers();
+            users[uName] = data.user;
+            saveMasterAccounts(users);
+            safeStorage.setItem(ACCOUNTS_CLEAN_WIPE_KEY, 'true');
+            safeStorage.setItem(SESSION_KEY, uName);
+            loadUserDataForSession(uName);
+
+            authMsg.className = 'auth-msg success';
+            authMsg.textContent = 'Giriş başarılı (accounts.json doğrulandı)! Menüye aktarılıyorsunuz...';
+            setTimeout(() => {
+              authOverlay.style.display = 'none';
+              launcherApp.style.display = 'flex';
+              showTitleScreen();
+              onWindowResize();
+            }, 400);
+            return;
+          } else if (data && data.message) {
+            authMsg.className = 'auth-msg error';
+            authMsg.textContent = data.message;
+            return;
+          }
+        }
+      }
+    } catch(e) {}
+
+    // 2. Çevrimdışı / Yerel Giriş Doğrulaması (Sunucuya ulaşılamazsa veya yerel moddaysa)
     const users = getAllRegisteredUsers();
-
-    if (isLoginMode) {
-      // 1. Önce Render / Node.js sunucusundan accounts.json kontrolü yap (varsa)
-      try {
-        if (typeof window !== 'undefined' && window.location && window.location.protocol.startsWith('http')) {
-          const resp = await fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: uName, password: uPass })
-          });
-          if (resp.ok) {
-            const data = await resp.json();
-            if (data && data.success && data.user) {
-              const users = getAllRegisteredUsers();
-              users[uName] = data.user;
-              saveMasterAccounts(users);
-              safeStorage.setItem(SESSION_KEY, uName);
-              loadUserDataForSession(uName);
-
-              authMsg.className = 'auth-msg success';
-              authMsg.textContent = 'Giriş başarılı (accounts.json doğrulandı)! Menüye aktarılıyorsunuz...';
-              setTimeout(() => {
-                authOverlay.style.display = 'none';
-                launcherApp.style.display = 'flex';
-                showTitleScreen();
-                onWindowResize();
-              }, 400);
-              return;
-            } else if (data && data.message) {
-              authMsg.className = 'auth-msg error';
-              authMsg.textContent = data.message;
-              return;
-            }
-          }
-        }
-      } catch(e) {}
-
-      // 2. Çevrimdışı / Yerel Giriş Doğrulaması (Sunucuya ulaşılamazsa veya yerel moddaysa)
-      const users = getAllRegisteredUsers();
-      const uKey = uName.trim().toLowerCase();
-      const user = users[uKey] || users[uName];
-      if (user && user.pass === uPass) {
-        const bans = getBannedPlayers();
-        if (bans[uName.toLowerCase()]) {
-          authOverlay.style.display = 'none';
-          showBanScreen(bans[uName.toLowerCase()]);
-          return;
-        }
-        const activeName = (user && user.username) ? user.username : uName;
-        safeStorage.setItem(SESSION_KEY, activeName);
-        loadUserDataForSession(activeName);
-        
-        authMsg.className = 'auth-msg success';
-        authMsg.textContent = 'Giriş başarılı! Menüye aktarılıyorsunuz...';
-        setTimeout(() => {
-          authOverlay.style.display = 'none';
-          launcherApp.style.display = 'flex';
-          showTitleScreen();
-          onWindowResize();
-        }, 400);
-      } else {
-        authMsg.className = 'auth-msg error';
-        authMsg.textContent = 'Hatalı kullanıcı adı veya şifre!';
-      }
-    } else {
-      // Kayıt Modu
-      const confirmPass = authPasswordConfirm ? authPasswordConfirm.value.trim() : uPass;
-      if (uPass !== confirmPass) {
-        authMsg.className = 'auth-msg error';
-        authMsg.textContent = 'Şifreler birbiriyle eşleşmiyor!';
+    const uKey = uName.trim().toLowerCase();
+    const user = users[uKey] || users[uName];
+    if (user && user.pass === uPass) {
+      const bans = getBannedPlayers();
+      if (bans[uName.toLowerCase()]) {
+        authOverlay.style.display = 'none';
+        showBanScreen(bans[uName.toLowerCase()]);
         return;
       }
-      if (uPass.length < 3) {
-        authMsg.className = 'auth-msg error';
-        authMsg.textContent = 'Şifre en az 3 karakter olmalıdır!';
-        return;
-      }
-      const uKey = uName.trim().toLowerCase();
-      if (users[uKey] || users[uName]) {
-        authMsg.className = 'auth-msg error';
-        authMsg.textContent = 'Bu kullanıcı adı zaten kayıtlı! Giriş yapın.';
-        return;
-      }
-
-      // 1. Render / Node.js sunucusuna kayıt gönder (varsa accounts.json'a yazar)
-      try {
-        if (typeof window !== 'undefined' && window.location && window.location.protocol.startsWith('http')) {
-          const resp = await fetch('/api/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              username: uName,
-              password: uPass,
-              character: JSON.parse(JSON.stringify(DEFAULT_STEVE_DATA)),
-              worlds: JSON.parse(JSON.stringify(DEFAULT_WORLDS_TEMPLATE)),
-              servers: JSON.parse(safeStorage.getItem(SERVERS_KEY) || '[]')
-            })
-          });
-          if (resp.ok) {
-            const data = await resp.json();
-            if (data && !data.success) {
-              authMsg.className = 'auth-msg error';
-              authMsg.textContent = data.message || 'Kayıt başarısız!';
-              return;
-            }
-          }
-        }
-      } catch(e) {}
-
-      saveUserAccount(uName, uPass);
-      safeStorage.setItem(SESSION_KEY, uName);
-      loadUserDataForSession(uName);
+      const activeName = (user && user.username) ? user.username : uName;
+      safeStorage.setItem(ACCOUNTS_CLEAN_WIPE_KEY, 'true');
+      safeStorage.setItem(SESSION_KEY, activeName);
+      loadUserDataForSession(activeName);
 
       authMsg.className = 'auth-msg success';
-      authMsg.textContent = 'Hesabınız başarıyla oluşturuldu ve kaydedildi!';
+      authMsg.textContent = 'Giriş başarılı! Menüye aktarılıyorsunuz...';
       setTimeout(() => {
         authOverlay.style.display = 'none';
         launcherApp.style.display = 'flex';
         showTitleScreen();
         onWindowResize();
       }, 400);
+    } else {
+      authMsg.className = 'auth-msg error';
+      authMsg.textContent = 'Hatalı kullanıcı adı veya şifre!';
     }
   });
+
+  // Başlatıcıdan (#mc_auth=...) gelen MooCraft hesap kimliğini okuyup doğrudan hesaba giriş yap
+  function tryAutoLoginFromLauncherHash() {
+    try {
+      const hashStr = (typeof window !== 'undefined' && window.location && window.location.hash) ? window.location.hash : '';
+      const mcAuthMatch = hashStr.match(/[#&]mc_auth=([^&]+)/);
+      if (!mcAuthMatch || !mcAuthMatch[1]) return null;
+
+      const rawParam = decodeURIComponent(mcAuthMatch[1]);
+      const jsonStr = decodeURIComponent(escape(atob(rawParam)));
+      const payload = JSON.parse(jsonStr);
+      if (!payload || !payload.name) return null;
+
+      const uName = String(payload.name).trim();
+      if (!uName) return null;
+      const uEmail = payload.email ? String(payload.email).trim() : '';
+      const uPass = (payload.password && String(payload.password).trim()) ? String(payload.password).trim() : 'moocraft_launcher_auth';
+
+      const uKey = uName.toLowerCase();
+      const users = getAllRegisteredUsers();
+      let existingUser = users[uKey] || users[uName];
+
+      if (!existingUser) {
+        saveUserAccount(uName, uPass);
+        const updatedUsers = getAllRegisteredUsers();
+        if (updatedUsers[uKey]) {
+          if (uEmail) updatedUsers[uKey].email = uEmail;
+          saveMasterAccounts(updatedUsers);
+        }
+        // Sunucu varsa arka planda accounts.json'a da kaydet
+        try {
+          if (typeof window !== 'undefined' && window.location && window.location.protocol.startsWith('http')) {
+            fetch('/api/register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                username: uName,
+                password: uPass,
+                email: uEmail,
+                character: JSON.parse(JSON.stringify(DEFAULT_STEVE_DATA)),
+                worlds: JSON.parse(JSON.stringify(DEFAULT_WORLDS_TEMPLATE)),
+                servers: JSON.parse(safeStorage.getItem(SERVERS_KEY) || '[]')
+              })
+            }).catch(() => {});
+          }
+        } catch(e) {}
+      } else {
+        if (uEmail) existingUser.email = uEmail;
+        if (payload.password && String(payload.password).trim()) existingUser.pass = uPass;
+        existingUser.lastActiveAt = new Date().toISOString();
+        saveMasterAccounts(users);
+      }
+
+      const activeName = (existingUser && existingUser.username) ? existingUser.username : uName;
+      safeStorage.setItem(ACCOUNTS_CLEAN_WIPE_KEY, 'true');
+      safeStorage.setItem(SESSION_KEY, activeName);
+      safeStorage.setItem('moocraft_active_session', activeName);
+
+      // URL'deki hassas kimlik bilgisini temizle
+      try {
+        if (window.history && typeof window.history.replaceState === 'function') {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+      } catch(e) {}
+
+      return activeName;
+    } catch (err) {
+      console.warn('Launcher auto-login error:', err);
+      return null;
+    }
+  }
 
   // Çıkış yaparken mevcut hesap verisini kaybetmeden güvenle kaydet ve sayfayı sıfırla
   // (Tanım global window.handleLogoutOrSwitch olarak çalışır)
 
-  // Başlangıç durumu: Eğer aktif oturum varsa ana menüye geç, yoksa temiz Giriş/Kayıt ekranını aç
-  let initUser = safeStorage.getItem(SESSION_KEY);
-  if (!initUser || safeStorage.getItem("moocraft_v4_clean_accounts_reset_done") !== "true") {
+  // Başlangıç durumu: Önce başlatıcıdan (#mc_auth) gelen kimliği kontrol et, varsa direkt MooCraft hesabına gir
+  const launcherAutoUser = tryAutoLoginFromLauncherHash();
+  let initUser = launcherAutoUser || safeStorage.getItem(SESSION_KEY);
+  if (!launcherAutoUser && (!initUser || safeStorage.getItem("moocraft_v4_clean_accounts_reset_done") !== "true")) {
     initUser = null;
     safeStorage.removeItem(SESSION_KEY);
   }
+
+  window.addEventListener('hashchange', () => {
+    const u = tryAutoLoginFromLauncherHash();
+    if (u) {
+      const bans = getBannedPlayers();
+      if (bans[u.toLowerCase()]) {
+        authOverlay.style.display = 'none';
+        launcherApp.style.display = 'none';
+        showBanScreen(bans[u.toLowerCase()]);
+      } else {
+        authOverlay.style.display = 'none';
+        launcherApp.style.display = 'flex';
+        loadUserDataForSession(u);
+        if (typeof showTitleScreen === 'function') showTitleScreen();
+      }
+    }
+  });
 
   // Başlangıçta çapraz versiyon hesapları IndexedDB ve localStorage'dan senkronize et
   (async function initCrossVersionAccountSync() {
