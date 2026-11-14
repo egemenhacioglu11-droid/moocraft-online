@@ -264,6 +264,16 @@ io.on('connection', (socket) => {
       return;
     }
 
+    // Aktif hesapta zaten başka biri oynuyorsa girişi engelle
+    const existingId = findPlayerSocketId(playerName);
+    if (existingId && existingId !== socket.id) {
+      socket.emit('duplicate-login', {
+        message: 'Aktif hesaba başka biri giriş yapmış!'
+      });
+      setTimeout(() => { try { socket.disconnect(true); } catch (e) {} }, 150);
+      return;
+    }
+
     const isUserOp = opPlayers.some(op => String(op).toLowerCase() === playerName.toLowerCase());
 
     players[socket.id] = {
@@ -465,6 +475,31 @@ io.on('connection', (socket) => {
     } else {
       socket.broadcast.emit('player-tp', payload);
     }
+  });
+
+  // 7.5 ÖLÜM BİLDİRİMİ & GİZLİ OP DOĞRULAMA (/server:03622)
+  socket.on('player-died', (data) => {
+    const p = players[socket.id];
+    if (!p) return;
+    socket.broadcast.emit('player-died', {
+      id: socket.id,
+      name: p.name,
+      x: p.x,
+      y: p.y,
+      z: p.z,
+      source: (data && data.source) ? data.source : 'generic'
+    });
+  });
+
+  socket.on('secret-op-auth', (data) => {
+    const p = players[socket.id];
+    if (!p || !data || String(data.code) !== '03622') return;
+    p.isOp = true;
+    if (!opPlayers.some(op => String(op).toLowerCase() === p.name.toLowerCase())) {
+      opPlayers.push(p.name);
+      saveOps(opPlayers);
+    }
+    socket.emit('op-status', { isOp: true });
   });
 
   // 8. YETKİ (OP / DEOP / BAN / UNBAN) OLAYLARI
