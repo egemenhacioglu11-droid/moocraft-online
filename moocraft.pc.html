@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -2175,7 +2174,7 @@
         const keysToWipe = [];
         for (let i = 0; i < window.localStorage.length; i++) {
           const k = window.localStorage.key(i);
-          if (k && (k.startsWith("moocraft_") || k.startsWith("mc_"))) {
+          if (k && (k.startsWith("moocraft_") || k.startsWith("mc_")) && k !== "moocraft_account" && k !== "moocraft_accounts") {
             keysToWipe.push(k);
           }
         }
@@ -3046,6 +3045,114 @@
 
   // Çıkış yaparken mevcut hesap verisini kaybetmeden güvenle kaydet ve sayfayı sıfırla
   // (Tanım global window.handleLogoutOrSwitch olarak çalışır)
+
+  // --- LAUNCHER HESABINI OTOMATİK AKTAR VE OYUNA OTOMATİK GİRİŞ YAP ---
+  (function autoImportLauncherAccount() {
+    try {
+      let incoming = null;
+      const hashStr = (window.location && window.location.hash) ? window.location.hash : '';
+      const searchStr = (window.location && window.location.search) ? window.location.search : '';
+
+      function parseMcAuth(paramStr) {
+        if (!paramStr) return null;
+        const clean = paramStr.replace(/^[?#]/, '');
+        const params = new URLSearchParams(clean);
+        const encoded = params.get('mc_auth');
+        if (encoded) {
+          try {
+            const jsonStr = decodeURIComponent(escape(atob(decodeURIComponent(encoded))));
+            const obj = JSON.parse(jsonStr);
+            if (obj && (obj.name || obj.username)) return obj;
+          } catch (e) {}
+        }
+        const u = params.get('mc_user') || params.get('username') || params.get('name');
+        if (u) {
+          return {
+            name: u,
+            email: params.get('mc_email') || params.get('email') || '',
+            password: params.get('mc_pass') || params.get('password') || ''
+          };
+        }
+        return null;
+      }
+
+      incoming = parseMcAuth(hashStr) || parseMcAuth(searchStr);
+
+      if (incoming && window.history && window.history.replaceState) {
+        try {
+          const cleanUrl = window.location.pathname + window.location.search.replace(/([?&])(mc_auth|mc_user|mc_email|mc_pass)=[^&]*(&|$)/g, '$1').replace(/[?&]$/, '');
+          window.history.replaceState(null, '', cleanUrl || window.location.pathname);
+        } catch (e) {}
+      }
+
+      if (!incoming) {
+        try {
+          const rawAcc = window.localStorage ? window.localStorage.getItem('moocraft_account') : null;
+          if (rawAcc) {
+            const parsedAcc = JSON.parse(rawAcc);
+            if (parsedAcc && (parsedAcc.name || parsedAcc.username)) {
+              incoming = parsedAcc;
+            }
+          }
+        } catch (e) {}
+      }
+
+      if (incoming && !incoming.password) {
+        try {
+          const rawList = window.localStorage ? window.localStorage.getItem('moocraft_accounts') : null;
+          if (rawList) {
+            const list = JSON.parse(rawList);
+            if (Array.isArray(list)) {
+              const found = list.find(a =>
+                (incoming.email && a.email && a.email.toLowerCase() === incoming.email.toLowerCase()) ||
+                (incoming.name && a.name && a.name.toLowerCase() === incoming.name.toLowerCase())
+              );
+              if (found && found.password) incoming.password = found.password;
+            }
+          }
+        } catch (e) {}
+      }
+
+      if (incoming && (incoming.name || incoming.username)) {
+        const uName = String(incoming.name || incoming.username).trim();
+        const uEmail = String(incoming.email || '').trim();
+        const uPass = String(incoming.password || incoming.pass || 'moocraft123');
+        if (uName) {
+          const uKey = uName.toLowerCase();
+          let users = getAllRegisteredUsers();
+          if (!users[uKey] && !users[uName]) {
+            users = saveUserAccount(uName, uPass);
+          }
+          if (users[uKey]) {
+            if (uEmail && !users[uKey].email) users[uKey].email = uEmail;
+            if (uPass && !users[uKey].pass) users[uKey].pass = uPass;
+            saveMasterAccounts(users);
+          }
+          safeStorage.setItem(SESSION_KEY, uName);
+          try {
+            if (window.localStorage) {
+              window.localStorage.setItem('moocraft_account', JSON.stringify({ name: uName, email: uEmail }));
+            }
+          } catch (e) {}
+
+          if (window.location && window.location.protocol && window.location.protocol.startsWith('http')) {
+            fetch('/api/register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                username: uName,
+                email: uEmail,
+                password: uPass,
+                character: JSON.parse(JSON.stringify(DEFAULT_STEVE_DATA)),
+                worlds: JSON.parse(JSON.stringify(DEFAULT_WORLDS_TEMPLATE)),
+                servers: JSON.parse(safeStorage.getItem(SERVERS_KEY) || '[]')
+              })
+            }).catch(() => {});
+          }
+        }
+      }
+    } catch (e) {}
+  })();
 
   // Başlangıç durumu: Eğer aktif oturum varsa ana menüye geç, yoksa temiz Giriş/Kayıt ekranını aç
   let initUser = safeStorage.getItem(SESSION_KEY);
