@@ -5499,7 +5499,7 @@
     const BLOCK_INFO = {
       // --- YAPI BLOKLARI (BUILDING BLOCKS) ---
       stone: { name: 'Taş', color: '#6b7280', cat: 'building' },
-      cobblestone: { name: 'Kırıktaş', color: '#525252', cat: 'building' },
+      cobblestone: { name: 'Kırık Taş', color: '#787878', cat: 'building' },
       mossy_cobble: { name: 'Yosunlu Taş', color: '#4b553d', cat: 'building' },
       smooth_stone: { name: 'Düz Taş', color: '#888888', cat: 'building' },
       stone_bricks: { name: 'Taş Tuğla', color: '#616161', cat: 'building' },
@@ -5681,21 +5681,21 @@
       trident: { name: 'Üç Dişli Mızrak', color: '#26c6da', cat: 'combat', dmg: 9 },
 
       // --- ALETLER VE ARAÇLAR (TOOLS & UTILITIES) ---
-      netherite_pickaxe: { name: 'Netherit Kazma', color: '#3d373a', cat: 'tools' },
+      copper_pickaxe: { name: 'Bakır Kazma', color: '#e06030', cat: 'tools' },
       diamond_pickaxe: { name: 'Elmas Kazma', color: '#38bdf8', cat: 'tools' },
       iron_pickaxe: { name: 'Demir Kazma', color: '#f8fafc', cat: 'tools' },
       golden_pickaxe: { name: 'Altın Kazma', color: '#ffd700', cat: 'tools' },
       stone_pickaxe: { name: 'Taş Kazma', color: '#84878a', cat: 'tools' },
       wooden_pickaxe: { name: 'Tahta Kazma', color: '#8f683a', cat: 'tools' },
 
-      netherite_axe: { name: 'Netherit Balta', color: '#3d373a', cat: 'tools' },
+      copper_axe: { name: 'Bakır Balta', color: '#e06030', cat: 'tools' },
       diamond_axe: { name: 'Elmas Balta', color: '#38bdf8', cat: 'tools' },
       iron_axe: { name: 'Demir Balta', color: '#f8fafc', cat: 'tools' },
       golden_axe: { name: 'Altın Balta', color: '#ffd700', cat: 'tools' },
       stone_axe: { name: 'Taş Balta', color: '#84878a', cat: 'tools' },
       wooden_axe: { name: 'Tahta Balta', color: '#8f683a', cat: 'tools' },
 
-      netherite_shovel: { name: 'Netherit Kürek', color: '#3d373a', cat: 'tools' },
+      copper_shovel: { name: 'Bakır Kürek', color: '#e06030', cat: 'tools' },
       diamond_shovel: { name: 'Elmas Kürek', color: '#38bdf8', cat: 'tools' },
       iron_shovel: { name: 'Demir Kürek', color: '#f8fafc', cat: 'tools' },
       golden_shovel: { name: 'Altın Kürek', color: '#ffd700', cat: 'tools' },
@@ -5743,6 +5743,8 @@
       bread: { name: 'Ekmek', color: '#c48e48', cat: 'food' },
       raw_beef: { name: 'Çiğ Biftek', color: '#b33939', cat: 'food' },
       cooked_beef: { name: 'Pişmiş Biftek', color: '#8d4320', cat: 'food' },
+      raw_mutton: { name: 'Çiğ Koyun Eti', color: '#c9514b', cat: 'food' },
+      cooked_mutton: { name: 'Pişmiş Koyun Eti', color: '#8f5232', cat: 'food' },
       carrot: { name: 'Havuç', color: '#ff7700', cat: 'food' },
 
       // --- YÖNETİCİ & OP EŞYALARI (OPERATOR / OP) ---
@@ -7235,9 +7237,9 @@
       'stick', 'diamond_item', 'emerald_item', 'iron_ingot', 'gold_ingot', 'copper_ingot',
       'netherite_ingot', 'coal_item', 'amethyst_shard', 'redstone_dust',
       'wooden_sword', 'stone_sword', 'iron_sword', 'golden_sword', 'diamond_sword', 'netherite_sword',
-      'wooden_pickaxe', 'stone_pickaxe', 'iron_pickaxe', 'golden_pickaxe', 'diamond_pickaxe', 'netherite_pickaxe',
-      'wooden_axe', 'stone_axe', 'iron_axe', 'golden_axe', 'diamond_axe', 'netherite_axe',
-      'wooden_shovel', 'stone_shovel', 'golden_shovel', 'diamond_shovel', 'iron_shovel', 'netherite_shovel',
+      'wooden_pickaxe', 'stone_pickaxe', 'copper_pickaxe', 'iron_pickaxe', 'golden_pickaxe', 'diamond_pickaxe',
+      'wooden_axe', 'stone_axe', 'copper_axe', 'iron_axe', 'golden_axe', 'diamond_axe',
+      'wooden_shovel', 'stone_shovel', 'copper_shovel', 'iron_shovel', 'golden_shovel', 'diamond_shovel',
       'bow', 'crossbow', 'arrow', 'trident', 'shield',
       'netherite_helmet', 'netherite_chestplate', 'netherite_leggings', 'netherite_boots',
       'diamond_helmet', 'diamond_chestplate', 'diamond_leggings', 'diamond_boots',
@@ -7245,7 +7247,7 @@
       'golden_helmet', 'golden_chestplate', 'golden_leggings', 'golden_boots',
       'leather_helmet', 'leather_chestplate', 'leather_leggings', 'leather_boots',
       'flint_and_steel', 'shears', 'fishing_rod', 'compass', 'clock',
-      'apple', 'golden_apple', 'bread', 'raw_beef', 'cooked_beef', 'carrot'
+      'apple', 'golden_apple', 'bread', 'raw_beef', 'cooked_beef', 'raw_mutton', 'cooked_mutton', 'carrot'
     ]);
 
     // FARE HAREKETİ VE İMLEÇ EŞYA GÖRSEL TAKİBİ
@@ -7331,9 +7333,9 @@
       wood: ['wood', 'planks', 'leaves', 'birch_wood', 'birch_planks', 'spruce_wood', 'spruce_planks', 'jungle_wood', 'jungle_planks', 'acacia_wood', 'acacia_planks', 'dark_wood', 'dark_planks', 'mangrove_wood', 'mangrove_planks', 'cherry_wood', 'cherry_planks'],
       functional: ['crafting', 'furnace', 'blast_furnace', 'smoker', 'bookshelf', 'chiseled_bookshelf', 'anvil', 'enchanting_table', 'chest', 'barrel', 'ender_chest', 'sponge', 'wet_sponge', 'lantern', 'soul_lantern', 'torch', 'beacon'],
       redstone: ['redstone_dust', 'redstone_block', 'redstone_torch', 'redstone_lamp', 'target', 'tnt', 'piston', 'sticky_piston', 'observer', 'dispenser', 'dropper', 'hopper'],
-      tools: ['stick', 'netherite_pickaxe', 'diamond_pickaxe', 'iron_pickaxe', 'golden_pickaxe', 'stone_pickaxe', 'wooden_pickaxe', 'netherite_axe', 'diamond_axe', 'iron_axe', 'golden_axe', 'netherite_shovel', 'diamond_shovel', 'iron_shovel', 'flint_and_steel', 'shears', 'fishing_rod', 'compass', 'clock'],
+      tools: ['stick', 'diamond_pickaxe', 'iron_pickaxe', 'copper_pickaxe', 'golden_pickaxe', 'stone_pickaxe', 'wooden_pickaxe', 'diamond_axe', 'iron_axe', 'copper_axe', 'golden_axe', 'stone_axe', 'wooden_axe', 'diamond_shovel', 'iron_shovel', 'copper_shovel', 'golden_shovel', 'stone_shovel', 'wooden_shovel', 'flint_and_steel', 'shears', 'fishing_rod', 'compass', 'clock'],
       combat: ['netherite_sword', 'diamond_sword', 'iron_sword', 'golden_sword', 'stone_sword', 'wooden_sword', 'bow', 'crossbow', 'arrow', 'trident', 'shield', 'netherite_helmet', 'netherite_chestplate', 'netherite_leggings', 'netherite_boots', 'diamond_helmet', 'diamond_chestplate', 'diamond_leggings', 'diamond_boots', 'iron_helmet', 'iron_chestplate', 'iron_leggings', 'iron_boots', 'golden_helmet', 'golden_chestplate', 'golden_leggings', 'golden_boots', 'leather_helmet', 'leather_chestplate', 'leather_leggings', 'leather_boots'],
-      food: ['apple', 'golden_apple', 'bread', 'cooked_beef', 'carrot', 'melon', 'pumpkin'],
+      food: ['apple', 'golden_apple', 'bread', 'raw_beef', 'cooked_beef', 'raw_mutton', 'cooked_mutton', 'carrot', 'melon', 'pumpkin'],
       materials: ['stick', 'coal_ore', 'copper_ore', 'iron_ore', 'gold_ore', 'redstone_ore', 'lapis_ore', 'diamond_ore', 'emerald_ore', 'debris', 'coal_block', 'copper_block', 'iron', 'gold', 'diamond', 'emerald_block', 'netherite_block', 'lapis_block', 'diamond_item', 'emerald_item', 'iron_ingot', 'gold_ingot', 'copper_ingot', 'netherite_ingot', 'coal_item', 'amethyst_shard'],
       operator: ['bedrock', 'command_block', 'repeating_command_block', 'chain_command_block', 'barrier', 'structure_block', 'light_block'],
       search: Object.keys(BLOCK_INFO),
@@ -7480,9 +7482,8 @@
     registerToolPickaxe('iron_pickaxe', '#iron');
     registerToolPickaxe('golden_pickaxe', '#gold');
     registerToolPickaxe('diamond_pickaxe', '#diamond');
-    registerShapelessRecipe('netherite_pickaxe', 1, ['diamond_pickaxe', 'netherite_ingot']);
-    registerShapedRecipe('netherite_pickaxe', 1, [
-      ['netherite_ingot', 'netherite_ingot', 'netherite_ingot'],
+    registerShapedRecipe('copper_pickaxe', 1, [
+      ['copper_ingot', 'copper_ingot', 'copper_ingot'],
       [null, 'stick', null],
       [null, 'stick', null]
     ]);
@@ -7505,7 +7506,7 @@
     registerToolAxe('iron_axe', '#iron');
     registerToolAxe('golden_axe', '#gold');
     registerToolAxe('diamond_axe', '#diamond');
-    registerShapelessRecipe('netherite_axe', 1, ['diamond_axe', 'netherite_ingot']);
+    registerToolAxe('copper_axe', 'copper_ingot');
 
     // 11. Kürekler (Shovels - Birebir Minecraft: 1 Malzeme + Tam 2 Çubuk)
     function registerToolShovel(result, mat) {
@@ -7516,7 +7517,7 @@
     registerToolShovel('iron_shovel', '#iron');
     registerToolShovel('golden_shovel', '#gold');
     registerToolShovel('diamond_shovel', '#diamond');
-    registerShapelessRecipe('netherite_shovel', 1, ['diamond_shovel', 'netherite_ingot']);
+    registerToolShovel('copper_shovel', 'copper_ingot');
 
     // 12. Çapalar (Hoes - Birebir Minecraft: 2 Malzeme + Tam 2 Çubuk)
     function registerToolHoe(result, mat) {
@@ -7541,7 +7542,7 @@
     registerToolShovel('iron_shovel', '#iron');
     registerToolShovel('golden_shovel', '#gold');
     registerToolShovel('diamond_shovel', '#diamond');
-    registerShapelessRecipe('netherite_shovel', 1, ['diamond_shovel', 'netherite_ingot']);
+    registerToolShovel('copper_shovel', 'copper_ingot');
 
     // 11. Zırh Setleri (Kask, Göğüslük, Pantolon, Bot)
     // Kasklar
@@ -8713,6 +8714,7 @@
 
     const FURNACE_RECIPES = {
       raw_beef: { result: 'cooked_beef', count: 1 },
+      raw_mutton: { result: 'cooked_mutton', count: 1 },
       iron_ore: { result: 'iron_ingot', count: 1 },
       gold_ore: { result: 'gold_ingot', count: 1 },
       copper_ore: { result: 'copper_ingot', count: 1 },
@@ -9667,30 +9669,31 @@
 
     // --- PROCEDURAL 16x16 TEXTURE GENERATION ---
 
-    // 1. DIRT (Birebir Minecraft Toprak Dokusu)
+    // 1. DIRT (Klasik Minecraft Koyu Kontrastlı Toprak Dokusu)
     const dirtCanvas = createBlockCanvas(c => {
-      ditherNoise(c, '#866043', ['#724e35', '#573d26', '#49321e', '#9a6d4d', '#68452c', '#5d4128'], 23);
-      // Doğal çakıl & organik toprak lekeleri
-      px(c, 3, 2, '#573d26'); px(c, 4, 2, '#49321e'); px(c, 12, 7, '#9a6d4d');
-      px(c, 8, 11, '#573d26'); px(c, 9, 12, '#49321e'); px(c, 1, 14, '#9a6d4d');
+      ditherNoise(c, '#755136', ['#61412a', '#4d3320', '#3c2617', '#876042', '#573a25', '#6b4930'], 23);
+      // Doğal koyu toprak & çakıl lekeleri
+      px(c, 3, 2, '#3c2617'); px(c, 4, 2, '#4d3320'); px(c, 12, 7, '#876042');
+      px(c, 8, 11, '#3c2617'); px(c, 9, 12, '#4d3320'); px(c, 1, 14, '#876042');
+      px(c, 10, 4, '#6b5e55'); px(c, 5, 9, '#3c2617'); px(c, 13, 13, '#6b5e55');
     });
 
-    // 2. GRASS TOP (Birebir Minecraft Canlı Çimen Üstü)
+    // 2. GRASS TOP (Gönderilen Görseldeki Doğal Klasik Minecraft Çimen Üstü)
     const grassTopCanvas = createBlockCanvas(c => {
-      ditherNoise(c, '#52992c', ['#468325', '#38691e', '#5ea732', '#6bb939', '#75c940', '#2d5418', '#417a23'], 19);
-      px(c, 2, 3, '#75c940'); px(c, 3, 3, '#86db4c'); px(c, 11, 6, '#75c940');
-      px(c, 7, 11, '#86db4c'); px(c, 13, 12, '#38691e'); px(c, 5, 8, '#2d5418');
+      ditherNoise(c, '#58874d', ['#49703f', '#517c46', '#629454', '#6ba15b', '#74ab63', '#3f6336'], 19);
+      px(c, 2, 3, '#6ba15b'); px(c, 3, 3, '#74ab63'); px(c, 11, 6, '#6ba15b');
+      px(c, 7, 11, '#74ab63'); px(c, 13, 12, '#49703f'); px(c, 5, 8, '#3f6336');
     });
 
-    // 3. GRASS SIDE (Birebir Minecraft Sarkan Ot Saçaklı Çimen Yanı)
+    // 3. GRASS SIDE (Gönderilen Görseldeki Doğal Sarkan Çimen Yanı)
     const grassSideCanvas = createBlockCanvas(c => {
       c.drawImage(dirtCanvas, 0, 0);
-      rect(c, 0, 0, 16, 2, '#52992c');
+      rect(c, 0, 0, 16, 2, '#58874d');
       for (let x = 0; x < 16; x++) {
-        px(c, x, 0, (x % 3 === 0) ? '#6bb939' : '#52992c');
-        px(c, x, 1, (x % 2 === 0) ? '#468325' : '#38691e');
+        px(c, x, 0, (x % 3 === 0) ? '#6ba15b' : ((x % 2 === 0) ? '#58874d' : '#517c46'));
+        px(c, x, 1, (x % 3 === 0) ? '#629454' : ((x % 2 === 0) ? '#49703f' : '#58874d'));
       }
-      // Otantik sarkan ot dişleri
+      // Klasik Minecraft sarkan çimen dişleri
       const dripPattern = [
         [0,2], [1,2], [1,3],
         [2,2], [2,3], [2,4],
@@ -9706,7 +9709,7 @@
         [15,2]
       ];
       dripPattern.forEach(([dx, dy]) => {
-        px(c, dx, dy, (dy >= 4) ? '#284d15' : ((dy === 3) ? '#38691e' : '#52992c'));
+        px(c, dx, dy, (dy >= 4) ? '#3f6336' : ((dy === 3) ? '#49703f' : '#58874d'));
       });
     });
 
@@ -9740,36 +9743,62 @@
 
     // 4. STONE (Geliştirilmiş & Sadeleştirilmiş Otantik Taş Dokusu)
     const stoneCanvas = createBlockCanvas(c => {
-      fill(c, '#7a7a7a');
-      ditherNoise(c, '#7a7a7a', ['#6e6e6e', '#858585', '#616161', '#8f8f8f'], 17);
-      // Doğal yumuşak taş çatlak damarları
-      px(c, 3, 4, '#585858'); px(c, 4, 4, '#585858'); px(c, 5, 5, '#585858');
-      px(c, 10, 8, '#585858'); px(c, 11, 9, '#585858'); px(c, 12, 9, '#585858');
-      px(c, 6, 12, '#8f8f8f'); px(c, 7, 12, '#8f8f8f');
+      fill(c, '#737373');
+      // Klasik Minecraft yatay katmanlı taş şeritleri (gönderilen görsel stili)
+      const streaks = [
+        [0,0,4,'#666666'], [5,0,3,'#858585'], [10,0,4,'#5c5c5c'], [14,0,2,'#7e7e7e'],
+        [1,1,3,'#858585'], [6,1,5,'#6a6a6a'], [12,1,3,'#8a8a8a'],
+        [0,2,3,'#5c5c5c'], [4,2,4,'#7e7e7e'], [9,2,4,'#636363'], [14,2,2,'#6d6d6d'],
+        [2,3,4,'#888888'], [7,3,3,'#5e5e5e'], [11,3,5,'#7a7a7a'],
+        [0,4,5,'#6a6a6a'], [6,4,4,'#858585'], [12,4,3,'#5a5a5a'],
+        [1,5,4,'#7e7e7e'], [7,5,5,'#666666'], [13,5,3,'#878787'],
+        [0,6,3,'#5e5e5e'], [4,6,4,'#8a8a8a'], [10,6,4,'#6b6b6b'],
+        [2,7,5,'#636363'], [8,7,4,'#7f7f7f'], [13,7,3,'#5c5c5c'],
+        [0,8,4,'#838383'], [5,8,4,'#676767'], [11,8,4,'#888888'],
+        [1,9,3,'#5b5b5b'], [6,9,5,'#7c7c7c'], [12,9,4,'#646464'],
+        [0,10,5,'#6c6c6c'], [6,10,3,'#8a8a8a'], [10,10,4,'#5d5d5d'],
+        [2,11,4,'#808080'], [7,11,4,'#626262'], [12,11,4,'#7b7b7b'],
+        [0,12,3,'#5c5c5c'], [4,12,5,'#6e6e6e'], [10,12,4,'#868686'],
+        [1,13,4,'#878787'], [6,13,4,'#5e5e5e'], [11,13,4,'#696969'],
+        [0,14,4,'#686868'], [5,14,4,'#828282'], [10,14,5,'#5c5c5c'],
+        [2,15,4,'#5e5e5e'], [7,15,4,'#7d7d7d'], [12,15,3,'#868686']
+      ];
+      streaks.forEach(([x, y, w, col]) => rect(c, x, y, w, 1, col));
     });
 
-    // 5. COBBLESTONE (Geliştirilmiş Kırıktaş - Belirgin, Temiz Taş Blokları)
+    // 5. COBBLESTONE (Klasik Minecraft Kırık Taş Dokusu - Gönderilen Görsel Stili)
     const cobbleCanvas = createBlockCanvas(c => {
-      fill(c, '#383838'); // Harç ve çatlak zemin çizgisi
-      const stones = [
-        [0, 0, 5, 3, '#737373', '#888888', '#525252'],
-        [6, 0, 5, 3, '#666666', '#7a7a7a', '#484848'],
-        [12, 0, 4, 3, '#7d7d7d', '#919191', '#585858'],
-        [0, 4, 3, 3, '#666666', '#7a7a7a', '#484848'],
-        [4, 4, 7, 3, '#787878', '#8c8c8c', '#545454'],
-        [12, 4, 4, 4, '#6b6b6b', '#808080', '#4e4e4e'],
-        [0, 8, 6, 4, '#707070', '#858585', '#505050'],
-        [7, 8, 5, 3, '#7c7c7c', '#909090', '#565656'],
-        [13, 9, 3, 3, '#636363', '#777777', '#454545'],
-        [0, 13, 4, 3, '#7b7b7b', '#909090', '#555555'],
-        [5, 12, 6, 4, '#6e6e6e', '#828282', '#4c4c4c'],
-        [12, 13, 4, 3, '#767676', '#8b8b8b', '#525252']
+      const pal = {
+        '0': '#484848', // Koyu yarık/gölge
+        '1': '#5a5a5a', // Orta-koyu taş
+        '2': '#6d6d6d', // Orta gri taş
+        '3': '#7f7f7f', // Açık gri taş
+        '4': '#969696', // Parlak kenar
+        '5': '#adadad'  // En parlak nokta
+      };
+      const rows = [
+        '2343102443210233',
+        '3454203343210343',
+        '1232101222101232',
+        '0000010000012100',
+        '3442023443102342',
+        '2332034543201231',
+        '1221012332100110',
+        '0100100110023201',
+        '2343202343134431',
+        '3453103442023320',
+        '1221012321012210',
+        '0001200010100001',
+        '2342102343202342',
+        '3443203454203453',
+        '1232101232101221',
+        '0110010010010010'
       ];
-      stones.forEach(([sx, sy, sw, sh, baseCol, highCol, shadowCol]) => {
-        rect(c, sx, sy, sw, sh, baseCol);
-        rect(c, sx, sy, sw, 1, highCol);
-        rect(c, sx, sy + sh - 1, sw, 1, shadowCol);
-      });
+      for (let y = 0; y < 16; y++) {
+        for (let x = 0; x < 16; x++) {
+          px(c, x, y, pal[rows[y][x]]);
+        }
+      }
     });
 
     // 6. MOSSY COBBLE (Geliştirilmiş Yosunlu Kırıktaş - Canlı Organik Yosun Deseni)
@@ -9921,10 +9950,40 @@
       px(c, 3, 9, '#4d3316'); px(c, 11, 13, '#4d3316');
     });
 
-    // 18. LEAVES (Meşe Yaprakları)
+    // 18. LEAVES (Klasik Minecraft Meşe Yaprağı - Şeffaf Boşluklu Fancy Stil)
     const leavesCanvas = createBlockCanvas(c => {
-      fill(c, '#2b631e');
-      ditherNoise(c, '#2b631e', ['#387d27', '#4a9a34', '#1f4d15', '#56b03e', '#163c0f'], 19);
+      c.clearRect(0, 0, 16, 16);
+      const pal = {
+        '.': null,
+        '0': '#1b440a', // Koyu gölge yaprak
+        '1': '#265c11', // Orta-koyu yaprak
+        '2': '#327517', // Ana meşe yeşili
+        '3': '#418c21'  // Parlak yaprak ucu
+      };
+      const rows = [
+        '.1230.2310..231.',
+        '2321013210.13210',
+        '120.2320.12320.1',
+        '00.13210.2310.12',
+        '.12320.1230.1230',
+        '23210.2310.23210',
+        '120..1320.1320.1',
+        '0.12.210.1230.12',
+        '.2310.0.1231.230',
+        '13210.12320.1321',
+        '210.12310..12310',
+        '0..2320.12.210.0',
+        '.12310.2310.0.12',
+        '2320.13210.12321',
+        '120.2310.12310.1',
+        '0..120..0120..00'
+      ];
+      for (let y = 0; y < 16; y++) {
+        for (let x = 0; x < 16; x++) {
+          const col = pal[rows[y][x]];
+          if (col) px(c, x, y, col);
+        }
+      }
     });
 
     // 19. BIRCH WOOD (Huş Ağacı)
@@ -10571,7 +10630,7 @@
       // Ağaçlar & Tahtalar
       wood: createCubeMats(tWoodSide, tWoodTop, tWoodTop),
       planks: createMat(tPlanks),
-      leaves: createMat(tLeaves, 0.7),
+      leaves: new THREE.MeshStandardMaterial({ map: tLeaves, roughness: 0.7, alphaTest: 0.5, side: THREE.DoubleSide }),
       birch_wood: createCubeMats(tBirchWoodSide, tBirchWoodTop, tBirchWoodTop),
       birch_planks: createMat(tBirchPlanks),
       dark_wood: createCubeMats(tDarkWoodSide, tDarkWoodTop, tDarkWoodTop),
@@ -10771,6 +10830,13 @@
             bg_light: "#94a3b8",   // Açık gri üst vurgu
             text: "#334155",       // Koyu taş grisi piksel yazı
             black: "#0f172a"
+          },
+          copper: {
+            bg: "#e06030",         // Bakır Turuncusu zemin
+            bg_border: "#9a3412",  // Koyu bakır çerçeve
+            bg_light: "#fdba74",   // Açık bakır vurgu
+            text: "#431407",       // Koyu bakır piksel yazı
+            black: "#270a02"
           },
           wooden: {
             bg: "#8f683a",         // Tahta Kahverengisi zemin
@@ -11127,11 +11193,13 @@ const customTextures = {
         light_block: makePolishedCanvas('#ffeaa7', '#d6a018', '#ffffff'),
 
         // Yiyecekler
-        apple: makeItemCanvas('#ff2222', '#4a2e00', 'apple'),
+        apple: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#752802';c.fillRect(9,1,1,1);c.fillRect(8,3,1,1);c.fillRect(7,4,1,1);c.fillRect(9,4,1,1);c.fillRect(10,4,1,1);c.fillRect(11,5,1,1);c.fillRect(12,5,1,1);c.fillRect(12,6,1,1);c.fillRect(13,6,1,1);c.fillRect(13,7,1,1);c.fillRect(2,9,1,1);c.fillRect(2,10,1,1);c.fillRect(3,11,1,1);c.fillRect(3,12,1,1);c.fillRect(6,14,1,1);c.fillRect(7,14,1,1);c.fillRect(8,14,1,1);c.fillStyle='#7e370e';c.fillRect(8,2,1,1);c.fillStyle='#542409';c.fillRect(9,2,1,1);c.fillRect(8,4,1,1);c.fillRect(7,5,1,1);c.fillStyle='#9c1017';c.fillRect(5,4,1,1);c.fillRect(6,4,1,1);c.fillRect(3,5,1,1);c.fillRect(8,5,1,1);c.fillRect(2,6,1,1);c.fillRect(2,7,1,1);c.fillRect(2,8,1,1);c.fillRect(4,12,1,1);c.fillRect(11,12,1,1);c.fillRect(5,13,1,1);c.fillRect(7,13,1,1);c.fillRect(8,13,1,1);c.fillRect(10,13,1,1);c.fillStyle='#b4131e';c.fillRect(4,5,1,1);c.fillRect(6,5,1,1);c.fillRect(10,5,1,1);c.fillRect(3,6,1,1);c.fillRect(11,6,1,1);c.fillRect(3,7,1,1);c.fillRect(12,7,1,1);c.fillRect(3,8,1,1);c.fillRect(3,9,1,1);c.fillRect(4,9,1,1);c.fillRect(7,9,1,1);c.fillRect(8,9,1,1);c.fillRect(10,9,1,1);c.fillRect(3,10,1,1);c.fillRect(4,10,1,1);c.fillRect(5,10,1,1);c.fillRect(6,10,1,1);c.fillRect(7,10,1,1);c.fillRect(9,10,1,1);c.fillRect(10,10,1,1);c.fillRect(12,10,1,1);c.fillRect(4,11,1,1);c.fillRect(5,11,1,1);c.fillRect(7,11,1,1);c.fillRect(8,11,1,1);c.fillRect(9,11,1,1);c.fillRect(11,11,1,1);c.fillRect(5,12,1,1);c.fillRect(6,12,1,1);c.fillRect(7,12,1,1);c.fillRect(10,12,1,1);c.fillRect(6,13,1,1);c.fillRect(9,13,1,1);c.fillStyle='#ff969d';c.fillRect(5,5,1,1);c.fillRect(6,6,1,1);c.fillRect(7,6,1,1);c.fillRect(8,6,1,1);c.fillStyle='#dd1725';c.fillRect(9,5,1,1);c.fillRect(10,7,1,1);c.fillRect(4,8,1,1);c.fillRect(6,8,1,1);c.fillRect(8,8,1,1);c.fillRect(9,8,1,1);c.fillRect(10,8,1,1);c.fillRect(12,8,1,1);c.fillRect(5,9,1,1);c.fillRect(6,9,1,1);c.fillRect(9,9,1,1);c.fillRect(12,9,1,1);c.fillRect(8,10,1,1);c.fillRect(6,11,1,1);c.fillRect(10,11,1,1);c.fillRect(8,12,1,1);c.fillRect(9,12,1,1);c.fillStyle='#ff1c2b';c.fillRect(4,6,1,1);c.fillRect(10,6,1,1);c.fillRect(4,7,1,1);c.fillRect(5,7,1,1);c.fillRect(6,7,1,1);c.fillRect(7,7,1,1);c.fillRect(8,7,1,1);c.fillRect(9,7,1,1);c.fillRect(11,7,1,1);c.fillRect(5,8,1,1);c.fillRect(7,8,1,1);c.fillRect(11,8,1,1);c.fillRect(11,9,1,1);c.fillRect(11,10,1,1);c.fillStyle='#ff5e69';c.fillRect(5,6,1,1);c.fillRect(9,6,1,1);c.fillStyle='#54090e';c.fillRect(13,8,1,1);c.fillRect(13,9,1,1);c.fillRect(13,10,1,1);c.fillRect(12,11,1,1);c.fillRect(12,12,1,1);c.fillRect(4,13,1,1);c.fillRect(11,13,1,1);c.fillRect(5,14,1,1);c.fillRect(9,14,1,1);c.fillRect(10,14,1,1); }),
         golden_apple: makeItemCanvas('#ffd700', '#8a6500', 'apple'),
         bread: makeItemCanvas('#c48e48', '#7c4819', 'bread'),
-        raw_beef: makeItemCanvas('#b33939', '#631313', 'bread'),
-        cooked_beef: makeItemCanvas('#8d4320', '#4a1e0b', 'bread'),
+        raw_beef: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#6b1612';c.fillRect(7,2,1,1);c.fillRect(8,2,1,1);c.fillRect(9,2,1,1);c.fillRect(10,2,1,1);c.fillRect(5,3,1,1);c.fillRect(6,3,1,1);c.fillRect(11,3,1,1);c.fillRect(4,4,1,1);c.fillRect(12,4,1,1);c.fillRect(3,5,1,1);c.fillRect(13,5,1,1);c.fillRect(2,6,1,1);c.fillRect(14,6,1,1);c.fillRect(2,7,1,1);c.fillRect(14,7,1,1);c.fillRect(1,8,1,1);c.fillRect(15,8,1,1);c.fillRect(1,9,1,1);c.fillRect(15,9,1,1);c.fillRect(1,10,1,1);c.fillRect(14,10,1,1);c.fillRect(2,11,1,1);c.fillRect(13,11,1,1);c.fillRect(2,12,1,1);c.fillRect(11,12,1,1);c.fillRect(12,12,1,1);c.fillRect(3,13,1,1);c.fillRect(4,13,1,1);c.fillRect(9,13,1,1);c.fillRect(10,13,1,1);c.fillRect(5,14,1,1);c.fillRect(6,14,1,1);c.fillRect(7,14,1,1);c.fillRect(8,14,1,1);c.fillStyle='#9e231d';c.fillRect(7,3,1,1);c.fillRect(10,3,1,1);c.fillRect(5,4,1,1);c.fillRect(4,5,1,1);c.fillRect(11,5,1,1);c.fillRect(3,6,1,1);c.fillRect(12,6,1,1);c.fillRect(3,7,1,1);c.fillRect(2,8,1,1);c.fillRect(2,9,1,1);c.fillRect(2,10,1,1);c.fillRect(3,11,1,1);c.fillRect(3,12,1,1);c.fillRect(4,12,1,1);c.fillRect(5,13,1,1);c.fillRect(6,13,1,1);c.fillRect(7,13,1,1);c.fillRect(8,13,1,1);c.fillStyle='#e3766e';c.fillRect(8,3,1,1);c.fillRect(9,3,1,1);c.fillRect(6,4,1,1);c.fillRect(11,4,1,1);c.fillRect(12,5,1,1);c.fillRect(13,6,1,1);c.fillRect(8,7,1,1);c.fillRect(9,7,1,1);c.fillRect(13,7,1,1);c.fillRect(8,8,1,1);c.fillRect(9,8,1,1);c.fillRect(14,8,1,1);c.fillRect(14,9,1,1);c.fillRect(13,10,1,1);c.fillRect(11,11,1,1);c.fillRect(12,11,1,1);c.fillRect(9,12,1,1);c.fillRect(10,12,1,1);c.fillStyle='#f4bab2';c.fillRect(7,4,1,1);c.fillRect(8,4,1,1);c.fillRect(9,4,1,1);c.fillRect(10,4,1,1);c.fillRect(5,5,1,1);c.fillRect(6,5,1,1);c.fillRect(4,6,1,1);c.fillRect(7,7,1,1);c.fillRect(10,7,1,1);c.fillRect(6,8,1,1);c.fillRect(7,8,1,1);c.fillRect(10,8,1,1);c.fillRect(11,8,1,1);c.fillStyle='#d13a31';c.fillRect(7,5,1,1);c.fillRect(8,5,1,1);c.fillRect(9,5,1,1);c.fillRect(10,5,1,1);c.fillRect(5,6,1,1);c.fillRect(7,6,1,1);c.fillRect(8,6,1,1);c.fillRect(9,6,1,1);c.fillRect(10,6,1,1);c.fillRect(4,7,1,1);c.fillRect(6,7,1,1);c.fillRect(11,7,1,1);c.fillRect(3,8,1,1);c.fillRect(5,8,1,1);c.fillRect(12,8,1,1);c.fillRect(3,9,1,1);c.fillRect(5,9,1,1);c.fillRect(6,9,1,1);c.fillRect(7,9,1,1);c.fillRect(8,9,1,1);c.fillRect(9,9,1,1);c.fillRect(10,9,1,1);c.fillRect(11,9,1,1);c.fillRect(12,9,1,1);c.fillRect(4,10,1,1);c.fillRect(5,10,1,1);c.fillRect(6,10,1,1);c.fillRect(7,10,1,1);c.fillRect(10,10,1,1);c.fillRect(11,10,1,1);c.fillRect(5,11,1,1);c.fillRect(6,11,1,1);c.fillStyle='#b82e27';c.fillRect(6,6,1,1);c.fillRect(11,6,1,1);c.fillRect(5,7,1,1);c.fillRect(12,7,1,1);c.fillRect(4,8,1,1);c.fillRect(13,8,1,1);c.fillRect(4,9,1,1);c.fillRect(13,9,1,1);c.fillRect(3,10,1,1);c.fillRect(8,10,1,1);c.fillRect(9,10,1,1);c.fillRect(12,10,1,1);c.fillRect(4,11,1,1);c.fillRect(7,11,1,1);c.fillRect(8,11,1,1);c.fillRect(9,11,1,1);c.fillRect(10,11,1,1);c.fillRect(5,12,1,1);c.fillRect(6,12,1,1);c.fillRect(7,12,1,1);c.fillRect(8,12,1,1); }),
+        cooked_beef: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#38180b';c.fillRect(7,2,1,1);c.fillRect(8,2,1,1);c.fillRect(9,2,1,1);c.fillRect(10,2,1,1);c.fillRect(5,3,1,1);c.fillRect(6,3,1,1);c.fillRect(11,3,1,1);c.fillRect(4,4,1,1);c.fillRect(12,4,1,1);c.fillRect(3,5,1,1);c.fillRect(13,5,1,1);c.fillRect(2,6,1,1);c.fillRect(14,6,1,1);c.fillRect(2,7,1,1);c.fillRect(14,7,1,1);c.fillRect(1,8,1,1);c.fillRect(15,8,1,1);c.fillRect(1,9,1,1);c.fillRect(15,9,1,1);c.fillRect(1,10,1,1);c.fillRect(14,10,1,1);c.fillRect(2,11,1,1);c.fillRect(13,11,1,1);c.fillRect(2,12,1,1);c.fillRect(11,12,1,1);c.fillRect(12,12,1,1);c.fillRect(3,13,1,1);c.fillRect(4,13,1,1);c.fillRect(9,13,1,1);c.fillRect(10,13,1,1);c.fillRect(5,14,1,1);c.fillRect(6,14,1,1);c.fillRect(7,14,1,1);c.fillRect(8,14,1,1);c.fillStyle='#592912';c.fillRect(7,3,1,1);c.fillRect(10,3,1,1);c.fillRect(5,4,1,1);c.fillRect(4,5,1,1);c.fillRect(11,5,1,1);c.fillRect(3,6,1,1);c.fillRect(12,6,1,1);c.fillRect(3,7,1,1);c.fillRect(2,8,1,1);c.fillRect(2,9,1,1);c.fillRect(2,10,1,1);c.fillRect(3,11,1,1);c.fillRect(3,12,1,1);c.fillRect(4,12,1,1);c.fillRect(5,13,1,1);c.fillRect(6,13,1,1);c.fillRect(7,13,1,1);c.fillRect(8,13,1,1);c.fillStyle='#a86238';c.fillRect(8,3,1,1);c.fillRect(9,3,1,1);c.fillRect(6,4,1,1);c.fillRect(11,4,1,1);c.fillRect(12,5,1,1);c.fillRect(13,6,1,1);c.fillRect(8,7,1,1);c.fillRect(9,7,1,1);c.fillRect(13,7,1,1);c.fillRect(8,8,1,1);c.fillRect(9,8,1,1);c.fillRect(14,8,1,1);c.fillRect(14,9,1,1);c.fillRect(13,10,1,1);c.fillRect(11,11,1,1);c.fillRect(12,11,1,1);c.fillRect(9,12,1,1);c.fillRect(10,12,1,1);c.fillStyle='#cc9266';c.fillRect(7,4,1,1);c.fillRect(8,4,1,1);c.fillRect(9,4,1,1);c.fillRect(10,4,1,1);c.fillRect(5,5,1,1);c.fillRect(6,5,1,1);c.fillRect(4,6,1,1);c.fillRect(7,7,1,1);c.fillRect(10,7,1,1);c.fillRect(6,8,1,1);c.fillRect(7,8,1,1);c.fillRect(10,8,1,1);c.fillRect(11,8,1,1);c.fillStyle='#8a4622';c.fillRect(7,5,1,1);c.fillRect(8,5,1,1);c.fillRect(9,5,1,1);c.fillRect(10,5,1,1);c.fillRect(5,6,1,1);c.fillRect(7,6,1,1);c.fillRect(8,6,1,1);c.fillRect(9,6,1,1);c.fillRect(10,6,1,1);c.fillRect(4,7,1,1);c.fillRect(6,7,1,1);c.fillRect(11,7,1,1);c.fillRect(3,8,1,1);c.fillRect(5,8,1,1);c.fillRect(12,8,1,1);c.fillRect(3,9,1,1);c.fillRect(5,9,1,1);c.fillRect(6,9,1,1);c.fillRect(7,9,1,1);c.fillRect(8,9,1,1);c.fillRect(9,9,1,1);c.fillRect(10,9,1,1);c.fillRect(11,9,1,1);c.fillRect(12,9,1,1);c.fillRect(4,10,1,1);c.fillRect(5,10,1,1);c.fillRect(6,10,1,1);c.fillRect(7,10,1,1);c.fillRect(10,10,1,1);c.fillRect(11,10,1,1);c.fillRect(5,11,1,1);c.fillRect(6,11,1,1);c.fillStyle='#703619';c.fillRect(6,6,1,1);c.fillRect(11,6,1,1);c.fillRect(5,7,1,1);c.fillRect(12,7,1,1);c.fillRect(4,8,1,1);c.fillRect(13,8,1,1);c.fillRect(4,9,1,1);c.fillRect(13,9,1,1);c.fillRect(3,10,1,1);c.fillRect(8,10,1,1);c.fillRect(9,10,1,1);c.fillRect(12,10,1,1);c.fillRect(4,11,1,1);c.fillRect(7,11,1,1);c.fillRect(8,11,1,1);c.fillRect(9,11,1,1);c.fillRect(10,11,1,1);c.fillRect(5,12,1,1);c.fillRect(6,12,1,1);c.fillRect(7,12,1,1);c.fillRect(8,12,1,1); }),
+        raw_mutton: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#96211b';c.fillRect(11,1,1,1);c.fillRect(12,1,1,1);c.fillRect(13,2,1,1);c.fillRect(13,3,1,1);c.fillRect(13,4,1,1);c.fillRect(12,7,1,1);c.fillRect(12,8,1,1);c.fillRect(12,9,1,1);c.fillRect(11,11,1,1);c.fillRect(11,12,1,1);c.fillRect(2,13,1,1);c.fillRect(10,13,1,1);c.fillRect(3,14,1,1);c.fillRect(4,14,1,1);c.fillRect(5,14,1,1);c.fillRect(6,14,1,1);c.fillRect(7,14,1,1);c.fillRect(8,14,1,1);c.fillStyle='#ad332e';c.fillRect(10,2,1,1);c.fillRect(10,3,1,1);c.fillRect(9,4,1,1);c.fillRect(9,5,1,1);c.fillRect(8,6,1,1);c.fillRect(7,7,1,1);c.fillRect(5,8,1,1);c.fillRect(6,8,1,1);c.fillRect(4,9,1,1);c.fillRect(3,10,1,1);c.fillRect(2,11,1,1);c.fillRect(2,12,1,1);c.fillStyle='#e2625a';c.fillRect(11,2,1,1);c.fillRect(11,3,1,1);c.fillRect(10,4,1,1);c.fillRect(7,8,1,1);c.fillRect(7,9,1,1);c.fillRect(10,9,1,1);c.fillRect(11,9,1,1);c.fillRect(5,10,1,1);c.fillRect(9,10,1,1);c.fillRect(4,12,1,1);c.fillRect(9,12,1,1);c.fillRect(4,13,1,1);c.fillStyle='#bc2922';c.fillRect(12,2,1,1);c.fillRect(12,5,1,1);c.fillRect(12,6,1,1);c.fillRect(11,10,1,1);c.fillRect(3,13,1,1);c.fillRect(9,13,1,1);c.fillStyle='#d12e26';c.fillRect(12,3,1,1);c.fillRect(12,4,1,1);c.fillRect(10,7,1,1);c.fillRect(6,10,1,1);c.fillRect(7,10,1,1);c.fillRect(8,10,1,1);c.fillRect(5,11,1,1);c.fillRect(6,11,1,1);c.fillRect(7,11,1,1);c.fillRect(8,11,1,1);c.fillRect(6,12,1,1);c.fillRect(7,12,1,1);c.fillRect(10,12,1,1);c.fillStyle='#e27269';c.fillRect(11,4,1,1);c.fillRect(10,5,1,1);c.fillRect(11,7,1,1);c.fillRect(9,8,1,1);c.fillRect(11,8,1,1);c.fillRect(5,13,1,1);c.fillRect(8,13,1,1);c.fillStyle='#e88a82';c.fillRect(11,5,1,1);c.fillRect(9,6,1,1);c.fillRect(11,6,1,1);c.fillRect(8,7,1,1);c.fillRect(8,8,1,1);c.fillRect(5,9,1,1);c.fillRect(6,9,1,1);c.fillRect(9,9,1,1);c.fillRect(4,10,1,1);c.fillRect(10,10,1,1);c.fillRect(3,11,1,1);c.fillRect(10,11,1,1);c.fillRect(3,12,1,1);c.fillRect(6,13,1,1);c.fillRect(7,13,1,1);c.fillStyle='#470a06';c.fillRect(13,5,1,1);c.fillRect(13,6,1,1);c.fillRect(13,7,1,1);c.fillRect(12,10,1,1);c.fillRect(12,11,1,1);c.fillRect(11,13,1,1);c.fillRect(2,14,1,1);c.fillRect(9,14,1,1);c.fillRect(10,14,1,1);c.fillRect(3,15,1,1);c.fillRect(4,15,1,1);c.fillRect(5,15,1,1);c.fillRect(6,15,1,1);c.fillRect(7,15,1,1);c.fillRect(8,15,1,1);c.fillStyle='#dd3830';c.fillRect(10,6,1,1);c.fillRect(9,7,1,1);c.fillRect(10,8,1,1);c.fillRect(8,9,1,1);c.fillRect(4,11,1,1);c.fillRect(9,11,1,1);c.fillRect(5,12,1,1);c.fillRect(8,12,1,1); }),
+        cooked_mutton: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#592c13';c.fillRect(11,1,1,1);c.fillRect(12,1,1,1);c.fillRect(13,2,1,1);c.fillRect(13,3,1,1);c.fillRect(13,4,1,1);c.fillRect(12,7,1,1);c.fillRect(12,8,1,1);c.fillRect(12,9,1,1);c.fillRect(11,11,1,1);c.fillRect(11,12,1,1);c.fillRect(2,13,1,1);c.fillRect(10,13,1,1);c.fillRect(3,14,1,1);c.fillRect(4,14,1,1);c.fillRect(5,14,1,1);c.fillRect(6,14,1,1);c.fillRect(7,14,1,1);c.fillRect(8,14,1,1);c.fillStyle='#6d391c';c.fillRect(10,2,1,1);c.fillRect(10,3,1,1);c.fillRect(9,4,1,1);c.fillRect(9,5,1,1);c.fillRect(8,6,1,1);c.fillRect(7,7,1,1);c.fillRect(5,8,1,1);c.fillRect(6,8,1,1);c.fillRect(4,9,1,1);c.fillRect(3,10,1,1);c.fillRect(2,11,1,1);c.fillRect(2,12,1,1);c.fillStyle='#b57548';c.fillRect(11,2,1,1);c.fillRect(11,3,1,1);c.fillRect(10,4,1,1);c.fillRect(7,8,1,1);c.fillRect(7,9,1,1);c.fillRect(10,9,1,1);c.fillRect(11,9,1,1);c.fillRect(5,10,1,1);c.fillRect(9,10,1,1);c.fillRect(4,12,1,1);c.fillRect(9,12,1,1);c.fillRect(4,13,1,1);c.fillStyle='#793f1f';c.fillRect(12,2,1,1);c.fillRect(12,5,1,1);c.fillRect(12,6,1,1);c.fillRect(11,10,1,1);c.fillRect(3,13,1,1);c.fillRect(9,13,1,1);c.fillStyle='#8b4a26';c.fillRect(12,3,1,1);c.fillRect(12,4,1,1);c.fillRect(10,7,1,1);c.fillRect(6,10,1,1);c.fillRect(7,10,1,1);c.fillRect(8,10,1,1);c.fillRect(5,11,1,1);c.fillRect(6,11,1,1);c.fillRect(7,11,1,1);c.fillRect(8,11,1,1);c.fillRect(6,12,1,1);c.fillRect(7,12,1,1);c.fillRect(10,12,1,1);c.fillStyle='#c4895c';c.fillRect(11,4,1,1);c.fillRect(10,5,1,1);c.fillRect(11,7,1,1);c.fillRect(9,8,1,1);c.fillRect(11,8,1,1);c.fillRect(5,13,1,1);c.fillRect(8,13,1,1);c.fillStyle='#d6a374';c.fillRect(11,5,1,1);c.fillRect(9,6,1,1);c.fillRect(11,6,1,1);c.fillRect(8,7,1,1);c.fillRect(8,8,1,1);c.fillRect(5,9,1,1);c.fillRect(6,9,1,1);c.fillRect(9,9,1,1);c.fillRect(4,10,1,1);c.fillRect(10,10,1,1);c.fillRect(3,11,1,1);c.fillRect(10,11,1,1);c.fillRect(3,12,1,1);c.fillRect(6,13,1,1);c.fillRect(7,13,1,1);c.fillStyle='#2b1407';c.fillRect(13,5,1,1);c.fillRect(13,6,1,1);c.fillRect(13,7,1,1);c.fillRect(12,10,1,1);c.fillRect(12,11,1,1);c.fillRect(11,13,1,1);c.fillRect(2,14,1,1);c.fillRect(9,14,1,1);c.fillRect(10,14,1,1);c.fillRect(3,15,1,1);c.fillRect(4,15,1,1);c.fillRect(5,15,1,1);c.fillRect(6,15,1,1);c.fillRect(7,15,1,1);c.fillRect(8,15,1,1);c.fillStyle='#99532b';c.fillRect(10,6,1,1);c.fillRect(9,7,1,1);c.fillRect(10,8,1,1);c.fillRect(8,9,1,1);c.fillRect(4,11,1,1);c.fillRect(9,11,1,1);c.fillRect(5,12,1,1);c.fillRect(8,12,1,1); }),
         carrot: makeItemCanvas('#ff7700', '#1b7a12', 'tool'),
 
         // Maden Eşyaları
@@ -11155,36 +11223,36 @@ const customTextures = {
         wooden_sword: makeSwordCanvas('wooden'),
         trident: makeSwordCanvas('diamond'),
 
-        // Kazmalar (Pickaxes)
-        netherite_pickaxe: makePickaxeCanvas('netherite'),
-        diamond_pickaxe: makePickaxeCanvas('diamond'),
-        iron_pickaxe: makePickaxeCanvas('iron'),
-        golden_pickaxe: makePickaxeCanvas('golden'),
-        stone_pickaxe: makePickaxeCanvas('stone'),
-        wooden_pickaxe: makePickaxeCanvas('wooden'),
+        // Kazmalar (Pickaxes - 3D GLB/GLTF dokusuyla birebir)
+        copper_pickaxe: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#352b06';c.fillRect(0,15,1,1);c.fillRect(1,14,1,1);c.fillRect(2,13,1,1);c.fillRect(3,12,1,1);c.fillRect(4,11,1,1);c.fillRect(5,10,1,1);c.fillRect(6,9,1,1);c.fillRect(7,8,1,1);c.fillRect(8,7,1,1);c.fillRect(9,6,1,1);c.fillRect(11,4,1,1);c.fillRect(12,3,1,1);c.fillStyle='#675000';c.fillRect(1,15,1,1);c.fillRect(2,14,1,1);c.fillRect(3,13,1,1);c.fillRect(4,12,1,1);c.fillRect(5,11,1,1);c.fillRect(6,10,1,1);c.fillRect(7,9,1,1);c.fillRect(8,8,1,1);c.fillRect(9,7,1,1);c.fillRect(10,6,1,1);c.fillRect(12,4,1,1);c.fillStyle='#251e02';c.fillRect(0,14,1,1);c.fillRect(1,13,1,1);c.fillRect(2,12,1,1);c.fillRect(3,11,1,1);c.fillRect(4,10,1,1);c.fillRect(5,9,1,1);c.fillRect(6,8,1,1);c.fillRect(7,7,1,1);c.fillRect(8,6,1,1);c.fillRect(9,5,1,1);c.fillRect(11,3,1,1);c.fillStyle='#4d1102';c.fillRect(12,11,1,1);c.fillRect(11,10,1,1);c.fillRect(13,10,1,1);c.fillRect(11,9,1,1);c.fillRect(13,9,1,1);c.fillRect(11,8,1,1);c.fillRect(13,8,1,1);c.fillRect(11,7,1,1);c.fillRect(13,7,1,1);c.fillRect(13,6,1,1);c.fillRect(12,5,1,1);c.fillRect(5,4,1,1);c.fillRect(6,4,1,1);c.fillRect(7,4,1,1);c.fillRect(8,4,1,1);c.fillRect(4,3,1,1);c.fillRect(10,3,1,1);c.fillRect(5,2,1,1);c.fillRect(6,2,1,1);c.fillRect(7,2,1,1);c.fillRect(8,2,1,1);c.fillRect(9,2,1,1);c.fillStyle='#ff3400';c.fillRect(12,10,1,1);c.fillRect(12,9,1,1);c.fillRect(12,8,1,1);c.fillRect(12,7,1,1);c.fillRect(11,6,1,1);c.fillRect(12,6,1,1);c.fillRect(10,5,1,1);c.fillRect(11,5,1,1);c.fillRect(9,4,1,1);c.fillRect(10,4,1,1);c.fillRect(5,3,1,1);c.fillRect(6,3,1,1);c.fillRect(7,3,1,1);c.fillRect(8,3,1,1);c.fillRect(9,3,1,1); }),
+        diamond_pickaxe: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#352b06';c.fillRect(0,15,1,1);c.fillRect(1,14,1,1);c.fillRect(2,13,1,1);c.fillRect(3,12,1,1);c.fillRect(4,11,1,1);c.fillRect(5,10,1,1);c.fillRect(6,9,1,1);c.fillRect(7,8,1,1);c.fillRect(8,7,1,1);c.fillRect(9,6,1,1);c.fillRect(11,4,1,1);c.fillRect(12,3,1,1);c.fillStyle='#675000';c.fillRect(1,15,1,1);c.fillRect(2,14,1,1);c.fillRect(3,13,1,1);c.fillRect(4,12,1,1);c.fillRect(5,11,1,1);c.fillRect(6,10,1,1);c.fillRect(7,9,1,1);c.fillRect(8,8,1,1);c.fillRect(9,7,1,1);c.fillRect(10,6,1,1);c.fillRect(12,4,1,1);c.fillStyle='#251e02';c.fillRect(0,14,1,1);c.fillRect(1,13,1,1);c.fillRect(2,12,1,1);c.fillRect(3,11,1,1);c.fillRect(4,10,1,1);c.fillRect(5,9,1,1);c.fillRect(6,8,1,1);c.fillRect(7,7,1,1);c.fillRect(8,6,1,1);c.fillRect(9,5,1,1);c.fillRect(11,3,1,1);c.fillStyle='#236880';c.fillRect(12,11,1,1);c.fillRect(11,10,1,1);c.fillRect(13,10,1,1);c.fillRect(11,9,1,1);c.fillRect(13,9,1,1);c.fillRect(11,8,1,1);c.fillRect(13,8,1,1);c.fillRect(11,7,1,1);c.fillRect(13,7,1,1);c.fillRect(13,6,1,1);c.fillRect(12,5,1,1);c.fillRect(5,4,1,1);c.fillRect(6,4,1,1);c.fillRect(7,4,1,1);c.fillRect(8,4,1,1);c.fillRect(4,3,1,1);c.fillRect(10,3,1,1);c.fillRect(5,2,1,1);c.fillRect(6,2,1,1);c.fillRect(7,2,1,1);c.fillRect(8,2,1,1);c.fillRect(9,2,1,1);c.fillStyle='#03beff';c.fillRect(12,10,1,1);c.fillRect(12,9,1,1);c.fillRect(12,8,1,1);c.fillRect(12,7,1,1);c.fillRect(11,6,1,1);c.fillRect(12,6,1,1);c.fillRect(10,5,1,1);c.fillRect(11,5,1,1);c.fillRect(9,4,1,1);c.fillRect(10,4,1,1);c.fillRect(5,3,1,1);c.fillRect(6,3,1,1);c.fillRect(7,3,1,1);c.fillRect(8,3,1,1);c.fillRect(9,3,1,1); }),
+        iron_pickaxe: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#352b06';c.fillRect(0,15,1,1);c.fillRect(1,14,1,1);c.fillRect(2,13,1,1);c.fillRect(3,12,1,1);c.fillRect(4,11,1,1);c.fillRect(5,10,1,1);c.fillRect(6,9,1,1);c.fillRect(7,8,1,1);c.fillRect(8,7,1,1);c.fillRect(9,6,1,1);c.fillRect(11,4,1,1);c.fillRect(12,3,1,1);c.fillStyle='#675000';c.fillRect(1,15,1,1);c.fillRect(2,14,1,1);c.fillRect(3,13,1,1);c.fillRect(4,12,1,1);c.fillRect(5,11,1,1);c.fillRect(6,10,1,1);c.fillRect(7,9,1,1);c.fillRect(8,8,1,1);c.fillRect(9,7,1,1);c.fillRect(10,6,1,1);c.fillRect(12,4,1,1);c.fillStyle='#251e02';c.fillRect(0,14,1,1);c.fillRect(1,13,1,1);c.fillRect(2,12,1,1);c.fillRect(3,11,1,1);c.fillRect(4,10,1,1);c.fillRect(5,9,1,1);c.fillRect(6,8,1,1);c.fillRect(7,7,1,1);c.fillRect(8,6,1,1);c.fillRect(9,5,1,1);c.fillRect(11,3,1,1);c.fillStyle='#30333d';c.fillRect(12,11,1,1);c.fillRect(11,10,1,1);c.fillRect(13,10,1,1);c.fillRect(11,9,1,1);c.fillRect(13,9,1,1);c.fillRect(11,8,1,1);c.fillRect(13,8,1,1);c.fillRect(11,7,1,1);c.fillRect(13,7,1,1);c.fillRect(13,6,1,1);c.fillRect(12,5,1,1);c.fillRect(5,4,1,1);c.fillRect(6,4,1,1);c.fillRect(7,4,1,1);c.fillRect(8,4,1,1);c.fillRect(4,3,1,1);c.fillRect(10,3,1,1);c.fillRect(5,2,1,1);c.fillRect(6,2,1,1);c.fillRect(7,2,1,1);c.fillRect(8,2,1,1);c.fillRect(9,2,1,1);c.fillStyle='#ffffff';c.fillRect(12,10,1,1);c.fillRect(12,9,1,1);c.fillRect(12,8,1,1);c.fillRect(12,7,1,1);c.fillRect(11,6,1,1);c.fillRect(12,6,1,1);c.fillRect(10,5,1,1);c.fillRect(11,5,1,1);c.fillRect(9,4,1,1);c.fillRect(10,4,1,1);c.fillRect(5,3,1,1);c.fillRect(6,3,1,1);c.fillRect(7,3,1,1);c.fillRect(8,3,1,1);c.fillRect(9,3,1,1); }),
+        golden_pickaxe: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#352b06';c.fillRect(0,15,1,1);c.fillRect(1,14,1,1);c.fillRect(2,13,1,1);c.fillRect(3,12,1,1);c.fillRect(4,11,1,1);c.fillRect(5,10,1,1);c.fillRect(6,9,1,1);c.fillRect(7,8,1,1);c.fillRect(8,7,1,1);c.fillRect(9,6,1,1);c.fillRect(11,4,1,1);c.fillRect(12,3,1,1);c.fillStyle='#675000';c.fillRect(1,15,1,1);c.fillRect(2,14,1,1);c.fillRect(3,13,1,1);c.fillRect(4,12,1,1);c.fillRect(5,11,1,1);c.fillRect(6,10,1,1);c.fillRect(7,9,1,1);c.fillRect(8,8,1,1);c.fillRect(9,7,1,1);c.fillRect(10,6,1,1);c.fillRect(12,4,1,1);c.fillStyle='#251e02';c.fillRect(0,14,1,1);c.fillRect(1,13,1,1);c.fillRect(2,12,1,1);c.fillRect(3,11,1,1);c.fillRect(4,10,1,1);c.fillRect(5,9,1,1);c.fillRect(6,8,1,1);c.fillRect(7,7,1,1);c.fillRect(8,6,1,1);c.fillRect(11,3,1,1);c.fillStyle='#232801';c.fillRect(12,11,1,1);c.fillRect(11,10,1,1);c.fillRect(13,10,1,1);c.fillRect(11,9,1,1);c.fillRect(13,9,1,1);c.fillRect(11,8,1,1);c.fillRect(13,8,1,1);c.fillRect(11,7,1,1);c.fillRect(13,7,1,1);c.fillRect(13,6,1,1);c.fillRect(12,5,1,1);c.fillRect(5,4,1,1);c.fillRect(6,4,1,1);c.fillRect(7,4,1,1);c.fillRect(8,4,1,1);c.fillRect(4,3,1,1);c.fillRect(10,3,1,1);c.fillRect(5,2,1,1);c.fillRect(6,2,1,1);c.fillRect(7,2,1,1);c.fillRect(8,2,1,1);c.fillRect(9,2,1,1);c.fillStyle='#a3bc02';c.fillRect(12,10,1,1);c.fillRect(12,9,1,1);c.fillRect(12,8,1,1);c.fillRect(12,7,1,1);c.fillRect(11,6,1,1);c.fillRect(12,6,1,1);c.fillRect(10,5,1,1);c.fillRect(11,5,1,1);c.fillRect(9,4,1,1);c.fillRect(10,4,1,1);c.fillRect(5,3,1,1);c.fillRect(6,3,1,1);c.fillRect(7,3,1,1);c.fillRect(8,3,1,1);c.fillRect(9,3,1,1);c.fillStyle='#2e1c01';c.fillRect(9,5,1,1); }),
+        stone_pickaxe: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#352b06';c.fillRect(0,15,1,1);c.fillRect(1,14,1,1);c.fillRect(2,13,1,1);c.fillRect(3,12,1,1);c.fillRect(4,11,1,1);c.fillRect(5,10,1,1);c.fillRect(6,9,1,1);c.fillRect(7,8,1,1);c.fillRect(8,7,1,1);c.fillRect(9,6,1,1);c.fillRect(11,4,1,1);c.fillRect(12,3,1,1);c.fillStyle='#675000';c.fillRect(1,15,1,1);c.fillRect(2,14,1,1);c.fillRect(3,13,1,1);c.fillRect(4,12,1,1);c.fillRect(5,11,1,1);c.fillRect(6,10,1,1);c.fillRect(7,9,1,1);c.fillRect(8,8,1,1);c.fillRect(9,7,1,1);c.fillRect(10,6,1,1);c.fillRect(12,4,1,1);c.fillStyle='#251e02';c.fillRect(0,14,1,1);c.fillRect(1,13,1,1);c.fillRect(2,12,1,1);c.fillRect(3,11,1,1);c.fillRect(4,10,1,1);c.fillRect(5,9,1,1);c.fillRect(6,8,1,1);c.fillRect(7,7,1,1);c.fillRect(8,6,1,1);c.fillRect(9,5,1,1);c.fillRect(11,3,1,1);c.fillStyle='#30333d';c.fillRect(12,11,1,1);c.fillRect(11,10,1,1);c.fillRect(13,10,1,1);c.fillRect(11,9,1,1);c.fillRect(13,9,1,1);c.fillRect(11,8,1,1);c.fillRect(13,8,1,1);c.fillRect(11,7,1,1);c.fillRect(13,7,1,1);c.fillRect(13,6,1,1);c.fillRect(12,5,1,1);c.fillRect(5,4,1,1);c.fillRect(6,4,1,1);c.fillRect(7,4,1,1);c.fillRect(8,4,1,1);c.fillRect(4,3,1,1);c.fillRect(5,3,1,1);c.fillRect(10,3,1,1);c.fillRect(5,2,1,1);c.fillRect(6,2,1,1);c.fillRect(7,2,1,1);c.fillRect(8,2,1,1);c.fillRect(9,2,1,1);c.fillStyle='#554949';c.fillRect(12,10,1,1);c.fillRect(12,9,1,1);c.fillRect(12,8,1,1);c.fillRect(12,7,1,1);c.fillRect(11,6,1,1);c.fillRect(12,6,1,1);c.fillRect(10,5,1,1);c.fillRect(11,5,1,1);c.fillRect(9,4,1,1);c.fillRect(10,4,1,1);c.fillRect(6,3,1,1);c.fillRect(7,3,1,1);c.fillRect(8,3,1,1);c.fillRect(9,3,1,1); }),
+        wooden_pickaxe: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#352b06';c.fillRect(0,15,1,1);c.fillRect(1,14,1,1);c.fillRect(2,13,1,1);c.fillRect(3,12,1,1);c.fillRect(4,11,1,1);c.fillRect(5,10,1,1);c.fillRect(6,9,1,1);c.fillRect(7,8,1,1);c.fillRect(8,7,1,1);c.fillRect(9,6,1,1);c.fillRect(11,4,1,1);c.fillRect(12,3,1,1);c.fillStyle='#675000';c.fillRect(1,15,1,1);c.fillRect(2,14,1,1);c.fillRect(3,13,1,1);c.fillRect(4,12,1,1);c.fillRect(5,11,1,1);c.fillRect(6,10,1,1);c.fillRect(7,9,1,1);c.fillRect(8,8,1,1);c.fillRect(9,7,1,1);c.fillRect(10,6,1,1);c.fillRect(12,4,1,1);c.fillStyle='#251e02';c.fillRect(0,14,1,1);c.fillRect(1,13,1,1);c.fillRect(2,12,1,1);c.fillRect(3,11,1,1);c.fillRect(4,10,1,1);c.fillRect(5,9,1,1);c.fillRect(6,8,1,1);c.fillRect(7,7,1,1);c.fillRect(8,6,1,1);c.fillRect(11,3,1,1);c.fillStyle='#2e1c01';c.fillRect(12,11,1,1);c.fillRect(11,10,1,1);c.fillRect(13,10,1,1);c.fillRect(11,9,1,1);c.fillRect(13,9,1,1);c.fillRect(11,8,1,1);c.fillRect(13,8,1,1);c.fillRect(11,7,1,1);c.fillRect(13,7,1,1);c.fillRect(13,6,1,1);c.fillRect(9,5,1,1);c.fillRect(12,5,1,1);c.fillRect(5,4,1,1);c.fillRect(6,4,1,1);c.fillRect(7,4,1,1);c.fillRect(8,4,1,1);c.fillRect(4,3,1,1);c.fillRect(10,3,1,1);c.fillRect(5,2,1,1);c.fillRect(6,2,1,1);c.fillRect(7,2,1,1);c.fillRect(8,2,1,1);c.fillRect(9,2,1,1);c.fillStyle='#5e3900';c.fillRect(12,10,1,1);c.fillRect(12,9,1,1);c.fillRect(12,8,1,1);c.fillRect(12,7,1,1);c.fillRect(11,6,1,1);c.fillRect(12,6,1,1);c.fillRect(10,5,1,1);c.fillRect(11,5,1,1);c.fillRect(9,4,1,1);c.fillRect(10,4,1,1);c.fillRect(5,3,1,1);c.fillRect(6,3,1,1);c.fillRect(7,3,1,1);c.fillRect(8,3,1,1);c.fillRect(9,3,1,1); }),
 
-        // Baltalar (Axes)
-        netherite_axe: makeAxeCanvas('netherite'),
-        diamond_axe: makeAxeCanvas('diamond'),
-        iron_axe: makeAxeCanvas('iron'),
-        golden_axe: makeAxeCanvas('golden'),
-        stone_axe: makeAxeCanvas('stone'),
-        wooden_axe: makeAxeCanvas('wooden'),
+        // Baltalar (Axes - 3D GLTF dokusuyla birebir)
+        copper_axe: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#5b4503';c.fillRect(0,0,1,1);c.fillRect(1,1,1,1);c.fillRect(3,3,1,1);c.fillRect(5,5,1,1);c.fillStyle='#2e2301';c.fillRect(1,0,1,1);c.fillRect(0,1,1,1);c.fillRect(2,1,1,1);c.fillRect(1,2,1,1);c.fillRect(3,2,1,1);c.fillRect(2,3,1,1);c.fillRect(4,3,1,1);c.fillRect(3,4,1,1);c.fillRect(5,4,1,1);c.fillRect(4,5,1,1);c.fillRect(6,5,1,1);c.fillRect(5,6,1,1);c.fillRect(7,6,1,1);c.fillStyle='#685007';c.fillRect(2,2,1,1);c.fillRect(4,4,1,1);c.fillRect(6,6,1,1);c.fillStyle='#461e00';c.fillRect(10,5,1,1);c.fillRect(11,5,1,1);c.fillRect(9,6,1,1);c.fillRect(12,6,1,1);c.fillRect(9,7,1,1);c.fillRect(13,7,1,1);c.fillRect(14,8,1,1);c.fillRect(14,9,1,1);c.fillRect(7,10,1,1);c.fillRect(12,10,1,1);c.fillRect(13,10,1,1);c.fillRect(7,11,1,1);c.fillRect(8,11,1,1);c.fillRect(8,12,1,1);c.fillRect(9,12,1,1);c.fillStyle='#8f4106';c.fillRect(10,6,1,1);c.fillRect(11,6,1,1);c.fillRect(10,7,1,1);c.fillRect(11,7,1,1);c.fillRect(12,7,1,1);c.fillRect(10,8,1,1);c.fillRect(11,8,1,1);c.fillRect(12,8,1,1);c.fillRect(13,8,1,1);c.fillRect(9,9,1,1);c.fillRect(10,9,1,1);c.fillRect(11,9,1,1);c.fillRect(12,9,1,1);c.fillRect(13,9,1,1);c.fillRect(8,10,1,1);c.fillRect(9,10,1,1);c.fillRect(10,10,1,1);c.fillRect(9,11,1,1);c.fillStyle='#362901';c.fillRect(6,7,1,1);c.fillRect(8,7,1,1);c.fillRect(7,8,1,1);c.fillRect(9,8,1,1);c.fillRect(8,9,1,1);c.fillRect(11,10,1,1);c.fillRect(10,11,1,1);c.fillStyle='#806203';c.fillRect(7,7,1,1);c.fillRect(8,8,1,1);c.fillRect(11,11,1,1); }),
+        diamond_axe: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#5b4503';c.fillRect(0,0,1,1);c.fillRect(1,1,1,1);c.fillRect(3,3,1,1);c.fillRect(5,5,1,1);c.fillStyle='#2e2301';c.fillRect(1,0,1,1);c.fillRect(0,1,1,1);c.fillRect(2,1,1,1);c.fillRect(1,2,1,1);c.fillRect(3,2,1,1);c.fillRect(2,3,1,1);c.fillRect(4,3,1,1);c.fillRect(3,4,1,1);c.fillRect(5,4,1,1);c.fillRect(4,5,1,1);c.fillRect(6,5,1,1);c.fillRect(5,6,1,1);c.fillRect(7,6,1,1);c.fillStyle='#685007';c.fillRect(2,2,1,1);c.fillRect(4,4,1,1);c.fillRect(6,6,1,1);c.fillStyle='#012d37';c.fillRect(10,5,1,1);c.fillRect(11,5,1,1);c.fillRect(9,6,1,1);c.fillRect(12,6,1,1);c.fillRect(9,7,1,1);c.fillRect(13,7,1,1);c.fillRect(14,8,1,1);c.fillRect(14,9,1,1);c.fillRect(7,10,1,1);c.fillRect(12,10,1,1);c.fillRect(13,10,1,1);c.fillRect(7,11,1,1);c.fillRect(8,12,1,1);c.fillRect(9,12,1,1);c.fillStyle='#07d2ff';c.fillRect(10,6,1,1);c.fillRect(11,6,1,1);c.fillRect(10,7,1,1);c.fillRect(11,7,1,1);c.fillRect(12,7,1,1);c.fillRect(10,8,1,1);c.fillRect(11,8,1,1);c.fillRect(12,8,1,1);c.fillRect(13,8,1,1);c.fillRect(9,9,1,1);c.fillRect(10,9,1,1);c.fillRect(11,9,1,1);c.fillRect(12,9,1,1);c.fillRect(13,9,1,1);c.fillRect(8,10,1,1);c.fillRect(9,10,1,1);c.fillRect(10,10,1,1);c.fillRect(8,11,1,1);c.fillRect(9,11,1,1);c.fillStyle='#362901';c.fillRect(6,7,1,1);c.fillRect(8,7,1,1);c.fillRect(7,8,1,1);c.fillRect(9,8,1,1);c.fillRect(8,9,1,1);c.fillRect(11,10,1,1);c.fillRect(10,11,1,1);c.fillStyle='#806203';c.fillRect(7,7,1,1);c.fillRect(8,8,1,1);c.fillRect(11,11,1,1); }),
+        iron_axe: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#5b4503';c.fillRect(0,0,1,1);c.fillRect(1,1,1,1);c.fillRect(3,3,1,1);c.fillRect(5,5,1,1);c.fillStyle='#2e2301';c.fillRect(1,0,1,1);c.fillRect(0,1,1,1);c.fillRect(2,1,1,1);c.fillRect(1,2,1,1);c.fillRect(3,2,1,1);c.fillRect(2,3,1,1);c.fillRect(4,3,1,1);c.fillRect(3,4,1,1);c.fillRect(5,4,1,1);c.fillRect(4,5,1,1);c.fillRect(6,5,1,1);c.fillRect(5,6,1,1);c.fillRect(7,6,1,1);c.fillStyle='#685007';c.fillRect(2,2,1,1);c.fillRect(4,4,1,1);c.fillRect(6,6,1,1);c.fillStyle='#302c2c';c.fillRect(10,5,1,1);c.fillRect(11,5,1,1);c.fillRect(9,6,1,1);c.fillRect(12,6,1,1);c.fillRect(9,7,1,1);c.fillRect(13,7,1,1);c.fillRect(14,8,1,1);c.fillRect(14,9,1,1);c.fillRect(7,10,1,1);c.fillRect(12,10,1,1);c.fillRect(13,10,1,1);c.fillRect(7,11,1,1);c.fillRect(8,12,1,1);c.fillRect(9,12,1,1);c.fillStyle='#ffffff';c.fillRect(10,6,1,1);c.fillRect(11,6,1,1);c.fillRect(10,7,1,1);c.fillRect(11,7,1,1);c.fillRect(12,7,1,1);c.fillRect(10,8,1,1);c.fillRect(11,8,1,1);c.fillRect(12,8,1,1);c.fillRect(13,8,1,1);c.fillRect(9,9,1,1);c.fillRect(10,9,1,1);c.fillRect(11,9,1,1);c.fillRect(12,9,1,1);c.fillRect(13,9,1,1);c.fillRect(8,10,1,1);c.fillRect(9,10,1,1);c.fillRect(10,10,1,1);c.fillRect(8,11,1,1);c.fillRect(9,11,1,1);c.fillStyle='#362901';c.fillRect(6,7,1,1);c.fillRect(8,7,1,1);c.fillRect(7,8,1,1);c.fillRect(9,8,1,1);c.fillRect(8,9,1,1);c.fillRect(11,10,1,1);c.fillRect(10,11,1,1);c.fillStyle='#806203';c.fillRect(7,7,1,1);c.fillRect(8,8,1,1);c.fillRect(11,11,1,1); }),
+        golden_axe: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#5b4503';c.fillRect(0,0,1,1);c.fillRect(1,1,1,1);c.fillRect(3,3,1,1);c.fillRect(5,5,1,1);c.fillStyle='#2e2301';c.fillRect(1,0,1,1);c.fillRect(0,1,1,1);c.fillRect(2,1,1,1);c.fillRect(1,2,1,1);c.fillRect(3,2,1,1);c.fillRect(2,3,1,1);c.fillRect(4,3,1,1);c.fillRect(3,4,1,1);c.fillRect(5,4,1,1);c.fillRect(4,5,1,1);c.fillRect(6,5,1,1);c.fillRect(5,6,1,1);c.fillRect(7,6,1,1);c.fillStyle='#685007';c.fillRect(2,2,1,1);c.fillRect(4,4,1,1);c.fillRect(6,6,1,1);c.fillStyle='#394102';c.fillRect(10,5,1,1);c.fillRect(11,5,1,1);c.fillRect(9,6,1,1);c.fillRect(12,6,1,1);c.fillRect(9,7,1,1);c.fillRect(13,7,1,1);c.fillRect(14,8,1,1);c.fillRect(14,9,1,1);c.fillRect(7,10,1,1);c.fillRect(12,10,1,1);c.fillRect(13,10,1,1);c.fillRect(7,11,1,1);c.fillRect(8,12,1,1);c.fillRect(9,12,1,1);c.fillStyle='#f0ff05';c.fillRect(10,6,1,1);c.fillRect(11,6,1,1);c.fillRect(10,7,1,1);c.fillRect(11,7,1,1);c.fillRect(12,7,1,1);c.fillRect(10,8,1,1);c.fillRect(11,8,1,1);c.fillRect(12,8,1,1);c.fillRect(13,8,1,1);c.fillRect(9,9,1,1);c.fillRect(10,9,1,1);c.fillRect(11,9,1,1);c.fillRect(12,9,1,1);c.fillRect(13,9,1,1);c.fillRect(8,10,1,1);c.fillRect(9,10,1,1);c.fillRect(10,10,1,1);c.fillRect(8,11,1,1);c.fillRect(9,11,1,1);c.fillStyle='#362901';c.fillRect(6,7,1,1);c.fillRect(8,7,1,1);c.fillRect(7,8,1,1);c.fillRect(9,8,1,1);c.fillRect(8,9,1,1);c.fillRect(11,10,1,1);c.fillRect(10,11,1,1);c.fillStyle='#806203';c.fillRect(7,7,1,1);c.fillRect(8,8,1,1);c.fillRect(11,11,1,1); }),
+        stone_axe: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#5b4503';c.fillRect(0,0,1,1);c.fillRect(1,1,1,1);c.fillRect(3,3,1,1);c.fillRect(5,5,1,1);c.fillStyle='#2e2301';c.fillRect(1,0,1,1);c.fillRect(0,1,1,1);c.fillRect(2,1,1,1);c.fillRect(1,2,1,1);c.fillRect(3,2,1,1);c.fillRect(2,3,1,1);c.fillRect(4,3,1,1);c.fillRect(3,4,1,1);c.fillRect(5,4,1,1);c.fillRect(4,5,1,1);c.fillRect(6,5,1,1);c.fillRect(5,6,1,1);c.fillRect(7,6,1,1);c.fillStyle='#685007';c.fillRect(2,2,1,1);c.fillRect(4,4,1,1);c.fillRect(6,6,1,1);c.fillStyle='#333231';c.fillRect(10,5,1,1);c.fillRect(11,5,1,1);c.fillRect(9,6,1,1);c.fillRect(12,6,1,1);c.fillRect(9,7,1,1);c.fillRect(13,7,1,1);c.fillRect(14,8,1,1);c.fillRect(14,9,1,1);c.fillRect(7,10,1,1);c.fillRect(12,10,1,1);c.fillRect(13,10,1,1);c.fillRect(7,11,1,1);c.fillRect(8,11,1,1);c.fillRect(8,12,1,1);c.fillRect(9,12,1,1);c.fillStyle='#585756';c.fillRect(10,6,1,1);c.fillRect(11,6,1,1);c.fillRect(10,7,1,1);c.fillRect(11,7,1,1);c.fillRect(12,7,1,1);c.fillRect(10,8,1,1);c.fillRect(11,8,1,1);c.fillRect(12,8,1,1);c.fillRect(13,8,1,1);c.fillRect(9,9,1,1);c.fillRect(10,9,1,1);c.fillRect(11,9,1,1);c.fillRect(12,9,1,1);c.fillRect(13,9,1,1);c.fillRect(8,10,1,1);c.fillRect(9,10,1,1);c.fillRect(10,10,1,1);c.fillRect(9,11,1,1);c.fillStyle='#362901';c.fillRect(6,7,1,1);c.fillRect(8,7,1,1);c.fillRect(7,8,1,1);c.fillRect(9,8,1,1);c.fillRect(8,9,1,1);c.fillRect(11,10,1,1);c.fillRect(10,11,1,1);c.fillStyle='#806203';c.fillRect(7,7,1,1);c.fillRect(8,8,1,1);c.fillRect(11,11,1,1); }),
+        wooden_axe: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#5b4503';c.fillRect(0,0,1,1);c.fillRect(1,1,1,1);c.fillRect(3,3,1,1);c.fillRect(5,5,1,1);c.fillStyle='#2e2301';c.fillRect(1,0,1,1);c.fillRect(0,1,1,1);c.fillRect(2,1,1,1);c.fillRect(1,2,1,1);c.fillRect(3,2,1,1);c.fillRect(2,3,1,1);c.fillRect(4,3,1,1);c.fillRect(3,4,1,1);c.fillRect(5,4,1,1);c.fillRect(4,5,1,1);c.fillRect(6,5,1,1);c.fillRect(5,6,1,1);c.fillRect(7,6,1,1);c.fillStyle='#685007';c.fillRect(2,2,1,1);c.fillRect(4,4,1,1);c.fillRect(6,6,1,1);c.fillStyle='#362401';c.fillRect(10,5,1,1);c.fillRect(11,5,1,1);c.fillRect(9,6,1,1);c.fillRect(12,6,1,1);c.fillRect(9,7,1,1);c.fillRect(13,7,1,1);c.fillRect(14,8,1,1);c.fillRect(14,9,1,1);c.fillRect(7,10,1,1);c.fillRect(12,10,1,1);c.fillRect(13,10,1,1);c.fillRect(7,11,1,1);c.fillRect(8,11,1,1);c.fillRect(8,12,1,1);c.fillRect(9,12,1,1);c.fillStyle='#634203';c.fillRect(10,6,1,1);c.fillRect(11,6,1,1);c.fillRect(10,7,1,1);c.fillRect(11,7,1,1);c.fillRect(12,7,1,1);c.fillRect(10,8,1,1);c.fillRect(11,8,1,1);c.fillRect(12,8,1,1);c.fillRect(13,8,1,1);c.fillRect(9,9,1,1);c.fillRect(10,9,1,1);c.fillRect(11,9,1,1);c.fillRect(12,9,1,1);c.fillRect(13,9,1,1);c.fillRect(8,10,1,1);c.fillRect(9,10,1,1);c.fillRect(10,10,1,1);c.fillRect(9,11,1,1);c.fillStyle='#362901';c.fillRect(6,7,1,1);c.fillRect(8,7,1,1);c.fillRect(7,8,1,1);c.fillRect(9,8,1,1);c.fillRect(8,9,1,1);c.fillRect(11,10,1,1);c.fillRect(10,11,1,1);c.fillStyle='#806203';c.fillRect(7,7,1,1);c.fillRect(8,8,1,1);c.fillRect(11,11,1,1); }),
 
-        // Kürekler (Shovels)
-        netherite_shovel: makeShovelCanvas('netherite'),
-        diamond_shovel: makeShovelCanvas('diamond'),
-        iron_shovel: makeShovelCanvas('iron'),
-        golden_shovel: makeShovelCanvas('golden'),
-        stone_shovel: makeShovelCanvas('stone'),
-        wooden_shovel: makeShovelCanvas('wooden'),
+        // Kürekler (Shovels - 3D GLTF dokusuyla birebir)
+        copper_shovel: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#362401';c.fillRect(13,0,1,1);c.fillRect(14,0,1,1);c.fillRect(13,1,1,1);c.fillRect(15,1,1,1);c.fillRect(12,2,1,1);c.fillRect(14,2,1,1);c.fillRect(15,2,1,1);c.fillRect(11,3,1,1);c.fillRect(13,3,1,1);c.fillRect(10,4,1,1);c.fillRect(12,4,1,1);c.fillRect(9,5,1,1);c.fillRect(11,5,1,1);c.fillRect(8,6,1,1);c.fillRect(10,6,1,1);c.fillRect(9,7,1,1);c.fillStyle='#6b4701';c.fillRect(14,1,1,1);c.fillRect(11,4,1,1);c.fillRect(8,7,1,1);c.fillStyle='#845803';c.fillRect(13,2,1,1);c.fillRect(12,3,1,1);c.fillRect(10,5,1,1);c.fillRect(9,6,1,1);c.fillStyle='#623502';c.fillRect(6,6,1,1);c.fillRect(7,7,1,1);c.fillRect(8,8,1,1);c.fillRect(3,9,1,1);c.fillRect(9,9,1,1);c.fillRect(3,10,1,1);c.fillRect(8,10,1,1);c.fillRect(3,11,1,1);c.fillRect(7,11,1,1);c.fillRect(4,12,1,1);c.fillRect(5,12,1,1);c.fillRect(6,12,1,1);c.fillStyle='#824500';c.fillRect(5,7,1,1);c.fillRect(4,8,1,1);c.fillStyle='#c26701';c.fillRect(6,7,1,1);c.fillRect(5,8,1,1);c.fillRect(6,8,1,1);c.fillRect(7,8,1,1);c.fillRect(4,9,1,1);c.fillRect(5,9,1,1);c.fillRect(6,9,1,1);c.fillRect(7,9,1,1);c.fillRect(8,9,1,1);c.fillRect(4,10,1,1);c.fillRect(5,10,1,1);c.fillRect(6,10,1,1);c.fillRect(7,10,1,1);c.fillRect(4,11,1,1);c.fillRect(5,11,1,1);c.fillRect(6,11,1,1); }),
+        diamond_shovel: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#362401';c.fillRect(13,0,1,1);c.fillRect(14,0,1,1);c.fillRect(13,1,1,1);c.fillRect(15,1,1,1);c.fillRect(12,2,1,1);c.fillRect(14,2,1,1);c.fillRect(15,2,1,1);c.fillRect(11,3,1,1);c.fillRect(13,3,1,1);c.fillRect(10,4,1,1);c.fillRect(12,4,1,1);c.fillRect(9,5,1,1);c.fillRect(11,5,1,1);c.fillRect(8,6,1,1);c.fillRect(10,6,1,1);c.fillRect(9,7,1,1);c.fillStyle='#6b4701';c.fillRect(14,1,1,1);c.fillRect(11,4,1,1);c.fillRect(8,7,1,1);c.fillStyle='#845803';c.fillRect(13,2,1,1);c.fillRect(12,3,1,1);c.fillRect(10,5,1,1);c.fillRect(9,6,1,1);c.fillStyle='#02465b';c.fillRect(6,6,1,1);c.fillRect(5,7,1,1);c.fillRect(7,7,1,1);c.fillRect(4,8,1,1);c.fillRect(8,8,1,1);c.fillRect(3,9,1,1);c.fillRect(9,9,1,1);c.fillRect(3,10,1,1);c.fillRect(8,10,1,1);c.fillRect(3,11,1,1);c.fillRect(7,11,1,1);c.fillRect(4,12,1,1);c.fillRect(5,12,1,1);c.fillRect(6,12,1,1);c.fillStyle='#0799c5';c.fillRect(6,7,1,1);c.fillRect(5,8,1,1);c.fillRect(6,8,1,1);c.fillRect(6,9,1,1);c.fillRect(8,9,1,1);c.fillRect(4,10,1,1);c.fillRect(6,10,1,1);c.fillRect(7,10,1,1);c.fillRect(5,11,1,1);c.fillStyle='#0981a5';c.fillRect(7,8,1,1);c.fillRect(4,9,1,1);c.fillRect(5,9,1,1);c.fillRect(7,9,1,1);c.fillRect(6,11,1,1);c.fillStyle='#08a6d6';c.fillRect(5,10,1,1);c.fillRect(4,11,1,1); }),
+        iron_shovel: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#362401';c.fillRect(13,0,1,1);c.fillRect(14,0,1,1);c.fillRect(13,1,1,1);c.fillRect(15,1,1,1);c.fillRect(12,2,1,1);c.fillRect(14,2,1,1);c.fillRect(15,2,1,1);c.fillRect(11,3,1,1);c.fillRect(13,3,1,1);c.fillRect(10,4,1,1);c.fillRect(12,4,1,1);c.fillRect(9,5,1,1);c.fillRect(11,5,1,1);c.fillRect(8,6,1,1);c.fillRect(10,6,1,1);c.fillRect(9,7,1,1);c.fillStyle='#6b4701';c.fillRect(14,1,1,1);c.fillRect(11,4,1,1);c.fillRect(8,7,1,1);c.fillStyle='#845803';c.fillRect(13,2,1,1);c.fillRect(12,3,1,1);c.fillRect(10,5,1,1);c.fillRect(9,6,1,1);c.fillStyle='#504f4f';c.fillRect(6,6,1,1);c.fillRect(5,7,1,1);c.fillRect(7,7,1,1);c.fillRect(4,8,1,1);c.fillRect(8,8,1,1);c.fillRect(3,9,1,1);c.fillRect(9,9,1,1);c.fillRect(3,10,1,1);c.fillRect(8,10,1,1);c.fillRect(3,11,1,1);c.fillRect(7,11,1,1);c.fillRect(4,12,1,1);c.fillRect(5,12,1,1);c.fillRect(6,12,1,1);c.fillStyle='#ffffff';c.fillRect(6,7,1,1);c.fillRect(5,8,1,1);c.fillRect(6,8,1,1);c.fillRect(7,8,1,1);c.fillRect(4,9,1,1);c.fillRect(5,9,1,1);c.fillRect(6,9,1,1);c.fillRect(7,9,1,1);c.fillRect(8,9,1,1);c.fillRect(4,10,1,1);c.fillRect(5,10,1,1);c.fillRect(6,10,1,1);c.fillRect(7,10,1,1);c.fillRect(4,11,1,1);c.fillRect(5,11,1,1);c.fillRect(6,11,1,1); }),
+        golden_shovel: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#362401';c.fillRect(13,0,1,1);c.fillRect(14,0,1,1);c.fillRect(13,1,1,1);c.fillRect(15,1,1,1);c.fillRect(12,2,1,1);c.fillRect(14,2,1,1);c.fillRect(15,2,1,1);c.fillRect(11,3,1,1);c.fillRect(13,3,1,1);c.fillRect(10,4,1,1);c.fillRect(12,4,1,1);c.fillRect(9,5,1,1);c.fillRect(11,5,1,1);c.fillRect(8,6,1,1);c.fillRect(10,6,1,1);c.fillRect(9,7,1,1);c.fillStyle='#6b4701';c.fillRect(14,1,1,1);c.fillRect(11,4,1,1);c.fillRect(8,7,1,1);c.fillStyle='#845803';c.fillRect(13,2,1,1);c.fillRect(12,3,1,1);c.fillRect(10,5,1,1);c.fillRect(9,6,1,1);c.fillStyle='#4d4e03';c.fillRect(6,6,1,1);c.fillRect(5,7,1,1);c.fillRect(7,7,1,1);c.fillRect(4,8,1,1);c.fillRect(8,8,1,1);c.fillRect(3,9,1,1);c.fillRect(9,9,1,1);c.fillRect(3,10,1,1);c.fillRect(8,10,1,1);c.fillRect(3,11,1,1);c.fillRect(7,11,1,1);c.fillRect(4,12,1,1);c.fillRect(5,12,1,1);c.fillRect(6,12,1,1);c.fillStyle='#d5d702';c.fillRect(6,7,1,1);c.fillStyle='#fcff00';c.fillRect(5,8,1,1);c.fillRect(6,8,1,1);c.fillRect(7,8,1,1);c.fillRect(4,9,1,1);c.fillRect(5,9,1,1);c.fillRect(6,9,1,1);c.fillRect(7,9,1,1);c.fillRect(8,9,1,1);c.fillRect(4,10,1,1);c.fillRect(5,10,1,1);c.fillRect(6,10,1,1);c.fillRect(7,10,1,1);c.fillRect(4,11,1,1);c.fillRect(5,11,1,1);c.fillRect(6,11,1,1); }),
+        stone_shovel: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#362401';c.fillRect(13,0,1,1);c.fillRect(14,0,1,1);c.fillRect(13,1,1,1);c.fillRect(15,1,1,1);c.fillRect(12,2,1,1);c.fillRect(14,2,1,1);c.fillRect(15,2,1,1);c.fillRect(11,3,1,1);c.fillRect(13,3,1,1);c.fillRect(10,4,1,1);c.fillRect(12,4,1,1);c.fillRect(9,5,1,1);c.fillRect(11,5,1,1);c.fillRect(8,6,1,1);c.fillRect(10,6,1,1);c.fillRect(9,7,1,1);c.fillStyle='#6b4701';c.fillRect(14,1,1,1);c.fillRect(11,4,1,1);c.fillRect(8,7,1,1);c.fillStyle='#845803';c.fillRect(13,2,1,1);c.fillRect(12,3,1,1);c.fillRect(10,5,1,1);c.fillRect(9,6,1,1);c.fillStyle='#403f3f';c.fillRect(6,6,1,1);c.fillRect(5,7,1,1);c.fillRect(7,7,1,1);c.fillRect(4,8,1,1);c.fillRect(8,8,1,1);c.fillRect(3,9,1,1);c.fillRect(9,9,1,1);c.fillRect(3,10,1,1);c.fillRect(8,10,1,1);c.fillRect(3,11,1,1);c.fillRect(7,11,1,1);c.fillRect(4,12,1,1);c.fillRect(5,12,1,1);c.fillRect(6,12,1,1);c.fillStyle='#5c5959';c.fillRect(6,7,1,1);c.fillRect(5,8,1,1);c.fillRect(6,8,1,1);c.fillRect(7,8,1,1);c.fillRect(4,9,1,1);c.fillRect(5,9,1,1);c.fillRect(6,9,1,1);c.fillRect(7,9,1,1);c.fillRect(8,9,1,1);c.fillRect(4,10,1,1);c.fillRect(5,10,1,1);c.fillRect(6,10,1,1);c.fillRect(7,10,1,1);c.fillRect(4,11,1,1);c.fillRect(5,11,1,1);c.fillRect(6,11,1,1); }),
+        wooden_shovel: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#362401';c.fillRect(13,0,1,1);c.fillRect(14,0,1,1);c.fillRect(13,1,1,1);c.fillRect(15,1,1,1);c.fillRect(12,2,1,1);c.fillRect(14,2,1,1);c.fillRect(15,2,1,1);c.fillRect(11,3,1,1);c.fillRect(13,3,1,1);c.fillRect(10,4,1,1);c.fillRect(12,4,1,1);c.fillRect(9,5,1,1);c.fillRect(11,5,1,1);c.fillRect(6,6,1,1);c.fillRect(8,6,1,1);c.fillRect(10,6,1,1);c.fillRect(5,7,1,1);c.fillRect(7,7,1,1);c.fillRect(9,7,1,1);c.fillRect(4,8,1,1);c.fillRect(8,8,1,1);c.fillRect(3,9,1,1);c.fillRect(9,9,1,1);c.fillRect(3,10,1,1);c.fillRect(8,10,1,1);c.fillRect(3,11,1,1);c.fillRect(7,11,1,1);c.fillRect(4,12,1,1);c.fillRect(5,12,1,1);c.fillRect(6,12,1,1);c.fillStyle='#6b4701';c.fillRect(14,1,1,1);c.fillRect(11,4,1,1);c.fillRect(8,7,1,1);c.fillRect(7,8,1,1);c.fillRect(6,9,1,1);c.fillRect(4,11,1,1);c.fillRect(6,11,1,1);c.fillStyle='#845803';c.fillRect(13,2,1,1);c.fillRect(12,3,1,1);c.fillRect(10,5,1,1);c.fillRect(9,6,1,1);c.fillRect(6,7,1,1);c.fillRect(5,8,1,1);c.fillRect(6,8,1,1);c.fillRect(4,9,1,1);c.fillRect(5,9,1,1);c.fillRect(7,9,1,1);c.fillRect(8,9,1,1);c.fillRect(4,10,1,1);c.fillRect(5,10,1,1);c.fillRect(6,10,1,1);c.fillRect(7,10,1,1);c.fillRect(5,11,1,1); }),
 
         // Yay, Ok, Kalkan & Çubuk
         bow: makeBowCanvas(false),
         crossbow: makeBowCanvas(true),
         arrow: makeArrowCanvas(),
         shield: makeShieldCanvas(),
-        stick: makeStickCanvas(),
+        stick: createBlockCanvas(c => { c.clearRect(0,0,16,16);c.fillStyle='#371e00';c.fillRect(13,0,1,1);c.fillRect(14,0,1,1);c.fillRect(3,10,1,1);c.fillRect(3,11,1,1);c.fillStyle='#4a2802';c.fillRect(12,1,1,1);c.fillRect(11,2,1,1);c.fillRect(13,2,1,1);c.fillRect(10,3,1,1);c.fillRect(12,3,1,1);c.fillRect(9,4,1,1);c.fillRect(11,4,1,1);c.fillRect(8,5,1,1);c.fillRect(10,5,1,1);c.fillRect(7,6,1,1);c.fillRect(9,6,1,1);c.fillRect(6,7,1,1);c.fillRect(8,7,1,1);c.fillRect(5,8,1,1);c.fillRect(7,8,1,1);c.fillRect(4,9,1,1);c.fillRect(6,9,1,1);c.fillRect(5,10,1,1);c.fillRect(4,11,1,1);c.fillStyle='#735700';c.fillRect(13,1,1,1);c.fillRect(11,3,1,1);c.fillRect(10,4,1,1);c.fillRect(9,5,1,1);c.fillRect(7,7,1,1);c.fillRect(6,8,1,1);c.fillRect(4,10,1,1);c.fillStyle='#623502';c.fillRect(14,1,1,1);c.fillStyle='#5d4701';c.fillRect(12,2,1,1);c.fillRect(8,6,1,1);c.fillRect(5,9,1,1); }),
         flint_and_steel: makeItemCanvas('#bdc3c7', '#222', 'tool'),
         shears: makeItemCanvas('#d8dbdf', '#888', 'tool'),
         fishing_rod: makeItemCanvas('#8f683a', '#ddd', 'tool'),
@@ -11595,7 +11663,8 @@ const customTextures = {
       if (!remotePlayers || remotePlayers.size === 0) return null;
       const raycaster = new THREE.Raycaster();
       raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
-      const maxReach = 4.8;
+      const camOffset = (typeof cameraMode !== 'undefined' && cameraMode !== 0) ? camera.position.distanceTo(new THREE.Vector3(player.x, player.y, player.z)) : 0;
+      const maxReach = 4.8 + camOffset;
       raycaster.far = maxReach;
 
       let closestHit = null;
@@ -11710,6 +11779,299 @@ const customTextures = {
       sprite.scale.set(1.4, 0.35, 1);
       sprite.position.set(0, 1.95, 0);
       return sprite;
+    }
+
+    // =========================================================================
+    // 3D KAZMA MODELLERİ (Tüm kazmalar .glb dosyalarından birebir entegre edilmiş)
+    // =========================================================================
+    const GLB_PICKAXE_GEO_DATA = {
+      positions: [0.5, 0.03125, -0.5, 0.5, 0.03125, 0.5, 0.5, -0.03125, 0.5, 0.5, -0.03125, -0.5, -0.5, -0.03125, 0.5, -0.5, 0.03125, 0.5, -0.5, 0.03125, -0.5, -0.5, -0.03125, -0.5, -0.5, 0.03125, 0.5, 0.5, 0.03125, 0.5, 0.5, 0.03125, -0.5, -0.5, 0.03125, -0.5, 0.5, -0.03125, -0.5, 0.5, -0.03125, 0.5, -0.5, -0.03125, 0.5, -0.5, -0.03125, -0.5, 0.5, -0.03125, 0.5, 0.5, 0.03125, 0.5, -0.5, 0.03125, 0.5, -0.5, -0.03125, 0.5, -0.5, 0.03125, -0.5, 0.5, 0.03125, -0.5, 0.5, -0.03125, -0.5, -0.5, -0.03125, -0.5],
+      normals: [1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0],
+      uvs: [0.25, 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.25, 0.25, 0.515625, 0.25, 0.265625, 0.0, 0.265625, 0.0, 0.515625, 0.265625, 0.25, 0.515625, 0.25, 0.515625, 0.0, 0.265625, 0.0, 0.515625, 0.515625, 0.515625, 0.265625, 0.265625, 0.265625, 0.265625, 0.515625, 0.25, 0.78125, 0.25, 0.53125, 0.0, 0.53125, 0.0, 0.78125, 0.78125, 0.0, 0.53125, 0.0, 0.53125, 0.25, 0.78125, 0.25],
+      indices: [0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7, 8, 9, 10, 8, 10, 11, 12, 13, 14, 12, 14, 15, 16, 17, 18, 16, 18, 19, 20, 21, 22, 20, 22, 23]
+    };
+    const GLB_PICKAXE_TEXTURE_URLS = {
+      "iron_pickaxe": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABi0lEQVR4AeyWzW0CMRCFTQ6kilSQHBLl75TUkC7SUrpID+GYBLhwgRNUgMQN8acHWgmNkMwID9jjhzQsXlurfd98trgKCT7Pt+3150dYJ3jU2R+RBMB0tgjdUTuUCCEJgNFk1SoVQhIA8LZUCMkAaCDcP75lc14kBXAMBITv/f0EXLH+0pUcAAKVtB1MAJQEwQxAKRBMARyCgP2P+7mUOQAEbc6Er+/d4f/w9B76/50W5i5dZgBwyu/XcLzcZn25uw6vN53t7xy+TAAgOFTfL4RF55t/jBjnUCYAoDfCysJ9bIffwTwL/dEAEwB4MMLKwv3cygxAbkGb95FXApBEahvTgNo6LvPSAEmktjENqK3jMi8NkERqG9OA2jou89IASaS2MQ3w3vFYPhoQI+R9ngZ473AsHw2IEfI+TwO8dziWjwbECHmfpwHeOxzLRwNihLzP0wBvHdbmoQFaYt7W0wBvHdXmoQFaYt7W0wBvHdXmoQFaYt7W0wBvHdXmoQFaYt7W04DSO3rq+28AAAD//2oTWlIAAAAGSURBVAMAniGagcNjAAgAAAAASUVORK5CYIIAAA==",
+      "stone_pickaxe": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABjUlEQVR4AeyWMUsDQRCFNxaprO0srdIIIlbWYue/8FdapRTFxuoaSWkhQtIkhCS8g4VkCGyG7CS7sy8wucztctz75rsjFyHD5340XL++hHWGS538ElkA/E+X4bMbhhohZAHQTVaDWiFkAQBva4WQDYAGwu3dYzHvi6wADoGA8DdXlwFH7D93ZQeAQDU9DiYAaoJgBqAWCKYA9kHA84/zpZQ5AASN74S/+TPa0P3OwtfHeNA3Z/4yA4C3/E6NnvqoP5O38HA97n+X8GUCAMERDrrHQo/Jx3+M6EsoEwBRbwTeLpzH4/D+vShCfwzABAAujLCycL60MgNQWtB4P/JIAJJIaz0NaG3iMi8NkERa62lAaxOXeWmAJNJaTwNam7jMSwMkkdZ6GuB94ql8NCBFyPs6DfA+4VQ+GpAi5H2dBnifcCofDUgR8r5OA7xPOJWPBqQIeV+nAd4mrM1DA7TEvO2nAd4mqs1DA7TEvO2nAd4mqs1DA7TEvO2nAd4mqs1DA7TEvO2nAbVP9Nj73wAAAP//K/OgjAAAAAZJREFUAwDvDZmBCportgAAAABJRU5ErkJggg==",
+      "copper_pickaxe": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABjElEQVR4AeyWsUoDQRCGJ1dcb2Nha2mtrU+g+Ba+ks+hjyHY2RhsxF7BQgjhEv6EgzAENkN2cruzf2DuMrvLcf/3/7tcJxl+11f96vFBVhkedfJHZAHw+7eUt3kvNULIAmD+NcxqhZAFAHJbK4RsACwQ7s66Ys6LrAAOgQDxz5eD4I71U1d2ABBU03ZwAVATBDcAtUBwBbAPAvY/xkspdwAQOp4JT9/oRO4/O3n5GWbbbtqrGwCc8rv1cT5slN7893Jxu/2/GZj44gIAwhH13YJOOD9+MaIvoVwAIN4Qqwvj2A6v74si4g8DXADgwRCrC+OllRuA0oSO76PvBKCJtNYzAa05rvUyAZpIaz0T0JrjWi8ToIm01jMBrTmu9TIBmkhrPRMQ3fGUPiYgRSj6PBMQ3eGUPiYgRSj6PBMQ3eGUPiYgRSj6PBMQ3eGUPiYgRSj6PBMQzWGrHibASizaeiYgmqNWPUyAlVi09UxANEetepgAK7Fo65mAaI5a9TABVmLR1jMBtTt67PuvAQAA//+wqg/pAAAABklEQVQDADbMmoHqhnIRAAAAAElFTkSuQmCCAA==",
+      "wooden_pickaxe": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABhklEQVR4AeyWTUoDQRCFa1zMKfQEgrjQhbfwFh5WEBHERXbqxp2aRcgPmfAIA6EIdIp0Jd3VL1AZqrtp5n3vdScXkuFzf90PT48yZNjq5FtkAfA7XcnLpJcaIWQBMPlcd7VCyAIAua0VQjYAFgg3l10x90VWAIdAgPjbq0HwxPpzV3YAEFTTcXABUBMENwC1QHAFsA8Czj/GSyl3ABCKO2H+t5TZDzqR169O3r6Hbtud99sNAG753Rqd//jv5eGumF9BcQEA4RC8W/AZzo//GNGXUC4AEG+I1YVxHIfn90UR8YcBLgCwMcTqwnhp5QagNKHj++gnAWgirfVMQGuOa71MgCbSWs8EtOa41ssEaCKt9UxAa45rvUyAJtJazwREdzyljwlIEYo+zwREdziljwlIEYo+zwREdziljwlIEYo+zwREdziljwlIEYo+zwREc9iqhwmwEou2ngmI5qhVDxNgJRZtPRMQzVGrHibASizaeiYgmqNWPUyAlVi09UxA7Y4e+/4bAAAA///wM30tAAAABklEQVQDAAtlm4EndQXDAAAAAElFTkSuQmCCAAAA",
+      "golden_pickaxe": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABj0lEQVR4AeyWTUoDQRCFa0RyETcB1+5cegBv4Sbgyn3OIB7A+wjuBCG48QRKVvkhEx5DIBSBTpGupLv6BYqhp5tJv6++6eRKMnzubkf906P0GR519kdkAfA3X8vnbCQ1QsgCYPa76WqFkAUAvK0VQjYAFgg3466Y8yIrgGMgIPz0rRNcsf7SlR0AAtX0OrgAqAmCG4BaILgCOAQB7z/ul1LuABAUZ8LifyX3k+HrppNefr77DnOXrmFHDrvAKb9fL+9D3tfna3kYF/MrKC4AEByq7xcYo/O7f4wYl1AuAKA3wurCfbwOH1/LQYcCCLgAQC6E1YX7pZUbgNKC7vajrwSgibQ2pgGtdVznpQGaSGtjGtBax3VeGqCJtDamAa11XOelAZpIa2MaEL3jqXw0IEUo+jwNiN7hVD4akCIUfZ4GRO9wKh8NSBGKPk8Donc4lY8GpAhFn6cB0TpszUMDrMSiracB0TpqzUMDrMSiracB0TpqzUMDrMSiracB0TpqzUMDrMSiracBtXf01P1vAQAA//9BX5E7AAAABklEQVQDAGHfmYGJEQvgAAAAAElFTkSuQmCCAAA=",
+      "diamond_pickaxe": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACKElEQVR4AeyYv0oDQRDG91LEtxBBUtkFLG2CD2DlEwja6APYeL6ClYKFtZXvIdhZBUWsrESwCyaRb2VhGQwbyYw3uzuBubvdPe72+823f3I9x/Db3urPD/fcnOFR//4IFgAfn1/uYdx3OUJgATB+nTW5QmABAN/mCoENwF8gbB61auYLVgDLQID4l/0zhzPu7zrYAUBQTsNBBEBOEMQA5AJBFMBvEDD+Ua8lxAFAaJgTrk9+Jv+N23P3dNk2aOs6xABglo/j+WbqtQ6P19zuW+uvNRxEAEA4rB4HxCLzYceIsoYQAQB7QywN1GM43D9OVNgfCRABgAdDLA3UawsxANqEhv7QswGgRGormwOkMo6lkIbUu1Z5rogDIDzeA4Rr1Gv7figCAMsf3QMgSwAxHEz890OUNYQIAAgDhDimo8ZvfvB/4H3nFLeoCDEAsbrBes9/Nj+48AwcnIDhEN/T1bU4AIz50XDm9V3duQZDwxeUHEQBIPMY89AK8ThrCzEAEB9nXpvw0B8RALmIBwR2ACnxWBkwD+CMDnQdrABS4oNYLeLRHzYAy4rHSzUFCwDN4lOwWQDkMNsvAsECAGs8YtFLNNezANAsMNU3A5AiVHq7OaD0DKf0mQNShEpvNweUnuGUPnNAilDp7eaA0jOc0lecA1KCabsBoERqK5sDass41WsOoERqK5sDass41WsOoERqK5sDass41WsOoERqK5sDcs/4qv3/BgAA////ZT3aAAAABklEQVQDACZRA5CFZx+MAAAAAElFTkSuQmCCAA=="
+};
+    let _glbPickaxeGeo = null;
+    const _glbPickaxeTexCache = {};
+    function getGlbPickaxeTexture(type) {
+      const key = GLB_PICKAXE_TEXTURE_URLS[type] ? type : 'diamond_pickaxe';
+      if (!_glbPickaxeTexCache[key]) {
+        const img = new Image();
+        const tex = new THREE.Texture(img);
+        tex.flipY = false;
+        tex.magFilter = THREE.NearestFilter;
+        tex.minFilter = THREE.NearestFilter;
+        img.onload = function() {
+          tex.needsUpdate = true;
+        };
+        img.src = GLB_PICKAXE_TEXTURE_URLS[key];
+        _glbPickaxeTexCache[key] = tex;
+      }
+      return _glbPickaxeTexCache[key];
+    }
+    function createGlbPickaxeMesh(type = 'diamond_pickaxe', scale = 1.0, useLambert = false) {
+      if (!_glbPickaxeGeo) {
+        _glbPickaxeGeo = new THREE.BufferGeometry();
+        _glbPickaxeGeo.setAttribute('position', new THREE.Float32BufferAttribute(GLB_PICKAXE_GEO_DATA.positions, 3));
+        _glbPickaxeGeo.setAttribute('normal', new THREE.Float32BufferAttribute(GLB_PICKAXE_GEO_DATA.normals, 3));
+        _glbPickaxeGeo.setAttribute('uv', new THREE.Float32BufferAttribute(GLB_PICKAXE_GEO_DATA.uvs, 2));
+        _glbPickaxeGeo.setIndex(GLB_PICKAXE_GEO_DATA.indices);
+      }
+      const tex = getGlbPickaxeTexture(type);
+      const mat = useLambert
+        ? new THREE.MeshLambertMaterial({ map: tex, alphaTest: 0.05, side: THREE.DoubleSide })
+        : new THREE.MeshStandardMaterial({ map: tex, alphaTest: 0.05, side: THREE.DoubleSide, roughness: 0.35, metalness: 0.25 });
+      const mesh = new THREE.Mesh(_glbPickaxeGeo, mat);
+      mesh.scale.set(scale, scale, scale);
+      return mesh;
+    }
+
+    // =========================================================================
+    // 3D BALTA MODELLERİ (Tüm baltalar .gltf dosyalarından birebir entegre edilmiş)
+    // =========================================================================
+    const GLB_AXE_GEO_DATA = {
+      positions: [0.5, 0.03125, 0.5, 0.5, -0.03125, 0.5, 0.5, 0.03125, -0.5, 0.5, -0.03125, -0.5, -0.5, 0.03125, 0.5, -0.5, 0.03125, -0.5, -0.5, -0.03125, 0.5, -0.5, -0.03125, -0.5, 0.5, 0.03125, 0.5, 0.5, 0.03125, -0.5, -0.5, 0.03125, 0.5, -0.5, 0.03125, -0.5, 0.5, -0.03125, 0.5, -0.5, -0.03125, 0.5, 0.5, -0.03125, -0.5, -0.5, -0.03125, -0.5, 0.5, 0.03125, 0.5, -0.5, 0.03125, 0.5, 0.5, -0.03125, 0.5, -0.5, -0.03125, 0.5, 0.5, 0.03125, -0.5, 0.5, -0.03125, -0.5, -0.5, 0.03125, -0.5, -0.5, -0.03125, -0.5],
+      normals: [1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0],
+      uvs: [0.265625, 0.0, 0.265625, 0.015625, 0.515625, 0.0, 0.515625, 0.015625, 0.515625, 0.03125, 0.265625, 0.03125, 0.515625, 0.046875, 0.265625, 0.046875, 0.25, 0.25, 0.25, 0.0, 0.0, 0.25, 0.0, 0.0, 0.25, 0.265625, 0.0, 0.265625, 0.25, 0.515625, 0.0, 0.515625, 0.515625, 0.0625, 0.265625, 0.0625, 0.515625, 0.078125, 0.265625, 0.078125, 0.265625, 0.09375, 0.265625, 0.109375, 0.515625, 0.09375, 0.515625, 0.109375],
+      indices: [2, 0, 1, 2, 1, 3, 6, 4, 5, 6, 5, 7, 10, 8, 9, 10, 9, 11, 14, 12, 13, 14, 13, 15, 18, 16, 17, 18, 17, 19, 22, 20, 21, 22, 21, 23]
+    };
+    const GLB_AXE_TEXTURE_URLS = {
+      "iron_axe": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABjUlEQVR4AeyVTUoDQRSEe1rIQXSlZEQ3im5cuXHp1st4Eo/hERRdqDhRcaEHCWQ6VGBC528eTVapV8KDNv0Wqa++JvHuei8dH1QpOP2LzX8b6v0YvEKIn3+pAoTLeuASQoT5gPDUjF2aMAPQQfBowhxAB2GTCSfDYcJgj2kWACAYnsOyCQj+3jQBgzP2WGYFAIIBwtvvONxexXB2uPgTyQZhLQBAeP1J1eNzG24uYhhMvvDRfJggbASAtB2El+8W/1JOLwC89zz8+VEMp3U9m4/RqGIg0gsgD4jweA4IjsnvdvncCwBBu8bxHO4fJhSt54X1AsAiIGBwZhwTAGPoPJM7AHl4nAUAFDyPDPDcPrLLAFDwPDLAc/vILgNAwfPIAM/tI7sMAAXPIwPY27fyyQCLEPu9DGBv2MonAyxC7PcygL1hK58MsAix38sA9oatfDLAIsR+LwPYGi7NIwNKibHtywC2RkvzyIBSYmz7MoCt0dI8MqCUGNu+DGBrtDSPDCglxrYvA3a90W2//xQAAP//VBU1zAAAAAZJREFUAwAgYW+BJ5+hmQAAAABJRU5ErkJggg==",
+      "diamond_axe": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABj0lEQVR4AeyVPU4DMRSEbSPlIFBRLFT8NlQ0lDQUuQwnoaPgAhyBnxRIsAWigIOsYI0m0kYOkH2yqDJvkJ5k4ldkvvmspOnpRt7Zijk4/UvtRx+azRS8Qkgv7zkCwnEzcQkhwXxAuGs7lybMAQwQPJqwADBAWGVCbA4yBntMswQAwfAcfpqA4JPrh4DBGXss8wsAggHC01sXzk9S2N9e/olkg/AnAECYveZ4e9+Hs6MU9j5n+GgxTBBWAkDaAcLzTY9/KWcUAN57GX73IoVuejif3D5GBiKjAMqACI/ngOCY8m6dz6MAEHRoHM/h8uqLovWysFEAWAQEDM6MYwJgDF1mcgegDI+zAICC55EBnttHdhkACp5HBnhuH9llACh4HhnguX1klwGg4HlkAHv7Vj4ZYBFiv5cB7A1b+WSARYj9XgawN2zlkwEWIfZ7GcDesJVPBliE2O9lAFvDtXlkQC0xtn0ZwNZobR4ZUEuMbV8GsDVam0cG1BJj25cBbI3W5pEBtcTY9mXAujf63+//DQAA///vwlvWAAAABklEQVQDAHBub4HnzukGAAAAAElFTkSuQmCC",
+      "golden_axe": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABkElEQVR4AeyWvUoDQRSFZyfig2ilEEshNqKgoKWtL+OT+BgKFtoZsLAwoFho7TMEd0dOYGU2P3sZUuXcE7gwYW6R851vk8Trs0E62K1ScPqKk+8mDHdi8Aohvn2lChCOhtsuIUSYDwjPk6lLE2YAWggeTfgH0EJYZcLoJCYM9pimAwDB8DjMm4Dg94+DgMEZeyyzAADBAOH1cxqujmM43Ov+RLJBWAoAEF4+UnU3bsLlKIb6p/s3gQnCSgA5hIf3LbylnF4AeN7z8Of7v+HitJ7N+KmpGIj0AsgDIjweBwTH5HebfO4FgKBt4/hOuLmtKVrPC+sFgEVAwODMOCYAxtB5JncA8vA4CwAoeB4Z4Ll9ZJcBoOB5ZIDn9pFdBoCC55EBnttHdhkACp5HBrC3b+WTARYh9nsZwN6wlU8GWITY72UAe8NWPhlgEWK/lwHsDVv5ZIBFiP1eBrA1XJpHBpQSY9uXAWyNluaRAaXE2PZlAFujpXlkQCkxtn0ZwNZoaR4ZUEqMbV8GbHqj637+PwAAAP//LXv7+QAAAAZJREFUAwDOG3CBhQN0igAAAABJRU5ErkJggg==",
+      "stone_axe": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABk0lEQVR4AeyVMUoDURRF3/yAC4lMYZGACoI2VjaWgpWbcSVuwN4lKAhGSQqRwWxDCJgvNzBhomYeHyvvu4FLJvmvyD3vfJKuzgZ5vFtlC/pKs/nSRsNkUSGk6XuuAOFktBMSQoL5gHA/W4Q0YQWghRDRhDWAFsI2Ew4P9jOCOaZsAEAxXIfvJqB4XdeG4BlzLPkBAMUAYfK2sIvTZEd7m3+RbBB+BQAIj6+5untY2vlxssHHC75ahwnCVgBo20IYji/xkTK9AHDfu+Xn01trmmaVp8lzxUCkFwAKojDeUR7XAcURfMeQXgBtUUDAdbi++aTYendxvQAwCAgInhnjAmAs3e0UDkC3PJ4FABQiRwZE3j66ywBQiBwZEHn76C4DQCFyZEDk7aO7DACFyJEB7Nv3+skAjxD7uQxg37DXTwZ4hNjPZQD7hr1+MsAjxH4uA9g37PWTAR4h9nMZwLbh0j4yoJQY27wMYNtoaR8ZUEqMbV4GsG20tI8MKCXGNi8D2DZa2kcGlBJjm5cB/32jf/39XwAAAP//jhm8sQAAAAZJREFUAwDpQW+BFJdG9QAAAABJRU5ErkJggg==",
+      "copper_axe": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABmElEQVR4AeyVMUoDURRF33wxjRuwsjCVRSwFbawUtLQTN+NKbN2BggtQsLAwhVjEwsrSesR8uYEJM2rm8UmV+27gkkn+K3LPO5+ki6O1vDussgV9pfHb1EbbyaJCSM+TXAHCwWgQEkKC+YBwP65DmjAD0ECIaMIcQANhkQnHW5YRzDGlAwDFcB1+m4DiJ8OBIXjGHEv+AEAxQHh6re3sMNneTvcvkg3CvwAA4fElVzcPUzvdT/a5UeGreZggLASAtg2E8811fKRMLwDc93b5648vu53Us9y9W1eLFcXTCwCdUBjvKI/rgOIIvmNIL4CmKCDgOlxefVNsvb24XgAYBAQEz4xxATCWbncKB6BdHs8CAAqRIwMibx/dZQAoRI4MiLx9dJcBoBA5MiDy9tFdBoBC5MgA9u17/WSAR4j9XAawb9jrJwM8QuznMoB9w14/GeARYj+XAewb9vrJAI8Q+7kMYNtwaR8ZUEqMbV4GsG20tI8MKCXGNi8D2DZa2kcGlBJjm5cBbBst7SMDSomxzcuAVd/osr//BwAA///bYP8EAAAABklEQVQDAFT9aIF4ikEBAAAAAElFTkSuQmCC",
+      "wooden_axe": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABmklEQVR4AeyVsU7DMBiEbSN4BxYGYGEIYyVYmFgYWXkZnoTH4BFA6sBABoQEDCy8QyVickVp07S1ZXXK/VfpVCf+I+W+Oyvh7novnp/46Iz+Qv3VuOo4OKsQwutn9IBwWR2YhBDQfEB4qmcmmzAH0EGw2IQFgA7CtiZMTn2EMMekFQAwhuMwbAKMV0fBQVhjjkVrAGAMEF7eZ+72KrjJ2eonkg3CRgCAMH2L/vG5cTcX7cg+7izFBKF1tzQ2XHUQqsPk2PCxUV0nneG8983XP42rv/81/Yh+VE63vGwSAJ6B4fl/ax7HAcYh3GNQEkBnFBBwHO4ffilS7weXBIBBQICwZlQWAKPpvidzAPrmsRYAULAsNcBy+vCuBoCCZakBltOHdzUAFCxLDbCcPryrAaBgWWoAe/o5f2pAjhD7vhrAnnDOnxqQI8S+rwawJ5zzpwbkCLHvqwHsCef8qQE5Quz7agBbwqV+1IBSYmzzagBboqV+1IBSYmzzagBboqV+1IBSYmzzagBboqV+1IBSYmzzasDYE931/f8AAAD///AYEX8AAAAGSURBVAMAthxtgdGrhmAAAAAASUVORK5CYII="
+};
+    let _glbAxeGeo = null;
+    const _glbAxeTexCache = {};
+    function getGlbAxeTexture(type) {
+      const key = GLB_AXE_TEXTURE_URLS[type] ? type : 'iron_axe';
+      if (!_glbAxeTexCache[key]) {
+        const img = new Image();
+        const tex = new THREE.Texture(img);
+        tex.flipY = false;
+        tex.magFilter = THREE.NearestFilter;
+        tex.minFilter = THREE.NearestFilter;
+        img.onload = function() {
+          tex.needsUpdate = true;
+        };
+        img.src = GLB_AXE_TEXTURE_URLS[key];
+        _glbAxeTexCache[key] = tex;
+      }
+      return _glbAxeTexCache[key];
+    }
+    function createGlbAxeMesh(type = 'iron_axe', scale = 1.0, useLambert = false) {
+      if (!_glbAxeGeo) {
+        _glbAxeGeo = new THREE.BufferGeometry();
+        _glbAxeGeo.setAttribute('position', new THREE.Float32BufferAttribute(GLB_AXE_GEO_DATA.positions, 3));
+        _glbAxeGeo.setAttribute('normal', new THREE.Float32BufferAttribute(GLB_AXE_GEO_DATA.normals, 3));
+        _glbAxeGeo.setAttribute('uv', new THREE.Float32BufferAttribute(GLB_AXE_GEO_DATA.uvs, 2));
+        _glbAxeGeo.setIndex(GLB_AXE_GEO_DATA.indices);
+      }
+      const tex = getGlbAxeTexture(type);
+      const mat = useLambert
+        ? new THREE.MeshLambertMaterial({ map: tex, alphaTest: 0.05, side: THREE.DoubleSide })
+        : new THREE.MeshStandardMaterial({ map: tex, alphaTest: 0.05, side: THREE.DoubleSide, roughness: 0.35, metalness: 0.25 });
+      const mesh = new THREE.Mesh(_glbAxeGeo, mat);
+      mesh.scale.set(scale, scale, scale);
+      return mesh;
+    }
+    // =========================================================================
+    // 3D KÜREK MODELLERİ (Tüm kürekler .gltf dosyalarından birebir entegre edilmiş)
+    // =========================================================================
+    const GLB_SHOVEL_GEO_DATA = {
+      positions: [-0.5, 0.03125, -0.5, 0.5, 0.03125, -0.5, 0.5, -0.03125, -0.5, -0.5, -0.03125, -0.5, 0.5, -0.03125, 0.5, 0.5, 0.03125, 0.5, -0.5, 0.03125, 0.5, -0.5, -0.03125, 0.5, 0.5, 0.03125, 0.5, 0.5, 0.03125, -0.5, -0.5, 0.03125, -0.5, -0.5, 0.03125, 0.5, -0.5, -0.03125, -0.5, 0.5, -0.03125, -0.5, 0.5, -0.03125, 0.5, -0.5, -0.03125, 0.5, 0.5, -0.03125, -0.5, 0.5, 0.03125, -0.5, 0.5, 0.03125, 0.5, 0.5, -0.03125, 0.5, -0.5, 0.03125, 0.5, -0.5, 0.03125, -0.5, -0.5, -0.03125, -0.5, -0.5, -0.03125, 0.5],
+      normals: [0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, -0.0, 0.0, 1.0, -0.0, 0.0, 1.0, -0.0, 0.0, 1.0, -0.0, 0.0, -1.0, -0.0, 0.0, -1.0, -0.0, 0.0, -1.0, -0.0, 0.0, -1.0, -0.0, 1.0, 0.0, -0.0, 1.0, 0.0, -0.0, 1.0, 0.0, -0.0, 1.0, 0.0, -0.0, -1.0, 0.0, -0.0, -1.0, 0.0, -0.0, -1.0, 0.0, -0.0, -1.0, 0.0, -0.0],
+      uvs: [0.515625, 0.0, 0.265625, 0.0, 0.265625, 0.015625, 0.515625, 0.015625, 0.515625, 0.046875, 0.515625, 0.03125, 0.265625, 0.03125, 0.265625, 0.046875, 0.0, 0.25, 0.25, 0.25, 0.25, 0.0, 0.0, 0.0, 0.25, 0.515625, 0.25, 0.265625, 0.0, 0.265625, 0.0, 0.515625, 0.515625, 0.078125, 0.515625, 0.0625, 0.265625, 0.0625, 0.265625, 0.078125, 0.515625, 0.09375, 0.265625, 0.09375, 0.265625, 0.109375, 0.515625, 0.109375],
+      indices: [0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7, 8, 9, 10, 8, 10, 11, 12, 13, 14, 12, 14, 15, 16, 17, 18, 16, 18, 19, 20, 21, 22, 20, 22, 23]
+    };
+    const GLB_SHOVEL_TEXTURE_URLS = {
+      "wooden_shovel": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABcElEQVR4AeyUwU0DQRAE15cBT94QAhAGwRIGEAK8eZKBbdVjJN+crfWcP77etjRarXdPclX3eWorPm/PuwOz4tG7e2SVAChen1pTkFAWAPT7y9S+ftGw/SkJCPiP7337/DnsmK0ruFoA8NQ+4LcOHr//KgHAR+0VUg941osCgOYCK/BqycPGnBUQ0KyKtQc8ZiEAaBLnAvD826vVHraYmYBT+L//fXt8mBoy+D4eUFtnAk7hgGev+u7DxiwEkDwHrOrwcM4E8K7zzgPOyp5LyjMTACjQMezVZyFAHTjzDSfAApIBNyAJGW7rBgwXeQJ2A5KQ4bZuwHCRJ2A3IAkZbusGDBd5AnYDkpDhtvIN6CVqAT1D6udugHrCPT43oGdI/dwNUE+4x+cG9Aypn7sB6gn3+NyAniH1czdALeEqjxtQNaZ23w1QS7TK4wZUjanddwPUEq3yuAFVY2r33QC1RKs8bkDVmNp9N2Drid76+48AAAD//81utR4AAAAGSURBVAMAcplggXrUWBcAAAAASUVORK5CYII=",
+      "stone_shovel": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABcklEQVR4AeyUMY7CMBREHY6Btts9wkIJnIDDcgJogZYOOsQZqAgapC+RT8D80JDxIH1Zjh0p782IQerwG/9VNabDq1/3SicBoBj9psQgISwA0PP/QdocoKH/ExJg8IvtJa33dYXpu4K3BQAetTf4voPb978lAPBWe4bUDR7rUwGz6bTGBYNnSx5smFYBgP8ZDhNWxtoD3OZBAKABjwtYd+fJ7Q8Pe8ZpCLiHN1hIwHPbs60NAW1wx9MpLVerqu2M4dlLAezwCLAhAEkD2gZ7XGKehgCAAtoGe/Z5EMAO7PmKEyABzoAa4IQUt1UDiovcAasBTkhxWzWguMgdsBrghBS3VQOKi9wBqwFOSHFb+gbkEpWAnCH2czWAPeEcnxqQM8R+rgawJ5zjUwNyhtjP1QD2hHN8akDOEPu5GsCWcJRHDYgaY7uvBrAlGuVRA6LG2O6rAWyJRnnUgKgxtvtqAFuiUR41IGqM7b4a0PdEP/3+KwAAAP//WukM8wAAAAZJREFUAwCY5lmBkj9bnAAAAABJRU5ErkJggg==",
+      "copper_shovel": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABfklEQVR4AeyUwU3DQBREd10KUAEinLlwpQZEKRSCqIEyCKICaIErt2w0jv7BP04237lkZyfSj7XeteT3ZuQhLfjd3+SCWfDoxT2ySAAoVtcpMUgICwD0092Q1r/Q0P6EBBj8x9cmff6UjGldwckCAI/aG3zr4Pb+JwkAvNWeIXWDx/WggJfVUHDA4NmSBxtmVsDrYyrPtyVBAmPtAW6zJwDwD1d53IeE/788fvDGG4R/EwFI3OCNFRJw39Zs14mAObj375ze1ptdJeYONH7vqAB2eGQ3EYCkAW2DNQ4xz0QAQAFtgzX77AlgB/Z83QmQAGdADXBCuluqAd1F7oDVACeku6Ua0F3kDlgNcEK6W6oB3UXugNUAJ6S7JX0DaolKQM0Q+74awJ5wjU8NqBli31cD2BOu8akBNUPs+2oAe8I1PjWgZoh9Xw1gSzjKowZEjbGdVwPYEo3yqAFRY2zn1QC2RKM8akDUGNt5NYAt0SiPGhA1xnZeDWg90XPffwsAAP//FtCRTAAAAAZJREFUAwB0a1eBefgAQQAAAABJRU5ErkJggg==",
+      "iron_shovel": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABbElEQVR4AeyUwa3CMBBEHU6/j08JQBkQKiVQBlACHGmDoEFaiSwBs+FCxoO0shw7Ut6bEZM04LeYVi1mwKs/98ogAaCY/6fEICEsANDL2SQdztAw/gkJMPjd8Zr2p7bCjF3BxwIAj9ob/NjB7fs/EgB4qz1D6gaP9aWAerVqccHg2ZIHG6ZXAOA3TZOwMtYe4DZPAgANeFzAevlb3v/wsGecjoBHeIOFBDy3PdvaEdAHt67r1Gy3Vd8Zw7O3AtjhEWBHAJIGtA32uMQ8HQEABbQN9uzzJIAd2PMVJ0ACnAE1wAkpbqsGFBe5A1YDnJDitmpAcZE7YDXACSluqwYUF7kDVgOckOK29A3IJSoBOUPs52oAe8I5PjUgZ4j9XA1gTzjHpwbkDLGfqwHsCef41ICcIfZzNYAt4SiPGhA1xnZfDWBLNMqjBkSNsd1XA9gSjfKoAVFjbPfVALZEozxqQNQY2301YOyJfvv9NwAAAP//4ZabOQAAAAZJREFUAwAzLFiBjXbnTwAAAABJRU5ErkJggg==",
+      "golden_shovel": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABeUlEQVR4AeyUUU4CQRBEe5cPD6KJHkC9hRhvpacx4i3UI8gP94AlRdIJ2ywMvfywNUXSGWZnNuG9qtDaiM/zXdNhRrx6da+MEgCKp1szBglpAYCeP7b2u4SG6U9KgMMv/jb28981mKkrOFsA4FF7h586uP/+swQA3mvPkLrDYz0q4GU+63DB4dmSBxtmUADg3z86w8pYe4D7HAgA9OfX2u4fNoZ1ddPu/vD8Bba1J8Dh9yEhAc/3nzF97wkYAnt7ndn3Yt0MnTE8OymAHR4B9gQgaUD7YI9LzNMTAFBA+2DPPgcC2IEjX3UCJCAYUAOCkOq2akB1kQdgNSAIqW6rBlQXeQBWA4KQ6rZqQHWRB2A1IAipbkvfgFKiElAyxH6uBrAnXOJTA0qG2M/VAPaES3xqQMkQ+7kawJ5wiU8NKBliP1cD2BLO8qgBWWNs99UAtkSzPGpA1hjbfTWALdEsjxqQNcZ2Xw1gSzTLowZkjbHdVwOmnuilv38LAAD//0gugBUAAAAGSURBVAMAgVxZgXfnOE8AAAAASUVORK5CYII=",
+      "diamond_shovel": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABpUlEQVR4AeyUoU4DQRRF325CUAgckgT4ABLA4BEIDA7+gP/gF8BikBgEAo8BPgESJA6BgiY7zW0yTXa2zfRtTffObfLanZ3ZZM+5N62tx+dotwqYHo+u3CO9BIDicMeMQYJbAKDPDmp7+4SG4Y9LQIR/fG/s9SNUmKErWFgA4FH7CD908Pj+CwkAfKw9Q+oRHr9zBdQnlwEHIjxb8mDDzBQA+LXzK8MvY+0BHqcjANCAx4H141O7DReTPzysGaclAPCArr+/pqyQgfvTG2QXLQFga7a2Lezt49JwPXq4seb5vprcIPzqCKg2Ni38/hhawA6PPFsCkPT/3bUB/O/liTp5wGNaAnADEuJgzT4dAezAKV9xAiQgMaAGJEKKW6oBxUWeAKsBiZDilmpAcZEnwGpAIqS4pRpQXOQJsBqQCCluSd+AXKISkDPEvq8GsCec41MDcobY99UA9oRzfGpAzhD7vhrAnnCOTw3IGWLfVwPYEvbyqAFeY2zn1QC2RL08aoDXGNt5NYAtUS+PGuA1xnZeDWBL1MujBniNsZ1XA4ae6LLvPwYAAP//WbPgCwAAAAZJREFUAwATzmOBu5CjhwAAAABJRU5ErkJggg=="
+    };
+    let _glbShovelGeo = null;
+    const _glbShovelTexCache = {};
+    function getGlbShovelTexture(type) {
+      const key = GLB_SHOVEL_TEXTURE_URLS[type] ? type : 'diamond_shovel';
+      if (!_glbShovelTexCache[key]) {
+        const img = new Image();
+        const tex = new THREE.Texture(img);
+        tex.flipY = false;
+        tex.magFilter = THREE.NearestFilter;
+        tex.minFilter = THREE.NearestFilter;
+        img.onload = function() {
+          tex.needsUpdate = true;
+        };
+        img.src = GLB_SHOVEL_TEXTURE_URLS[key];
+        _glbShovelTexCache[key] = tex;
+      }
+      return _glbShovelTexCache[key];
+    }
+    function createGlbShovelMesh(type = 'diamond_shovel', scale = 1.0, useLambert = false) {
+      if (!_glbShovelGeo) {
+        _glbShovelGeo = new THREE.BufferGeometry();
+        _glbShovelGeo.setAttribute('position', new THREE.Float32BufferAttribute(GLB_SHOVEL_GEO_DATA.positions, 3));
+        _glbShovelGeo.setAttribute('normal', new THREE.Float32BufferAttribute(GLB_SHOVEL_GEO_DATA.normals, 3));
+        _glbShovelGeo.setAttribute('uv', new THREE.Float32BufferAttribute(GLB_SHOVEL_GEO_DATA.uvs, 2));
+        _glbShovelGeo.setIndex(GLB_SHOVEL_GEO_DATA.indices);
+      }
+      const tex = getGlbShovelTexture(type);
+      const mat = useLambert
+        ? new THREE.MeshLambertMaterial({ map: tex, alphaTest: 0.05, side: THREE.DoubleSide })
+        : new THREE.MeshStandardMaterial({ map: tex, alphaTest: 0.05, side: THREE.DoubleSide, roughness: 0.35, metalness: 0.25 });
+      const mesh = new THREE.Mesh(_glbShovelGeo, mat);
+      mesh.scale.set(scale, scale, scale);
+      return mesh;
+    }
+
+    // =========================================================================
+    // 3D ELMA MODELİ (elma.gltf dosyasından birebir entegre edilmiş)
+    // =========================================================================
+    const GLB_APPLE_GEO_DATA = {
+      positions: [0.5, 0.03125, -0.5, 0.5, 0.03125, 0.5, 0.5, -0.03125, 0.5, 0.5, -0.03125, -0.5, -0.5, -0.03125, 0.5, -0.5, 0.03125, 0.5, -0.5, 0.03125, -0.5, -0.5, -0.03125, -0.5, -0.5, 0.03125, 0.5, 0.5, 0.03125, 0.5, 0.5, 0.03125, -0.5, -0.5, 0.03125, -0.5, 0.5, -0.03125, -0.5, 0.5, -0.03125, 0.5, -0.5, -0.03125, 0.5, -0.5, -0.03125, -0.5, 0.5, -0.03125, 0.5, 0.5, 0.03125, 0.5, -0.5, 0.03125, 0.5, -0.5, -0.03125, 0.5, -0.5, 0.03125, -0.5, 0.5, 0.03125, -0.5, 0.5, -0.03125, -0.5, -0.5, -0.03125, -0.5],
+      normals: [1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0],
+      uvs: [0.515625, 0.0, 0.265625, 0.0, 0.265625, 0.015625, 0.515625, 0.015625, 0.515625, 0.046875, 0.515625, 0.03125, 0.265625, 0.03125, 0.265625, 0.046875, 0.0, 0.25, 0.25, 0.25, 0.25, 0.0, 0.0, 0.0, 0.25, 0.515625, 0.25, 0.265625, 0.0, 0.265625, 0.0, 0.515625, 0.515625, 0.078125, 0.515625, 0.0625, 0.265625, 0.0625, 0.265625, 0.078125, 0.515625, 0.09375, 0.265625, 0.09375, 0.265625, 0.109375, 0.515625, 0.109375],
+      indices: [0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7, 8, 9, 10, 8, 10, 11, 12, 13, 14, 12, 14, 15, 16, 17, 18, 16, 18, 19, 20, 21, 22, 20, 22, 23]
+    };
+    const GLB_APPLE_TEXTURE_URL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABuUlEQVR4AeyVMU7DQBREv4NcUkMDdSRqBC2U1DkFoqWEW9ByDBokOAAHQBQ0NNBTJorJOPHKu6yzWqXy7EQaef/+ryhv/liZWORzdmwNdDWdNJ1QR0ZHf/XPAIDefdcGXX/uWSfU6I2eOADwDAAgQIMZV6KHRLgLgoNnAAFPNoIzANt//TK7nM+dYt+GV4IpBc6AGCzMiN0z3W01oA/aN+Pio+m3Rn12BpwcuKMHBHAIl3hCOLPIo7459UoWxq0cjvjxbVlhMjRhNl2PvNS1PVRVq9umaWcxP3at6TYUMAGarUAhmHF+tGyh3xcLAzi0Gad4eAZ0RE+rDUM/v2b3z1YBGur6TM+oAQDEf/3hPk7cGjQA0cfrwI1vNmgAos8OD75BA9BkVMgkA0JHSquVgNI2HvIqAaEjpdVKQGkbD3mVgNCR0moloLSNh7xKQOhIabUSwL7xFJ8SkHKIva8EsG84xacEpBxi7ysB7BtO8SkBKYfY+0oA+4ZTfEpAyiH2vhLAtuFcHiUg1zG2eSWAbaO5PEpArmNs80oA20ZzeZSAXMfY5pUAto3m8igBuY6xzSsBY9/orr//DwAA///lUrTTAAAABklEQVQDAF60YYG5vqxjAAAAAElFTkSuQmCC";
+    let _glbAppleGeo = null;
+    let _glbAppleTex = null;
+    function getGlbAppleTexture() {
+      if (!_glbAppleTex) {
+        const img = new Image();
+        const tex = new THREE.Texture(img);
+        tex.flipY = false;
+        tex.magFilter = THREE.NearestFilter;
+        tex.minFilter = THREE.NearestFilter;
+        img.onload = function() {
+          tex.needsUpdate = true;
+        };
+        img.src = GLB_APPLE_TEXTURE_URL;
+        _glbAppleTex = tex;
+      }
+      return _glbAppleTex;
+    }
+    function createGlbAppleMesh(scale = 1.0, useLambert = false) {
+      if (!_glbAppleGeo) {
+        _glbAppleGeo = new THREE.BufferGeometry();
+        _glbAppleGeo.setAttribute('position', new THREE.Float32BufferAttribute(GLB_APPLE_GEO_DATA.positions, 3));
+        _glbAppleGeo.setAttribute('normal', new THREE.Float32BufferAttribute(GLB_APPLE_GEO_DATA.normals, 3));
+        _glbAppleGeo.setAttribute('uv', new THREE.Float32BufferAttribute(GLB_APPLE_GEO_DATA.uvs, 2));
+        _glbAppleGeo.setIndex(GLB_APPLE_GEO_DATA.indices);
+      }
+      const tex = getGlbAppleTexture();
+      const mat = useLambert
+        ? new THREE.MeshLambertMaterial({ map: tex, alphaTest: 0.05, side: THREE.DoubleSide })
+        : new THREE.MeshStandardMaterial({ map: tex, alphaTest: 0.05, side: THREE.DoubleSide, roughness: 0.45, metalness: 0.05 });
+      const mesh = new THREE.Mesh(_glbAppleGeo, mat);
+      mesh.scale.set(scale, scale, scale);
+      return mesh;
+    }
+
+    // =========================================================================
+    // 3D KOYUN ETİ MODELLERİ (Çiğ ve Pişmiş Koyun Eti)
+    // =========================================================================
+    const GLB_MUTTON_GEO_DATA = {
+      positions: [0.5, 0.03125, -0.5, 0.5, 0.03125, 0.5, 0.5, -0.03125, 0.5, 0.5, -0.03125, -0.5, -0.5, -0.03125, 0.5, -0.5, 0.03125, 0.5, -0.5, 0.03125, -0.5, -0.5, -0.03125, -0.5, -0.5, 0.03125, 0.5, 0.5, 0.03125, 0.5, 0.5, 0.03125, -0.5, -0.5, 0.03125, -0.5, 0.5, -0.03125, -0.5, 0.5, -0.03125, 0.5, -0.5, -0.03125, 0.5, -0.5, -0.03125, -0.5, 0.5, -0.03125, 0.5, 0.5, 0.03125, 0.5, -0.5, 0.03125, 0.5, -0.5, -0.03125, 0.5, -0.5, 0.03125, -0.5, 0.5, 0.03125, -0.5, 0.5, -0.03125, -0.5, -0.5, -0.03125, -0.5],
+      normals: [1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1],
+      uvs: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      indices: [8, 9, 10, 8, 10, 11, 12, 13, 14, 12, 14, 15]
+    };
+    const GLB_MUTTON_TEXTURE_URLS = {
+      raw_beef: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABEElEQVR4nMWSIW/CQBiGH8hUYWLN0oVZJJK/AAFLSKYQ+P4BHMXxB8gsArvMblndZisnsTRbFhC0ZzuxXHPf3WVqyV53vXue+77rB/+dxm+bcRRW5nrzeXTOewUa7F+2GE4nALw8PJKdS0fiCOIorDR4NRiIvVOast7uhOTCB9/dbwDYJ0shyD6+WMxnsN1VWtLwwftkSV4oOu1ACPJCcSgVw+mkrkRUoG/VcDdZcUpTgJ92rIoAmubt/ZtrAdvpJis67YD3p2cW8xlxFFZOBWYlZo5vr95zTbtHX995ocS6Nx7Vb+A84m0rqCUmCNAbjwDEr3RaOJTK/iRAkBMpBsmcQDPZuXRAr8AW6fjAP8s3xfCBGEOuMOkAAAAASUVORK5CYII=",
+      cooked_beef: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABDUlEQVR4nMWSP0vDQBiHnxQhlFCISxtKbRGkUxXdrmvpJIUufoluBb+IX6VQnEJXuynqJIL4h2AnA0VCpnSQlHtzZ6ZC3+2493nu/d0d7Lucsk0VeJm+Xn7/Gv0HZeDxocu43wVgdvcCkBUlhlEFXpaDJ+dnYu/14ZGb2ycxiWODrydXACzmoRDcf8aM+10hcWzwYh4SxQlNvyoEUZywWqdCUilG0OHBaEi7VafdqjMYDWn6VRo1V/RX9NMvjnwBFyuXLJ/fmV6eogIvs76CLf/HV2jtExH+yx3FiVirXmd7B8YlNmruVqKDAKrXARCvYERYrVNjTB0Eyv8B/P1Avd5+UgO0CoqivGzgzmoDHp58GPHD/38AAAAASUVORK5CYII=",
+      raw_mutton: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABKUlEQVR4nL2RsUrDUBSGP6VJSwy0S1HplCWEUNIhFKwOxclFEIrgm2XVoWsCnaQvoEtHKaEv0IYMKtjSJsJ1SkiaVDP5b+cc/u+e/x74TzlaRzhaR2R7x1XNrm2J2+sheqNOFlIZkKgt1XJ1JYBrW6Lf60KrWZhV36DVRD47J4y/mQRhdYBrW+Lq4Z745bV0Xivt7pnXnsfXZoO0WrLY7v4GuLYlAPq9LgDS5QA1s8F0Ex0dBCSvAkS+z9rzOBmNwDTh4/P3CIk58n3eZ7O0L/k+smHw9viU+8AcYD9vVvF8jmwYhfxQcgXJNFEVJa1VRUEyTYLxuJAfIC0crSP0Rh19cJHeHCBaLVk8T1lsd0yC8DDgRpHF3Wm7sCKQ5t435wAJpAxQZkz0A6jecyRpUzjnAAAAAElFTkSuQmCC",
+      cooked_mutton: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABL0lEQVR4nL2RsUrDUBSGP6WlFEMLTYYiKdRu0kvBwUIg7u3maMAXUOgbuTk4uBSh9gG6uQghdWwLSsmQBpSIFIfrlJBrUsnk2c459//O+c+F/wxH6NIRukzX9ouKR5YpL4entHWNNKQwII7GQUXJCwFGlikHtqBuGJle4Q3qhkHjsEn4ucX1o+KAkWXKq+sL5k/Puf0/AbF4Np7y8fVNuPZZbSLlTWmXEGBgCwC6/RNlg3mw3dsJiKcCLF2P2XjK2fkQs9PiPQgyw0p54qXr8TJfJPWl63HUE9ze3CsHhNQN0n7TYoC3xStAxr8CiMPstKhVy0leq5YxOy0mdw8Z/wBJ4ghdtnUNu3+c/DlAuPaZPM5YbSJcP9oN6BoV2WtqmRWBxPdvsQKIIXmAPGEcP+ildHCX9R4dAAAAAElFTkSuQmCC"
+    };
+    let _glbMuttonGeo = null;
+    const _glbMuttonTexCache = {};
+    function getGlbMuttonTexture(type) {
+      const key = GLB_MUTTON_TEXTURE_URLS[type] ? type : 'raw_mutton';
+      if (!_glbMuttonTexCache[key]) {
+        const img = new Image();
+        const tex = new THREE.Texture(img);
+        tex.flipY = false;
+        tex.magFilter = THREE.NearestFilter;
+        tex.minFilter = THREE.NearestFilter;
+        img.onload = function() {
+          tex.needsUpdate = true;
+        };
+        img.src = GLB_MUTTON_TEXTURE_URLS[key];
+        _glbMuttonTexCache[key] = tex;
+      }
+      return _glbMuttonTexCache[key];
+    }
+    function createGlbMuttonMesh(type = 'raw_mutton', scale = 1.0, useLambert = false) {
+      if (!_glbMuttonGeo) {
+        _glbMuttonGeo = new THREE.BufferGeometry();
+        _glbMuttonGeo.setAttribute('position', new THREE.Float32BufferAttribute(GLB_MUTTON_GEO_DATA.positions, 3));
+        _glbMuttonGeo.setAttribute('normal', new THREE.Float32BufferAttribute(GLB_MUTTON_GEO_DATA.normals, 3));
+        _glbMuttonGeo.setAttribute('uv', new THREE.Float32BufferAttribute(GLB_MUTTON_GEO_DATA.uvs, 2));
+        _glbMuttonGeo.setIndex(GLB_MUTTON_GEO_DATA.indices);
+      }
+      const tex = getGlbMuttonTexture(type);
+      const mat = useLambert
+        ? new THREE.MeshLambertMaterial({ map: tex, alphaTest: 0.05, side: THREE.DoubleSide })
+        : new THREE.MeshStandardMaterial({ map: tex, alphaTest: 0.05, side: THREE.DoubleSide, roughness: 0.45, metalness: 0.05 });
+      const mesh = new THREE.Mesh(_glbMuttonGeo, mat);
+      mesh.scale.set(scale, scale, scale);
+      return mesh;
+    }
+
+    // =========================================================================
+    // 3D ÇUBUK MODELİ (model.gltf dosyasından birebir entegre edilmiş)
+    // =========================================================================
+    const GLB_STICK_GEO_DATA = {
+      positions: [0.5, 0.03125, 0.5, 0.5, -0.03125, 0.5, 0.5, 0.03125, -0.5, 0.5, -0.03125, -0.5, -0.5, 0.03125, 0.5, -0.5, 0.03125, -0.5, -0.5, -0.03125, 0.5, -0.5, -0.03125, -0.5, 0.5, 0.03125, 0.5, 0.5, 0.03125, -0.5, -0.5, 0.03125, 0.5, -0.5, 0.03125, -0.5, 0.5, -0.03125, 0.5, -0.5, -0.03125, 0.5, 0.5, -0.03125, -0.5, -0.5, -0.03125, -0.5, 0.5, 0.03125, 0.5, -0.5, 0.03125, 0.5, 0.5, -0.03125, 0.5, -0.5, -0.03125, 0.5, 0.5, 0.03125, -0.5, 0.5, -0.03125, -0.5, -0.5, 0.03125, -0.5, -0.5, -0.03125, -0.5],
+      normals: [1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0],
+      uvs: [0.265625, 0.0, 0.265625, 0.015625, 0.515625, 0.0, 0.515625, 0.015625, 0.515625, 0.03125, 0.265625, 0.03125, 0.515625, 0.046875, 0.265625, 0.046875, 0.25, 0.25, 0.25, 0.0, 0.0, 0.25, 0.0, 0.0, 0.25, 0.265625, 0.0, 0.265625, 0.25, 0.515625, 0.0, 0.515625, 0.515625, 0.0625, 0.265625, 0.0625, 0.515625, 0.078125, 0.265625, 0.078125, 0.265625, 0.09375, 0.265625, 0.109375, 0.515625, 0.09375, 0.515625, 0.109375],
+      indices: [2, 0, 1, 2, 1, 3, 6, 4, 5, 6, 5, 7, 10, 8, 9, 10, 9, 11, 14, 12, 13, 14, 13, 15, 18, 16, 17, 18, 17, 19, 22, 20, 21, 22, 21, 23]
+    };
+    const GLB_STICK_TEXTURE_URL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABZElEQVR4AeyWMW7CQBBFx75CinRJmyhFyihSTpBD5hi5A6KighZ6roDRL1ayB9B4oIE/H2mFl10jv//fInq74vX1YgPGFbfe3S3pAH7f+uHn2+zjOX3r3cHjgVIUgH96HWy96u1veejwBY8+ZgcA+PfPg+23nf1vOOBR3qwAGjyaZ4KfFQAzfBgA4NuZZ2se8BgXjwDgGc88oMfjbAANnvHMj+FxfRIA4Nm1B3gbkwDw766C9g0e75MA8EEF7cHZxiSAxc461l/7BuzfJwH4xQpzBVCh5TGjv5YBPpFqcxlQrXHPKwN8ItXmMqBa455XBvhEqs1lQLXGPa8M8IlUm8sA9sYjPhkQJcS+LgPYG474ZECUEPu6DGBvOOKTAVFC7OsygL3hiE8GRAmxr8sAtoazPDIgmxjbfhnA1miWRwZkE2PbLwPYGs3yyIBsYmz7ZQBbo1keGZBNjG2/DHj0Rm99/iMAAAD//8ZsS/4AAAAGSURBVAMAyNFMgU+jQT8AAAAASUVORK5CYII=";
+    let _glbStickGeo = null;
+    let _glbStickTex = null;
+    function getGlbStickTexture() {
+      if (!_glbStickTex) {
+        const img = new Image();
+        const tex = new THREE.Texture(img);
+        tex.flipY = false;
+        tex.magFilter = THREE.NearestFilter;
+        tex.minFilter = THREE.NearestFilter;
+        img.onload = function() {
+          tex.needsUpdate = true;
+        };
+        img.src = GLB_STICK_TEXTURE_URL;
+        _glbStickTex = tex;
+      }
+      return _glbStickTex;
+    }
+    function createGlbStickMesh(scale = 1.0, useLambert = false) {
+      if (!_glbStickGeo) {
+        _glbStickGeo = new THREE.BufferGeometry();
+        _glbStickGeo.setAttribute('position', new THREE.Float32BufferAttribute(GLB_STICK_GEO_DATA.positions, 3));
+        _glbStickGeo.setAttribute('normal', new THREE.Float32BufferAttribute(GLB_STICK_GEO_DATA.normals, 3));
+        _glbStickGeo.setAttribute('uv', new THREE.Float32BufferAttribute(GLB_STICK_GEO_DATA.uvs, 2));
+        _glbStickGeo.setIndex(GLB_STICK_GEO_DATA.indices);
+      }
+      const tex = getGlbStickTexture();
+      const mat = useLambert
+        ? new THREE.MeshLambertMaterial({ map: tex, alphaTest: 0.05, side: THREE.DoubleSide })
+        : new THREE.MeshStandardMaterial({ map: tex, alphaTest: 0.05, side: THREE.DoubleSide, roughness: 0.55, metalness: 0.05 });
+      const mesh = new THREE.Mesh(_glbStickGeo, mat);
+      mesh.scale.set(scale, scale, scale);
+      return mesh;
     }
 
     function createFullCharacterRig(charData, isLocalPlayer = false) {
@@ -11911,6 +12273,42 @@ const customTextures = {
         rightArmGroup.add(thirdPersonTools.axe.group);
       }
 
+      const heldDiamondPickaxe3rd = createGlbPickaxeMesh('diamond_pickaxe', 0.65, true);
+      heldDiamondPickaxe3rd.position.set(0, -0.32, 0.32);
+      heldDiamondPickaxe3rd.rotation.set(0, 0, Math.PI / 2);
+      heldDiamondPickaxe3rd.visible = false;
+      rightArmGroup.add(heldDiamondPickaxe3rd);
+
+      const heldIronAxe3rd = createGlbAxeMesh('iron_axe', 0.65, true);
+      heldIronAxe3rd.position.set(0, -0.32, 0.32);
+      heldIronAxe3rd.rotation.set(0, 0, Math.PI / 2);
+      heldIronAxe3rd.visible = false;
+      rightArmGroup.add(heldIronAxe3rd);
+
+      const heldShovel3rd = createGlbShovelMesh('diamond_shovel', 0.65, true);
+      heldShovel3rd.position.set(0, -0.32, 0.32);
+      heldShovel3rd.rotation.set(0, 0, Math.PI / 2);
+      heldShovel3rd.visible = false;
+      rightArmGroup.add(heldShovel3rd);
+
+      const heldApple3rd = createGlbAppleMesh(0.36, true);
+      heldApple3rd.position.set(0, -0.50, 0.16);
+      heldApple3rd.rotation.set(-Math.PI / 2, 0, 0);
+      heldApple3rd.visible = false;
+      rightArmGroup.add(heldApple3rd);
+
+      const heldMutton3rd = createGlbMuttonMesh('raw_mutton', 0.38, true);
+      heldMutton3rd.position.set(0, -0.50, 0.16);
+      heldMutton3rd.rotation.set(-Math.PI / 2, 0, 0);
+      heldMutton3rd.visible = false;
+      rightArmGroup.add(heldMutton3rd);
+
+      const heldStick3rd = createGlbStickMesh(0.45, true);
+      heldStick3rd.position.set(0, -0.50, 0.16);
+      heldStick3rd.rotation.set(1.5708, 0.7854, 0);
+      heldStick3rd.visible = false;
+      rightArmGroup.add(heldStick3rd);
+
       group.add(rightArmGroup);
 
       // 4. BACAKLAR (Kalça pivotları: y = 0.64)
@@ -11976,8 +12374,40 @@ const customTextures = {
             thirdPersonTools.axe.group.visible = false;
           }
 
+          if (typeof heldDiamondPickaxe3rd !== 'undefined') heldDiamondPickaxe3rd.visible = false;
+          if (typeof heldIronAxe3rd !== 'undefined') heldIronAxe3rd.visible = false;
+          if (typeof heldShovel3rd !== 'undefined') heldShovel3rd.visible = false;
+          if (typeof heldApple3rd !== 'undefined') heldApple3rd.visible = false;
+          if (typeof heldMutton3rd !== 'undefined') heldMutton3rd.visible = false;
+          if (typeof heldStick3rd !== 'undefined') heldStick3rd.visible = false;
           if (!type || type === 'water') {
             heldItemMesh.visible = false;
+          } else if (type && type.endsWith('_pickaxe') && GLB_PICKAXE_TEXTURE_URLS[type] && typeof heldDiamondPickaxe3rd !== 'undefined') {
+            heldItemMesh.visible = false;
+            heldDiamondPickaxe3rd.material.map = getGlbPickaxeTexture(type);
+            heldDiamondPickaxe3rd.material.needsUpdate = true;
+            heldDiamondPickaxe3rd.visible = true;
+          } else if (type && type.endsWith('_axe') && GLB_AXE_TEXTURE_URLS[type] && typeof heldIronAxe3rd !== 'undefined') {
+            heldItemMesh.visible = false;
+            heldIronAxe3rd.material.map = getGlbAxeTexture(type);
+            heldIronAxe3rd.material.needsUpdate = true;
+            heldIronAxe3rd.visible = true;
+          } else if (type && type.endsWith('_shovel') && GLB_SHOVEL_TEXTURE_URLS[type] && typeof heldShovel3rd !== 'undefined') {
+            heldItemMesh.visible = false;
+            heldShovel3rd.material.map = getGlbShovelTexture(type);
+            heldShovel3rd.material.needsUpdate = true;
+            heldShovel3rd.visible = true;
+          } else if (type === 'apple' && typeof heldApple3rd !== 'undefined') {
+            heldItemMesh.visible = false;
+            heldApple3rd.visible = true;
+          } else if (type === 'stick' && typeof heldStick3rd !== 'undefined') {
+            heldItemMesh.visible = false;
+            heldStick3rd.visible = true;
+          } else if ((type === 'raw_mutton' || type === 'cooked_mutton' || type === 'raw_beef' || type === 'cooked_beef') && typeof heldMutton3rd !== 'undefined') {
+            heldItemMesh.visible = false;
+            heldMutton3rd.material.map = getGlbMuttonTexture(type);
+            heldMutton3rd.material.needsUpdate = true;
+            heldMutton3rd.visible = true;
           } else {
             heldItemMesh.visible = true;
             const baseMat = (mats && mats[type]) ? mats[type] : (mats ? mats.stone : materials.stone);
@@ -12457,8 +12887,14 @@ const customTextures = {
         }
       }
 
+      const _processedPvpHitIds = new Set();
       function handleIncomingDamage(data) {
         if (!data) return;
+        if (data.hitId) {
+          if (_processedPvpHitIds.has(data.hitId)) return;
+          _processedPvpHitIds.add(data.hitId);
+          if (_processedPvpHitIds.size > 200) _processedPvpHitIds.clear();
+        }
         // Kendi verdiğimiz hasarı kendimize uygulama
         if (data.attackerClientId && data.attackerClientId === myClientId) return;
         if (data.attacker && data.attacker.toLowerCase().trim() === myPlayerName.toLowerCase().trim() && (!data.targetName || data.targetName.toLowerCase().trim() !== myPlayerName.toLowerCase().trim())) return;
@@ -12482,6 +12918,16 @@ const customTextures = {
         if (isForMe) {
           const dmgAmount = Number(data.damage) || 2;
           takeDamage(dmgAmount, 'pvp');
+          // Geri itme (Knockback) fizik tepkisi
+          if (!isCreativeMode && (data.kbX || data.kbZ)) {
+            const kbMag = 0.55;
+            const nx = player.x + (Number(data.kbX) || 0) * kbMag;
+            const nz = player.z + (Number(data.kbZ) || 0) * kbMag;
+            if (!checkCollision(nx, player.y, player.z)) player.x = nx;
+            if (!checkCollision(player.x, player.y, nz)) player.z = nz;
+            velocityY = 4.2;
+            onGround = false;
+          }
           const hText = (dmgAmount % 2 === 0) ? `${dmgAmount / 2}` : `${(dmgAmount / 2).toFixed(1)}`;
           showToast(`${data.attacker || 'Bir oyuncu'} size hasar verdi! (-${hText} Kalp)`);
           playSoundEffect('hit');
@@ -12489,6 +12935,46 @@ const customTextures = {
       }
 
       multiplayerSocket.on('player-damage', handleIncomingDamage);
+
+      multiplayerSocket.on('give-item', (data) => {
+        if (!data || !data.item) return;
+        const cnt = Math.max(1, parseInt(data.count, 10) || 1);
+        if (typeof addItemToInventory === 'function') {
+          addItemToInventory(data.item, cnt);
+          updateInventoryUI();
+        }
+        const itemName = (BLOCK_INFO[data.item] && BLOCK_INFO[data.item].name) ? BLOCK_INFO[data.item].name : data.item;
+        showToast(`${data.from || 'Bir oyuncu'} size ${cnt}x ${itemName} verdi!`);
+        playSoundEffect('pop');
+      });
+
+      multiplayerSocket.on('item-drop', (data) => {
+        if (!data || !data.type) return;
+        if (typeof spawnDroppedItem === 'function') {
+          const itemObj = spawnDroppedItem(data.x, data.y, data.z, data.type, data.vx || 0, data.vy || 2.5, data.vz || 0, 0.35, data.count || 1);
+          if (itemObj && data.id) itemObj.netId = data.id;
+        }
+      });
+
+      multiplayerSocket.on('item-pickup', (data) => {
+        if (!data || !data.id || typeof droppedItems === 'undefined') return;
+        for (let i = droppedItems.length - 1; i >= 0; i--) {
+          if (droppedItems[i].netId === data.id) {
+            scene.remove(droppedItems[i].mesh);
+            droppedItems.splice(i, 1);
+          }
+        }
+      });
+
+      multiplayerSocket.on('block-update', (data) => {
+        if (!data || data.x === undefined || data.y === undefined || data.z === undefined) return;
+        const bx = Math.floor(data.x), by = Math.floor(data.y), bz = Math.floor(data.z);
+        if (data.type === null || data.type === 'air') {
+          if (typeof removeBlock === 'function') removeBlock(bx, by, bz, true);
+        } else {
+          if (typeof spawnBlock === 'function') spawnBlock(bx, by, bz, data.type, true);
+        }
+      });
 
       if (pvpBroadcastChannel) {
         pvpBroadcastChannel.onmessage = (ev) => {
@@ -12562,7 +13048,7 @@ const customTextures = {
           }
           if (data.text.startsWith('[PVP_DAMAGE]:')) {
             try {
-              const pvpObj = JSON.parse(data.text.slice(12));
+              const pvpObj = JSON.parse(data.text.slice(13));
               handleIncomingDamage(pvpObj);
             } catch(e){}
             return;
@@ -12765,7 +13251,46 @@ const customTextures = {
 
     function spawnDroppedItem(x, y, z, type, vx = 0, vy = 2.5, vz = 0, pickupDelay = 0.5, count = 1) {
       if (!type || type === 'water') return;
-      const mesh = new THREE.Mesh(dropGeo, materials[type] || materials.stone);
+      let mesh;
+      if (type && type.endsWith('_pickaxe') && GLB_PICKAXE_TEXTURE_URLS[type]) {
+        const dropPickGroup = new THREE.Group();
+        const dropPickMesh = createGlbPickaxeMesh(type, 0.45, false);
+        dropPickMesh.rotation.set(0, 0, Math.PI / 2);
+        dropPickGroup.add(dropPickMesh);
+        mesh = dropPickGroup;
+      } else if (type && type.endsWith('_axe') && GLB_AXE_TEXTURE_URLS[type]) {
+        const dropAxeGroup = new THREE.Group();
+        const dropAxeMesh = createGlbAxeMesh(type, 0.45, false);
+        dropAxeMesh.rotation.set(0, 0, Math.PI / 2);
+        dropAxeGroup.add(dropAxeMesh);
+        mesh = dropAxeGroup;
+      } else if (type && type.endsWith('_shovel') && GLB_SHOVEL_TEXTURE_URLS[type]) {
+        const dropShovelGroup = new THREE.Group();
+        const dropShovelMesh = createGlbShovelMesh(type, 0.45, false);
+        dropShovelMesh.rotation.set(0, 0, Math.PI / 2);
+        dropShovelGroup.add(dropShovelMesh);
+        mesh = dropShovelGroup;
+      } else if (type === 'apple') {
+        const dropAppleGroup = new THREE.Group();
+        const dropAppleMesh = createGlbAppleMesh(0.38, false);
+        dropAppleMesh.rotation.set(-Math.PI / 2, 0, 0);
+        dropAppleGroup.add(dropAppleMesh);
+        mesh = dropAppleGroup;
+      } else if (type === 'stick') {
+        const dropStickGroup = new THREE.Group();
+        const dropStickMesh = createGlbStickMesh(0.45, false);
+        dropStickMesh.rotation.set(0, 0, Math.PI / 2);
+        dropStickGroup.add(dropStickMesh);
+        mesh = dropStickGroup;
+      } else if (type === 'raw_mutton' || type === 'cooked_mutton' || type === 'raw_beef' || type === 'cooked_beef') {
+        const dropMuttonGroup = new THREE.Group();
+        const dropMuttonMesh = createGlbMuttonMesh(type, 0.40, false);
+        dropMuttonMesh.rotation.set(-Math.PI / 2, 0, 0);
+        dropMuttonGroup.add(dropMuttonMesh);
+        mesh = dropMuttonGroup;
+      } else {
+        mesh = new THREE.Mesh(dropGeo, materials[type] || materials.stone);
+      }
       mesh.position.set(x, y + 0.1, z);
       scene.add(mesh);
       droppedItems.push({
@@ -13337,6 +13862,42 @@ const customTextures = {
     heldBlockMesh.position.set(0, -0.35, -0.15); heldBlockMesh.visible = false;
     armGroup.add(heldBlockMesh);
 
+    const heldDiamondPickaxe1st = createGlbPickaxeMesh('diamond_pickaxe', 0.62, false);
+    heldDiamondPickaxe1st.position.set(-0.003, -0.369, -0.293);
+    heldDiamondPickaxe1st.rotation.set(2.80, 0.70, -2.60);
+    heldDiamondPickaxe1st.visible = false;
+    armGroup.add(heldDiamondPickaxe1st);
+
+    const heldIronAxe1st = createGlbAxeMesh('iron_axe', 0.62, false);
+    heldIronAxe1st.position.set(-0.003, -0.369, -0.293);
+    heldIronAxe1st.rotation.set(2.80, 0.70, -2.60);
+    heldIronAxe1st.visible = false;
+    armGroup.add(heldIronAxe1st);
+
+    const heldShovel1st = createGlbShovelMesh('diamond_shovel', 0.62, false);
+    heldShovel1st.position.set(-0.003, -0.369, -0.293);
+    heldShovel1st.rotation.set(2.80, 0.70, -2.60);
+    heldShovel1st.visible = false;
+    armGroup.add(heldShovel1st);
+
+    const heldApple1st = createGlbAppleMesh(0.38, false);
+    heldApple1st.position.set(-0.02, -0.34, -0.18);
+    heldApple1st.rotation.set(-3.1409, 0.0003, -2.7416);
+    heldApple1st.visible = false;
+    armGroup.add(heldApple1st);
+
+    const heldMutton1st = createGlbMuttonMesh('raw_mutton', 0.40, false);
+    heldMutton1st.position.set(-0.02, -0.34, -0.18);
+    heldMutton1st.rotation.set(-3.1409, 0.0003, -2.7416);
+    heldMutton1st.visible = false;
+    armGroup.add(heldMutton1st);
+
+    const heldStick1st = createGlbStickMesh(0.45, false);
+    heldStick1st.position.set(-0.02, -0.34, -0.18);
+    heldStick1st.rotation.set(0.3720, 0.7090, -0.5387);
+    heldStick1st.visible = false;
+    armGroup.add(heldStick1st);
+
     // 3D MINECRAFT ÇUBUK (STICK) MODELİ - 1. ŞAHIS ELDE TUTUŞ
     const stickGeo = new THREE.BoxGeometry(0.042, 0.62, 0.042);
     const stickMat = new THREE.MeshStandardMaterial({
@@ -13505,8 +14066,40 @@ const customTextures = {
       if (typeof toolContainer !== 'undefined') toolContainer.visible = false;
       if (typeof heldStickMesh !== 'undefined') heldStickMesh.visible = false;
 
+      if (typeof heldDiamondPickaxe1st !== 'undefined') heldDiamondPickaxe1st.visible = false;
+      if (typeof heldIronAxe1st !== 'undefined') heldIronAxe1st.visible = false;
+      if (typeof heldShovel1st !== 'undefined') heldShovel1st.visible = false;
+      if (typeof heldApple1st !== 'undefined') heldApple1st.visible = false;
+      if (typeof heldMutton1st !== 'undefined') heldMutton1st.visible = false;
+      if (typeof heldStick1st !== 'undefined') heldStick1st.visible = false;
       if (!type || type === 'water') {
         heldBlockMesh.visible = false;
+      } else if (type && type.endsWith('_pickaxe') && GLB_PICKAXE_TEXTURE_URLS[type] && typeof heldDiamondPickaxe1st !== 'undefined') {
+        heldBlockMesh.visible = false;
+        heldDiamondPickaxe1st.material.map = getGlbPickaxeTexture(type);
+        heldDiamondPickaxe1st.material.needsUpdate = true;
+        heldDiamondPickaxe1st.visible = true;
+      } else if (type && type.endsWith('_axe') && GLB_AXE_TEXTURE_URLS[type] && typeof heldIronAxe1st !== 'undefined') {
+        heldBlockMesh.visible = false;
+        heldIronAxe1st.material.map = getGlbAxeTexture(type);
+        heldIronAxe1st.material.needsUpdate = true;
+        heldIronAxe1st.visible = true;
+      } else if (type && type.endsWith('_shovel') && GLB_SHOVEL_TEXTURE_URLS[type] && typeof heldShovel1st !== 'undefined') {
+        heldBlockMesh.visible = false;
+        heldShovel1st.material.map = getGlbShovelTexture(type);
+        heldShovel1st.material.needsUpdate = true;
+        heldShovel1st.visible = true;
+      } else if (type === 'apple' && typeof heldApple1st !== 'undefined') {
+        heldBlockMesh.visible = false;
+        heldApple1st.visible = true;
+      } else if (type === 'stick' && typeof heldStick1st !== 'undefined') {
+        heldBlockMesh.visible = false;
+        heldStick1st.visible = true;
+      } else if ((type === 'raw_mutton' || type === 'cooked_mutton' || type === 'raw_beef' || type === 'cooked_beef') && typeof heldMutton1st !== 'undefined') {
+        heldBlockMesh.visible = false;
+        heldMutton1st.material.map = getGlbMuttonTexture(type);
+        heldMutton1st.material.needsUpdate = true;
+        heldMutton1st.visible = true;
       } else {
         heldBlockMesh.visible = true;
         heldBlockMesh.material = materials[type] || materials.stone;
@@ -14202,8 +14795,8 @@ const customTextures = {
           spawnDroppedItem(animal.x, animal.y + 0.5, animal.z, 'white_wool', 0, 2.8, 0, 0.4, woolCount);
         }
         const meatCount = 1 + Math.floor(Math.random() * 2);
-        spawnDroppedItem(animal.x, animal.y + 0.3, animal.z, 'raw_beef', 0, 2.5, 0, 0.4, meatCount);
-        showToast(`Koyun kesildi! Yün ve Çiğ Et düştü.`);
+        spawnDroppedItem(animal.x, animal.y + 0.3, animal.z, 'raw_mutton', 0, 2.5, 0, 0.4, meatCount);
+        showToast(`Koyun kesildi! Yün ve Çiğ Koyun Eti düştü.`);
       }
 
       scene.remove(animal.mesh);
@@ -14528,6 +15121,7 @@ const customTextures = {
         if (heldItem.startsWith('netherite_')) speedMult = 9.0;
         else if (heldItem.startsWith('diamond_')) speedMult = 8.0;
         else if (heldItem.startsWith('iron_')) speedMult = 6.0;
+        else if (heldItem.startsWith('copper_')) speedMult = 5.0;
         else if (heldItem.startsWith('stone_')) speedMult = 4.0;
         else if (heldItem.startsWith('golden_')) speedMult = 12.0;
         else if (heldItem.startsWith('wooden_')) speedMult = 2.0;
@@ -14687,7 +15281,7 @@ const customTextures = {
           shearSheep(hitAnimal);
           return;
         }
-        if ((selectedType === 'raw_beef' || selectedType === 'cooked_beef') && hitAnimal.type === 'wolf') {
+        if ((selectedType === 'raw_beef' || selectedType === 'cooked_beef' || selectedType === 'raw_mutton' || selectedType === 'cooked_mutton') && hitAnimal.type === 'wolf') {
           if (consumeSelectedItem()) {
             hitAnimal.isTamed = true;
             hitAnimal.health = hitAnimal.maxHealth;
@@ -14703,7 +15297,7 @@ const customTextures = {
 
             // 2. Yiyecek Yeme Mekanizması (Elma, Altın Elma, Ekmek, Biftek, Havuç)
       // Yiyecekler ASLA blok olarak dünyaya koyulamaz! Sağ tık ile nereye bakılırsa bakılsın tüketilir.
-      const isFoodItem = ['apple', 'golden_apple', 'bread', 'raw_beef', 'cooked_beef', 'carrot'].includes(selectedType);
+      const isFoodItem = ['apple', 'golden_apple', 'bread', 'raw_beef', 'cooked_beef', 'raw_mutton', 'cooked_mutton', 'carrot'].includes(selectedType);
       if (isFoodItem) {
         if (playerHunger < 20 || (selectedType === 'golden_apple' && playerHealth < 20)) {
           if (consumeSelectedItem()) {
@@ -14729,6 +15323,14 @@ const customTextures = {
               playerHunger = Math.min(20, playerHunger + 8);
               playSoundEffect('eat');
               showToast('Biftek yediniz! Açlığınız tazelendi.');
+            } else if (selectedType === 'raw_mutton') {
+              playerHunger = Math.min(20, playerHunger + 2);
+              playSoundEffect('eat');
+              showToast('Çiğ Koyun Eti yediniz! (Fırında pişirerek daha çok açlık giderebilirsiniz)');
+            } else if (selectedType === 'cooked_mutton') {
+              playerHunger = Math.min(20, playerHunger + 6);
+              playSoundEffect('eat');
+              showToast('Pişmiş Koyun Eti yediniz! Açlığınız tazelendi.');
             } else if (selectedType === 'carrot') {
               playerHunger = Math.min(20, playerHunger + 3);
               playSoundEffect('eat');
@@ -15072,7 +15674,7 @@ const customTextures = {
           else if (type === 'wooden_sword') dmg = 4;     // 2.0 Kalp
           else if (type === 'trident') dmg = 8;          // 4.0 Kalp
           // Baltalar (Combat Axes)
-          else if (type === 'netherite_axe') dmg = 8;    // 4.0 Kalp
+          else if (type === 'copper_axe') dmg = 5;       // 2.5 Kalp
           else if (type === 'diamond_axe') dmg = 7;      // 3.5 Kalp
           else if (type === 'iron_axe') dmg = 5;         // 2.5 Kalp
           else if (type === 'stone_axe') dmg = 4;        // 2.0 Kalp
@@ -15101,9 +15703,13 @@ const customTextures = {
         showToast(`${hitPlayer.name} adlı oyuncuya ${heartsText} kalp hasar verdiniz!`);
 
         const pvpPayload = {
+          hitId: myClientId + '_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
           targetId: hitPlayer.id,
+          targetClientId: (hitPlayer.avatar && hitPlayer.avatar.userData && hitPlayer.avatar.userData.clientId) ? hitPlayer.avatar.userData.clientId : null,
           targetName: hitPlayer.name,
           damage: dmg,
+          kbX: kbDir.x,
+          kbZ: kbDir.z,
           attacker: myPlayerName,
           attackerClientId: myClientId
         };
