@@ -245,11 +245,19 @@
   /* MOOCRAFT ORANTILI HUD (KALP VE AÇLIK BARLARI) */
   #hudContainer {
     position: fixed; left: 50%; bottom: 86px; transform: translateX(-50%);
-    width: 448px; max-width: 96vw; display: none; justify-content: space-between; align-items: center;
+    width: 448px; max-width: 96vw; display: none; justify-content: space-between; align-items: flex-end;
     pointer-events: none; z-index: 13;
   }
+  .hud-right-col { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
   .hud-row { display: flex; gap: 3px; align-items: center; }
+  #bubblesRow { display: none; }
   .pixel-icon { width: 18px; height: 18px; display: inline-block; image-rendering: pixelated; }
+  @keyframes bubblePopAnim {
+    0% { transform: scale(1.25); opacity: 1; }
+    60% { transform: scale(1.45); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .bubble-just-popped { animation: bubblePopAnim 0.22s ease-out; }
 
   /* CAN YANMASI (DAMAGE FLASH) OVERLAY - HASARDA EKRAN ASLA KIRMIZI OLMASIN */
   #damageOverlay {
@@ -1780,7 +1788,10 @@
 <!-- SURVIVAL PIXEL KALPLER VE AÇLIK BARI CONTAINER -->
 <div id="hudContainer">
   <div class="hud-row" id="heartsRow"></div>
-  <div class="hud-row" id="hungerRow"></div>
+  <div class="hud-right-col">
+    <div class="hud-row" id="bubblesRow"></div>
+    <div class="hud-row" id="hungerRow"></div>
+  </div>
 </div>
 
 <!-- MooCraft Hotbar -->
@@ -2348,13 +2359,26 @@
     <path d="M4 1H7V2H4V1Z" fill="#221100"/><path d="M3 2H4V3H3V2Z" fill="#221100"/><path d="M7 2H8V4H7V2Z" fill="#221100"/><path d="M2 3H3V6H2V3Z" fill="#221100"/><path d="M8 4H9V7H8V4Z" fill="#221100"/><path d="M1 5H2V7H1V5Z" fill="#221100"/><path d="M7 7H8V8H7V7Z" fill="#221100"/><path d="M0 6H1V8H0V6Z" fill="#221100"/><path d="M3 7H7V8H3V7Z" fill="#221100"/><path d="M1 8H3V9H1V8Z" fill="#221100"/><path d="M3 2H8V7H3V2Z" fill="#333333"/><path d="M1 6H2V7H1V6Z" fill="#666666"/><path d="M2 7H3V8H2V7Z" fill="#666666"/>
   </svg>`;
 
+  const pixelBubbleSvg = `<svg class="pixel-icon" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 0H6V1H3V0Z" fill="#0A2A4A"/><path d="M1 1H3V2H1V1Z" fill="#0A2A4A"/><path d="M6 1H8V2H6V1Z" fill="#0A2A4A"/><path d="M0 2H1V6H0V2Z" fill="#0A2A4A"/><path d="M8 2H9V6H8V2Z" fill="#0A2A4A"/><path d="M1 6H2V7H1V6Z" fill="#0A2A4A"/><path d="M7 6H8V7H7V6Z" fill="#0A2A4A"/><path d="M2 7H7V8H2V7Z" fill="#0A2A4A"/><path d="M3 8H6V9H3V8Z" fill="#0A2A4A"/><path d="M3 1H6V2H3V1Z" fill="#2E9AFE"/><path d="M1 2H8V6H1V2Z" fill="#1B7AD6"/><path d="M2 6H7V7H2V6Z" fill="#1259A8"/><path d="M2 2H4V4H2V2Z" fill="#7FD4FF"/><path d="M2 2H3V3H2V2Z" fill="#FFFFFF"/>
+  </svg>`;
+
+  const pixelBubbleEmptySvg = `<svg class="pixel-icon bubble-empty" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 1H6V2H3V1Z" fill="#141A21"/><path d="M2 2H3V3H2V2Z" fill="#141A21"/><path d="M6 2H7V3H6V2Z" fill="#141A21"/><path d="M1 3H2V6H1V3Z" fill="#141A21"/><path d="M7 3H8V6H7V3Z" fill="#141A21"/><path d="M2 6H3V7H2V6Z" fill="#141A21"/><path d="M6 6H7V7H6V6Z" fill="#141A21"/><path d="M3 7H6V8H3V7Z" fill="#141A21"/><path d="M3 2H6V3H3V2Z" fill="#26323D"/><path d="M2 3H7V6H2V3Z" fill="#1B232B"/><path d="M3 6H6V7H3V6Z" fill="#1B232B"/><path d="M2 3H3V4H2V3Z" fill="#455A6E"/>
+  </svg>`;
+
   let playerHealth = 20; // 10 Kalp (20 Can)
   let playerHunger = 20; // 10 But (20 Açlık)
+  let playerAir = 10;    // 10 Baloncuk (Su altı oksijen)
+  let airTimer = 0;
+  let wasUnderwater = false;
+  let lastPoppedBubbleIdx = -1;
 
   function renderSurvivalHUD() { updateSurvivalHUD(); }
   function updateSurvivalHUD() {
     const heartsRow = document.getElementById('heartsRow');
     const hungerRow = document.getElementById('hungerRow');
+    const bubblesRow = document.getElementById('bubblesRow');
     if (!heartsRow || !hungerRow) return;
 
     let hHtml = '';
@@ -2374,6 +2398,28 @@
       else uHtml += pixelHungerEmptySvg;
     }
     hungerRow.innerHTML = uHtml;
+
+    if (bubblesRow) {
+      if (wasUnderwater) {
+        bubblesRow.style.display = 'flex';
+        let bHtml = '';
+        const emptyCount = Math.max(0, 10 - playerAir);
+        for (let i = 0; i < 10; i++) {
+          if (i < emptyCount) {
+            if (i === lastPoppedBubbleIdx) {
+              bHtml += pixelBubbleEmptySvg.replace('class="pixel-icon bubble-empty"', 'class="pixel-icon bubble-empty bubble-just-popped"');
+            } else {
+              bHtml += pixelBubbleEmptySvg;
+            }
+          } else {
+            bHtml += pixelBubbleSvg;
+          }
+        }
+        bubblesRow.innerHTML = bHtml;
+      } else {
+        bubblesRow.style.display = 'none';
+      }
+    }
   }
   updateSurvivalHUD();
 
@@ -12412,7 +12458,7 @@ const customTextures = {
           deathModal.style.display = 'flex';
           const scoreEl = document.getElementById('deathScoreMsg');
           if (scoreEl) {
-            scoreEl.textContent = (source === 'fall') ? 'Yüksekten düştünüz!' : (source === 'starvation' ? 'Açlıktan öldünüz!' : (source === 'pvp' ? 'Bir oyuncu tarafından katledildiniz!' : 'Öldünüz! Skor: 0'));
+            scoreEl.textContent = (source === 'fall') ? 'Yüksekten düştünüz!' : (source === 'starvation' ? 'Açlıktan öldünüz!' : (source === 'drown' ? 'Boğularak öldünüz!' : (source === 'pvp' ? 'Bir oyuncu tarafından katledildiniz!' : 'Öldünüz! Skor: 0')));
           }
         }
         if (document.pointerLockElement) {
@@ -12478,6 +12524,10 @@ const customTextures = {
       if (deathModalEl) deathModalEl.style.display = 'none';
       playerHealth = 20;
       playerHunger = 20;
+      playerAir = 10;
+      airTimer = 0;
+      wasUnderwater = false;
+      lastPoppedBubbleIdx = -1;
       updateSurvivalHUD();
 
       // Eğer yatak doğma noktası ayarlanmışsa ve yatak hala duruyorsa orada doğ
@@ -21564,6 +21614,39 @@ const customTextures = {
           } else {
             starvationTimer = 0;
           }
+
+          // Su altı oksijen (baloncuk) barı: Su altındayken görünür ve her 1.5 saniyede bir baloncuk söner
+          if (camUnderwater && !isPlayerDead) {
+            if (!wasUnderwater) {
+              wasUnderwater = true;
+              airTimer = 0;
+              lastPoppedBubbleIdx = -1;
+              updateSurvivalHUD();
+            }
+            airTimer += dt;
+            while (airTimer >= 1.5) {
+              airTimer -= 1.5;
+              if (playerAir > 0) {
+                lastPoppedBubbleIdx = 10 - playerAir;
+                playerAir--;
+                updateSurvivalHUD();
+              } else {
+                takeDamage(2, 'drown');
+              }
+            }
+          } else if (wasUnderwater || playerAir < 10) {
+            wasUnderwater = false;
+            playerAir = 10;
+            airTimer = 0;
+            lastPoppedBubbleIdx = -1;
+            updateSurvivalHUD();
+          }
+        } else if (wasUnderwater) {
+          wasUnderwater = false;
+          playerAir = 10;
+          airTimer = 0;
+          lastPoppedBubbleIdx = -1;
+          updateSurvivalHUD();
         }
 
         if (player.y < BEDROCK_Y - 25 && !isFlying) { const safe = findSafeSpawnPoint(0, 0); player.x = safe.x; player.z = safe.z; player.y = safe.y; velocityY = 0; }
