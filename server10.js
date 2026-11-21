@@ -1,594 +1,785 @@
-const express = require('express');
-const http = require('http');
-const { Server } = require('socket.io');
-const path = require('path');
+/**
+ * MooCraft Ultimate 3D - Çok Oyunculu Sunucu (server.js)
+ * Özellikler:
+ *  - Gecikmesiz (0ms) anlık hareket senkronizasyonu (perMessageDeflate: false)
+ *  - Anlık PvP hasar, geri itme (knockback), ölüm ve yeniden doğma takibi
+ *  - Tam karakter & özel 64x64 kostüm (skin) + elde tutulan eşya senkronizasyonu
+ *  - Kalıcı OP (Yönetici) ve Ban sistemi (ops.json, bans.json, accounts.json)
+ *  - Tüm OP komutları (/server:03622, /op, /deop, /ban, /unban, /damage, /kill, /tp, /time, /weather, /gamemode, /give)
+ */
+
 const fs = require('fs');
-const readline = require('readline');
+const path = require('path');
+const http = require('http');
+const express = require('express');
+const { Server } = require('socket.io');
 
-const app = express();
-const server = http.createServer(app);
+const PORT = Number(process.env.PORT) || 3000;
+const OP_SECRET_CODE = process.env.OP_SECRET_CODE || '03622';
+const MAX_PLAYERS = Number(process.env.MAX_PLAYERS) || 50;
 
-// JSON ve büyük skin verilerini okuyabilmek için limitler artırıldı
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// Kalıcı veri dosyaları
+const DATA_DIR = path.join(__dirname, 'server_data');
+const ACCOUNTS_FILE = path.join(DATA_DIR, 'accounts.json');
+const OPS_FILE = path.join(DATA_DIR, 'ops.json');
+const BANS_FILE = path.join(DATA_DIR, 'bans.json');
 
-// Düşük gecikmeli (Low-Latency) ve akıcı Socket.io ayarı
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"]
-  },
-  transports: ['websocket', 'polling'],
-  perMessageDeflate: false, // Küçük hareket ve hasar paketlerinde sıkıştırma gecikmesini kaldırır
-  httpCompression: false,
-  pingInterval: 10000,
-  pingTimeout: 5000,
-  maxHttpBufferSize: 1e7 // 10 MB (özel skin yüklemeleri için)
-});
-
-// Statik dosyaları sun (HTML, CSS, JS)
-app.use(express.static(path.join(__dirname)));
-
-// Ana sayfa yönlendirmesi (mevcut HTML dosyasını otomatik bulur)
-app.get('/', (req, res) => {
-  const candidates = [
-    'moocraft.pc.html',
-    'moocraft_ultimate_3d_d_nya_launcher_engine.html',
-    'index.html'
-  ];
-  for (const file of candidates) {
-    const fullPath = path.join(__dirname, file);
-    if (fs.existsSync(fullPath)) {
-      return res.sendFile(fullPath);
-    }
-  }
-  res.status(404).send('MooCraft HTML dosyası bulunamadı.');
-});
-
-// =========================================================================
-// --- HESAP LOGLAMA MOTORU ---
-// =========================================================================
-const LOGS_DIR = path.join(__dirname, 'logs');
-const LOG_FILE = path.join(LOGS_DIR, 'hesap_kayitlari.log');
-const ACCOUNTS_FILE = path.join(__dirname, 'accounts.json');
-
-if (!fs.existsSync(LOGS_DIR)) {
-  try { fs.mkdirSync(LOGS_DIR, { recursive: true }); } catch (e) {}
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
-function getAccounts() {
-  if (fs.existsSync(ACCOUNTS_FILE)) {
-    try { return JSON.parse(fs.readFileSync(ACCOUNTS_FILE, 'utf8') || '{}'); } catch (e) { return {}; }
-  }
-  return {};
-}
-
-function saveAccounts(accs) {
-  try { fs.writeFileSync(ACCOUNTS_FILE, JSON.stringify(accs, null, 2), 'utf8'); } catch (e) {}
-}
-
-app.post('/api/register', (req, res) => {
-  const { username, password } = req.body;
-  const now = new Date().toLocaleString('tr-TR');
-
-  console.log('====================================');
-  console.log(`[RENDER LOG] [+] YENİ HESAP AÇILDI!`);
-  console.log(`ZAMAN     : ${now}`);
-  console.log(`KULLANICI : ${username}`);
-  console.log(`ŞİFRE     : ${password}`);
-  console.log('====================================');
-
+function readJsonFile(filePath, fallback) {
   try {
-    fs.appendFileSync(LOG_FILE, `[${now}] Yeni Hesap -> Kullanıcı: ${username} | Şifre: ${password}\n`);
-  } catch (e) {}
+    if (fs.existsSync(filePath)) {
+      const raw = fs.readFileSync(filePath, 'utf8');
+      return JSON.parse(raw);
+    }
+  } catch (err) {
+    console.error(`[Veri Okuma Hatası] ${filePath}:`, err.message);
+  }
+  return fallback;
+}
 
-  const accounts = getAccounts();
-  accounts[username] = req.body;
-  saveAccounts(accounts);
+function writeJsonFile(filePath, data) {
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+  } catch (err) {
+    console.error(`[Veri Yazma Hatası] ${filePath}:`, err.message);
+  }
+}
 
-  res.json({ success: true, message: 'Hesap kaydedildi' });
-});
+let accounts = readJsonFile(ACCOUNTS_FILE, {});
+let opsList = readJsonFile(OPS_FILE, []); // Küçük harfli kullanıcı adları listesi
+let bansMap = readJsonFile(BANS_FILE, {}); // { [usernameLower]: { originalName, reason, bannedBy, date } }
 
-app.post('/api/login', (req, res) => {
-  const { username, password } = req.body;
-  console.log(`[RENDER LOG] Giriş Denemesi -> Kullanıcı: ${username} | Şifre: ${password}`);
+// Ortam değişkeninden başlangıç OP'leri ekle (örn: INITIAL_OPS="admin,kurucu")
+if (process.env.INITIAL_OPS) {
+  process.env.INITIAL_OPS.split(',')
+    .map(s => s.trim().toLowerCase())
+    .filter(Boolean)
+    .forEach(name => {
+      if (!opsList.includes(name)) opsList.push(name);
+    });
+  writeJsonFile(OPS_FILE, opsList);
+}
 
-  const accounts = getAccounts();
-  const user = accounts[username];
-  if (user && user.password === password) {
-    res.json({ success: true, user });
+function isNameOp(name) {
+  if (!name) return false;
+  return opsList.includes(String(name).trim().toLowerCase());
+}
+
+function setNameOp(name, makeOp) {
+  const clean = String(name || '').trim().toLowerCase();
+  if (!clean) return;
+  if (makeOp) {
+    if (!opsList.includes(clean)) {
+      opsList.push(clean);
+      writeJsonFile(OPS_FILE, opsList);
+    }
   } else {
-    res.json({ success: true, user: { username, password } });
+    opsList = opsList.filter(op => op !== clean);
+    writeJsonFile(OPS_FILE, opsList);
   }
+}
+
+// =========================================================================
+// EXPRESS & HTTP API
+// =========================================================================
+const app = express();
+app.use(express.json({ limit: '10mb' }));
+
+// CORS desteği (yerel HTML veya farklı portlardan bağlantılar için)
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (req.method === 'OPTIONS') return res.sendStatus(200);
+  next();
 });
 
-app.post('/api/sync', (req, res) => {
-  res.json({ success: true });
+// İstemci HTML dosyasını ve statik dosyaları sun
+app.use(express.static(__dirname));
+
+app.get('/', (req, res) => {
+  const files = fs.readdirSync(__dirname);
+  const htmlFile = files.find(f => f.toLowerCase().endsWith('.html'));
+  if (htmlFile) {
+    return res.sendFile(path.join(__dirname, htmlFile));
+  }
+  res.send('MooCraft Çok Oyunculu Sunucusu Aktif!');
+});
+
+// Sunucu listesi endpoint'i
+app.get('/api/servers', (req, res) => {
+  const host = req.get('host') || `localhost:${PORT}`;
+  res.json([
+    {
+      id: 'moocraft_main',
+      name: 'MooCraft Resmi Sunucu',
+      address: host,
+      motd: 'Gecikmesiz PvP & Tam Karakter Senkronizasyonu',
+      maxPlayers: MAX_PLAYERS,
+      online: players.size,
+      status: 'online',
+      ping: 12,
+      version: '1.1',
+      isServer: true
+    }
+  ]);
+});
+
+// Hesap Giriş API
+app.post('/api/login', (req, res) => {
+  const username = String((req.body && req.body.username) || '').trim();
+  const password = String((req.body && req.body.password) || '');
+  if (!username || !password) {
+    return res.json({ success: false, message: 'Kullanıcı adı ve şifre gereklidir.' });
+  }
+
+  const key = username.toLowerCase();
+  const banInfo = bansMap[key];
+  if (banInfo) {
+    return res.json({
+      success: false,
+      banned: true,
+      banInfo,
+      message: `Sunucudan yasaklandınız! Sebep: ${banInfo.reason || 'Yönetici kararı'}`
+    });
+  }
+
+  const user = accounts[key];
+  if (!user || user.pass !== password) {
+    return res.json({ success: false, message: 'Hatalı kullanıcı adı veya şifre!' });
+  }
+
+  return res.json({ success: true, user });
+});
+
+// Hesap Kayıt API
+app.post('/api/register', (req, res) => {
+  const username = String((req.body && req.body.username) || '').trim();
+  const password = String((req.body && req.body.password) || '');
+  if (!username || password.length < 3) {
+    return res.json({ success: false, message: 'Geçerli kullanıcı adı ve en az 3 karakterli şifre girin.' });
+  }
+
+  const key = username.toLowerCase();
+  if (accounts[key]) {
+    return res.json({ success: false, message: 'Bu kullanıcı adı zaten kayıtlı!' });
+  }
+
+  const newUser = {
+    username,
+    pass: password,
+    character: (req.body && req.body.character) || null,
+    worlds: (req.body && req.body.worlds) || [],
+    servers: (req.body && req.body.servers) || [],
+    createdAt: new Date().toISOString()
+  };
+
+  accounts[key] = newUser;
+  writeJsonFile(ACCOUNTS_FILE, accounts);
+  return res.json({ success: true, user: newUser });
 });
 
 // =========================================================================
-// --- OYUNCULAR & DÜNYA DURUMU ---
+// SOCKET.IO & OYUN DURUMU
 // =========================================================================
-const players = {};
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: { origin: '*', methods: ['GET', 'POST'] },
+  transports: ['websocket', 'polling'],
+  maxHttpBufferSize: 10 * 1024 * 1024, // Özel 64x64 skin paketleri için 10MB
+  perMessageDeflate: false, // Gecikmesiz anlık paket iletimi
+  pingInterval: 10000,
+  pingTimeout: 5000
+});
+
+// Aktif oyuncular: Map<socketId, PlayerState>
+const players = new Map();
+// Dünya durumu
 const worldState = {
-  seed: "moocraft_multi_seed",
-  blocks: {},       // "x,y,z" -> blockType
-  droppedItems: {}, // dropId -> { id, type, count, x, y, z, vx, vy, vz, droppedBy }
-  time: 6000,
-  weather: 'clear'
+  time: 1000,
+  weather: 'clear',
+  blocks: new Map() // "x,y,z" -> blockData
 };
+// Tekrarlanan PvP vuruşlarını engellemek için kısa süreli hitId önbelleği
+const recentHitIds = new Set();
 
-// --- OP (YETKİLİ) DOSYA YÖNETİMİ ---
-const OPS_FILE = path.join(__dirname, 'ops.json');
-
-function loadOps() {
-  if (fs.existsSync(OPS_FILE)) {
-    try { return JSON.parse(fs.readFileSync(OPS_FILE, 'utf8')); } catch (e) { return []; }
+function findPlayerByTarget(targetId, targetClientId, targetName) {
+  if (targetId && players.has(targetId)) {
+    return { socketId: targetId, player: players.get(targetId) };
   }
-  return [];
-}
-
-function saveOps(opsList) {
-  try { fs.writeFileSync(OPS_FILE, JSON.stringify(opsList, null, 2), 'utf8'); } catch (e) {
-    console.error('[Hata] Ops dosyası kaydedilemedi:', e.message);
-  }
-}
-
-let opPlayers = loadOps();
-
-// --- BAN DOSYASI YÖNETİMİ ---
-const BANS_FILE = path.join(__dirname, 'banned.json');
-
-function loadBans() {
-  if (fs.existsSync(BANS_FILE)) {
-    try { return JSON.parse(fs.readFileSync(BANS_FILE, 'utf8')); } catch (e) { return []; }
-  }
-  return [];
-}
-
-function saveBans(bansList) {
-  try { fs.writeFileSync(BANS_FILE, JSON.stringify(bansList, null, 2), 'utf8'); } catch (e) {
-    console.error('[Hata] Bans dosyası kaydedilemedi:', e.message);
-  }
-}
-
-let bannedPlayers = loadBans();
-
-// Yardımcı: İsim, socketId veya clientId ile hedef oyuncuyu bul
-function findPlayerSocketId(target) {
-  if (!target) return null;
-  if (players[target]) return target;
-  const clean = String(target).trim().toLowerCase();
-  for (const id in players) {
-    const p = players[id];
-    if (p.clientId && p.clientId === target) return id;
-    if (p.name && p.name.trim().toLowerCase() === clean) return id;
+  const cleanName = targetName ? String(targetName).trim().toLowerCase() : '';
+  for (const [sid, p] of players.entries()) {
+    if (targetClientId && p.clientId === targetClientId) {
+      return { socketId: sid, player: p };
+    }
+    if (cleanName && p.name && p.name.trim().toLowerCase() === cleanName) {
+      return { socketId: sid, player: p };
+    }
   }
   return null;
 }
 
-function isNameBanned(name) {
-  const clean = String(name || '').trim().toLowerCase();
-  return bannedPlayers.some(b => {
-    const bName = (typeof b === 'string') ? b : (b && (b.originalName || b.name));
-    return bName && String(bName).trim().toLowerCase() === clean;
+function findSocketsByName(targetName) {
+  const clean = String(targetName || '').trim().toLowerCase();
+  const matched = [];
+  for (const [sid, p] of players.entries()) {
+    if (p.name && p.name.trim().toLowerCase() === clean) {
+      const sock = io.sockets.sockets.get(sid);
+      if (sock) matched.push({ sid, sock, player: p });
+    }
+  }
+  return matched;
+}
+
+function isSocketOp(socket) {
+  const p = players.get(socket.id);
+  return Boolean(p && (p.isOp || isNameOp(p.name)));
+}
+
+function mergeCharacterData(existingPlayer, data) {
+  if (!data) return;
+  let charObj = null;
+  if (data.character && typeof data.character === 'object') {
+    charObj = data.character;
+  } else if (typeof data.character === 'string') {
+    try { charObj = JSON.parse(data.character); } catch (e) {}
+  }
+
+  const skinStr = data.customSkin || data.skin || (charObj && charObj.customSkin) || null;
+  if (charObj) {
+    existingPlayer.character = charObj;
+    if (skinStr && !existingPlayer.character.customSkin) {
+      existingPlayer.character.customSkin = skinStr;
+    }
+  } else if (skinStr) {
+    if (!existingPlayer.character || typeof existingPlayer.character !== 'object') {
+      existingPlayer.character = {};
+    }
+    existingPlayer.character.customSkin = skinStr;
+  }
+
+  if (skinStr) {
+    existingPlayer.customSkin = skinStr;
+    existingPlayer.skin = skinStr;
+  }
+}
+
+function buildPublicPlayerPayload(p) {
+  return {
+    id: p.id,
+    clientId: p.clientId,
+    name: p.name,
+    x: p.x,
+    y: p.y,
+    z: p.z,
+    yaw: p.yaw,
+    character: p.character,
+    customSkin: p.customSkin,
+    skin: p.skin,
+    heldItem: p.heldItem,
+    health: p.health,
+    gamemode: p.gamemode,
+    isOp: p.isOp
+  };
+}
+
+// =========================================================================
+// PvP HASAR İŞLEME (ANLIK / GECİKMESİZ)
+// =========================================================================
+function processPvpDamage(senderSocket, data) {
+  if (!data) return;
+  if (data.hitId) {
+    if (recentHitIds.has(data.hitId)) return;
+    recentHitIds.add(data.hitId);
+    if (recentHitIds.size > 500) {
+      const first = recentHitIds.values().next().value;
+      recentHitIds.delete(first);
+    }
+  }
+
+  const attackerPlayer = players.get(senderSocket.id);
+  const attackerName = data.attacker || (attackerPlayer && attackerPlayer.name) || 'Oyuncu';
+  const damage = Math.max(0, Number(data.damage) || 2);
+
+  const found = findPlayerByTarget(data.targetId, data.targetClientId, data.targetName);
+  const enrichedPayload = {
+    ...data,
+    attacker: attackerName,
+    attackerClientId: data.attackerClientId || (attackerPlayer && attackerPlayer.clientId) || null,
+    damage
+  };
+
+  if (found) {
+    enrichedPayload.targetId = found.socketId;
+    enrichedPayload.targetClientId = found.player.clientId;
+    enrichedPayload.targetName = found.player.name;
+
+    // Hedefe ve diğer oyunculara anında ilet (sıfır gecikme)
+    const targetSock = io.sockets.sockets.get(found.socketId);
+    if (targetSock) {
+      targetSock.emit('player-damage', enrichedPayload);
+    }
+    senderSocket.broadcast.emit('player-damage', enrichedPayload);
+
+    // Sunucu taraflı can & ölüm takibi
+    const isKillCommand = damage >= 999;
+    if (found.player.gamemode !== 'creative' || isKillCommand) {
+      found.player.health = Math.max(0, (Number(found.player.health) || 20) - damage);
+      if (found.player.health <= 0) {
+        found.player.health = 20;
+        io.emit('player-died', {
+          id: found.socketId,
+          name: found.player.name,
+          x: found.player.x,
+          y: found.player.y,
+          z: found.player.z,
+          killer: attackerName
+        });
+      }
+    }
+  } else {
+    // Hedef doğrudan bulunamazsa tüm diğer istemcilere yayınla
+    senderSocket.broadcast.emit('player-damage', enrichedPayload);
+  }
+}
+
+// =========================================================================
+// BAN & OP İŞLEMLERİ
+// =========================================================================
+function executeBan(senderSocket, banData) {
+  if (!isSocketOp(senderSocket)) {
+    senderSocket.emit('chat-message', {
+      name: 'Sistem',
+      text: 'Bu işlem için Yönetici (OP) yetkiniz olmalıdır!'
+    });
+    return;
+  }
+  if (!banData || !banData.originalName) return;
+
+  const targetLower = String(banData.originalName).trim().toLowerCase();
+  const senderPlayer = players.get(senderSocket.id);
+  const banInfo = {
+    originalName: String(banData.originalName).trim(),
+    reason: banData.reason || 'Bir yönetici (OP) tarafından sunucudan yasaklandınız.',
+    bannedBy: banData.bannedBy || (senderPlayer && senderPlayer.name) || 'OP',
+    date: banData.date || new Date().toLocaleString('tr-TR')
+  };
+
+  bansMap[targetLower] = banInfo;
+  writeJsonFile(BANS_FILE, bansMap);
+
+  // Herkese anında ban bildirimini yayınla
+  io.emit('player-banned', banInfo);
+  io.emit('ban-player', banInfo);
+
+  // Hedef oyuncunun bağlantısını hemen kes
+  const targets = findSocketsByName(banInfo.originalName);
+  targets.forEach(({ sid, sock }) => {
+    players.delete(sid);
+    io.emit('player-left', sid);
+    setTimeout(() => {
+      try { sock.disconnect(true); } catch (e) {}
+    }, 150);
   });
 }
 
-// --- TERMINAL KOMUT SİSTEMİ ---
-if (process.stdin.isTTY) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
+function executeOpChange(senderSocket, targetName, makeOp) {
+  if (!isSocketOp(senderSocket)) {
+    senderSocket.emit('chat-message', {
+      name: 'Sistem',
+      text: 'OP yetkisi vermek/almak için Yönetici (OP) olmalısınız!'
+    });
+    return;
+  }
+  if (!targetName) return;
+
+  setNameOp(targetName, makeOp);
+  const targets = findSocketsByName(targetName);
+  targets.forEach(({ sock, player }) => {
+    player.isOp = makeOp;
+    sock.emit('op-status', { isOp: makeOp });
   });
 
-  console.log("[Konsol] Sunucu komut sistemi aktif: op <isim>, deop <isim>, ban <isim>, unban <isim>, stop");
-
-  rl.on('line', (line) => {
-    const args = line.trim().split(/\s+/);
-    const cmd = (args[0] || '').toLowerCase();
-
-    if (cmd === 'op') {
-      const targetName = args[1];
-      if (!targetName) return console.log("[Konsol] Kullanım: op <oyuncu_adı>");
-      if (!opPlayers.includes(targetName)) {
-        opPlayers.push(targetName);
-        saveOps(opPlayers);
-        console.log(`[Konsol] Başarılı: ${targetName} adlı oyuncu OP yapıldı!`);
-      }
-      const targetId = findPlayerSocketId(targetName);
-      if (targetId && players[targetId]) {
-        players[targetId].isOp = true;
-        io.to(targetId).emit('op-status', { isOp: true });
-        io.to(targetId).emit('chat-message', { name: 'Sunucu', text: 'Yetkilendirildiniz (OP oldunuz)!' });
-      }
-    } else if (cmd === 'deop') {
-      const targetName = args[1];
-      opPlayers = opPlayers.filter(name => name.toLowerCase() !== String(targetName || '').toLowerCase());
-      saveOps(opPlayers);
-      console.log(`[Konsol] ${targetName} oyuncusunun OP yetkisi alındı.`);
-      const targetId = findPlayerSocketId(targetName);
-      if (targetId && players[targetId]) {
-        players[targetId].isOp = false;
-        io.to(targetId).emit('op-status', { isOp: false });
-        io.to(targetId).emit('chat-message', { name: 'Sunucu', text: 'OP yetkiniz alındı.' });
-      }
-    } else if (cmd === 'ban') {
-      const targetName = args[1];
-      if (!targetName) return console.log("[Konsol] Kullanım: ban <oyuncu_adı>");
-      if (!isNameBanned(targetName)) {
-        bannedPlayers.push(targetName);
-        saveBans(bannedPlayers);
-      }
-      console.log(`[Konsol] ${targetName} banlandı!`);
-      const banPayload = { originalName: targetName, bannedBy: 'Konsol', reason: 'Sunucudan yasaklandınız!' };
-      io.emit('ban-player', banPayload);
-      io.emit('player-banned', banPayload);
-      const targetId = findPlayerSocketId(targetName);
-      if (targetId) {
-        io.to(targetId).emit('banned', banPayload);
-        const s = io.sockets.sockets.get(targetId);
-        if (s) s.disconnect(true);
-      }
-    } else if (cmd === 'unban') {
-      const targetName = args[1];
-      if (!targetName) return console.log("[Konsol] Kullanım: unban <oyuncu_adı>");
-      bannedPlayers = bannedPlayers.filter(b => {
-        const bName = (typeof b === 'string') ? b : (b && (b.originalName || b.name));
-        return !bName || String(bName).trim().toLowerCase() !== targetName.toLowerCase();
-      });
-      saveBans(bannedPlayers);
-      io.emit('unban-player', { target: targetName });
-      console.log(`[Konsol] ${targetName} banı kaldırıldı.`);
-    } else if (cmd === 'stop') {
-      process.exit(0);
-    }
+  io.emit('chat-message', {
+    name: 'Sistem',
+    text: `[OP_UPDATE]:${targetName}:${makeOp ? 'true' : 'false'}`
   });
 }
 
 // =========================================================================
-// --- SOCKET.IO GERÇEK ZAMANLI ÇOK OYUNCULU YÖNETİMİ ---
+// BAĞLANTI DİNLEYİCİLERİ
 // =========================================================================
 io.on('connection', (socket) => {
-  console.log(`[Sunucu] Yeni bağlantı: ${socket.id}`);
+  // 1. Oyuncu Katılımı
+  socket.on('player-join', (data) => {
+    if (!data) return;
+    const playerName = String(data.name || 'Oyuncu').trim();
+    const nameLower = playerName.toLowerCase();
 
-  // 1. OYUNCU KATILIMI
-  socket.on('player-join', (data = {}) => {
-    const playerName = (data.name || 'Oyuncu').trim();
-
-    if (isNameBanned(playerName)) {
-      const banData = { originalName: playerName, reason: 'Sunucudan yasaklandınız!' };
-      socket.emit('banned', banData);
-      socket.emit('player-banned', banData);
-      socket.disconnect(true);
+    // Banlı kullanıcı kontrolü
+    if (bansMap[nameLower]) {
+      const banInfo = bansMap[nameLower];
+      socket.emit('player-banned', banInfo);
+      socket.emit('ban-player', banInfo);
+      setTimeout(() => {
+        try { socket.disconnect(true); } catch (e) {}
+      }, 150);
       return;
     }
 
-    // Aktif hesapta zaten başka biri oynuyorsa girişi engelle
-    const existingId = findPlayerSocketId(playerName);
-    if (existingId && existingId !== socket.id) {
-      socket.emit('duplicate-login', {
-        message: 'Aktif hesaba başka biri giriş yapmış!'
-      });
-      setTimeout(() => { try { socket.disconnect(true); } catch (e) {} }, 150);
-      return;
+    // Aynı kullanıcı adıyla başka aktif oturum varsa kontrol et
+    for (const [sid, existing] of players.entries()) {
+      if (sid !== socket.id && existing.name && existing.name.toLowerCase() === nameLower) {
+        if (existing.clientId && data.clientId && existing.clientId === data.clientId) {
+          // Aynı istemcinin eski hayalet bağlantısını temizle
+          players.delete(sid);
+          io.emit('player-left', sid);
+        } else {
+          // Eski bağlantıyı sonlandır veya yeni girişi uyar
+          const oldSock = io.sockets.sockets.get(sid);
+          if (oldSock) {
+            oldSock.emit('duplicate-login', {
+              message: 'Hesabınıza başka bir yerden giriş yapıldı!'
+            });
+            setTimeout(() => {
+              try { oldSock.disconnect(true); } catch (e) {}
+            }, 150);
+          }
+          players.delete(sid);
+          io.emit('player-left', sid);
+        }
+      }
     }
 
-    const isUserOp = opPlayers.some(op => String(op).toLowerCase() === playerName.toLowerCase());
-
-    players[socket.id] = {
+    const opStatus = isNameOp(playerName);
+    const playerState = {
       id: socket.id,
       clientId: data.clientId || null,
       name: playerName,
-      x: Number(data.x) || 0,
-      y: Number(data.y) || 30,
-      z: Number(data.z) || 0,
-      yaw: Number(data.yaw) || 0,
-      pitch: Number(data.pitch) || 0,
+      x: Number.isFinite(data.x) ? data.x : 0,
+      y: Number.isFinite(data.y) ? data.y : 40,
+      z: Number.isFinite(data.z) ? data.z : 0,
+      yaw: Number.isFinite(data.yaw) ? data.yaw : 0,
+      character: null,
+      customSkin: null,
+      skin: null,
       heldItem: data.heldItem || null,
-      isSwinging: false,
-      gamemode: data.gamemode || 'survival',
-      character: data.character || null,
-      customSkin: data.customSkin || data.skin || null,
-      skin: data.skin || data.customSkin || null,
-      isOp: isUserOp,
-      lastDamageTime: 0
+      health: 20,
+      gamemode: 'survival',
+      isOp: opStatus
     };
 
-    socket.emit('op-status', { isOp: isUserOp });
-    socket.emit('world-init', worldState);
+    mergeCharacterData(playerState, data);
+    players.set(socket.id, playerState);
+
+    // Oyuncuya kendi OP durumunu sessizce bildir
+    socket.emit('op-status', { isOp: opStatus });
+
+    // Mevcut dünya zamanı ve hava durumunu gönder
     socket.emit('world-time', { time: worldState.time });
     socket.emit('weather-change', { weather: worldState.weather });
 
-    // Mevcut tüm oyuncuları yeni katılana ve diğerlerine anında gönder
-    socket.emit('players-state', players);
-    socket.broadcast.emit('player-joined', players[socket.id]);
-    socket.broadcast.emit('new-player', players[socket.id]);
-    io.emit('players-state', players);
-  });
-
-  // 2. ANLIK HAREKET, BAKIŞ, ELDEKİ EŞYA VE KOL SAVURMA SENKRONİZASYONU
-  socket.on('player-move', (data) => {
-    const p = players[socket.id];
-    if (!p || !data) return;
-
-    p.x = data.x;
-    p.y = data.y;
-    p.z = data.z;
-    p.yaw = data.yaw;
-    if (data.pitch !== undefined) p.pitch = data.pitch;
-    if (data.heldItem !== undefined) p.heldItem = data.heldItem;
-    if (data.isSwinging !== undefined) p.isSwinging = data.isSwinging;
-    if (data.isSneaking !== undefined) p.isSneaking = data.isSneaking;
-    if (data.isSprinting !== undefined) p.isSprinting = data.isSprinting;
-    if (data.clientId) p.clientId = data.clientId;
-    if (data.name) p.name = data.name;
-    if (data.character) p.character = data.character;
-    if (data.customSkin) p.customSkin = data.customSkin;
-    if (data.skin) p.skin = data.skin;
-
-    // Tüm hareket ve aksiyon verilerini kayıpsız & anında diğer oyunculara ilet
-    socket.broadcast.emit('player-moved', p);
-  });
-
-  // 3. ANLIK PVP HASAR & VURUŞ SENKRONİZASYONU
-  socket.on('player-damage', (data) => {
-    if (!data) return;
-    const attacker = players[socket.id];
-    const now = Date.now();
-
-    // Hızlı vuruşlarda çok hafif anti-spam (120ms) ama anında tepki
-    if (attacker && now - (attacker.lastDamageTime || 0) < 120) return;
-    if (attacker) attacker.lastDamageTime = now;
-
-    const payload = {
-      ...data,
-      attacker: data.attacker || (attacker ? attacker.name : 'Oyuncu'),
-      attackerId: socket.id,
-      attackerClientId: data.attackerClientId || (attacker ? attacker.clientId : null),
-      damage: Number(data.damage) || 2,
-      timestamp: now
-    };
-
-    const targetSockId = findPlayerSocketId(data.targetId || data.targetSockId || data.targetClientId || data.targetName);
-    if (targetSockId && targetSockId !== socket.id) {
-      io.to(targetSockId).emit('player-damage', payload);
-    }
-    // Diğer istemcilerin vuruş efektini / yedek eşleşmesini alması için broadcast
-    socket.broadcast.emit('player-damage', payload);
-  });
-
-  // 4. OYUNCULAR ARASI EŞYA VERME (/give veya doğrudan verme) VE YERE ATILAN EŞYA SENKRONİZASYONU
-  socket.on('give-item', (data) => {
-    if (!data || !data.item) return;
-    const sender = players[socket.id];
-    const targetSockId = findPlayerSocketId(data.targetId || data.targetName);
-    const count = Math.max(1, parseInt(data.count, 10) || 1);
-
-    if (targetSockId) {
-      io.to(targetSockId).emit('give-item', {
-        item: data.item,
-        count,
-        from: sender ? sender.name : (data.from || 'Oyuncu')
+    // Değiştirilmiş blokları yeni katılan oyuncuya gönder
+    if (worldState.blocks.size > 0) {
+      worldState.blocks.forEach((blk) => {
+        socket.emit('block-update', blk);
       });
-      if (sender) {
-        socket.emit('chat-message', {
-          name: 'Sistem',
-          text: `${players[targetSockId].name} adlı oyuncuya ${count}x ${data.item} verildi.`
-        });
+    }
+
+    // Tüm aktif oyuncuların tam karakter ve konum durumunu yeni oyuncuya gönder
+    const allPlayersObj = {};
+    for (const [sid, p] of players.entries()) {
+      if (sid !== socket.id) {
+        allPlayersObj[sid] = buildPublicPlayerPayload(p);
       }
-    } else {
-      socket.emit('chat-message', { name: 'Sistem', text: 'Hedef oyuncu sunucuda bulunamadı!' });
     }
+    socket.emit('players-state', allPlayersObj);
+
+    // Diğer tüm oyunculara yeni katılan oyuncuyu tam karakteriyle bildir
+    socket.broadcast.emit('player-joined', buildPublicPlayerPayload(playerState));
   });
 
-  socket.on('item-drop', (data) => {
-    if (!data || !data.type) return;
-    const sender = players[socket.id];
-    const dropId = data.id || `${socket.id}_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
-    const dropObj = {
-      id: dropId,
-      type: data.type,
-      count: Math.max(1, parseInt(data.count, 10) || 1),
-      x: Number(data.x) || (sender ? sender.x : 0),
-      y: Number(data.y) || (sender ? sender.y : 30),
-      z: Number(data.z) || (sender ? sender.z : 0),
-      vx: Number(data.vx) || 0,
-      vy: Number(data.vy) || 2.5,
-      vz: Number(data.vz) || 0,
-      droppedBy: sender ? sender.name : 'Oyuncu'
-    };
-    worldState.droppedItems[dropId] = dropObj;
-    socket.broadcast.emit('item-drop', dropObj);
-  });
-
-  socket.on('item-pickup', (data) => {
-    if (!data || !data.id) return;
-    if (worldState.droppedItems[data.id]) {
-      delete worldState.droppedItems[data.id];
-      socket.broadcast.emit('item-pickup', { id: data.id, pickedBy: socket.id });
-    }
-  });
-
-  // 5. BLOK KOYMA / KIRMA SENKRONİZASYONU
-  socket.on('block-update', (data) => {
-    if (!data || data.x === undefined || data.y === undefined || data.z === undefined) return;
-    const key = `${Math.floor(data.x)},${Math.floor(data.y)},${Math.floor(data.z)}`;
-    if (data.type === null || data.type === 'air') {
-      worldState.blocks[key] = null;
-    } else {
-      worldState.blocks[key] = data.type;
-    }
-    socket.broadcast.emit('block-update', data);
-  });
-
-  // 6. KOSTÜM (SKIN) SENKRONİZASYONU
-  const handleSkinRelay = (data) => {
+  // 2. Gecikmesiz Anlık Hareket Senkronizasyonu
+  socket.on('player-move', (data) => {
     if (!data) return;
-    const p = players[socket.id];
-    if (p) {
-      if (data.customSkin || data.skin) {
-        p.customSkin = data.customSkin || data.skin;
-        p.skin = p.customSkin;
-      }
-      if (data.character) p.character = data.character;
+    let p = players.get(socket.id);
+    if (!p) {
+      p = {
+        id: socket.id,
+        clientId: data.clientId || null,
+        name: data.name || 'Oyuncu',
+        x: 0,
+        y: 40,
+        z: 0,
+        yaw: 0,
+        character: null,
+        customSkin: null,
+        skin: null,
+        heldItem: null,
+        health: 20,
+        gamemode: 'survival',
+        isOp: isNameOp(data.name)
+      };
+      players.set(socket.id, p);
     }
-    socket.broadcast.emit('player-skin', { ...data, id: socket.id });
-  };
-  socket.on('player-skin', handleSkinRelay);
-  socket.on('skin-update', handleSkinRelay);
-  socket.on('player-custom-skin', handleSkinRelay);
-  socket.on('set-skin', handleSkinRelay);
-  socket.on('player-request-skin', (data) => {
-    socket.broadcast.emit('player-request-skin', data);
-  });
 
-  // 7. DÜNYA ZAMANI, HAVA DURUMU, OYUN MODU & IŞINLANMA
-  socket.on('world-time', (data) => {
-    if (data && data.time !== undefined) {
-      worldState.time = data.time;
-      socket.broadcast.emit('world-time', data);
+    if (Number.isFinite(data.x)) p.x = data.x;
+    if (Number.isFinite(data.y)) p.y = data.y;
+    if (Number.isFinite(data.z)) p.z = data.z;
+    if (Number.isFinite(data.yaw)) p.yaw = data.yaw;
+    if (data.heldItem !== undefined) p.heldItem = data.heldItem;
+    if (data.character || data.customSkin || data.skin) {
+      mergeCharacterData(p, data);
     }
-  });
 
-  socket.on('weather-change', (data) => {
-    if (data && data.weather) {
-      worldState.weather = data.weather;
-      socket.broadcast.emit('weather-change', data);
-    }
-  });
-
-  socket.on('gamemode-change', (data) => {
-    if (players[socket.id] && data && data.mode) {
-      players[socket.id].gamemode = data.mode;
-    }
-    socket.broadcast.emit('gamemode-change', { ...data, id: socket.id });
-  });
-
-  socket.on('player-tp', (data) => {
-    if (!data || !data.target) return;
-    const sender = players[socket.id];
-    const targetSockId = findPlayerSocketId(data.target);
-    const payload = { ...data, by: data.by || (sender ? sender.name : 'Bir oyuncu') };
-    if (targetSockId) {
-      io.to(targetSockId).emit('player-tp', payload);
-    } else {
-      socket.broadcast.emit('player-tp', payload);
-    }
-  });
-
-  // 7.5 ÖLÜM BİLDİRİMİ & GİZLİ OP DOĞRULAMA (/server:03622)
-  socket.on('player-died', (data) => {
-    const p = players[socket.id];
-    if (!p) return;
-    socket.broadcast.emit('player-died', {
+    // Gecikmesiz doğrudan yayın (tam karakter + konum + elde tutulan eşya)
+    socket.broadcast.emit('player-moved', {
+      ...data,
       id: socket.id,
+      clientId: p.clientId || data.clientId,
       name: p.name,
-      x: p.x,
-      y: p.y,
-      z: p.z,
-      source: (data && data.source) ? data.source : 'generic'
+      character: p.character || data.character || null,
+      customSkin: p.customSkin || data.customSkin || null,
+      skin: p.skin || data.skin || null,
+      heldItem: p.heldItem
     });
   });
 
+  // 3. Karakter & Kostüm (Skin) Senkronizasyonu
+  const handleSkinEvent = (data) => {
+    if (!data) return;
+    const p = players.get(socket.id);
+    if (p) {
+      mergeCharacterData(p, data);
+    }
+    const payload = {
+      ...data,
+      id: socket.id,
+      clientId: (p && p.clientId) || data.clientId || null,
+      name: (p && p.name) || data.name || 'Oyuncu',
+      character: (p && p.character) || data.character || null,
+      customSkin: (p && p.customSkin) || data.customSkin || null,
+      skin: (p && p.skin) || data.skin || null
+    };
+    socket.broadcast.emit('player-skin', payload);
+  };
+
+  socket.on('player-skin', handleSkinEvent);
+  socket.on('skin-update', handleSkinEvent);
+  socket.on('player-custom-skin', handleSkinEvent);
+  socket.on('set-skin', handleSkinEvent);
+
+  socket.on('player-request-skin', (data) => {
+    if (data && (data.targetId || data.targetName)) {
+      const found = findPlayerByTarget(data.targetId, null, data.targetName);
+      if (found && (found.player.character || found.player.customSkin)) {
+        socket.emit('player-skin', buildPublicPlayerPayload(found.player));
+        return;
+      }
+    }
+    socket.broadcast.emit('player-request-skin', data || {});
+  });
+
+  // 4. Anlık PvP Hasar & Ölüm
+  socket.on('player-damage', (data) => {
+    processPvpDamage(socket, data);
+  });
+
+  socket.on('player-died', (data) => {
+    const p = players.get(socket.id);
+    if (p) p.health = 20;
+    socket.broadcast.emit('player-died', {
+      id: socket.id,
+      name: (data && data.name) || (p && p.name) || 'Oyuncu',
+      x: (p && p.x) || 0,
+      y: (p && p.y) || 40,
+      z: (p && p.z) || 0
+    });
+  });
+
+  // 5. Gizli OP Girişi (/server:03622) & OP Komutları
   socket.on('secret-op-auth', (data) => {
-    const p = players[socket.id];
-    if (!p || !data || String(data.code) !== '03622') return;
-    p.isOp = true;
-    if (!opPlayers.some(op => String(op).toLowerCase() === p.name.toLowerCase())) {
-      opPlayers.push(p.name);
-      saveOps(opPlayers);
+    if (!data || String(data.code) !== OP_SECRET_CODE) return;
+    const p = players.get(socket.id);
+    const targetName = (p && p.name) || data.name;
+    if (targetName) {
+      setNameOp(targetName, true);
+    }
+    if (p) {
+      p.isOp = true;
     }
     socket.emit('op-status', { isOp: true });
   });
 
-  // 8. YETKİ (OP / DEOP / BAN / UNBAN) OLAYLARI
   socket.on('op-player', (data) => {
-    const sender = players[socket.id];
-    if (!sender || !sender.isOp || !data || !data.target) return;
-    if (!opPlayers.includes(data.target)) {
-      opPlayers.push(data.target);
-      saveOps(opPlayers);
-    }
-    const targetId = findPlayerSocketId(data.target);
-    if (targetId && players[targetId]) {
-      players[targetId].isOp = true;
-      io.to(targetId).emit('op-status', { isOp: true });
-    }
-    io.emit('op-player', data);
+    if (data && data.target) executeOpChange(socket, data.target, true);
   });
 
   socket.on('deop-player', (data) => {
-    const sender = players[socket.id];
-    if (!sender || !sender.isOp || !data || !data.target) return;
-    opPlayers = opPlayers.filter(n => n.toLowerCase() !== String(data.target).toLowerCase());
-    saveOps(opPlayers);
-    const targetId = findPlayerSocketId(data.target);
-    if (targetId && players[targetId]) {
-      players[targetId].isOp = false;
-      io.to(targetId).emit('op-status', { isOp: false });
-    }
-    io.emit('deop-player', data);
+    if (data && data.target) executeOpChange(socket, data.target, false);
   });
 
-  const handleBanEvent = (data) => {
-    const sender = players[socket.id];
-    if (!sender || !sender.isOp || !data || !data.originalName) return;
-    if (!isNameBanned(data.originalName)) {
-      bannedPlayers.push(data.originalName);
-      saveBans(bannedPlayers);
-    }
-    io.emit('ban-player', data);
-    io.emit('player-banned', data);
-    const targetId = findPlayerSocketId(data.originalName);
-    if (targetId) {
-      io.to(targetId).emit('banned', data);
-      const s = io.sockets.sockets.get(targetId);
-      if (s) s.disconnect(true);
-    }
-  };
-  socket.on('ban-player', handleBanEvent);
-  socket.on('player-banned', handleBanEvent);
+  // 6. Ban / Unban
+  socket.on('ban-player', (data) => executeBan(socket, data));
+  socket.on('player-banned', (data) => executeBan(socket, data));
 
   socket.on('unban-player', (data) => {
-    const sender = players[socket.id];
-    if (!sender || !sender.isOp || !data || !data.target) return;
-    bannedPlayers = bannedPlayers.filter(b => {
-      const bName = (typeof b === 'string') ? b : (b && (b.originalName || b.name));
-      return !bName || String(bName).trim().toLowerCase() !== String(data.target).trim().toLowerCase();
-    });
-    saveBans(bannedPlayers);
-    io.emit('unban-player', data);
+    if (!isSocketOp(socket)) return;
+    if (!data || !data.target) return;
+    const key = String(data.target).trim().toLowerCase();
+    if (bansMap[key]) {
+      delete bansMap[key];
+      writeJsonFile(BANS_FILE, bansMap);
+      io.emit('unban-player', { target: data.target });
+    }
   });
 
-  // 9. KOMUTLAR & SOHBET
-  socket.on('command', (data) => {
-    const player = players[socket.id];
-    if (!player || !player.isOp) {
-      socket.emit('chat-message', { name: 'Sistem', text: 'Bu komutu kullanmak için OP yetkiniz yok!' });
+  // 7. OP Oyun Modu, Zaman, Hava Durumu, Işınlanma ve Eşya Verme
+  socket.on('gamemode-change', (data) => {
+    if (!data) return;
+    const p = players.get(socket.id);
+    if (p) {
+      p.gamemode = data.mode === 'creative' ? 'creative' : 'survival';
+    }
+    socket.broadcast.emit('gamemode-change', {
+      id: socket.id,
+      name: p ? p.name : null,
+      mode: data.mode
+    });
+  });
+
+  socket.on('world-time', (data) => {
+    if (!data || typeof data.time !== 'number') return;
+    if (!isSocketOp(socket)) return;
+    worldState.time = data.time;
+    socket.broadcast.emit('world-time', { time: worldState.time });
+  });
+
+  socket.on('weather-change', (data) => {
+    if (!data || !data.weather) return;
+    if (!isSocketOp(socket)) return;
+    worldState.weather = data.weather;
+    socket.broadcast.emit('weather-change', { weather: worldState.weather });
+  });
+
+  socket.on('player-tp', (data) => {
+    if (!data || !data.target) return;
+    const sender = players.get(socket.id);
+    const targets = findSocketsByName(data.target);
+    targets.forEach(({ sock }) => {
+      sock.emit('player-tp', {
+        target: data.target,
+        by: (sender && sender.name) || 'Bir oyuncu'
+      });
+    });
+  });
+
+  socket.on('give-item', (data) => {
+    if (!isSocketOp(socket)) return;
+    if (!data || !data.item) return;
+    const sender = players.get(socket.id);
+    if (data.target) {
+      const targets = findSocketsByName(data.target);
+      targets.forEach(({ sock }) => {
+        sock.emit('give-item', {
+          item: data.item,
+          count: data.count || 1,
+          from: (sender && sender.name) || 'OP'
+        });
+      });
+    } else {
+      socket.broadcast.emit('give-item', {
+        item: data.item,
+        count: data.count || 1,
+        from: (sender && sender.name) || 'OP'
+      });
+    }
+  });
+
+  // 8. Dünya Blok & Yerdeki Eşya Senkronizasyonu
+  socket.on('block-update', (data) => {
+    if (!data || data.x === undefined || data.y === undefined || data.z === undefined) return;
+    const key = `${Math.floor(data.x)},${Math.floor(data.y)},${Math.floor(data.z)}`;
+    worldState.blocks.set(key, data);
+    socket.broadcast.emit('block-update', data);
+  });
+
+  socket.on('item-drop', (data) => {
+    if (!data) return;
+    socket.broadcast.emit('item-drop', data);
+  });
+
+  socket.on('item-pickup', (data) => {
+    if (!data) return;
+    socket.broadcast.emit('item-pickup', data);
+  });
+
+  // 9. Sohbet & Fallback Relay Filtresi ([PVP_DAMAGE], [PLAYER_BAN], [OP_UPDATE], [SKIN_DATA])
+  socket.on('chat-message', (data) => {
+    if (!data || typeof data.text !== 'string') return;
+    const text = data.text;
+
+    if (text.startsWith('[PVP_DAMAGE]:')) {
+      try {
+        const pvpObj = JSON.parse(text.slice(13));
+        processPvpDamage(socket, pvpObj);
+      } catch (e) {}
       return;
     }
-    const cmdText = (data && data.text ? data.text : '').trim();
-    io.emit('chat-message', { name: 'Konsol', text: `${player.name} komutu çalıştırdı: ${cmdText}` });
+
+    if (text.startsWith('[PLAYER_BAN]:')) {
+      try {
+        const banObj = JSON.parse(text.slice(13));
+        executeBan(socket, banObj);
+      } catch (e) {}
+      return;
+    }
+
+    if (text.startsWith('[OP_UPDATE]:')) {
+      try {
+        const parts = text.slice(12).split(':');
+        if (parts[0]) {
+          executeOpChange(socket, parts[0], parts[1] === 'true');
+        }
+      } catch (e) {}
+      return;
+    }
+
+    if (text.startsWith('[SKIN_DATA]:')) {
+      try {
+        const skinObj = JSON.parse(text.slice(12));
+        handleSkinEvent(skinObj);
+      } catch (e) {}
+      return;
+    }
+
+    if (text.startsWith('[SKIN_REQ]:')) {
+      socket.broadcast.emit('chat-message', data);
+      return;
+    }
+
+    socket.broadcast.emit('chat-message', data);
   });
 
-  socket.on('chat-message', (data) => {
-    if (!data) return;
-    io.emit('chat-message', data);
-  });
-
-  // 10. BAĞLANTI KOPMASI / ÇIKIŞ
-  const handleDisconnect = () => {
-    if (players[socket.id]) {
-      delete players[socket.id];
+  // 10. Çıkış & Bağlantı Kopması
+  socket.on('player-left', () => {
+    if (players.has(socket.id)) {
+      players.delete(socket.id);
       io.emit('player-left', socket.id);
     }
-  };
-  socket.on('player-left', handleDisconnect);
-  socket.on('disconnect', handleDisconnect);
+  });
+
+  socket.on('disconnect', () => {
+    if (players.has(socket.id)) {
+      players.delete(socket.id);
+      io.emit('player-left', socket.id);
+    }
+  });
 });
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, '0.0.0.0', () => {
-  console.log(`[MooCraft Sunucu] Düşük gecikmeli modda çalışıyor. Port: ${PORT}`);
+server.listen(PORT, () => {
+  console.log(`MooCraft Çok Oyunculu Sunucusu http://localhost:${PORT} adresinde çalışıyor.`);
 });
