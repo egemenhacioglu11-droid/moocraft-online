@@ -2,7 +2,7 @@
   "name": "moocraft-online",
   "version": "1.0.0",
   "description": "MooCraft 3D Multiplayer Game",
-  "main": "server.js",
+  "main": "server10.js",
   "scripts": {
     "start": "node server.js"
   },
