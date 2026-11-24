@@ -15136,6 +15136,7 @@ const customTextures = {
 
       avatar.userData = {
         playerId: playerId,
+        clientId: null,
         playerName: name || 'Oyuncu',
         rig: rig,
         lastPos: new THREE.Vector3(),
@@ -15165,9 +15166,12 @@ const customTextures = {
     function updateRemotePlayer(data) {
       if (!data) return;
       const currentSocketId = (multiplayerSocket && multiplayerSocket.id) ? multiplayerSocket.id : null;
-      // Bizim kendi socket ID veya benzersiz istemci ID'miz ise kendimizi remote listesine eklemeyiz
+      const cleanIncomingName = data.name ? String(data.name).trim().toLowerCase() : '';
+      const cleanMyName = myPlayerName ? String(myPlayerName).trim().toLowerCase() : '';
+      // Bizim kendi socket ID, clientId veya kendi ismimizle gelen hayalet paketleri yoksay
       if (data.id && currentSocketId && data.id === currentSocketId) return;
       if (data.clientId && data.clientId === myClientId) return;
+      if (cleanIncomingName && cleanMyName && cleanIncomingName === cleanMyName) return;
 
       // Karakter / Kostüm verisini çözümle (asla yerel safeStorage'a bakılmaz!)
       let charData = null;
@@ -15200,9 +15204,29 @@ const customTextures = {
       if (!remote && data.id) {
         remote = remotePlayers.get(data.id);
       }
+      // Aynı clientId veya aynı oyuncu adıyla zaten sahnede avatar varsa yenisini OLUŞTURMA (kopyalanmayı önler)
+      if (!remote) {
+        for (const [rKey, rAvatar] of remotePlayers.entries()) {
+          if (String(rKey).startsWith('bot_')) continue;
+          const rUd = rAvatar && rAvatar.userData;
+          if (!rUd) continue;
+          const sameCid = Boolean(data.clientId && rUd.clientId && data.clientId === rUd.clientId);
+          const sameName = Boolean(cleanIncomingName && rUd.playerName && rUd.playerName.trim().toLowerCase() === cleanIncomingName);
+          if (sameCid || sameName) {
+            remote = rAvatar;
+            break;
+          }
+        }
+        if (remote) {
+          // Eski anahtarları temizlemeden önce yeni socket ID ile de eşle
+          remotePlayers.set(pId, remote);
+          if (data.id && pId !== data.id) remotePlayers.set(data.id, remote);
+        }
+      }
 
       if (!remote) {
         remote = makeRemoteAvatar(data.name, charData, pId);
+        if (data.clientId) remote.userData.clientId = data.clientId;
         scene.add(remote);
         remotePlayers.set(pId, remote);
         if (data.id && pId !== data.id) remotePlayers.set(data.id, remote);
@@ -15235,6 +15259,7 @@ const customTextures = {
 
       if (remote.userData) {
         const ud = remote.userData;
+        if (data.clientId) ud.clientId = data.clientId;
         if (Number.isFinite(data.x) && Number.isFinite(data.y) && Number.isFinite(data.z)) {
           const newPos = new THREE.Vector3(data.x, data.y - player.height, data.z);
           if (!ud.hasInitialPos || ud.targetPos.distanceTo(newPos) > 12) {
@@ -15288,7 +15313,8 @@ const customTextures = {
           const prevZ = remote.position.z;
           remote.position.lerp(ud.targetPos, posAlpha);
           const frameHorizDist = Math.hypot(remote.position.x - prevX, remote.position.z - prevZ);
-          const horizMoving = ud.isMoving || (frameHorizDist > 0.004) || (ud.targetPos.distanceTo(remote.position) > 0.04);
+          const remHorizDist = Math.hypot(ud.targetPos.x - remote.position.x, ud.targetPos.z - remote.position.z);
+          const horizMoving = Boolean(ud.isMoving) && (remHorizDist > 0.015 || frameHorizDist > 0.006);
 
           let dYaw = (ud.targetYaw || 0) - remote.rotation.y;
           while (dYaw > Math.PI) dYaw -= Math.PI * 2;
@@ -24382,6 +24408,9 @@ const customTextures = {
         }
       }
 
+      // Uzak oyuncuları her karede (menü/sohbet açıkken bile 60+ FPS) pürüzsüz enterpole ve anime et
+      updateAllRemotePlayers(dt);
+
       if (!isInventoryOpen && !isPauseOpen && !isChatOpen) {
         // Uçuş güvenliği: Hayatta kalma (Survival) modunda kesinlikle uçulamaz, yer çekimi aktiftir!
         if (!isCreativeMode) {
@@ -24399,6 +24428,7 @@ const customTextures = {
 
           remotePlayers.forEach((avatar, id) => {
             if (!avatar || !avatar.position) return;
+            if (!String(id).startsWith('bot_')) return;
             if (!avatar.userData) avatar.userData = {};
             if (typeof avatar.userData.velocityY !== 'number') avatar.userData.velocityY = 0;
 
@@ -24810,8 +24840,7 @@ const customTextures = {
           }
         }
 
-        // Uzak oyuncuları her karede (60+ FPS) pürüzsüz enterpole ve anime et
-        updateAllRemotePlayers(dt);
+
 
         // Çok oyunculu ultra akıcı hareket & duruş senkronizasyonu (25ms aralık veya kritik hareket anı)
         if (now - lastNetworkUpdate > 25 || isSwinging) {
