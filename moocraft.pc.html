@@ -6897,13 +6897,50 @@
         return;
       }
 
-      // --- /HEAL KOMUTU ---
+      // --- /HEAL KOMUTU (HEDEF OYUNCU DESTEKLİ) ---
       if (cmd === '/heal' || cmd === '/iyiles') {
+        const healTarget = args[1] ? args[1].replace(/[\[\]]/g, '').trim() : null;
+        if (healTarget && healTarget.toLowerCase() !== myPlayerName.toLowerCase()) {
+          if (multiplayerSocket && multiplayerSocket.connected) {
+            multiplayerSocket.emit('heal-player', { target: healTarget });
+          }
+          addChatMessage('', `[Komut] ${healTarget} adlı oyuncunun canı ve açlığı dolduruldu!`, true);
+          return;
+        }
         playerHealth = 20;
         playerHunger = 20;
         updateSurvivalHUD();
         addChatMessage('', '[Komut] Canınız ve açlığınız tamamen dolduruldu! (20 Can / 20 Açlık)', true);
         showToast('Can ve açlık dolduruldu!');
+        return;
+      }
+
+      // --- /KICK KOMUTU ---
+      if (cmd === '/kick' || cmd === '/at') {
+        const kickTarget = args[1] ? args[1].replace(/[\[\]]/g, '').trim() : null;
+        if (!kickTarget) {
+          addChatMessage('', 'Kullanım: /kick <oyuncu> [sebep]', true);
+          return;
+        }
+        const reason = args.slice(2).join(' ') || 'Bir yönetici tarafından sunucudan atıldınız.';
+        if (multiplayerSocket && multiplayerSocket.connected) {
+          multiplayerSocket.emit('kick-player', { target: kickTarget, reason });
+        }
+        addChatMessage('', `${kickTarget} sunucudan atıldı.`, true);
+        return;
+      }
+
+      // --- /TPHERE KOMUTU (OYUNCUYU YANINA ÇEKME) ---
+      if (cmd === '/tphere' || cmd === '/cek') {
+        const pullTarget = args[1] ? args[1].replace(/[\[\]]/g, '').trim() : null;
+        if (!pullTarget) {
+          addChatMessage('', 'Kullanım: /tphere <oyuncu>', true);
+          return;
+        }
+        if (multiplayerSocket && multiplayerSocket.connected) {
+          multiplayerSocket.emit('player-tp', { target: pullTarget, pull: true, x: player.x, y: player.y, z: player.z });
+        }
+        addChatMessage('', `${pullTarget} yanınıza çekildi.`, true);
         return;
       }
 
@@ -6925,24 +6962,34 @@
         return;
       }
 
-            // --- /GAMEMODE KOMUTU (CREATIVE / SURVIVAL - SADECE OP OLANLAR) ---
+            // --- /GAMEMODE KOMUTU (CREATIVE / SURVIVAL - HEDEF OYUNCU DESTEKLİ) ---
       if (cmd === '/gamemode' || cmd === '/gm') {
         if (!isUserOp) {
           addChatMessage('', 'Oyun modunu değiştirmek için Yönetici (OP) yetkiniz olmalıdır!', true);
           showToast('Yetki Yok (OP Gerekir)');
           return;
         }
-        const mode = (args[1] || '').toLowerCase();
-        if (mode === 'c' || mode === 'creative' || mode === '1' || mode === 'yaratıcı' || mode === 'yaratici') {
-          isCreativeMode = true; isFlying = true; hudContainer.style.display = 'none';
-          addChatMessage('', 'Oyun modu Yaratıcı (Creative) olarak değiştirildi.', true);
-          showToast('Yaratıcı Mod Aktif');
-        } else if (mode === 's' || mode === 'survival' || mode === '0' || mode === 'hayattakalma') {
-          isCreativeMode = false; isFlying = false; hudContainer.style.display = 'flex';
-          addChatMessage('', 'Oyun modu Hayatta Kalma (Survival) olarak değiştirildi.', true);
-          showToast('Hayatta Kalma Modu Aktif');
+        const modeRaw = (args[1] || '').toLowerCase();
+        const targetPlayer = args[2] ? args[2].replace(/[\[\]]/g, '').trim() : null;
+        const isC = (modeRaw === 'c' || modeRaw === 'creative' || modeRaw === '1' || modeRaw === 'yaratıcı' || modeRaw === 'yaratici');
+        const isS = (modeRaw === 's' || modeRaw === 'survival' || modeRaw === '0' || modeRaw === 'hayattakalma');
+        if (!isC && !isS) {
+          addChatMessage('', 'Kullanım: /gamemode <creative|survival|c|s|1|0> [oyuncu]', true);
+          return;
+        }
+        const modeStr = isC ? 'creative' : 'survival';
+        if (targetPlayer && targetPlayer.toLowerCase() !== myPlayerName.toLowerCase()) {
+          if (multiplayerSocket && multiplayerSocket.connected) {
+            multiplayerSocket.emit('gamemode-change', { target: targetPlayer, mode: modeStr });
+          }
+          addChatMessage('', `${targetPlayer} oyun modu ${isC ? 'Yaratıcı' : 'Hayatta Kalma'} yapıldı.`, true);
         } else {
-          addChatMessage('', 'Kullanım: /gamemode <creative|survival|c|s|1|0>', true);
+          isCreativeMode = isC; isFlying = isC; hudContainer.style.display = isC ? 'none' : 'flex';
+          if (multiplayerSocket && multiplayerSocket.connected) {
+            multiplayerSocket.emit('gamemode-change', { id: multiplayerSocket.id, mode: modeStr });
+          }
+          addChatMessage('', `Oyun modu ${isC ? 'Yaratıcı (Creative)' : 'Hayatta Kalma (Survival)'} olarak değiştirildi.`, true);
+          showToast(isC ? 'Yaratıcı Mod Aktif' : 'Hayatta Kalma Modu Aktif');
         }
         return;
       }
@@ -7030,15 +7077,24 @@
       }
 
 
-      // --- /GIVE KOMUTU (SADECE OP OLANLAR KULLANABİLİR) ---
+      // --- /GIVE KOMUTU (SADECE OP OLANLAR KULLANABİLİR - OYUNCU HEDEFLEMELİ) ---
       if (cmd === '/give' || cmd === '/ver') {
         if (!isUserOp) {
           addChatMessage('', 'Eşya ve blok alma komutunu (/give) kullanmak için Yönetici (OP) yetkiniz olmalıdır!', true);
           showToast('Yetki Yok (OP Gerekir)');
           return;
         }
-        const itemRaw = (args[1] || '').toLowerCase();
-        const hasExplicitCount = args[2] !== undefined && !isNaN(parseInt(args[2]));
+        let giveTarget = null;
+        let itemArgIdx = 1;
+        // Eğer 1. argüman bir blok değilse veya 2. argüman bloksa, 1. argüman hedef oyuncudur
+        const arg1Lower = (args[1] || '').replace(/[\[\]]/g, '').toLowerCase();
+        const arg2Lower = (args[2] || '').toLowerCase();
+        if (args[2] && !BLOCK_INFO[arg1Lower] && (BLOCK_INFO[arg2Lower] || ['diamond','iron','gold','coal','emerald','wood','stone','dirt','grass','tnt','snow','kar'].includes(arg2Lower))) {
+          giveTarget = args[1].replace(/[\[\]]/g, '').trim();
+          itemArgIdx = 2;
+        }
+        const itemRaw = (args[itemArgIdx] || '').toLowerCase();
+        const hasExplicitCount = args[itemArgIdx + 1] !== undefined && !isNaN(parseInt(args[itemArgIdx + 1]));
         
         let mappedType = itemRaw;
         if (itemRaw === 'diamond') mappedType = 'diamond_block';
@@ -7054,16 +7110,19 @@
         else if (itemRaw === 'snow' || itemRaw === 'kar') mappedType = 'snow';
         else if (itemRaw === 'snow_dirt' || itemRaw === 'kar_topragi' || itemRaw === 'kartopragi' || itemRaw === 'kar_toprak' || itemRaw === 'karlı_toprak') mappedType = 'snow_dirt';
 
-        if (BLOCK_INFO[mappedType]) {
-          const count = hasExplicitCount ? parseInt(args[2]) : getMaxStackSize(mappedType);
-          addItemToInventory(mappedType, count);
-          addChatMessage('', `${count} adet ${BLOCK_INFO[mappedType].name} envantere eklendi!`, true);
-          showToast(`+${count} ${BLOCK_INFO[mappedType].name}`);
-        } else if (BLOCK_INFO[itemRaw]) {
-          const count = hasExplicitCount ? parseInt(args[2]) : getMaxStackSize(itemRaw);
-          addItemToInventory(itemRaw, count);
-          addChatMessage('', `${count} adet ${BLOCK_INFO[itemRaw].name} envantere eklendi!`, true);
-          showToast(`+${count} ${BLOCK_INFO[itemRaw].name}`);
+        const finalItem = BLOCK_INFO[mappedType] ? mappedType : (BLOCK_INFO[itemRaw] ? itemRaw : null);
+        if (finalItem) {
+          const count = hasExplicitCount ? parseInt(args[itemArgIdx + 1]) : getMaxStackSize(finalItem);
+          if (giveTarget && giveTarget.toLowerCase() !== myPlayerName.toLowerCase()) {
+            if (multiplayerSocket && multiplayerSocket.connected) {
+              multiplayerSocket.emit('give-item', { target: giveTarget, item: finalItem, count: count });
+            }
+            addChatMessage('', `${giveTarget} adlı oyuncuya ${count} adet ${BLOCK_INFO[finalItem].name} verildi!`, true);
+          } else {
+            addItemToInventory(finalItem, count);
+            addChatMessage('', `${count} adet ${BLOCK_INFO[finalItem].name} envantere eklendi!`, true);
+            showToast(`+${count} ${BLOCK_INFO[finalItem].name}`);
+          }
         } else {
           addChatMessage('', `Geçersiz blok ismi: "${itemRaw}". Örn: /give diamond 64, /give iron 64, /give apple 16`, true);
         }
@@ -7248,12 +7307,20 @@
       // --- /SPEED, /CLEAR, /HELP KOMUTLARI ---
       if (cmd === '/speed' || cmd === '/hiz') {
         const spd = parseFloat(args[1]);
+        const spdTarget = args[2] ? args[2].replace(/[\[\]]/g, '').trim() : null;
         if (!isNaN(spd) && spd > 0 && spd <= 30) {
-          player.speed = 7.5 * spd;
-          addChatMessage('', `Hızınız ${spd}x olarak ayarlandı.`, true);
-          showToast(`Hız: ${spd}x`);
+          if (spdTarget && spdTarget.toLowerCase() !== myPlayerName.toLowerCase()) {
+            if (multiplayerSocket && multiplayerSocket.connected) {
+              multiplayerSocket.emit('speed-change', { target: spdTarget, multiplier: spd });
+            }
+            addChatMessage('', `${spdTarget} hızı ${spd}x olarak ayarlandı.`, true);
+          } else {
+            player.speed = 7.5 * spd;
+            addChatMessage('', `Hızınız ${spd}x olarak ayarlandı.`, true);
+            showToast(`Hız: ${spd}x`);
+          }
         } else {
-          addChatMessage('', 'Kullanım: /speed <sayı> (Örn: /speed 1.5)', true);
+          addChatMessage('', 'Kullanım: /speed <sayı> [oyuncu] (Örn: /speed 1.5)', true);
         }
         return;
       }
@@ -9303,6 +9370,9 @@
       if (isInventoryOpen || isPauseOpen || isChatOpen || (typeof isCraftingTableOpen !== 'undefined' && isCraftingTableOpen) || (typeof isBakkalOpen !== 'undefined' && isBakkalOpen) || (typeof isFurnaceOpen !== 'undefined' && isFurnaceOpen)) return;
       isChestOpen = true;
       currentChestKey = `${x},${y},${z}`;
+      if (typeof isRightMouseDown !== 'undefined') isRightMouseDown = false;
+      if (typeof dragVisitedSlots !== 'undefined') dragVisitedSlots.clear();
+      if (heldCursorItem && (!heldCursorItem.type || heldCursorItem.count <= 0)) heldCursorItem = null;
       if (typeof resetBreaking === 'function') resetBreaking();
 
       const modal = document.getElementById('chestModal');
@@ -9320,6 +9390,8 @@
       if (!isChestOpen) return;
       isChestOpen = false;
       currentChestKey = null;
+      if (typeof isRightMouseDown !== 'undefined') isRightMouseDown = false;
+      if (typeof dragVisitedSlots !== 'undefined') dragVisitedSlots.clear();
       const modal = document.getElementById('chestModal');
       if (modal) {
         modal.style.display = 'none';
@@ -9337,8 +9409,8 @@
 
     function renderChestUI() {
       if (!isChestOpen || !currentChestKey) return;
-      const slots = worldChests.get(currentChestKey);
-      if (!slots) return;
+      const activeChestSlots = worldChests.get(currentChestKey);
+      if (!activeChestSlots) return;
 
       const storageGrid = document.getElementById('chestStorageGrid');
       const mainGrid = document.getElementById('chestMainGrid');
@@ -9352,23 +9424,36 @@
             el.className = 'inv-slot';
             el.oncontextmenu = (e) => { e.preventDefault(); e.stopPropagation(); };
             el.onmousedown = (e) => {
+              const curSlots = worldChests.get(currentChestKey);
+              if (!curSlots) return;
               if (e.button === 2) dragVisitedSlots.add('cs_' + i);
               handleGenericSlotClick({
-                getSlot: () => slots[i],
-                setSlot: (val) => { slots[i] = val; },
+                getSlot: () => curSlots[i],
+                setSlot: (val) => { curSlots[i] = val; },
                 e,
                 onRefresh: () => { renderChestUI(); saveCurrentGameState(); },
                 shiftTarget: (s) => {
-                  if (addItemToInventory(s.type, s.count)) slots[i] = null;
+                  if (addItemToInventory(s.type, s.count)) curSlots[i] = null;
                 }
               });
+            };
+            el.onmouseenter = () => {
+              const curSlots = worldChests.get(currentChestKey);
+              if (!curSlots) return;
+              handleSlotMouseEnterDrag(
+                () => curSlots[i],
+                (val) => { curSlots[i] = val; },
+                () => { renderChestUI(); saveCurrentGameState(); },
+                false,
+                'cs_' + i
+              );
             };
             storageGrid.appendChild(el);
           }
         }
         for (let i = 0; i < 27; i++) {
           const el = storageGrid.children[i];
-          const s = slots[i];
+          const s = activeChestSlots[i];
           el.innerHTML = (s && s.type && s.count > 0) ? createSlotContent(s) : '';
           el.title = (s && s.type && s.count > 0) ? `${BLOCK_INFO[s.type]?.name || s.type} (${s.count})` : '';
         }
@@ -9382,16 +9467,26 @@
             slot.className = 'inv-slot';
             slot.oncontextmenu = (e) => { e.preventDefault(); e.stopPropagation(); };
             slot.onmousedown = (e) => {
+              const curSlots = worldChests.get(currentChestKey);
               if (e.button === 2) dragVisitedSlots.add('cm_' + i);
               handleGenericSlotClick({
                 getSlot: () => inventory[i],
                 setSlot: (val) => { inventory[i] = val || { type: null, count: 0 }; },
                 e,
-                onRefresh: () => { updateInventoryUI(); renderChestUI(); },
+                onRefresh: () => { updateInventoryUI(); renderChestUI(); saveCurrentGameState(); },
                 shiftTarget: (s) => {
-                  if (addItemToChestSlots(slots, s.type, s.count)) inventory[i] = { type: null, count: 0 };
+                  if (curSlots && addItemToChestSlots(curSlots, s.type, s.count)) inventory[i] = { type: null, count: 0 };
                 }
               });
+            };
+            slot.onmouseenter = () => {
+              handleSlotMouseEnterDrag(
+                () => inventory[i],
+                (val) => { inventory[i] = val || { type: null, count: 0 }; },
+                () => { updateInventoryUI(); renderChestUI(); saveCurrentGameState(); },
+                false,
+                'cm_' + i
+              );
             };
             mainGrid.appendChild(slot);
           }
@@ -9412,16 +9507,26 @@
             slot.className = 'inv-slot';
             slot.oncontextmenu = (e) => { e.preventDefault(); e.stopPropagation(); };
             slot.onmousedown = (e) => {
+              const curSlots = worldChests.get(currentChestKey);
               if (e.button === 2) dragVisitedSlots.add('ch_' + i);
               handleGenericSlotClick({
                 getSlot: () => inventory[i],
                 setSlot: (val) => { inventory[i] = val || { type: null, count: 0 }; },
                 e,
-                onRefresh: () => { updateInventoryUI(); renderChestUI(); },
+                onRefresh: () => { updateInventoryUI(); renderChestUI(); saveCurrentGameState(); },
                 shiftTarget: (s) => {
-                  if (addItemToChestSlots(slots, s.type, s.count)) inventory[i] = { type: null, count: 0 };
+                  if (curSlots && addItemToChestSlots(curSlots, s.type, s.count)) inventory[i] = { type: null, count: 0 };
                 }
               });
+            };
+            slot.onmouseenter = () => {
+              handleSlotMouseEnterDrag(
+                () => inventory[i],
+                (val) => { inventory[i] = val || { type: null, count: 0 }; },
+                () => { updateInventoryUI(); renderChestUI(); saveCurrentGameState(); },
+                false,
+                'ch_' + i
+              );
             };
             hotbarGrid.appendChild(slot);
           }
@@ -9433,6 +9538,7 @@
           slotEl.title = (item && item.type && item.count > 0) ? (BLOCK_INFO[item.type]?.name || item.type) : '';
         }
       }
+      updateFloatingCursorUI();
     }
 
     function dropChestItems(x, y, z) {
@@ -15033,9 +15139,24 @@ const customTextures = {
         playerName: name || 'Oyuncu',
         rig: rig,
         lastPos: new THREE.Vector3(),
+        targetPos: new THREE.Vector3(),
+        hasInitialPos: false,
+        targetYaw: 0,
+        targetPitch: 0,
         walkTime: 0,
         currentSkinKey: (charConfig && charConfig.customSkin) ? charConfig.customSkin : (charConfig ? JSON.stringify(charConfig) : 'default_steve'),
         velocityY: 0,
+        vx: 0,
+        vy: 0,
+        vz: 0,
+        isMoving: false,
+        isSprinting: false,
+        isJumping: false,
+        isFalling: false,
+        isFlying: false,
+        isSneaking: false,
+        isSwinging: false,
+        swingProgress: 0,
         onGround: true
       };
       return avatar;
@@ -15112,25 +15233,125 @@ const customTextures = {
         remote.userData.rig.updateHeldItem(data.heldItem, materials);
       }
 
-      if (Number.isFinite(data.x) && Number.isFinite(data.y) && Number.isFinite(data.z)) {
-        const newPos = new THREE.Vector3(data.x, data.y - player.height, data.z);
-        const dist = newPos.distanceTo(remote.position);
-        remote.position.copy(newPos);
-        remote.rotation.y = Number.isFinite(data.yaw) ? data.yaw : 0;
-        if (remote.userData && remote.userData.rig) {
-          const rig = remote.userData.rig;
-          if (dist > 0.05) {
-            remote.userData.walkTime += 0.2;
-            const swing = Math.sin(remote.userData.walkTime) * 0.5;
-            rig.leftLegGroup.rotation.x = swing;
-            rig.rightLegGroup.rotation.x = -swing;
-            rig.leftArmGroup.rotation.x = -swing;
-            rig.rightArmGroup.rotation.x = swing;
+      if (remote.userData) {
+        const ud = remote.userData;
+        if (Number.isFinite(data.x) && Number.isFinite(data.y) && Number.isFinite(data.z)) {
+          const newPos = new THREE.Vector3(data.x, data.y - player.height, data.z);
+          if (!ud.hasInitialPos || ud.targetPos.distanceTo(newPos) > 12) {
+            remote.position.copy(newPos);
+            ud.hasInitialPos = true;
+          }
+          ud.targetPos.copy(newPos);
+        }
+        if (Number.isFinite(data.yaw)) {
+          if (!ud.hasInitialPos) remote.rotation.y = data.yaw;
+          ud.targetYaw = data.yaw;
+        }
+        if (Number.isFinite(data.pitch)) ud.targetPitch = data.pitch;
+        if (Number.isFinite(data.vx)) ud.vx = data.vx;
+        if (Number.isFinite(data.vy)) ud.vy = data.vy;
+        if (Number.isFinite(data.vz)) ud.vz = data.vz;
+        if (data.isMoving !== undefined) ud.isMoving = Boolean(data.isMoving);
+        else if (Number.isFinite(data.vx) || Number.isFinite(data.vz)) {
+          ud.isMoving = Math.hypot(ud.vx || 0, ud.vz || 0) > 0.12;
+        }
+        if (data.isSprinting !== undefined) ud.isSprinting = Boolean(data.isSprinting);
+        if (data.onGround !== undefined) ud.onGround = Boolean(data.onGround);
+        if (data.isJumping !== undefined) ud.isJumping = Boolean(data.isJumping);
+        if (data.isFalling !== undefined) ud.isFalling = Boolean(data.isFalling);
+        if (data.isFlying !== undefined) ud.isFlying = Boolean(data.isFlying);
+        if (data.isSneaking !== undefined) ud.isSneaking = Boolean(data.isSneaking);
+        if (data.isSwinging) {
+          if (!ud.isSwinging) {
+            ud.isSwinging = true;
+            ud.swingProgress = Number.isFinite(data.swingProgress) ? data.swingProgress : 0;
+          }
+        }
+      }
+    }
+
+    function updateAllRemotePlayers(dt) {
+      if (!remotePlayers || remotePlayers.size === 0) return;
+      const posAlpha = 1 - Math.exp(-22 * dt);
+      const rotAlpha = 1 - Math.exp(-20 * dt);
+      const seen = new Set();
+      for (const remote of remotePlayers.values()) {
+        if (!remote || seen.has(remote)) continue;
+        seen.add(remote);
+        const ud = remote.userData;
+        if (!ud || !ud.rig) continue;
+        const rig = ud.rig;
+
+        // 1. Akıcı 60+ FPS Konum & Dönüş İnterpolasyonu
+        if (ud.hasInitialPos && ud.targetPos) {
+          const prevX = remote.position.x;
+          const prevZ = remote.position.z;
+          remote.position.lerp(ud.targetPos, posAlpha);
+          const frameHorizDist = Math.hypot(remote.position.x - prevX, remote.position.z - prevZ);
+          const horizMoving = ud.isMoving || (frameHorizDist > 0.004) || (ud.targetPos.distanceTo(remote.position) > 0.04);
+
+          let dYaw = (ud.targetYaw || 0) - remote.rotation.y;
+          while (dYaw > Math.PI) dYaw -= Math.PI * 2;
+          while (dYaw < -Math.PI) dYaw += Math.PI * 2;
+          remote.rotation.y += dYaw * rotAlpha;
+
+          if (rig.headGroup) {
+            const targetHeadX = Math.max(-1.45, Math.min(1.45, -(ud.targetPitch || 0)));
+            rig.headGroup.rotation.x += (targetHeadX - rig.headGroup.rotation.x) * rotAlpha;
+          }
+
+          // 2. Yürüme, Koşu, Zıplama & Uçuş Duruşu (Yerel Oyuncu ile Birebir)
+          if (ud.isFlying) {
+            rig.leftLegGroup.rotation.x += (0.28 - rig.leftLegGroup.rotation.x) * 0.2;
+            rig.rightLegGroup.rotation.x += (0.18 - rig.rightLegGroup.rotation.x) * 0.2;
+            rig.leftArmGroup.rotation.x += (-0.25 - rig.leftArmGroup.rotation.x) * 0.2;
+            if (!ud.isSwinging) rig.rightArmGroup.rotation.x += (-0.25 - rig.rightArmGroup.rotation.x) * 0.2;
+            if (rig.capeGroup && rig.capeGroup.visible) rig.capeGroup.rotation.x = 0.55;
+          } else if (!ud.onGround && (ud.isJumping || ud.isFalling || (ud.vy && Math.abs(ud.vy) > 0.8))) {
+            // Havada zıplama / düşme bacak & kol duruşu
+            const airLeg = ud.vy > 0 ? 0.42 : -0.32;
+            rig.leftLegGroup.rotation.x += (airLeg - rig.leftLegGroup.rotation.x) * 0.25;
+            rig.rightLegGroup.rotation.x += (-airLeg * 0.8 - rig.rightLegGroup.rotation.x) * 0.25;
+            rig.leftArmGroup.rotation.x += (-0.45 - rig.leftArmGroup.rotation.x) * 0.25;
+            if (!ud.isSwinging) rig.rightArmGroup.rotation.x += (0.35 - rig.rightArmGroup.rotation.x) * 0.25;
+            if (rig.capeGroup && rig.capeGroup.visible) rig.capeGroup.rotation.x = 0.38;
+          } else if (horizMoving) {
+            ud.walkTime += dt * (ud.isSprinting ? 12 : 8.5);
+            const legSwing = Math.sin(ud.walkTime) * 0.55;
+            rig.leftLegGroup.rotation.x = legSwing;
+            rig.rightLegGroup.rotation.x = -legSwing;
+            rig.leftArmGroup.rotation.x = -legSwing;
+            if (!ud.isSwinging) {
+              rig.rightArmGroup.rotation.x = legSwing;
+            }
+            if (rig.capeGroup && rig.capeGroup.visible) {
+              rig.capeGroup.rotation.x = 0.15 + Math.abs(legSwing) * 0.25;
+            }
           } else {
             rig.leftLegGroup.rotation.x *= 0.8;
             rig.rightLegGroup.rotation.x *= 0.8;
             rig.leftArmGroup.rotation.x *= 0.8;
-            rig.rightArmGroup.rotation.x *= 0.8;
+            if (!ud.isSwinging) {
+              rig.rightArmGroup.rotation.x *= 0.8;
+            }
+            if (rig.capeGroup && rig.capeGroup.visible) {
+              rig.capeGroup.rotation.x = 0.12;
+            }
+          }
+        }
+
+        // 3. Blok Kırma / Vurma Sağ Kol Savrulması (Minecraft Birebir Eğrisi)
+        if (ud.isSwinging) {
+          ud.swingProgress += dt * 8.5;
+          const p = Math.sin(ud.swingProgress * Math.PI);
+          const pSwing = Math.sin(Math.sqrt(Math.min(1, ud.swingProgress)) * Math.PI);
+          rig.rightArmGroup.rotation.x = -pSwing * 1.65;
+          rig.rightArmGroup.rotation.y = p * 0.45;
+          rig.rightArmGroup.rotation.z = -p * 0.35;
+          if (ud.swingProgress >= 1) {
+            ud.isSwinging = false;
+            ud.swingProgress = 0;
+            rig.rightArmGroup.rotation.set(0, 0, 0);
           }
         }
       }
@@ -15270,18 +15491,53 @@ const customTextures = {
       });
 
       multiplayerSocket.on('player-banned', (data) => {
-        if (!data || !data.originalName) return;
-        if (data.originalName.toLowerCase() === myPlayerName.toLowerCase()) {
-          showBanScreen(data);
-        } else {
-          for (let [remoteId, remoteGroup] of remotePlayers.entries()) {
-            if (remoteGroup.userData && remoteGroup.userData.playerName && remoteGroup.userData.playerName.toLowerCase() === data.originalName.toLowerCase()) {
-              scene.remove(remoteGroup);
-              remotePlayers.delete(remoteId);
-            }
+        handleIncomingBan(data);
+      });
+
+      multiplayerSocket.on('player-swing', (data) => {
+        if (!data) return;
+        updateRemotePlayer({ ...data, isSwinging: true });
+      });
+
+      multiplayerSocket.on('player-pose', (data) => {
+        if (!data) return;
+        updateRemotePlayer(data);
+      });
+
+      multiplayerSocket.on('gamemode-change', (data) => {
+        if (!data) return;
+        const mySockId = multiplayerSocket ? multiplayerSocket.id : null;
+        const isForMe = (data.id && mySockId && data.id === mySockId) || (data.name && data.name.toLowerCase() === myPlayerName.toLowerCase());
+        if (isForMe) {
+          if (data.mode === 'creative') {
+            isCreativeMode = true; isFlying = true; hudContainer.style.display = 'none';
+            showToast('Oyun Modu: Yaratıcı (OP)');
+          } else {
+            isCreativeMode = false; isFlying = false; hudContainer.style.display = 'flex';
+            showToast('Oyun Modu: Hayatta Kalma (OP)');
           }
-          addChatMessage('', `${data.originalName} adlı oyuncu ${data.bannedBy || 'bir yetkili'} tarafından yasaklandı. Sebep: ${data.reason}`, true);
         }
+      });
+
+      multiplayerSocket.on('fly-toggle', (data) => {
+        if (!data) return;
+        isFlying = Boolean(data.flying);
+        velocityY = 0;
+        onGround = false;
+        showToast(isFlying ? 'Uçuş Modu Açıldı (OP)' : 'Uçuş Modu Kapatıldı (OP)');
+      });
+
+      multiplayerSocket.on('speed-change', (data) => {
+        if (!data || !Number.isFinite(data.multiplier)) return;
+        player.speed = 7.5 * data.multiplier;
+        showToast(`Hızınız ${data.multiplier}x yapıldı (OP)`);
+      });
+
+      multiplayerSocket.on('heal-player', () => {
+        playerHealth = 20;
+        playerHunger = 20;
+        updateSurvivalHUD();
+        showToast('Can ve açlığınız dolduruldu (OP)');
       });
 
       multiplayerSocket.on('world-time', (data) => {
@@ -15307,10 +15563,7 @@ const customTextures = {
       multiplayerSocket.on('player-moved', updateRemotePlayer);
 
       multiplayerSocket.on('ban-player', (data) => {
-        if (!data || !data.originalName) return;
-        if (data.originalName.toLowerCase() === myPlayerName.toLowerCase()) {
-          showBanScreen(data);
-        }
+        handleIncomingBan(data);
       });
 
       multiplayerSocket.on('unban-player', (data) => {
@@ -15320,8 +15573,18 @@ const customTextures = {
       });
 
       multiplayerSocket.on('player-tp', (data) => {
-        if (data && data.target && data.target.toLowerCase() === myPlayerName.toLowerCase()) {
-          addChatMessage('', `${data.by || 'Bir oyuncu'} sizin yanınıza ışınlandı.`, true);
+        if (!data || !data.target) return;
+        if (data.target.toLowerCase() === myPlayerName.toLowerCase()) {
+          if (data.forceTeleport && Number.isFinite(data.x) && Number.isFinite(data.y) && Number.isFinite(data.z)) {
+            player.x = data.x;
+            player.y = data.y;
+            player.z = data.z;
+            velocityY = 0; highestFallY = player.y; onGround = true;
+            addChatMessage('', `${data.by || 'OP'} tarafından ışınlandınız!`, true);
+            showToast('Işınlandınız!');
+          } else {
+            addChatMessage('', `${data.by || 'Bir oyuncu'} sizin yanınıza ışınlandı.`, true);
+          }
         }
       });
 
@@ -20033,7 +20296,13 @@ const customTextures = {
 
 
     let isSwinging = false, swingProgress = 0;
-    function triggerArmPunch() { isSwinging = true; swingProgress = 0; }
+    function triggerArmPunch() {
+      isSwinging = true;
+      swingProgress = 0;
+      if (typeof multiplayerSocket !== 'undefined' && multiplayerSocket && multiplayerSocket.connected) {
+        try { multiplayerSocket.emit('player-swing', { swingProgress: 0.05 }); } catch(e){}
+      }
+    }
     function updateHeldBlockMaterial(type) {
       // Elde tutulan alet ve bloklar KARE KÜP olarak tutulur (üstünde birebir fotoğraf alet logosu ile)
       armGroup.visible = (type !== 'bow' && type !== 'detail_stick');
@@ -24541,29 +24810,42 @@ const customTextures = {
           }
         }
 
-        // Çok oyunculu ultra akıcı hareket senkronizasyonu (25ms aralık: 40 FPS canlı ağ aktarımı)
-        if (now - lastNetworkUpdate > 25) {
-          lastNetworkUpdate = now;
-          const movePayload = {
-            id: (multiplayerSocket && multiplayerSocket.id) ? multiplayerSocket.id : ('player_' + myPlayerName),
-            clientId: myClientId,
-            name: myPlayerName,
-            x: player.x,
-            y: player.y,
-            z: player.z,
-            yaw: player.yaw,
-            character: activeChar,
-            customSkin: (activeChar && activeChar.customSkin) ? activeChar.customSkin : null,
-            skin: (activeChar && activeChar.customSkin) ? activeChar.customSkin : null,
-            heldItem: inventory[selectedSlotIndex]?.type || null
-          };
-          if (multiplayerSocket && multiplayerSocket.connected) {
-            multiplayerSocket.emit('player-move', movePayload);
-          }
-          if (movementBroadcastChannel) {
-            try {
-              movementBroadcastChannel.postMessage({ type: 'PLAYER_MOVE', payload: movePayload });
-            } catch(e){}
+        // Uzak oyuncuları her karede (60+ FPS) pürüzsüz enterpole ve anime et
+        updateAllRemotePlayers(dt);
+
+        // Çok oyunculu ultra akıcı hareket & duruş senkronizasyonu (25ms aralık veya kritik hareket anı)
+        if (now - lastNetworkUpdate > 25 || isSwinging) {
+          if (now - lastNetworkUpdate > 16) {
+            lastNetworkUpdate = now;
+            const movePayload = {
+              id: (multiplayerSocket && multiplayerSocket.id) ? multiplayerSocket.id : ('player_' + myPlayerName),
+              clientId: myClientId,
+              name: myPlayerName,
+              x: player.x,
+              y: player.y,
+              z: player.z,
+              vy: velocityY,
+              yaw: player.yaw,
+              pitch: player.pitch,
+              isMoving: isMoving,
+              isSprinting: player.speed >= 8,
+              onGround: onGround,
+              isJumping: !onGround && velocityY > 0.1,
+              isFalling: !onGround && velocityY < -0.5,
+              isFlying: isFlying,
+              isSwinging: isSwinging,
+              swingProgress: swingProgress,
+              walkCycle: walkCycle,
+              heldItem: inventory[selectedSlotIndex]?.type || null
+            };
+            if (multiplayerSocket && multiplayerSocket.connected) {
+              multiplayerSocket.emit('player-move', movePayload);
+            }
+            if (movementBroadcastChannel) {
+              try {
+                movementBroadcastChannel.postMessage({ type: 'PLAYER_MOVE', payload: movePayload });
+              } catch(e){}
+            }
           }
         }
 
